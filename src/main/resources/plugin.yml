@@ -1,0 +1,49 @@
+name: ServerEssentials
+version: ${project.version}
+main: me.rocketmankianproductions.serveressentials.ServerEssentials
+api-version: 1.16
+authors: [ RocketManKian ]
+description: A Plugin for all Server Owners!
+softdepend: [PlaceholderAPI] # This is used, if your plugin works without PlaceholderAPI.
+commands:
+  discord:
+    description: Discord
+    aliases: [dc]
+  website:
+    description: Website
+    aliases: [web,site]
+  jump:
+    description: Bounce like a bunny
+  sereload:
+    description: Server Essentials Reload
+  hurt:
+    description: Hurt someone
+  rules:
+    description: Rules Command
+  playtime:
+    description: Playtime Command
+permissions:
+  se.all:
+    description: "Gives access to all commands."
+    default: op
+    children:
+      se.reload: true
+      se.website: true
+      se.discord: true
+      se.rules: true
+      se.playtime: true
+  se.reload:
+    description: "Gives access to the /sereload command."
+    default: op
+  se.website:
+    description: "Gives access to the /website command."
+    default: not op
+  se.discord:
+    description: "Gives access to the /discord command."
+    default: not op
+  se.rules:
+    description: "Gives access to the /rules command."
+    default: not op
+  se.playtime:
+    description: "Gives access to the /playtime command."
+    default: not op

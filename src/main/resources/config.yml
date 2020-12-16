@@ -1,0 +1,74 @@
+############################################################
+# +------------------------------------------------------+ #
+# |                   Introduction                       | #
+# +------------------------------------------------------+ #
+############################################################
+
+# This is the config file for Server Essentials.
+# This config was generated for version 1.2
+
+# If you experience any issues please make sure that:-
+#     - Numeric values don't include any quotation marks or apostrophes.
+#     - All words that change text in game include quotation marks.
+#     - Don't change any words present before the ':'.
+
+############################################################
+# +------------------------------------------------------+ #
+# +              Server Essentials (Debug)              + #
+# +------------------------------------------------------+ #
+############################################################
+# Only enable this option if you want to see extra debug messages.
+#
+# Default: false
+debug: false
+############################################################
+# +------------------------------------------------------+ #
+# +              Server Essentials (Global)              + #
+# +------------------------------------------------------+ #
+############################################################
+# Changes the prefix that appears at the start of every message and command.
+prefix: "[Server Essentials]"
+# Changes the '/sereload' command text
+# Permission is 'se.reload'.
+reload-command: "&aConfig Has Been Reloaded!"
+# Enable or Disable the Website command
+enable-website-command: true
+# Changes the '/website' command text
+# Permission is 'se.website'.
+website-command: "Website Command"
+# Enable or Disable the Discord command
+enable-discord-command: true
+# Changes the '/discord' command text
+# Permission is 'se.discord'.
+discord-command: "Discord Command"
+# Change the Join Message that is displayed before the player's name.
+join-symbol: "&6[&a+&6]"
+# Change the Leave Message that is displayed before the player's name.
+leave-symbol: "&6[&c-&6]"
+# Enable or Disable the Welcome command
+enable-firstjoin-message: true
+# Change the Welcome Message
+first-join-message: "&b&lWelcome to the Server!"
+# Enable or Disable the Welcome Back command
+enable-welcomeback-message: true
+# Changes the Welcome Back Message
+welcome-back-message: "&a&lWelcome back to the Server!"
+# Enable or Disable the Rules command
+enable-rules-command: true
+# Enable or Disable the Playtime command
+enable-playtime-command: true
+############################################################
+# +------------------------------------------------------+ #
+# +              Server Essentials (Broadcast)           + #
+# +------------------------------------------------------+ #
+############################################################
+# Enable the Broadcasting function.
+broadcast: false
+# Add Broadcast Messages Here
+# Make sure to use the Format [- "(messagehere)"] on each line to add a new message into the cycle.
+broadcast-messages:
+- "Test Broadcast"
+- "Test Broadcast 2"
+# Ticks Between Each Message
+# 20 Ticks = 1 Second
+broadcast-delay: 1000
