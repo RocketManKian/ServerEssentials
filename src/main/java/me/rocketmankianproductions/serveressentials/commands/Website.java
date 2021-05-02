@@ -22,10 +22,21 @@ public class Website implements CommandExecutor {
         else if (player.hasPermission("se.website")) {
             String prefix = ServerEssentials.getPlugin().getConfig().getString("prefix");
             String website = ServerEssentials.getPlugin().getConfig().getString("website-command");
-            String placeholder = PlaceholderAPI.setPlaceholders(player, website);
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + " " + ChatColor.WHITE + placeholder));
+            if (ServerEssentials.isConnectedToPlaceholderAPI) {
+                String placeholder = PlaceholderAPI.setPlaceholders(player, website);
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + " " + ChatColor.WHITE + placeholder));
+            }else{
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + " " + ChatColor.WHITE + website));
+            }
         } else {
-            player.sendMessage(ChatColor.RED + "You do not have the required permission for (se.website) to run this command.");
+            if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
+                player.sendMessage(ChatColor.RED + "You do not have the required permission (se.website) to run this command.");
+                return true;
+            }else{
+                String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+            }
+            return true;
         }
         return false;
     }

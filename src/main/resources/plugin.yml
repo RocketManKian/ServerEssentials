@@ -1,11 +1,14 @@
 name: ServerEssentials
-version: ${project.version}
+version: 1.40.4
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
 description: A Plugin for all Server Owners!
-softdepend: [PlaceholderAPI] # This is used, if your plugin works without PlaceholderAPI.
+softdepend: [PlaceholderAPI, DiscordSRV] # This is used, if your plugin works without PlaceholderAPI.
 commands:
+  se:
+    description: Server Essentials Root Command
+    usage:
   discord:
     description: Discord
     aliases: [dc]
@@ -14,14 +17,195 @@ commands:
     aliases: [web,site]
   jump:
     description: Bounce like a bunny
-  sereload:
-    description: Server Essentials Reload
-  hurt:
-    description: Hurt someone
   rules:
     description: Rules Command
+  hurt:
+    description: Hurt the Player
   playtime:
-    description: Playtime Command
+    description: Shows Playtime
+  setspawn:
+    description: Sets the spawn
+  spawn:
+    description: Teleports you to spawn
+  deletespawn:
+    description: Deletes the spawn
+    aliases: [delspawn]
+  sethome:
+    description: Sets Your Home
+  home:
+    description: Teleports you to home
+    usage: Incorrect format! Please use /home (name)
+  deletehome:
+    description: Deletes your home
+    usage: Incorrect format! Please use /deletehome (name)
+    aliases: [delhome]
+  teleport:
+    description: Teleport Function
+    usage: Incorrect format! Please use /teleport (User) (Target)
+    aliases: [tp]
+  tphere:
+    description: Teleport Here Function
+    usage: Incorrect format! Please use /tphere (User)
+    aliases: [teleporthere]
+  teleportall:
+    description: Teleport Function
+    usage: Incorrect format! Please use /tpall
+    aliases: [tpall]
+  teleportpos:
+    description: Teleport Position Function
+    usage: Incorrect format! Please use /tppos (x) (y) (z)
+    aliases: [tppos]
+  tpa:
+    description: Teleport Request
+    usage: Incorrect format! Please use /tpa (name)
+  tpahere:
+    description: Teleport Here Request
+    usage: Incorrect format! Please use /tpahere (name)
+  tpaccept:
+    description: Teleport Accept
+    usage: Incorrect format! Please use /tpaccept
+  tpdeny:
+    description: Teleport Deny
+    usage: Incorrect format! Please use /tpdeny
+  tptoggle:
+    description: TPToggle Command
+  heal:
+    description: Heal
+    usage: Incorrect format! Please use /heal (name)
+  feed:
+    description: Feed
+    usage: Incorrect format! Please use /feed (name)
+  announce:
+    description: Announce
+    usage: Incorrect format! Please use /announce <Message>
+    aliases: [bc,broadcast]
+  invsee:
+    description: Invsee Command
+    usage: Incorrect format! Please use /invsee <player>
+  gamemode:
+    description: Gamemode Command
+    usage: Incorrect format! Please use /gamemode <mode>
+    aliases: [gm]
+  creative:
+    description: Creative Command
+    usage: Incorrect format! Please use /gamemode <mode>
+    aliases: [c, 1]
+  survival:
+    description: Survival Command
+    usage: Incorrect format! Please use /gamemode <mode>
+    aliases: [s, 0]
+  adventure:
+    description: Adventure Command
+    usage: Incorrect format! Please use /gamemode <mode>
+    aliases: [a, 2]
+  spectator:
+    description: Spectator Command
+    usage: Incorrect format! Please use /gamemode <mode>
+    aliases: [3]
+  fly:
+    description: Fly Command
+    usage: Incorrect format! Please use /fly
+  kill:
+    description: Kill Command
+    usage: Incorrect format! Please use /kill
+  msg:
+    description: Message Command
+    aliases: [message, w, whisper]
+  msgtoggle:
+    description: Message Toggle Command
+  reply:
+    description: Reply Command
+    aliases: [r]
+  craft:
+    description: Craft Command
+    usage: Incorrect format! Please use /craft
+  enderchest:
+    description: Enderchest Command
+    usage: Incorrect format! Please use /enderchest
+    aliases: [ec]
+  setwarp:
+    description: Setwarp Command
+    usage: Incorrect format! Please use /setwarp (name)
+  warp:
+    description: Setwarp Command
+    usage: Incorrect format! Please use /warp (name)
+  deletewarp:
+    description: Deletewarp Command
+    usage: Incorrect format! Please use /deletewarp (name)
+    aliases: [delwarp]
+  repair:
+    description: Repair Command
+    usage: Incorrect format! Please use /repair
+  sunrise:
+    description: Sunrise Command
+    usage: Incorrect format! Please use /sunrise
+    aliases: [dawn]
+  day:
+    description: Day Command
+    usage: Incorrect format! Please use /day
+  sunset:
+    description: Sunset Command
+    usage: Incorrect format! Please use /sunset
+    aliases: [dusk]
+  midnight:
+    description: Midnight Command
+    usage: Incorrect format! Please use /midnight
+  vanish:
+    description: Vanish Command
+    usage: Incorrect format! Please use /vanish
+    aliases: [v]
+  test:
+    description: Test Command
+    usage: Incorrect format! Please use /test
+  test motd:
+    description: Test Motd Command
+    usage: Incorrect format! Please use /test motd
+  test join:
+    description: Test Join Command
+    usage: Incorrect format! Please use /test join
+  test leave:
+    description: Test Leave Command
+    usage: Incorrect format! Please use /test leave
+  test welcome:
+    description: Test Welcome Command
+    usage: Incorrect format! Please use /test welcome
+  test permission:
+    description: Test Permission Command
+    usage: Incorrect format! Please use /test permission
+  clear:
+    description: Clear Command
+    usage: Incorrect format! Please use /clear
+  god:
+    description: God Command
+    usage: Incorrect format! Please use /god
+    aliases: [godmode]
+  hat:
+    description: Hat Command
+    usage: Incorrect format! Please use /hat
+  sendhome:
+    description: Send Home Command
+    usage: Incorrect format! Please use /sendhome (player) (home name)
+  listhomes:
+    description: List Home Command
+    usage: Incorrect format! Please use /listhomes (player)
+  tpacancel:
+    description: TPA Cancel Command
+    usage: Incorrect format! Please use /tpacancel
+  rename:
+    description: Rename Command
+    usage: Incorrect format! Please use /rename (name)
+  lore:
+    description: Lore Command
+    usage: Incorrect format! Please use /lore (text)
+  speed:
+    description: Speed Command
+    usage: Incorrect format! Please use /speed (value)
+  report:
+    description: Report Command
+    usage: Incorrect format! Please use /report (user) (reason)
+  clearchat:
+    description: Clear Chat Command
+    usage: Incorrect format! Please use /clearchat
 permissions:
   se.all:
     description: "Gives access to all commands."
@@ -31,19 +215,243 @@ permissions:
       se.website: true
       se.discord: true
       se.rules: true
+      se.hurt: true
       se.playtime: true
+      se.version: true
+      se.setspawn: true
+      se.spawn: true
+      se.deletespawn: true
+      se.alert: true
+      se.silentjoin: true
+      se.sethome: true
+      se.home: true
+      se.deletehome: true
+      se.teleport: true
+      se.tpall: true
+      se.info: true
+      se.silenttp: true
+      se.tppos: true
+      se.sethome.unlimited: true
+      se.tpa: true
+      se.tpaccept: true
+      se.tpdeny: true
+      se.heal: true
+      se.feed: true
+      se.announce: true
+      se.tptoggle: true
+      se.invsee: true
+      se.gamemode.creative: true
+      se.gamemode.survival: true
+      se.gamemode.adventure: true
+      se.gamemode.spectator: true
+      se.fly: true
+      se.tpahere: true
+      se.kill: true
+      se.message: true
+      se.reply: true
+      se.msgtoggle: true
+      se.craft: true
+      se.enderchest: true
+      se.setwarp: true
+      se.warp: true
+      se.deletewarp: true
+      se.repair: true
+      se.time: true
+      se.vanish: true
+      se.test: true
+      se.clear: true
+      se.god: true
+      se.hat: true
+      se.home.others: true
+      se.sendhome: true
+      se.listhomes: true
+      se.tpacancel: true
+      se.rename: true
+      se.lore: true
+      se.speed: true
+      se.report: true
+      se.reportnotification: true
+      se.clearchat: true
   se.reload:
-    description: "Gives access to the /sereload command."
-    default: op
+    description: "Gives access to the /se reload command."
+    default: false
   se.website:
     description: "Gives access to the /website command."
-    default: not op
+    default: false
   se.discord:
     description: "Gives access to the /discord command."
-    default: not op
+    default: false
   se.rules:
     description: "Gives access to the /rules command."
-    default: not op
+    default: false
+  se.hurt:
+    description: "Gives access to the /hurt command."
+    default: false
   se.playtime:
     description: "Gives access to the /playtime command."
-    default: not op
+    default: false
+  se.version:
+    description: "Gives access to the /seversion command"
+    default: false
+  se.setspawn:
+    description: "Gives access to the /setspawn command"
+    default: false
+  se.spawn:
+    description: "Gives access to the /spawn command"
+    default: false
+  se.deletespawn:
+    description: "Gives access to /deletespawn"
+    default: false
+  se.alert:
+    description: "Gives Update Alerts"
+    default: false
+  se.silentjoin:
+    description: "Silent Join"
+    default: false
+  se.sethome:
+    description: "Set Home"
+    default: false
+  se.home:
+    description: "Teleport To Home"
+    default: false
+  se.deletehome:
+    description: "Deletes Home"
+    default: false
+  se.teleport:
+    description: "Teleport Command"
+    default: false
+  se.tpall:
+    description: "Teleport All Command"
+    default: false
+  se.info:
+    description: "SE Info Command"
+    default: false
+  se.silenttp:
+    description: "SilentTP Command"
+    default: false
+  se.tppos:
+    description: "Teleport Pos Command"
+    default: false
+  se.sethome.unlimited:
+    description: "Unlimited Sethome Command"
+    default: false
+  se.tpa:
+    description: "Teleport Request"
+    default: false
+  se.tpaccept:
+    description: "Teleport Accept"
+    default: false
+  se.tpdeny:
+    description: "Teleport Deny"
+    default: false
+  se.tptoggle:
+    description: "Teleport Toggle"
+    default: false
+  se.heal:
+    description: "Heal Command"
+    default: false
+  se.feed:
+    description: "Feed Command"
+    default: false
+  se.announce:
+    description: "Announce Command"
+    default: false
+  se.invsee:
+    description: "Invsee Command"
+    default: false
+  se.gamemode.creative:
+    description: "Creative Command"
+    default: false
+  se.gamemode.survival:
+    description: "Survival Command"
+    default: false
+  se.gamemode.spectator:
+    description: "Spectator Command"
+    default: false
+  se.gamemode.adventure:
+    description: "Adventure Command"
+    default: false
+  se.fly:
+    description: "Fly Command"
+    default: false
+  se.tpahere:
+    description: "Tpahere Command"
+    default: false
+  se.kill:
+    description: "Kill Command"
+    default: false
+  se.message:
+    description: "Message Command"
+    default: false
+  se.reply:
+    description: "Message Command"
+    default: false
+  se.msgtoggle:
+    description: "MSG Toggle Command"
+    default: false
+  se.craft:
+    description: "Craft Command"
+    default: false
+  se.enderchest:
+    description: "Enderchest Command"
+    default: false
+  se.setwarp:
+    description: "Setwarp Command"
+    default: false
+  se.warp:
+    description: "Warp Command"
+    default: false
+  se.deletewarp:
+    description: "Delete Warp Command"
+    default: false
+  se.repair:
+    description: "Repair Command"
+    default: false
+  se.time:
+    description: "Time Command"
+    default: false
+  se.vanish:
+    description: "Vanish Command"
+    default: false
+  se.test:
+    description: "Test Command"
+    default: false
+  se.clear:
+    description: "Clear Command"
+    default: false
+  se.god:
+    description: "God Command"
+    default: false
+  se.hat:
+    description: "Hat Command"
+    default: false
+  se.home.others:
+    description: "Home Others Command"
+    default: false
+  se.sendhome:
+    description: "Send Home Command"
+    default: false
+  se.listhomes:
+    description: "List Homes Command"
+    default: false
+  se.tpacancel:
+    description: "TPA Cancel Command"
+    default: false
+  se.rename:
+    description: "Rename Command"
+    default: false
+  se.lore:
+    description: "Lore Command"
+    default: false
+  se.speed:
+    description: "Speed Command"
+    default: false
+  se.report:
+    description: "Report Command"
+    default: false
+  se.reportnotification:
+    description: "Report Notification"
+    default: false
+  se.clearchat:
+    description: "Chat Clear Command"
+    default: false

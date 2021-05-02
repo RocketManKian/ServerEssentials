@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 1.2
+# This config was generated for version 1.40.4
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -26,11 +26,10 @@ debug: false
 # +              Server Essentials (Global)              + #
 # +------------------------------------------------------+ #
 ############################################################
+# Changes the No Permission Message for ALL Commands
+no-permission-message: ""
 # Changes the prefix that appears at the start of every message and command.
 prefix: "[Server Essentials]"
-# Changes the '/sereload' command text
-# Permission is 'se.reload'.
-reload-command: "&aConfig Has Been Reloaded!"
 # Enable or Disable the Website command
 enable-website-command: true
 # Changes the '/website' command text
@@ -41,22 +40,34 @@ enable-discord-command: true
 # Changes the '/discord' command text
 # Permission is 'se.discord'.
 discord-command: "Discord Command"
-# Change the Join Message that is displayed before the player's name.
+# Enable or Disable the First Time Join Message
+enable-first-time-join-message: true
+# Enable or Disable the Join Message
+enable-join-message: true
+# Enable or Disable the Leave Message
+enable-leave-message: true
+# Change the First Time Join Message.
+first-time-join: "&aWelcome to the Server!"
+# Change the Join Symbol that is displayed before the player's name.
 join-symbol: "&6[&a+&6]"
-# Change the Leave Message that is displayed before the player's name.
+# Change the Leave Symbol that is displayed before the player's name.
 leave-symbol: "&6[&c-&6]"
-# Enable or Disable the Welcome command
-enable-firstjoin-message: true
-# Change the Welcome Message
-first-join-message: "&b&lWelcome to the Server!"
-# Enable or Disable the Welcome Back command
-enable-welcomeback-message: true
-# Changes the Welcome Back Message
-welcome-back-message: "&a&lWelcome back to the Server!"
 # Enable or Disable the Rules command
 enable-rules-command: true
 # Enable or Disable the Playtime command
 enable-playtime-command: true
+# Enable to send players to the Spawn upon Joining
+spawn-on-join: false
+# Enable to send players to the Spawn upon Dying
+spawn-on-death: false
+# Remove all Potion Effects when using /heal
+remove-effects-on-heal: false
+# Vanish On Join
+vanish-on-join: false
+# Default Home Count
+default-home-count: 3
+# How long until Teleport Requests Timeout (in Seconds)
+teleport-cancel: 5
 ############################################################
 # +------------------------------------------------------+ #
 # +              Server Essentials (Broadcast)           + #
@@ -72,3 +83,29 @@ broadcast-messages:
 # Ticks Between Each Message
 # 20 Ticks = 1 Second
 broadcast-delay: 1000
+############################################################
+# +------------------------------------------------------+ #
+# +              Server Essentials (MOTD)                + #
+# +------------------------------------------------------+ #
+############################################################
+# Enable the MOTD Message Upon Joining
+enable-motd: true
+# How long the Plugin will wait until the MOTD is sent to the player after joining (in Seconds)
+motd-delay: 100
+# Change the Messaging for the MOTD
+motd-message:
+  - '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'
+  - '&bThis Server uses Server Essentials!'
+  - '&aDownload the Plugin Today!'
+  - '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'
+############################################################
+# +------------------------------------------------------+ #
+# +              Server Essentials (Discord)             + #
+# +------------------------------------------------------+ #
+############################################################
+# Enable Discord Integration for the Report Command
+enable-discord-integration: false
+# Change the name of the Discord Channel where report notifications are sent.
+# This name will have to be entered into the DiscordSRV config.yml File.
+# ["report-logs": "000000000000000000"] as an example.
+channel-name: report-logs
