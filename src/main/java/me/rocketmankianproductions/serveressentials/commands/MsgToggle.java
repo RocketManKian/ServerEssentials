@@ -1,0 +1,101 @@
+package me.rocketmankianproductions.serveressentials.commands;
+import me.rocketmankianproductions.serveressentials.LoggerMessage;
+import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.UUID;
+
+public class MsgToggle {
+
+    public static ServerEssentials plugin;
+
+    //settings
+    public static String filepath = "message.yml";
+
+    public static File file;
+    public static FileConfiguration fileConfig;
+
+    private static HashMap<UUID, UUID> requests = new HashMap<>();
+
+    //setup function
+    public MsgToggle(ServerEssentials plugin) {
+        this.plugin = plugin;
+        //setup silent.yml
+        file = new File(ServerEssentials.plugin.getDataFolder(), filepath);
+        if (!file.exists()) {
+            try {
+                //create default file
+                file.createNewFile();
+                LoggerMessage.log(LoggerMessage.LogLevel.INFO, "Message.yml file doesn't exist, creating now...");
+                fileConfig = YamlConfiguration.loadConfiguration(file);
+                LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "Message.yml file created");
+
+            } catch (IOException e) {
+                ServerEssentials.plugin.getLogger().warning(e.toString());
+            }
+        } else if (file.exists()) {
+            fileConfig = YamlConfiguration.loadConfiguration(file);
+        }
+    }
+
+    public static void reload() {
+        if (file != null)
+            fileConfig = YamlConfiguration.loadConfiguration(file);
+    }
+
+    public boolean run(CommandSender sender, @NotNull String[] args, Command command) {
+        Player player = (Player) sender;
+        if (command.getName().equalsIgnoreCase("msgtoggle")) {
+            if (player.hasPermission("se.msgtoggle")) {
+                if ((sender instanceof Player)) {
+                    if (args.length == 0) {
+                        if (fileConfig.getBoolean("msgtoggle." + player.getName(), false) == false) {
+                            fileConfig.set("msgtoggle." + player.getName(), true);
+                            try {
+                                fileConfig.save(file);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            player.sendMessage(ChatColor.RED + "Incoming Messages have been Disabled");
+                            return true;
+                        } else {
+                            fileConfig.set("msgtoggle." + player.getName(), false);
+                            try {
+                                fileConfig.save(file);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            player.sendMessage(ChatColor.GREEN + "Incoming Messages have been Enabled");
+                            return true;
+                        }
+                    } else {
+                        sender.sendMessage(ChatColor.RED + "Incorrect format! Please use /msgtoggle");
+                        return true;
+                    }
+                } else {
+                    sender.sendMessage(ChatColor.RED + "You aren't a player!");
+                    return true;
+                }
+            } else {
+                if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
+                    player.sendMessage(ChatColor.RED + "You do not have the required permission (se.msgtoggle) to run this command.");
+                    return true;
+                }else{
+                    String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                }
+                return true;
+            }
+        }
+        return true;
+    }
+}

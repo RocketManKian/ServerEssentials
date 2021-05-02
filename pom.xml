@@ -6,7 +6,7 @@
 
     <groupId>me.rocketmankianproductions</groupId>
     <artifactId>serveressentials</artifactId>
-    <version>1.2</version>
+    <version>1.20</version>
     <packaging>jar</packaging>
 
     <name>ServerEssentials</name>
@@ -66,6 +66,10 @@
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
+        <repository>
+            <id>Scarsz-Nexus</id>
+            <url>https://nexus.scarsz.me/content/groups/public/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -79,6 +83,12 @@
             <groupId>me.clip</groupId>
             <artifactId>placeholderapi</artifactId>
             <version>2.10.9</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.discordsrv</groupId>
+            <artifactId>discordsrv</artifactId>
+            <version>1.22.0</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

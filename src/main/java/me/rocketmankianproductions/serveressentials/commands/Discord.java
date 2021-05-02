@@ -17,15 +17,29 @@ public class Discord implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
+        // If the enable-discord-command boolean is set to false it will display a message.
         if (!ServerEssentials.getPlugin().getConfig().getBoolean("enable-discord-command"))
             player.sendMessage(ChatColor.RED + "Command is disabled. Please contact an Administrator.");
+        // Otherwise if the player has the se.discord permission it will proceed with command
         else if (player.hasPermission("se.discord")) {
             String prefix = ServerEssentials.getPlugin().getConfig().getString("prefix");
             String discord = ServerEssentials.getPlugin().getConfig().getString("discord-command");
-            String placeholder = PlaceholderAPI.setPlaceholders(player, discord);
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + " " + ChatColor.WHITE + placeholder));
+            if (ServerEssentials.isConnectedToPlaceholderAPI) {
+                String placeholder = PlaceholderAPI.setPlaceholders(player, discord);
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + " " + ChatColor.WHITE + placeholder));
+            }else{
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + " " + ChatColor.WHITE + discord));
+            }
         } else {
-            player.sendMessage(ChatColor.RED + "You do not have the required permission for (se.discord) to run this command.");
+            // If it doesn't succeed with either then it'll send the player a required permission message
+            if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
+                player.sendMessage(ChatColor.RED + "You do not have the required permission (se.discord) to run this command.");
+                return true;
+            }else{
+                String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+            }
+            return true;
         }
         return false;
     }

@@ -39,13 +39,13 @@ public class Rules implements CommandExecutor {
             try {
                 //create default file
                 file.createNewFile();
-                ServerEssentials.plugin.getLogger().info("Rules file doesn't exist, creating now...");
+                LoggerMessage.log(LoggerMessage.LogLevel.INFO, "Rules.yml file doesn't exist, creating now...");
                 fileConfig = YamlConfiguration.loadConfiguration(file);
                 //set default values
                 fileConfig.addDefault(configpath, default_values);
                 fileConfig.options().copyDefaults(true);
                 fileConfig.save(file);
-                ServerEssentials.plugin.getLogger().info("Rules file created");
+                LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "Rules.yml file created");
 
             } catch (IOException e) {
                 ServerEssentials.plugin.getLogger().warning(e.toString());
@@ -76,12 +76,20 @@ public class Rules implements CommandExecutor {
         else if (player.hasPermission("se.rules")) {
             player.sendMessage(ChatColor.GREEN + "Server Rules:");
             int index = 1;
-            for (String rule : fileConfig.getStringList(configpath))
+            for (String rule : fileConfig.getStringList(configpath)){
                 player.sendMessage(index + ". " + rule);
-            index++;
+                index++;
+            }
+        }else{
+            if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
+                player.sendMessage(ChatColor.RED + "You do not have the required permission (se.rules) to run this command.");
+                return true;
+            }else{
+                String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+            }
+            return true;
         }
-
-
         return true;
     }
 
