@@ -56,7 +56,6 @@ public class Report implements CommandExecutor {
                                     .addField("Reporter » ", player.getName(), true)
                                     .addField("Reported User » ", target.getName(), true)
                                     .addField("Reason » ", messages, false);
-                            player.sendMessage("Hi there");
 
                             // null if the channel isn't specified in the config.yml
                             if (textChannel != null) {
