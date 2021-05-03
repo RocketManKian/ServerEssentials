@@ -2,6 +2,7 @@ package me.rocketmankianproductions.serveressentials.commands;
 
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
+import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import me.rocketmankianproductions.serveressentials.LoggerMessage;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
@@ -11,7 +12,6 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import sun.plugin2.main.server.Plugin;
 
 import java.awt.*;
+import java.util.EnumSet;
 
 public class Report implements CommandExecutor {
 
@@ -51,31 +52,62 @@ public class Report implements CommandExecutor {
                             String channelname = ServerEssentials.getPlugin().getConfig().getString("channel-name");
                             TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName(channelname);
                             EmbedBuilder report = new EmbedBuilder();
-                            report.setTitle("New Report")
-                                    .setColor(Color.RED)
-                                    .addField("Reporter » ", player.getName(), true)
-                                    .addField("Reported User » ", target.getName(), true)
-                                    .addField("Reason » ", messages, false);
+                            if (ServerEssentials.plugin.getConfig().getString("group-id").length() != 0) {
+                                String prefix = ServerEssentials.getPlugin().getConfig().getString("group-id");
+                                String finaltext = ("<@&" + prefix + ">");
+                                report.setTitle("New Report")
+                                        .appendDescription(finaltext)
+                                        .setColor(Color.RED)
+                                        .addField("Reporter » ", player.getName(), true)
+                                        .addField("Reported User » ", target.getName(), true)
+                                        .addField("Reason » ", messages, false);
 
-                            // null if the channel isn't specified in the config.yml
-                            if (textChannel != null) {
-                                textChannel.sendMessage(report.build()).queue();
-                            } else {
-                                LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "Channel called " + channelname + " could not be found in the DiscordSRV configuration");
-                            }
-                            for (Player admin : Bukkit.getOnlinePlayers()) {
-                                if (admin.hasPermission("se.reportnotification")) {
-                                    admin.sendMessage(ChatColor.AQUA + "--------- " + ChatColor.RED + "NEW REPORT " + ChatColor.AQUA + "---------");
-                                    admin.sendMessage(ChatColor.RED + "Reporter" + ChatColor.GRAY + " » " + ChatColor.WHITE + player.getName());
-                                    TextComponent message = new TextComponent(ChatColor.RED + "Reported User" + ChatColor.GRAY + " » " + ChatColor.WHITE + target.getName());
-                                    message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Teleport To " + target.getName())));
-                                    message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + target.getName()));
-                                    admin.spigot().sendMessage(message);
-                                    admin.sendMessage(ChatColor.RED + "Reason" + ChatColor.GRAY + " » " + ChatColor.WHITE + messages);
-                                    admin.sendMessage(ChatColor.AQUA + "-----------------------------");
+                                // null if the channel isn't specified in the config.yml
+                                if (textChannel != null) {
+                                    textChannel.sendMessage(report.build()).queue();
+                                } else {
+                                    LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "Channel called " + channelname + " could not be found in the DiscordSRV configuration");
                                 }
+                                for (Player admin : Bukkit.getOnlinePlayers()) {
+                                    if (admin.hasPermission("se.reportnotification")) {
+                                        admin.sendMessage(ChatColor.AQUA + "--------- " + ChatColor.RED + "NEW REPORT " + ChatColor.AQUA + "---------");
+                                        admin.sendMessage(ChatColor.RED + "Reporter" + ChatColor.GRAY + " » " + ChatColor.WHITE + player.getName());
+                                        TextComponent message = new TextComponent(ChatColor.RED + "Reported User" + ChatColor.GRAY + " » " + ChatColor.WHITE + target.getName());
+                                        message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Teleport To " + target.getName())));
+                                        message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + target.getName()));
+                                        admin.spigot().sendMessage(message);
+                                        admin.sendMessage(ChatColor.RED + "Reason" + ChatColor.GRAY + " » " + ChatColor.WHITE + messages);
+                                        admin.sendMessage(ChatColor.AQUA + "-----------------------------");
+                                    }
+                                }
+                                return true;
+                            }else{
+                                report.setTitle("New Report")
+                                        .setColor(Color.RED)
+                                        .addField("Reporter » ", player.getName(), true)
+                                        .addField("Reported User » ", target.getName(), true)
+                                        .addField("Reason » ", messages, false);
+
+                                // null if the channel isn't specified in the config.yml
+                                if (textChannel != null) {
+                                    textChannel.sendMessage(report.build()).queue();
+                                } else {
+                                    LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "Channel called " + channelname + " could not be found in the DiscordSRV configuration");
+                                }
+                                for (Player admin : Bukkit.getOnlinePlayers()) {
+                                    if (admin.hasPermission("se.reportnotification")) {
+                                        admin.sendMessage(ChatColor.AQUA + "--------- " + ChatColor.RED + "NEW REPORT " + ChatColor.AQUA + "---------");
+                                        admin.sendMessage(ChatColor.RED + "Reporter" + ChatColor.GRAY + " » " + ChatColor.WHITE + player.getName());
+                                        TextComponent message = new TextComponent(ChatColor.RED + "Reported User" + ChatColor.GRAY + " » " + ChatColor.WHITE + target.getName());
+                                        message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Teleport To " + target.getName())));
+                                        message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + target.getName()));
+                                        admin.spigot().sendMessage(message);
+                                        admin.sendMessage(ChatColor.RED + "Reason" + ChatColor.GRAY + " » " + ChatColor.WHITE + messages);
+                                        admin.sendMessage(ChatColor.AQUA + "-----------------------------");
+                                    }
+                                }
+                                return true;
                             }
-                            return true;
                         } else {
                             for (Player admin : Bukkit.getOnlinePlayers()) {
                                 if (admin.hasPermission("se.reportnotification")) {
