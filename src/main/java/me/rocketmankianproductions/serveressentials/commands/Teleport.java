@@ -23,7 +23,10 @@ public class Teleport implements CommandExecutor {
                 } else if (args.length == 1) {
                     Player target = Bukkit.getPlayer(args[0]);
                     String sender2 = player.getDisplayName();
-                    if (target == player) {
+                    if (target == null){
+                        sender.sendMessage(ChatColor.RED + "Player doesn't exist");
+                        return true;
+                    }else if (target == player) {
                         sender.sendMessage(ChatColor.RED + "You cannot teleport to yourself!");
                         return true;
                     } else if (target != player) {
@@ -50,8 +53,7 @@ public class Teleport implements CommandExecutor {
                     if (target == null){
                         sender.sendMessage(ChatColor.RED + "Player doesn't exist");
                         return true;
-                    }
-                    if (playerToSend == target) {
+                    }else if (playerToSend == target) {
                         sender.sendMessage(ChatColor.RED + "You cannot teleport someone to themself!");
                         return true;
                     } else if (playerToSend != target) {
