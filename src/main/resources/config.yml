@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 1.40.5
+# This config was generated for version 1.40.6
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -78,8 +78,8 @@ broadcast: false
 # Add Broadcast Messages Here
 # Make sure to use the Format [- "(messagehere)"] on each line to add a new message into the cycle.
 broadcast-messages:
-- "Test Broadcast"
-- "Test Broadcast 2"
+  - "Test Broadcast"
+  - "Test Broadcast 2"
 # Ticks Between Each Message
 # 20 Ticks = 1 Second
 broadcast-delay: 1000
@@ -113,4 +113,5 @@ channel-name: report-logs
 # Useful for pinging a group with all Staff Members inside when a Report is sent
 # Please make sure to paste the Group ID into the quotations for this to work correctly
 # To disable this leave the contents within the "" blank
+# Make sure to go to the DiscordSRV config.yml file and change 'DiscordChatChannelAllowedMentions' to include 'role' within the []
 group-id: ""
