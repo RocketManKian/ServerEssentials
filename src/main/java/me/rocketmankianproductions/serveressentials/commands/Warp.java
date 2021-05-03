@@ -37,6 +37,7 @@ public class Warp implements CommandExecutor {
                                     // Teleporting Target
                                     target.teleport(loc);
                                     target.sendMessage("Successfully warped to " + args[1]);
+                                    return true;
                                 } else {
                                     if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
                                         player.sendMessage(ChatColor.RED + "You do not have the required permission (se.warps." + args[1] + ") to run this command.");
@@ -50,6 +51,7 @@ public class Warp implements CommandExecutor {
                             }
                         } else {
                             player.sendMessage(ChatColor.RED + "Cannot find player " + ChatColor.WHITE + args[0]);
+                            return true;
                         }
                     } else {
                         player.sendMessage("Warp Doesn't Exist!");
@@ -71,6 +73,7 @@ public class Warp implements CommandExecutor {
                                 // Teleporting Player
                                 player.teleport(loc);
                                 player.sendMessage("Successfully warped to " + args[0]);
+                                return true;
                             } else
                                 return false;
                         } else {
@@ -140,9 +143,11 @@ public class Warp implements CommandExecutor {
                             // Teleporting Target
                             target.teleport(loc);
                             target.sendMessage("Successfully warped to " + args[1]);
+                            return true;
                         }
                     } else {
                         sender.sendMessage(ChatColor.RED + "Cannot find player " + ChatColor.WHITE + args[0]);
+                        return true;
                     }
                 } else {
                     sender.sendMessage("Warp Doesn't Exist!");

@@ -27,12 +27,12 @@ public class Hurt implements CommandExecutor {
                             double damageAmount = Double.parseDouble(args[1]);
                             playerToHurt.damage(damageAmount);
                             player.sendMessage(ChatColor.YELLOW + playerToHurt.getName() + ChatColor.RED + " was hurt for " + ChatColor.YELLOW + damageAmount + ChatColor.RED + " damage points");
+                            return true;
                         } catch (NumberFormatException exception) {
                             player.sendMessage(ChatColor.RED + args[1] + " is not a valid number!");
+                            return true;
                         }
-                        // Displays name which is invalid or null
                     }
-                    player.sendMessage("Wrong format! Use: " + ChatColor.GREEN + "/hurt <player> <amount>");
                     return false;
                 }
                 else {

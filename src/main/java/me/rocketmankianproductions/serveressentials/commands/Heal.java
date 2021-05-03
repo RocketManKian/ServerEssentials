@@ -23,7 +23,7 @@ public class Heal implements CommandExecutor {
                     if (args.length == 1) {
                         target = Bukkit.getServer().getPlayer(args[0]);
                         if (target == null) {
-                            sender.sendMessage(ChatColor.RED + "Cannot find player " + args[0] + ".");
+                            sender.sendMessage(ChatColor.RED + "Cannot find player '" + args[0] + "'.");
                             return true;
                         } else if (target != null) {
                             if (target != player) {

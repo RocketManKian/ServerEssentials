@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 1.40.6
+version: 1.40.7
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -21,6 +21,7 @@ commands:
     description: Rules Command
   hurt:
     description: Hurt the Player
+    usage: Incorrect format! Please use /hurt (player) (amount)
   playtime:
     description: Shows Playtime
   setspawn:

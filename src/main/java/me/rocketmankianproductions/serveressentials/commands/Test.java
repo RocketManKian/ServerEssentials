@@ -18,38 +18,63 @@ public class Test implements CommandExecutor {
             if (player.hasPermission("se.test")){
                 if (args.length == 1){
                     if (args[0].equalsIgnoreCase("permission")){
-                        String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                        return true;
-                    }else if (args[0].equalsIgnoreCase("join")){
-                        String jm = ServerEssentials.getPlugin().getConfig().getString("join-symbol");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', jm + " " + player.getDisplayName()));
-                        return true;
-                    }else if (args[0].equalsIgnoreCase("leave")){
-                        String lm = ServerEssentials.getPlugin().getConfig().getString("leave-symbol");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', lm + " " + player.getDisplayName()));
-                        return true;
-                    }else if (args[0].equalsIgnoreCase("welcome")){
-                        String wm = ServerEssentials.getPlugin().getConfig().getString("first-time-join");
-                        String placeholder = PlaceholderAPI.setPlaceholders(player, wm);
-                        if (ServerEssentials.isConnectedToPlaceholderAPI) {
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', placeholder));
-                        } else {
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', wm));
-                        }
-                        return true;
-                    }else if (args[0].equalsIgnoreCase("motd")){
-                        if (!ServerEssentials.isConnectedToPlaceholderAPI){
-                            for (String message: ServerEssentials.plugin.getConfig().getStringList("motd-message")){
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
-                            }
+                        if (!(ServerEssentials.getPlugin().getConfig().getString("no-permission-message").length() == 0)){
+                            String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                            return true;
                         }else{
-                            for (String message: ServerEssentials.plugin.getConfig().getStringList("motd-message")){
-                                String placeholder = PlaceholderAPI.setPlaceholders(player, message);
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', placeholder));
-                            }
+                            player.sendMessage(ChatColor.RED + "The 'no-permission-message' config value is empty.");
+                            return true;
                         }
-                        return true;
+                    }else if (args[0].equalsIgnoreCase("join")){
+                        if (!(ServerEssentials.getPlugin().getConfig().getString("join-symbol").length() == 0)){
+                            String jm = ServerEssentials.getPlugin().getConfig().getString("join-symbol");
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', jm + " " + player.getDisplayName()));
+                            return true;
+                        }else{
+                            player.sendMessage(ChatColor.RED + "The 'join-symbol' config value is empty.");
+                            return true;
+                        }
+                    }else if (args[0].equalsIgnoreCase("leave")){
+                        if (!(ServerEssentials.getPlugin().getConfig().getString("leave-symbol").length() == 0)){
+                            String lm = ServerEssentials.getPlugin().getConfig().getString("leave-symbol");
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', lm + " " + player.getDisplayName()));
+                            return true;
+                        }else{
+                            player.sendMessage(ChatColor.RED + "The 'leave-symbol' config value is empty.");
+                            return true;
+                        }
+                    }else if (args[0].equalsIgnoreCase("welcome")){
+                        if (!(ServerEssentials.getPlugin().getConfig().getString("first-time-join").length() == 0)){
+                            String wm = ServerEssentials.getPlugin().getConfig().getString("first-time-join");
+                            String placeholder = PlaceholderAPI.setPlaceholders(player, wm);
+                            if (ServerEssentials.isConnectedToPlaceholderAPI) {
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', placeholder));
+                            } else {
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', wm));
+                            }
+                            return true;
+                        }else{
+                            player.sendMessage(ChatColor.RED + "The 'first-time-join' config value is empty.");
+                            return true;
+                        }
+                    }else if (args[0].equalsIgnoreCase("motd")){
+                        if (!(ServerEssentials.getPlugin().getConfig().getString("motd-message").length() == 0)){
+                            if (!ServerEssentials.isConnectedToPlaceholderAPI){
+                                for (String message: ServerEssentials.plugin.getConfig().getStringList("motd-message")){
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+                                }
+                            }else{
+                                for (String message: ServerEssentials.plugin.getConfig().getStringList("motd-message")){
+                                    String placeholder = PlaceholderAPI.setPlaceholders(player, message);
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', placeholder));
+                                }
+                            }
+                            return true;
+                        }else{
+                            player.sendMessage(ChatColor.RED + "The 'motd-message' config value is empty.");
+                            return true;
+                        }
                     }else{
                         return false;
                     }
