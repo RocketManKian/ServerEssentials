@@ -2,7 +2,6 @@ package me.rocketmankianproductions.serveressentials.commands;
 
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
-import github.scarsz.discordsrv.dependencies.jda.api.entities.Message;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import me.rocketmankianproductions.serveressentials.LoggerMessage;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
@@ -17,14 +16,13 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import sun.plugin2.main.server.Plugin;
 
 import java.awt.*;
 import java.util.EnumSet;
 
 public class Report implements CommandExecutor {
 
-    public static Plugin plugin;
+    public static ServerEssentials plugin;
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -48,7 +46,7 @@ public class Report implements CommandExecutor {
                             builder.append(args[i] + (args.length > (i + 1) ? " " : ""));
                         }
                         String messages = builder.toString(); // your message from all args after "startArg - 1"
-                        if (ServerEssentials.isConnectedToDiscordSRV == true && ServerEssentials.getPlugin().getConfig().getBoolean("enable-discord-integration") == true) {
+                        if (ServerEssentials.isConnectedToDiscordSRV && ServerEssentials.getPlugin().getConfig().getBoolean("enable-discord-integration") == true) {
                             String channelname = ServerEssentials.getPlugin().getConfig().getString("channel-name");
                             TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName(channelname);
                             EmbedBuilder report = new EmbedBuilder();
@@ -56,14 +54,12 @@ public class Report implements CommandExecutor {
                                 String prefix = ServerEssentials.getPlugin().getConfig().getString("group-id");
                                 String finaltext = ("<@&" + prefix + ">");
                                 textChannel.sendMessage(finaltext)
-                                        .allowedMentions(EnumSet.complementOf(EnumSet.of(Message.MentionType.EVERYONE)))
                                         .queue();
                                 report.setTitle("New Report")
                                         .setColor(Color.RED)
                                         .addField("Reporter » ", player.getName(), true)
                                         .addField("Reported User » ", target.getName(), true)
                                         .addField("Reason » ", messages, false);
-
                                 // null if the channel isn't specified in the config.yml
                                 if (textChannel != null) {
                                     textChannel.sendMessage(report.build()).queue();
@@ -89,7 +85,6 @@ public class Report implements CommandExecutor {
                                         .addField("Reporter » ", player.getName(), true)
                                         .addField("Reported User » ", target.getName(), true)
                                         .addField("Reason » ", messages, false);
-
                                 // null if the channel isn't specified in the config.yml
                                 if (textChannel != null) {
                                     textChannel.sendMessage(report.build()).queue();
