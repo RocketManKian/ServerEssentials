@@ -29,7 +29,7 @@ public class Teleport implements CommandExecutor {
                     }else if (target == player) {
                         sender.sendMessage(ChatColor.RED + "You cannot teleport to yourself!");
                         return true;
-                    } else if (target != player) {
+                    } else {
                         String target2 = target.getName();
                         try {
                             player.teleport(target.getLocation());
@@ -56,7 +56,7 @@ public class Teleport implements CommandExecutor {
                     }else if (playerToSend == target) {
                         sender.sendMessage(ChatColor.RED + "You cannot teleport someone to themself!");
                         return true;
-                    } else if (playerToSend != target) {
+                    } else {
                         try {
                             String target2 = target.getName();
                             String sender2 = playerToSend.getName();
