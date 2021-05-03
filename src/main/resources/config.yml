@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 1.40.4
+# This config was generated for version 1.40.5
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -109,3 +109,8 @@ enable-discord-integration: false
 # This name will have to be entered into the DiscordSRV config.yml File.
 # ["report-logs": "000000000000000000"] as an example.
 channel-name: report-logs
+# Adds a message that is pasted before the Embed Message is sent
+# Useful for pinging a group with all Staff Members inside when a Report is sent
+# Please make sure to paste the Group ID into the quotations for this to work correctly
+# To disable this leave the contents within the "" blank
+group-id: ""

@@ -208,8 +208,6 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("speed").setExecutor(new Speed());
         // Report Command
         getCommand("report").setExecutor(new Report());
-        // Home GUI Command
-        getCommand("gui").setExecutor(new ConfigGUI());
         // Clear Chat Command
         getCommand("clearchat").setExecutor(new ClearChat());
     }
