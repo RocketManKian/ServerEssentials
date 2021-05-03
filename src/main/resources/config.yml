@@ -109,9 +109,8 @@ enable-discord-integration: false
 # This name will have to be entered into the DiscordSRV config.yml File.
 # ["report-logs": "000000000000000000"] as an example.
 channel-name: report-logs
-# Adds a description to the Embed Message
+# Adds a message that is pasted before the Embed Message is sent
 # Useful for pinging a group with all Staff Members inside when a Report is sent
 # Please make sure to paste the Group ID into the quotations for this to work correctly
 # To disable this leave the contents within the "" blank
-# On top of this make sure to add 'role' into the "DiscordChatChannelAllowedMentions:" value in the DiscordSRV config.yml
 group-id: ""

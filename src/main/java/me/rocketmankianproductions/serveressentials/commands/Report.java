@@ -55,8 +55,10 @@ public class Report implements CommandExecutor {
                             if (ServerEssentials.plugin.getConfig().getString("group-id").length() != 0) {
                                 String prefix = ServerEssentials.getPlugin().getConfig().getString("group-id");
                                 String finaltext = ("<@&" + prefix + ">");
+                                textChannel.sendMessage(finaltext)
+                                        .allowedMentions(EnumSet.complementOf(EnumSet.of(Message.MentionType.EVERYONE)))
+                                        .queue();
                                 report.setTitle("New Report")
-                                        .appendDescription(finaltext)
                                         .setColor(Color.RED)
                                         .addField("Reporter » ", player.getName(), true)
                                         .addField("Reported User » ", target.getName(), true)
