@@ -85,7 +85,7 @@ public class SE implements CommandExecutor {
                             + "\n/rename - Changes the Name for the item you are holding"
                             + "\n/lore - Changes the Lore for the item you are holding"
                             + "\n/speed (value) - Changes your Walking/Flying speed"
-                            + "\n/chatclear - Clears the Chat");
+                            + "\n/clearchat - Clears the Chat");
                 } else {
                     if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
                         player.sendMessage(ChatColor.RED + "You do not have the required permission (se.info) to run this command.");
