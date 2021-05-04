@@ -66,8 +66,8 @@ public class PlayerJoinListener implements Listener {
         } else if (!player.hasPlayedBefore()) {
             if (ServerEssentials.getPlugin().getConfig().getBoolean("enable-first-time-join-message")) {
                 String wm = ServerEssentials.getPlugin().getConfig().getString("first-time-join");
-                String placeholder = PlaceholderAPI.setPlaceholders(player, wm);
                 if (ServerEssentials.isConnectedToPlaceholderAPI) {
+                    String placeholder = PlaceholderAPI.setPlaceholders(player, wm);
                     pj.setJoinMessage(ChatColor.translateAlternateColorCodes('&', placeholder));
                 } else {
                     pj.setJoinMessage(ChatColor.translateAlternateColorCodes('&', wm));
