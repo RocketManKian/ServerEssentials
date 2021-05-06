@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 1.40.8
+version: 1.40.9
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -204,8 +204,14 @@ commands:
   report:
     description: Report Command
     usage: Incorrect format! Please use /report (user) (reason)
+  gui:
+    description: GUI Command
+    usage: Incorrect format! Please use /gui
   clearchat:
     description: Clear Chat Command
+    usage: Incorrect format! Please use /clearchat
+  sendwarp:
+    description: Send Warp Command
     usage: Incorrect format! Please use /clearchat
 permissions:
   se.all:
@@ -273,6 +279,8 @@ permissions:
       se.report: true
       se.reportnotification: true
       se.clearchat: true
+      se.warps.all: true
+      se.sendwarp: true
   se.reload:
     description: "Gives access to the /se reload command."
     default: false
@@ -454,5 +462,11 @@ permissions:
     description: "Report Notification"
     default: false
   se.clearchat:
-    description: "Chat Clear Command"
+    description: "Clear Chat Command"
+    default: false
+  se.warps.all:
+    description: "All Warps Permission"
+    default: false
+  se.sendwarp:
+    description: "Send Warp Command"
     default: false

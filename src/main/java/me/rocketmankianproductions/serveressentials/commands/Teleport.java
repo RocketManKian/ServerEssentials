@@ -19,6 +19,7 @@ public class Teleport implements CommandExecutor {
                     player.sendMessage(ChatColor.RED + "You need to enter some arguments." + ChatColor.YELLOW
                             + "\nTo teleport yourself: /teleport <otherplayer>" + ChatColor.YELLOW
                             + "\nTo teleport others: /teleport <player> <otherplayer>");
+                    return true;
                 } else if (args.length == 1) {
                     Player target = Bukkit.getPlayer(args[0]);
                     String sender2 = player.getDisplayName();
@@ -33,14 +34,15 @@ public class Teleport implements CommandExecutor {
                         try {
                             player.teleport(target.getLocation());
                             if (sender.hasPermission("se.silenttp")) {
-                                sender.sendMessage(ChatColor.GREEN + "Teleported to " + target2);
+                                sender.sendMessage(ChatColor.GREEN + "Teleported to " + ChatColor.GOLD + target2);
+                                player.teleport(target.getLocation());
                                 return true;
                             } else if (!sender.hasPermission("se.silenttp")) {
-                                sender.sendMessage(ChatColor.GREEN + "Teleported to " + target2);
-                                target.sendMessage(ChatColor.GREEN + sender2 + " has teleported to you!");
+                                sender.sendMessage(ChatColor.GREEN + "Teleported to " + ChatColor.GOLD + target2);
+                                target.sendMessage(ChatColor.GOLD + sender2 + ChatColor.GREEN + " has teleported to you!");
+                                player.teleport(target.getLocation());
                                 return true;
                             }
-                            player.teleport(target.getLocation());
                         } catch (NullPointerException e) {
                             player.sendMessage(ChatColor.RED + "Player does not exist.");
                             return true;
@@ -60,19 +62,40 @@ public class Teleport implements CommandExecutor {
                             String target2 = target.getName();
                             String sender2 = playerToSend.getName();
                             if (sender.hasPermission("se.silenttp")) {
-                                sender.sendMessage(ChatColor.GREEN + "Teleported " + sender2 + " to " + target2);
-                                return true;
+                                if (target == sender){
+                                    target.sendMessage(ChatColor.GOLD + sender2 + ChatColor.GREEN + " has teleported to you!");
+                                    playerToSend.teleport(target.getLocation());
+                                    return true;
+                                }else if (playerToSend == sender){
+                                    playerToSend.sendMessage(ChatColor.GREEN + "You have teleported to " + ChatColor.GOLD + target2);
+                                    playerToSend.teleport(target.getLocation());
+                                    return true;
+                                }else{
+                                    sender.sendMessage(ChatColor.GREEN + "Teleported " + ChatColor.GOLD + sender2 + ChatColor.GREEN + " to " + ChatColor.GOLD + target2);
+                                    playerToSend.sendMessage(ChatColor.GREEN + "You have teleported to " + ChatColor.GOLD + target2);
+                                    target.sendMessage(ChatColor.GOLD + sender2 + ChatColor.GREEN + " has teleported to you!");
+                                    playerToSend.teleport(target.getLocation());
+                                    return true;
+                                }
                             } else if (!sender.hasPermission("se.silenttp")) {
                                 if (target == sender) {
-                                    sender.sendMessage(ChatColor.GREEN + "Teleported " + sender2 + " to " + target2);
+                                    playerToSend.sendMessage(ChatColor.GREEN + "You have teleported to " + ChatColor.GOLD + target2);
+                                    target.sendMessage(ChatColor.GOLD + sender2 + ChatColor.GREEN + " has teleported to you!");
+                                    playerToSend.teleport(target.getLocation());
                                     return true;
-                                } else {
-                                    playerToSend.sendMessage(ChatColor.GREEN + "You have teleported to " + target2);
-                                    target.sendMessage(ChatColor.GREEN + sender2 + " has teleported to you!");
+                                } else if (playerToSend == sender){
+                                    target.sendMessage(ChatColor.GOLD + sender2 + ChatColor.GREEN + " has teleported to you!");
+                                    playerToSend.sendMessage(ChatColor.GREEN + "You have teleported to " + ChatColor.GOLD + target2);
+                                    playerToSend.teleport(target.getLocation());
+                                    return true;
+                                }else{
+                                    sender.sendMessage(ChatColor.GREEN + "Teleported " + ChatColor.GOLD + sender2 + ChatColor.GREEN + " to " + ChatColor.GOLD + target2);
+                                    target.sendMessage(ChatColor.GOLD + sender2 + ChatColor.GREEN + " has teleported to you!");
+                                    playerToSend.sendMessage(ChatColor.GREEN + "You have teleported to " + ChatColor.GOLD + target2);
+                                    playerToSend.teleport(target.getLocation());
                                     return true;
                                 }
                             }
-                            playerToSend.teleport(target.getLocation());
                         } catch (NullPointerException e) {
                             player.sendMessage(ChatColor.RED + "Player does not exist.");
                             return true;
@@ -101,7 +124,7 @@ public class Teleport implements CommandExecutor {
                         String target2 = target.getName();
                         String sender2 = playerToSend.getName();
                         playerToSend.teleport(target.getLocation());
-                        sender.sendMessage(ChatColor.GREEN + "Teleported " + sender2 + " to " + target2);
+                        sender.sendMessage(ChatColor.GREEN + "Teleported " + ChatColor.GOLD + sender2 + ChatColor.GREEN + " to " + ChatColor.GOLD + target2);
                         return true;
                     } catch (NullPointerException e) {
                         sender.sendMessage(ChatColor.RED + "Player does not exist.");
@@ -118,9 +141,9 @@ public class Teleport implements CommandExecutor {
                         String target2 = target.getName();
                         String sender2 = playerToSend.getName();
                         playerToSend.teleport(target.getLocation());
-                        playerToSend.sendMessage(ChatColor.GREEN + "You have been teleported to " + ChatColor.WHITE + target2);
-                        target.sendMessage(ChatColor.WHITE + sender2 + ChatColor.GREEN +" has been teleported to you");
-                        sender.sendMessage(ChatColor.GREEN + "Teleported " + sender2 + " to " + target2);
+                        playerToSend.sendMessage(ChatColor.GREEN + "You have been teleported to " + ChatColor.GOLD + target2);
+                        target.sendMessage(ChatColor.GOLD + sender2 + ChatColor.GREEN +" has been teleported to you");
+                        sender.sendMessage(ChatColor.GREEN + "Teleported " + ChatColor.GOLD + sender2 + ChatColor.GREEN + " to " + ChatColor.GOLD + target2);
                         return true;
                     } catch (NullPointerException e) {
                         sender.sendMessage(ChatColor.RED + "Player does not exist.");
