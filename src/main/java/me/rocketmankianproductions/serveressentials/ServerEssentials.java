@@ -210,6 +210,8 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("report").setExecutor(new Report());
         // Clear Chat Command
         getCommand("clearchat").setExecutor(new ClearChat());
+        // Send Warp Command
+        getCommand("sendwarp").setExecutor(new SendWarp());
     }
 
     @Override
