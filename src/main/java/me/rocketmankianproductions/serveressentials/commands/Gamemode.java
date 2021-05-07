@@ -132,7 +132,7 @@ public class Gamemode implements CommandExecutor {
                         Player targetPlayer = Bukkit.getServer().getPlayer(args[1]);
                         targetPlayer.setGameMode(GameMode.CREATIVE);
                         targetPlayer.sendMessage(ChatColor.GREEN + "You are now in Creative");
-                        System.out.println(ChatColor.GREEN + "Set " + targetPlayer.getDisplayName() + " into Creative");
+                        System.out.println(ChatColor.GREEN + "Set " + ChatColor.WHITE + targetPlayer.getDisplayName() + ChatColor.GREEN + " into Creative");
                         return true;
                     }
                 } else if (args[0].equalsIgnoreCase("survival") || args[0].equalsIgnoreCase("s") || args[0].equalsIgnoreCase("0")) {
@@ -140,7 +140,7 @@ public class Gamemode implements CommandExecutor {
                         Player targetPlayer = Bukkit.getServer().getPlayer(args[1]);
                         targetPlayer.setGameMode(GameMode.SURVIVAL);
                         targetPlayer.sendMessage(ChatColor.GREEN + "You are now in Survival");
-                        System.out.println(ChatColor.GREEN + "Set " + targetPlayer.getDisplayName() + " into Survival");
+                        System.out.println(ChatColor.GREEN + "Set " + ChatColor.WHITE + targetPlayer.getDisplayName() + ChatColor.GREEN + " into Survival");
                         return true;
                     }
                 } else if (args[0].equalsIgnoreCase("spectator") || args[0].equalsIgnoreCase("3")) {
@@ -148,7 +148,7 @@ public class Gamemode implements CommandExecutor {
                         Player targetPlayer = Bukkit.getServer().getPlayer(args[1]);
                         targetPlayer.setGameMode(GameMode.SPECTATOR);
                         targetPlayer.sendMessage(ChatColor.GREEN + "You are now in Spectator");
-                        System.out.println(ChatColor.GREEN + "Set " + targetPlayer.getDisplayName() + " into Spectator");
+                        System.out.println(ChatColor.GREEN + "Set " + ChatColor.WHITE + targetPlayer.getDisplayName() + ChatColor.GREEN + " into Spectator");
                         return true;
                     }
                 } else if (args[0].equalsIgnoreCase("adventure") || args[0].equalsIgnoreCase("a") || args[0].equalsIgnoreCase("2")) {
@@ -156,7 +156,7 @@ public class Gamemode implements CommandExecutor {
                         Player targetPlayer = Bukkit.getServer().getPlayer(args[1]);
                         targetPlayer.setGameMode(GameMode.ADVENTURE);
                         targetPlayer.sendMessage(ChatColor.GREEN + "You are now in Adventure");
-                        System.out.println(ChatColor.GREEN + "Set " + targetPlayer.getDisplayName() + " into Adventure");
+                        System.out.println(ChatColor.GREEN + "Set " + ChatColor.WHITE + targetPlayer.getDisplayName() + ChatColor.GREEN + " into Adventure");
                         return true;
                     }
                 }

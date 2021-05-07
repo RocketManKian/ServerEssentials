@@ -1,5 +1,6 @@
 package me.rocketmankianproductions.serveressentials.events;
 
+import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.commands.Sethome;
 import me.rocketmankianproductions.serveressentials.commands.Setwarp;
 import org.bukkit.Bukkit;
@@ -29,17 +30,26 @@ public class PlayerClickEvent implements Listener {
             if (item != null){
                 String warp = item.getItemMeta().getDisplayName();
                 warp = ChatColor.stripColor(warp);
-                // Gathering Location
-                float yaw = Setwarp.fileConfig.getInt("Warp." + warp + ".Yaw");
-                float pitch = Sethome.fileConfig.getInt("Home." + player.getName() + ".Pitch");
-                loc = new Location(Bukkit.getWorld(Setwarp.fileConfig.getString("Warp." + warp + ".World")),
-                        Setwarp.fileConfig.getDouble("Warp." + warp + ".X"),
-                        Setwarp.fileConfig.getDouble("Warp." + warp + ".Y"),
-                        Setwarp.fileConfig.getDouble("Warp." + warp + ".Z"),
-                        yaw, pitch);
-                player.teleport(loc);
-                player.sendMessage("Successfully warped to " + warp);
-                player.closeInventory();
+                if (player.hasPermission("se.warps." + warp) || player.hasPermission("se.warps.all")) {
+                    // Gathering Location
+                    float yaw = Setwarp.fileConfig.getInt("Warp." + warp + ".Yaw");
+                    float pitch = Sethome.fileConfig.getInt("Home." + player.getName() + ".Pitch");
+                    loc = new Location(Bukkit.getWorld(Setwarp.fileConfig.getString("Warp." + warp + ".World")),
+                            Setwarp.fileConfig.getDouble("Warp." + warp + ".X"),
+                            Setwarp.fileConfig.getDouble("Warp." + warp + ".Y"),
+                            Setwarp.fileConfig.getDouble("Warp." + warp + ".Z"),
+                            yaw, pitch);
+                    player.teleport(loc);
+                    player.sendMessage("Successfully warped to " + warp);
+                    player.closeInventory();
+                }else{
+                    if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
+                        player.sendMessage(ChatColor.RED + "You do not have the required permission (se.warps." + warp + ") to run this command.");
+                    } else {
+                        String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                    }
+                }
             }
         }else if (e.getView().getTitle().equalsIgnoreCase(ChatColor.AQUA + "Home GUI")){
             e.setCancelled(true);
