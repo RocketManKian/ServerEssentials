@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 1.40.9
+# This config was generated for version 1.50.0
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -115,3 +115,27 @@ channel-name: report-logs
 # To disable this leave the contents within the "" blank
 # Make sure to go to the DiscordSRV config.yml file and change 'DiscordChatChannelAllowedMentions' to include 'role' within the []
 group-id: ""
+############################################################
+# +------------------------------------------------------+ #
+# +              Server Essentials (Warp)                + #
+# +------------------------------------------------------+ #
+############################################################
+# Determine the amount of slots inside the Warp GUI
+warp-gui-size: 9
+# Change the Item that shows for Warps in the Warp GUI
+warp-item: DIAMOND_BLOCK
+# Change the Colour of Warp Names in the Warp GUI
+# Please use Colour Codes
+warp-name-colour: "&a"
+############################################################
+# +------------------------------------------------------+ #
+# +              Server Essentials (Home)                + #
+# +------------------------------------------------------+ #
+############################################################
+# Determine the amount of slots inside the Home GUI
+home-gui-size: 9
+# Change the Item that shows for Homes in the Home GUI
+home-item: RED_BED
+# Change the Colour of Home Names in the Home GUI
+# Please use Colour Codes
+home-name-colour: "&a"

@@ -4,10 +4,16 @@ import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.*;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Collections;
 
 public class Warp implements CommandExecutor {
     @Override
@@ -52,20 +58,34 @@ public class Warp implements CommandExecutor {
                     }
                 } else if (args.length == 0) {
                     if (sender.hasPermission("se.warp")) {
+                        Integer size = ServerEssentials.plugin.getConfig().getInt("warp-gui-size");
+                        Inventory inv = Bukkit.createInventory(null, size, ChatColor.AQUA + "Warp GUI");
                         ConfigurationSection inventorySection = Setwarp.fileConfig.getConfigurationSection("Warp.");
                         ConfigurationSection inventorySection2 = Setwarp.fileConfig.getConfigurationSection("Warp");
                         assert inventorySection2 != null;
-                        player.sendMessage(ChatColor.GREEN + "---------------------------"
-                                + "\nWarp(s) List"
-                                + "\n---------------------------");
-                        try {
-                            for (String key : inventorySection.getKeys(false)) {
-                                player.sendMessage(ChatColor.GOLD + key);
+                        String warpitem = ServerEssentials.plugin.getConfig().getString("warp-item");
+                        ItemStack item = new ItemStack(Material.getMaterial(warpitem));
+                        ItemMeta meta = item.getItemMeta();
+                        if (!inventorySection.getKeys(true).isEmpty()){
+                            int index = 0;
+                            try {
+                                for (String key : inventorySection.getKeys(false)) {
+                                    String warpcolour = ServerEssentials.plugin.getConfig().getString("warp-name-colour");
+                                    meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', warpcolour + key));
+                                    meta.setLore(Collections.singletonList((ChatColor.DARK_PURPLE + "Click to teleport to " + key)));
+                                    item.setItemMeta(meta);
+                                    inv.setItem(index, item);
+                                    index ++;
+                                }
+                            } catch (NullPointerException e) {
+                                player.sendMessage(ChatColor.RED + "No Warps have been set.");
                             }
-                        } catch (NullPointerException e) {
-                            player.sendMessage(ChatColor.RED + "No Warps have been set.");
+                            player.openInventory(inv);
+                            return true;
+                        }else{
+                            player.sendMessage(ChatColor.RED + "No Warps are available");
+                            return true;
                         }
-                        return true;
                     } else {
                         if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
                             player.sendMessage(ChatColor.RED + "You do not have the required permission (se.warp) to run this command.");

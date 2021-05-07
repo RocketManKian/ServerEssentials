@@ -66,6 +66,7 @@ public class Sethome implements CommandExecutor {
                     }
                     if (fileConfig.getString("Home." + name + "." + args[0]) != null || player.hasPermission("se.sethome.unlimited")) {
                         createHome(name, args, world, player);
+                        return true;
                     } else if (player.hasPermission("se.sethome")) {
                         if (homesAmount < maxHomes) {
                             createHome(name, args, world, player);
@@ -86,6 +87,7 @@ public class Sethome implements CommandExecutor {
                     }
                 } else if (fileConfig.getString("Home." + name + "." + args[0]) == null && player.hasPermission("se.sethome")) {
                     createHome(name, args, world, player);
+                    return true;
                 } else {
                     if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
                         player.sendMessage(ChatColor.RED + "You do not have the required permission (se.sethome) to run this command.");
