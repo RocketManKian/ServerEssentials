@@ -35,6 +35,7 @@ public class Spawn implements CommandExecutor {
                         // Teleporting Player
                         player.teleport(loc);
                         player.sendMessage("Successfully teleported to spawn.");
+                        return true;
                     } else if (args.length >= 1) {
                         Player target = Bukkit.getPlayerExact(args[0]);
                         // Checking if the player exists
