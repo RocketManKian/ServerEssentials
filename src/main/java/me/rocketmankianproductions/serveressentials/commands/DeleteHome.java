@@ -21,21 +21,16 @@ public class DeleteHome implements CommandExecutor {
                 String name = player.getUniqueId().toString();
                 // Averaging out the whether the file exists or not by checking for value in one of the default saving points
                 if (Sethome.file.exists() && Sethome.fileConfig.getString("Home." + name + "." + args[0]) != null) {
-                    // If the file exists then it will get deleted upon execution of command
-                    if (player.hasPermission("se.sethome.unlimited") || player.hasPermission("se.sethome")) {
-                        Sethome.fileConfig.set("Home." + name + "." + args[0], null);
-                        try {
-                            Sethome.fileConfig.save(Sethome.file);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        player.sendMessage(ChatColor.GREEN + "Home Deleted");
+                    Sethome.fileConfig.set("Home." + name + "." + args[0], null);
+                    try {
+                        Sethome.fileConfig.save(Sethome.file);
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
+                    player.sendMessage(ChatColor.GREEN + "Home Deleted");
                 } else {
                     sender.sendMessage(ChatColor.RED + "Home Doesn't Exist");
                 }
-            }else if (args.length == 0){
-                return false;
             }
         } else {
             if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
