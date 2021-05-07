@@ -4,14 +4,19 @@ import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.Collections;
 
 public class Home implements CommandExecutor {
     @Override
@@ -57,16 +62,31 @@ public class Home implements CommandExecutor {
         } else if (args.length == 0) {
             if (player.hasPermission("se.home")){
                 ConfigurationSection inventorySection = Sethome.fileConfig.getConfigurationSection("Home." + name);
+                Integer size = ServerEssentials.plugin.getConfig().getInt("home-gui-size");
+                Inventory inv = Bukkit.createInventory(player, size, ChatColor.AQUA + "Home GUI");
                 assert inventorySection != null;
-                player.sendMessage(ChatColor.GREEN + "---------------------------"
-                        + "\nHome(s) List"
-                        + "\n---------------------------");
-                try {
-                    for (String key : inventorySection.getKeys(false)) {
-                        player.sendMessage(ChatColor.GOLD + key);
+                String homeitem = ServerEssentials.plugin.getConfig().getString("home-item");
+                ItemStack item = new ItemStack(Material.getMaterial(homeitem));
+                ItemMeta meta = item.getItemMeta();
+                if (Sethome.fileConfig.getConfigurationSection("Home." + name) != null){
+                    int index = 0;
+                    try {
+                        for (String key : inventorySection.getKeys(false)) {
+                            String homecolour = ServerEssentials.plugin.getConfig().getString("home-name-colour");
+                            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', homecolour + key));
+                            meta.setLore(Collections.singletonList((ChatColor.DARK_PURPLE + "Click to teleport to " + key)));
+                            item.setItemMeta(meta);
+                            inv.setItem(index, item);
+                            index ++;
+                        }
+                    } catch (NullPointerException e) {
+                        player.sendMessage(ChatColor.RED + "No Homes have been set.");
                     }
-                } catch (NullPointerException e) {
-                    player.sendMessage(ChatColor.RED + "No Homes have been set.");
+                    player.openInventory(inv);
+                    return true;
+                }else{
+                    player.sendMessage(ChatColor.RED + "No Homes have been set");
+                    return true;
                 }
             } else {
                 if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
