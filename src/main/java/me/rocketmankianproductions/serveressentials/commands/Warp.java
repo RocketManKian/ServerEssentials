@@ -57,33 +57,61 @@ public class Warp implements CommandExecutor {
                         return true;
                     }
                 } else if (args.length == 0) {
-                    if (sender.hasPermission("se.warp")) {
-                        Integer size = ServerEssentials.plugin.getConfig().getInt("warp-gui-size");
-                        Inventory inv = Bukkit.createInventory(null, size, ChatColor.AQUA + "Warp GUI");
-                        ConfigurationSection inventorySection = Setwarp.fileConfig.getConfigurationSection("Warp.");
-                        ConfigurationSection inventorySection2 = Setwarp.fileConfig.getConfigurationSection("Warp");
-                        assert inventorySection2 != null;
-                        String warpitem = ServerEssentials.plugin.getConfig().getString("warp-item");
-                        ItemStack item = new ItemStack(Material.getMaterial(warpitem));
-                        ItemMeta meta = item.getItemMeta();
-                        if (!inventorySection.getKeys(true).isEmpty()){
+                    if (player.hasPermission("se.warp")) {
+                        if (ServerEssentials.plugin.getConfig().getBoolean("enable-warp-gui")){
                             int index = 0;
+                            Integer size = ServerEssentials.plugin.getConfig().getInt("warp-gui-size");
+                            Inventory inv = Bukkit.createInventory(null, size, ChatColor.AQUA + "Warp GUI");
+                            ConfigurationSection inventorySection = Setwarp.fileConfig.getConfigurationSection("Warp.");
+                            ConfigurationSection inventorySection2 = Setwarp.fileConfig.getConfigurationSection("Warp");
+                            if (inventorySection == null && inventorySection2 == null){
+                                player.sendMessage(ChatColor.RED + "warp.yml file is empty or null");
+                                return true;
+                            }else{
+                                assert inventorySection2 != null;
+                                assert inventorySection != null;
+                                String warpitem = ServerEssentials.plugin.getConfig().getString("warp-item");
+                                ItemStack item = new ItemStack(Material.getMaterial(warpitem));
+                                ItemMeta meta = item.getItemMeta();
+                                if (!inventorySection.getKeys(true).isEmpty()){
+                                    if (!(inventorySection.getKeys(false).size() > ServerEssentials.plugin.getConfig().getInt("warp-gui-size"))){
+                                        try {
+                                            for (String key : inventorySection.getKeys(false)) {
+                                                String warpcolour = ServerEssentials.plugin.getConfig().getString("warp-name-colour");
+                                                meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', warpcolour + key));
+                                                meta.setLore(Collections.singletonList((ChatColor.DARK_PURPLE + "Click to teleport to " + key)));
+                                                item.setItemMeta(meta);
+                                                inv.setItem(index, item);
+                                                index ++;
+                                            }
+                                        } catch (NullPointerException e) {
+                                            player.sendMessage(ChatColor.RED + "No Warps have been set.");
+                                        }
+                                        player.openInventory(inv);
+                                        return true;
+                                    }else{
+                                        player.sendMessage(ChatColor.RED + "GUI Size is too small, increase the value in Config!");
+                                        return true;
+                                    }
+                                }else{
+                                    player.sendMessage(ChatColor.RED + "No Warps are available");
+                                    return true;
+                                }
+                            }
+                        }else{
+                            ConfigurationSection inventorySection = Setwarp.fileConfig.getConfigurationSection("Warp.");
+                            ConfigurationSection inventorySection2 = Setwarp.fileConfig.getConfigurationSection("Warp");
+                            assert inventorySection2 != null;
+                            player.sendMessage(ChatColor.GREEN + "---------------------------"
+                                    + "\nWarp(s) List"
+                                    + "\n---------------------------");
                             try {
                                 for (String key : inventorySection.getKeys(false)) {
-                                    String warpcolour = ServerEssentials.plugin.getConfig().getString("warp-name-colour");
-                                    meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', warpcolour + key));
-                                    meta.setLore(Collections.singletonList((ChatColor.DARK_PURPLE + "Click to teleport to " + key)));
-                                    item.setItemMeta(meta);
-                                    inv.setItem(index, item);
-                                    index ++;
+                                    player.sendMessage(ChatColor.GOLD + key);
                                 }
                             } catch (NullPointerException e) {
                                 player.sendMessage(ChatColor.RED + "No Warps have been set.");
                             }
-                            player.openInventory(inv);
-                            return true;
-                        }else{
-                            player.sendMessage(ChatColor.RED + "No Warps are available");
                             return true;
                         }
                     } else {
