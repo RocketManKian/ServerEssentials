@@ -62,7 +62,7 @@ public class Sethome implements CommandExecutor {
                     ConfigurationSection inventorySection = fileConfig.getConfigurationSection("Home." + name);
                     int homesAmount = 0;
                     if (inventorySection != null) {
-                        homesAmount = inventorySection.getKeys(false).size();
+                       homesAmount = inventorySection.getKeys(false).size();
                     }
                     if (fileConfig.getString("Home." + name + "." + args[0]) != null || player.hasPermission("se.sethome.unlimited")) {
                         createHome(name, args, world, player);

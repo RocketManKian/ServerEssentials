@@ -27,7 +27,8 @@ public class DeleteHome implements CommandExecutor {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    player.sendMessage(ChatColor.GREEN + "Home Deleted");
+                    player.sendMessage(ChatColor.GREEN + "Home " + ChatColor.GOLD + args[0] + ChatColor.GREEN + " has been successfully deleted");
+                    return true;
                 } else {
                     sender.sendMessage(ChatColor.RED + "Home Doesn't Exist");
                 }

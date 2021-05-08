@@ -16,7 +16,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class Home implements CommandExecutor {
     @Override
@@ -41,8 +43,14 @@ public class Home implements CommandExecutor {
                     if (args.length == 1) {
                         // Teleporting Player
                         player.teleport(loc);
-                        player.sendMessage("Successfully teleported to Home.");
-                        return true;
+                        Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
+                        if (subtitle){
+                            player.sendTitle("Successfully teleported to Home", null);
+                            return true;
+                        }else{
+                            player.sendMessage("Successfully teleported to Home.");
+                            return true;
+                        }
                     } else
                         return false;
                 } else {
@@ -80,7 +88,12 @@ public class Home implements CommandExecutor {
                                     for (String key : inventorySection.getKeys(false)) {
                                         String homecolour = ServerEssentials.plugin.getConfig().getString("home-name-colour");
                                         meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', homecolour + key));
-                                        meta.setLore(Collections.singletonList((ChatColor.DARK_PURPLE + "Click to teleport to " + key)));
+                                        List<String> loreList = new ArrayList<String>();
+                                        loreList.add(ChatColor.DARK_PURPLE + "Click to teleport to " + key);
+                                        if (player.hasPermission("se.deletehome")){
+                                            loreList.add(ChatColor.RED + "Right Click to Delete Home");
+                                        }
+                                        meta.setLore(loreList);
                                         item.setItemMeta(meta);
                                         inv.setItem(index, item);
                                         index ++;
@@ -101,18 +114,30 @@ public class Home implements CommandExecutor {
                     }
                 }else{
                     ConfigurationSection inventorySection = Sethome.fileConfig.getConfigurationSection("Home." + name);
-                    assert inventorySection != null;
-                    player.sendMessage(ChatColor.GREEN + "---------------------------"
-                            + "\nHome(s) List"
-                            + "\n---------------------------");
-                    try {
-                        for (String key : inventorySection.getKeys(false)) {
-                            player.sendMessage(ChatColor.GOLD + key);
+                    if (inventorySection == null) {
+                        player.sendMessage(ChatColor.RED + "home.yml file is empty or null");
+                        return true;
+                    } else if (!inventorySection.getKeys(true).isEmpty()){
+                        assert inventorySection != null;
+                        player.sendMessage(ChatColor.GREEN + "---------------------------"
+                                + "\nHome(s) List"
+                                + "\n---------------------------");
+                        try {
+                            for (String key : inventorySection.getKeys(false)) {
+                                player.sendMessage(ChatColor.GOLD + key);
+                            }
+                        } catch (NullPointerException e) {
+                            //Bleh
                         }
-                    } catch (NullPointerException e) {
+                        return true;
+                    }else{
+                        assert inventorySection != null;
+                        player.sendMessage(ChatColor.GREEN + "---------------------------"
+                                + "\nHome(s) List"
+                                + "\n---------------------------");
                         player.sendMessage(ChatColor.RED + "No Homes have been set.");
+                        return true;
                     }
-                    return true;
                 }
             } else {
                 if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
