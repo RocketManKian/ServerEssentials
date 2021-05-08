@@ -29,7 +29,8 @@ public class DeleteWarp implements CommandExecutor {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        player.sendMessage(ChatColor.GREEN + "Warp Deleted");
+                        player.sendMessage(ChatColor.GREEN + "Warp " + ChatColor.GOLD + args[0] + ChatColor.GREEN + " has been successfully deleted");
+                        return true;
                     }else {
                         Setwarp.fileConfig.set("Warp", null);
                         try {
@@ -37,7 +38,7 @@ public class DeleteWarp implements CommandExecutor {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        player.sendMessage(ChatColor.GREEN + "Warp Deleted");
+                        player.sendMessage(ChatColor.GREEN + "Warp " + ChatColor.GOLD + args[0] + ChatColor.GREEN + " has been successfully deleted");
                         return true;
                     }
                 } else {

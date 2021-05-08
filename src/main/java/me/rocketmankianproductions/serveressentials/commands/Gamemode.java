@@ -24,7 +24,7 @@ public class Gamemode implements CommandExecutor {
                             Player targetPlayer = Bukkit.getServer().getPlayer(args[1]);
                             targetPlayer.setGameMode(GameMode.CREATIVE);
                             targetPlayer.sendMessage(ChatColor.GREEN + "You are now in Creative");
-                            player.sendMessage(ChatColor.GREEN + "Set " + targetPlayer.getDisplayName() + " into Creative");
+                            player.sendMessage(ChatColor.GREEN + "Set " + ChatColor.GOLD + targetPlayer.getName() + ChatColor.GREEN + " into Creative");
                             return true;
                         }else if (args.length == 1){
                             player.setGameMode(GameMode.CREATIVE);
@@ -49,7 +49,7 @@ public class Gamemode implements CommandExecutor {
                             Player targetPlayer = Bukkit.getServer().getPlayer(args[1]);
                             targetPlayer.setGameMode(GameMode.SURVIVAL);
                             targetPlayer.sendMessage(ChatColor.GREEN + "You are now in Survival");
-                            player.sendMessage(ChatColor.GREEN + "Set " + targetPlayer.getDisplayName() + " into Survival");
+                            player.sendMessage(ChatColor.GREEN + "Set " + ChatColor.GOLD + targetPlayer.getName() + ChatColor.GREEN + " into Survival");
                             return true;
                         }else if (args.length == 1){
                             player.setGameMode(GameMode.SURVIVAL);
@@ -74,7 +74,7 @@ public class Gamemode implements CommandExecutor {
                             Player targetPlayer = Bukkit.getServer().getPlayer(args[1]);
                             targetPlayer.setGameMode(GameMode.SPECTATOR);
                             targetPlayer.sendMessage(ChatColor.GREEN + "You are now in Spectator");
-                            player.sendMessage(ChatColor.GREEN + "Set " + targetPlayer.getDisplayName() + " into Spectator");
+                            player.sendMessage(ChatColor.GREEN + "Set " + ChatColor.GOLD + targetPlayer.getName() + ChatColor.GREEN + " into Spectator");
                             return true;
                         }else if (args.length == 1){
                             player.setGameMode(GameMode.SPECTATOR);
@@ -99,7 +99,7 @@ public class Gamemode implements CommandExecutor {
                             Player targetPlayer = Bukkit.getServer().getPlayer(args[1]);
                             targetPlayer.setGameMode(GameMode.ADVENTURE);
                             targetPlayer.sendMessage(ChatColor.GREEN + "You are now in Adventure");
-                            player.sendMessage(ChatColor.GREEN + "Set " + targetPlayer.getDisplayName() + " into Adventure");
+                            player.sendMessage(ChatColor.GREEN + "Set " + ChatColor.GOLD + targetPlayer.getName() + ChatColor.GREEN + " into Adventure");
                             return true;
                         }else if (args.length == 1){
                             player.setGameMode(GameMode.ADVENTURE);

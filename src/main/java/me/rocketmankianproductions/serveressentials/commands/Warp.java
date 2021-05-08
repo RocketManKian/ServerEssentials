@@ -13,7 +13,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class Warp implements CommandExecutor {
     @Override
@@ -38,8 +40,14 @@ public class Warp implements CommandExecutor {
                             if (args.length == 1) {
                                 // Teleporting Player
                                 player.teleport(loc);
-                                player.sendMessage("Successfully warped to " + args[0]);
-                                return true;
+                                Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
+                                if (subtitle){
+                                    player.sendTitle("Teleported to " + ChatColor.GOLD + args[0], null);
+                                    return true;
+                                }else{
+                                    player.sendMessage("Successfully warped to " + args[0]);
+                                    return true;
+                                }
                             } else
                                 return false;
                         } else {
@@ -79,7 +87,12 @@ public class Warp implements CommandExecutor {
                                             for (String key : inventorySection.getKeys(false)) {
                                                 String warpcolour = ServerEssentials.plugin.getConfig().getString("warp-name-colour");
                                                 meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', warpcolour + key));
-                                                meta.setLore(Collections.singletonList((ChatColor.DARK_PURPLE + "Click to teleport to " + key)));
+                                                List<String> loreList = new ArrayList<String>();
+                                                loreList.add(ChatColor.DARK_PURPLE + "Click to teleport to " + key);
+                                                if (player.hasPermission("se.deletewarp")){
+                                                    loreList.add(ChatColor.RED + "Right click to Delete Warp");
+                                                }
+                                                meta.setLore(loreList);
                                                 item.setItemMeta(meta);
                                                 inv.setItem(index, item);
                                                 index ++;
@@ -101,18 +114,32 @@ public class Warp implements CommandExecutor {
                         }else{
                             ConfigurationSection inventorySection = Setwarp.fileConfig.getConfigurationSection("Warp.");
                             ConfigurationSection inventorySection2 = Setwarp.fileConfig.getConfigurationSection("Warp");
-                            assert inventorySection2 != null;
-                            player.sendMessage(ChatColor.GREEN + "---------------------------"
-                                    + "\nWarp(s) List"
-                                    + "\n---------------------------");
-                            try {
-                                for (String key : inventorySection.getKeys(false)) {
-                                    player.sendMessage(ChatColor.GOLD + key);
+                            if (inventorySection == null && inventorySection2 == null) {
+                                player.sendMessage(ChatColor.RED + "warp.yml file is empty or null");
+                                return true;
+                            }else if (!inventorySection.getKeys(true).isEmpty()){
+                                assert inventorySection != null;
+                                assert inventorySection2 != null;
+                                player.sendMessage(ChatColor.GREEN + "---------------------------"
+                                        + "\nWarp(s) List"
+                                        + "\n---------------------------");
+                                try {
+                                    for (String key : inventorySection.getKeys(false)) {
+                                        player.sendMessage(ChatColor.GOLD + key);
+                                    }
+                                } catch (NullPointerException e) {
+                                    //Bleh
                                 }
-                            } catch (NullPointerException e) {
+                                return true;
+                            }else{
+                                assert inventorySection != null;
+                                assert inventorySection2 != null;
+                                player.sendMessage(ChatColor.GREEN + "---------------------------"
+                                        + "\nWarp(s) List"
+                                        + "\n---------------------------");
                                 player.sendMessage(ChatColor.RED + "No Warps have been set.");
+                                return true;
                             }
-                            return true;
                         }
                     } else {
                         if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
@@ -141,6 +168,7 @@ public class Warp implements CommandExecutor {
                     Player target = Bukkit.getServer().getPlayer(args[0]);
                     if (target != null) {
                         if (target != sender) {
+                            Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
                             // Gathering Location
                             float yaw = Setwarp.fileConfig.getInt("Warp." + args[1] + ".Yaw");
                             loc = new Location(Bukkit.getWorld(Setwarp.fileConfig.getString("Warp." + args[1] + ".World")),
@@ -150,8 +178,13 @@ public class Warp implements CommandExecutor {
                                     yaw, 0);
                             // Teleporting Target
                             target.teleport(loc);
-                            target.sendMessage("Successfully warped to " + args[1]);
-                            return true;
+                            if (subtitle){
+                                target.sendTitle("Teleported to " + ChatColor.GOLD + args[1], null);
+                                return true;
+                            }else{
+                                target.sendMessage("Successfully warped to " + args[1]);
+                                return true;
+                            }
                         }
                     } else {
                         sender.sendMessage(ChatColor.RED + "Cannot find player " + ChatColor.WHITE + args[0]);

@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 1.50.1
+# This config was generated for version 1.50.2
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -129,6 +129,8 @@ warp-item: DIAMOND_BLOCK
 # Change the Colour of Warp Names in the Warp GUI
 # Please use Colour Codes
 warp-name-colour: "&a"
+# Enable Subtitle Text on screen when teleporting to a Warp
+enable-warp-subtitle: false
 ############################################################
 # +------------------------------------------------------+ #
 # +              Server Essentials (Home)                + #
@@ -143,3 +145,5 @@ home-item: RED_BED
 # Change the Colour of Home Names in the Home GUI
 # Please use Colour Codes
 home-name-colour: "&a"
+# Enable Subtitle Text on screen when teleporting to Home
+enable-home-subtitle: false
