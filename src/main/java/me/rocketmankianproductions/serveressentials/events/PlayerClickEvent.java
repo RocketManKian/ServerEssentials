@@ -57,12 +57,11 @@ public class PlayerClickEvent implements Listener {
                                 Setwarp.fileConfig.getDouble("Warp." + warp + ".Z"),
                                 yaw, pitch);
                         player.teleport(loc);
-                        player.sendMessage("Successfully warped to " + warp);
                         Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
                         if (subtitle) {
-                            player.sendTitle("Teleported to " + ChatColor.GOLD + warp, null);
+                            player.sendTitle("Warped to " + ChatColor.GOLD + warp, null);
                         } else {
-                            player.sendMessage("Successfully teleported to " + warp);
+                            player.sendMessage("Successfully warped to " + warp);
                         }
                         player.closeInventory();
                     }
