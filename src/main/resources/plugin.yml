@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 1.50.3
+version: 1.50.4
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -210,6 +210,7 @@ commands:
   clearchat:
     description: Clear Chat Command
     usage: Incorrect format! Please use /clearchat
+    aliases: [cc]
   sendwarp:
     description: Send Warp Command
     usage: Incorrect format! Please use /clearchat
@@ -281,6 +282,7 @@ permissions:
       se.clearchat: true
       se.warps.all: true
       se.sendwarp: true
+      se.socialspy: true
   se.reload:
     description: "Gives access to the /se reload command."
     default: false
@@ -469,4 +471,7 @@ permissions:
     default: false
   se.sendwarp:
     description: "Send Warp Command"
+    default: false
+  se.socialspy:
+    description: "Social Spy Permission"
     default: false

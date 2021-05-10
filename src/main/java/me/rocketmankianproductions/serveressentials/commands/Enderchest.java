@@ -24,15 +24,22 @@ public class Enderchest implements CommandExecutor {
                     return true;
                 }else if (args.length == 1){
                     Player target = Bukkit.getPlayer(args[0]);
-                    player.openInventory(target.getEnderChest());
-                    player.playSound(((Player) sender).getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 3.0F, 2.0F);
-                    sender.sendMessage(ChatColor.GREEN + "Opened " + target.getName() + "(s) Enderchest");
-                    return true;
-                }else{
-                    return false;
+                    if (target == null){
+                        player.sendMessage("Target is offline");
+                        return true;
+                    }else if (target == sender){
+                        player.sendMessage(ChatColor.RED + "Do /ec to access your own Enderchest");
+                        return true;
+                    }else{
+                        player.openInventory(target.getEnderChest());
+                        player.playSound(((Player) sender).getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 3.0F, 2.0F);
+                        sender.sendMessage(ChatColor.GREEN + "Opened " + target.getName() + "(s) Enderchest");
+                        return true;
+                    }
                 }
             }else{
-                player.sendMessage(ChatColor.RED + "You are not a player");
+                sender.sendMessage(ChatColor.RED + "You are not a player");
+                return true;
             }
         }else {
             if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
