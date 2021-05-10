@@ -35,18 +35,34 @@ public class Reply implements CommandExecutor {
                 if (reply.get(player.getUniqueId()) == null) {
                     sender.sendMessage(ChatColor.RED + "There is no message to reply to");
                     return true;
-                }
-                // check if the player in hashmap is online
-                else if (Bukkit.getServer().getOnlinePlayers().contains(Bukkit.getPlayer(reply.get(player.getUniqueId())))) {
+                } else if (Bukkit.getServer().getOnlinePlayers().contains(Bukkit.getPlayer(reply.get(player.getUniqueId())))) {
                     Reply.reply.put(reply.get(player.getUniqueId()), player.getUniqueId()); // put again to hashmap
                     String name = Bukkit.getPlayer(reply.get(player.getUniqueId())).getName();
-                    Bukkit.getPlayer(reply.get(player.getUniqueId())).sendMessage(player.getName() + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
-                    sender.sendMessage(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + name + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
-                    return true;
-                }
-                // if not online
-                else {
+                    if (!player.hasPermission("se.socialspy")) {
+                        sender.sendMessage(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + name + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                        if (Bukkit.getPlayer(reply.get(player.getUniqueId())).hasPermission("se.socialspy")) {
+                            Bukkit.getPlayer(reply.get(player.getUniqueId())).sendMessage(player.getName() + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                            return true;
+                        } else {
+                            Bukkit.getPlayer(reply.get(player.getUniqueId())).sendMessage(player.getName() + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                            Bukkit.broadcast(ChatColor.RED + "[SocialSpy] " + ChatColor.WHITE + player.getName() + ChatColor.GOLD + " >> " + ChatColor.WHITE + name + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm), "se.socialspy");
+                            return true;
+                        }
+                    } else {
+                        if (Reply.reply.containsKey(player.getUniqueId())) {
+                            sender.sendMessage(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + player.getName() + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                            Bukkit.getPlayer(reply.get(player.getUniqueId())).sendMessage(player.getName() + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                            return true;
+                        } else {
+                            Bukkit.broadcast(ChatColor.RED + "[SocialSpy] " + ChatColor.WHITE + player.getName() + ChatColor.GOLD + " >> " + ChatColor.WHITE + name + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm), "se.socialspy");
+                            Bukkit.getPlayer(reply.get(player.getUniqueId())).sendMessage(player.getName() + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                            return true;
+                        }
+                    }
+                    // if not online
+                } else {
                     sender.sendMessage(ChatColor.RED + "That player is offline");
+                    return true;
                 }
             }
         } else {
@@ -56,9 +72,8 @@ public class Reply implements CommandExecutor {
             } else {
                 String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                return true;
             }
-            return true;
         }
-        return false;
     }
 }
