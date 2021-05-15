@@ -39,45 +39,36 @@ public class Reply implements CommandExecutor {
                     Reply.reply.put(reply.get(player.getUniqueId()), player.getUniqueId()); // put again to hashmap
                     String name = Bukkit.getPlayer(reply.get(player.getUniqueId())).getName();
                     if (!player.hasPermission("se.socialspy")) {
-                        sender.sendMessage(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + name + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
-                        if (Bukkit.getPlayer(reply.get(player.getUniqueId())).hasPermission("se.socialspy")) {
-                            Bukkit.getPlayer(reply.get(player.getUniqueId())).sendMessage(player.getName() + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
-                            return true;
-                        } else {
-                            Bukkit.getPlayer(reply.get(player.getUniqueId())).sendMessage(player.getName() + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
-                            for (Player admin: Bukkit.getOnlinePlayers()){
-                                try {
-                                    if (SocialSpy.socialspy.get(admin.getUniqueId()).booleanValue() == Boolean.TRUE){
-                                        admin.sendMessage(ChatColor.RED + "[SocialSpy] " + ChatColor.WHITE + player.getName() + ChatColor.GOLD + " >> " + ChatColor.WHITE + name + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
-                                        return true;
-                                    }
-                                }catch (NullPointerException n){
-                                    // Do Nothing
+                        // Loop to check through all Online Players and get all players who are included within the HashMap
+                        for (Player admin : Bukkit.getOnlinePlayers()) {
+                            if (SocialSpy.socialspy.contains(admin)) {
+                                if (admin.getUniqueId().equals(sender)){
+                                    sender.sendMessage(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + player.getName() + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                                    Bukkit.getPlayer(reply.get(player.getUniqueId())).sendMessage(player.getName() + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                                }else{
+                                    admin.sendMessage(ChatColor.RED + "[SocialSpy] " + ChatColor.WHITE + player.getName()  + ChatColor.GOLD + " >> " + ChatColor.WHITE + name + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
                                 }
                             }
-                            return true;
                         }
+                        sender.sendMessage(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + player.getName() + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                        Bukkit.getPlayer(reply.get(player.getUniqueId())).sendMessage(player.getName() + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                        return true;
                     } else {
-                        if (Reply.reply.containsKey(player.getUniqueId())) {
-                            sender.sendMessage(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + player.getName() + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
-                            Bukkit.getPlayer(reply.get(player.getUniqueId())).sendMessage(player.getName() + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
-                            return true;
-                        } else {
-                            for (Player admin: Bukkit.getOnlinePlayers()){
-                                try {
-                                    if (SocialSpy.socialspy.get(admin.getUniqueId()).booleanValue() == Boolean.TRUE){
-                                        admin.sendMessage(ChatColor.RED + "[SocialSpy] " + ChatColor.WHITE + player.getName() + ChatColor.GOLD + " >> " + ChatColor.WHITE + name + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
-                                        return true;
-                                    }
-                                }catch (NullPointerException n){
-                                    // Do Nothing
+                        // Loop to check through all Online Players and get all players who are included within the HashMap
+                        for (Player admin : Bukkit.getOnlinePlayers()) {
+                            if (SocialSpy.socialspy.contains(admin)) {
+                                if (admin.getUniqueId().equals(sender)){
+                                    sender.sendMessage(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + player.getName() + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                                    Bukkit.getPlayer(reply.get(player.getUniqueId())).sendMessage(player.getName() + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                                }else{
+                                    admin.sendMessage(ChatColor.RED + "[SocialSpy] " + ChatColor.WHITE + player.getName()  + ChatColor.GOLD + " >> " + ChatColor.WHITE + name + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
                                 }
                             }
-                            Bukkit.getPlayer(reply.get(player.getUniqueId())).sendMessage(player.getName() + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
-                            return true;
                         }
+                        sender.sendMessage(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + player.getName() + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                        Bukkit.getPlayer(reply.get(player.getUniqueId())).sendMessage(player.getName() + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                        return true;
                     }
-                    // if not online
                 } else {
                     sender.sendMessage(ChatColor.RED + "That player is offline");
                     return true;

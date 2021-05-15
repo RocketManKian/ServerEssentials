@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 1.50.5
+version: 1.50.6
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -112,6 +112,7 @@ commands:
   msg:
     description: Message Command
     aliases: [message, w, whisper]
+    usage: Incorrect Format! Please use /msg <player> <message>
   msgtoggle:
     description: Message Toggle Command
   reply:
