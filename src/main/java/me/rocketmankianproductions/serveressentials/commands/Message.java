@@ -1,10 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -14,6 +10,8 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.UUID;
+
 public class Message implements CommandExecutor {
 
 
@@ -21,12 +19,11 @@ public class Message implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player){
             Player messager = (Player) sender;
+            // Check if the Sender has the se.message permission
             if (messager.hasPermission("se.message")) {
                 String sm = "";
-                if (args.length <= 1) {
-                    sender.sendMessage(ChatColor.RED + "Usage: /msg <player> <message>");
-                    return true;
-                } else {
+                if (args.length >= 2) {
+                    //recipient == target
                     Player recipient = Bukkit.getPlayer(args[0]);
                     if (recipient == sender) {
                         sender.sendMessage(ChatColor.RED + "You cannot message yourself.");
@@ -35,54 +32,51 @@ public class Message implements CommandExecutor {
                         sender.sendMessage(ChatColor.RED + "Player does not exist");
                         return true;
                     }
-                    // check if recipient has messaging enabled
+                    // Check if recipient has messaging enabled
                     else if (!MsgToggle.fileConfig.getBoolean("msgtoggle." + recipient.getName(), false)) {
-                        Reply.reply.put(recipient.getUniqueId(), messager.getUniqueId()); // set players to hashmap
+                        // set players to hashmap
+                        Reply.reply.put(recipient.getUniqueId(), messager.getUniqueId());
                         String targetname = recipient.getName();
                         String sendername = sender.getName();
                         for (int i = 1; i < args.length; i++) {
                             String arg = (args[i] + " ");
                             sm = (sm + arg);
                         }
-                        if (!sender.hasPermission("se.socialspy")){
+                        // Check if the Sender doesn't have the se.socialspy permission
+                        if (!sender.hasPermission("se.socialspy")) {
+                            // Loop to check through all Online Players and get all players who are included within the HashMap
+                            for (Player admin : Bukkit.getOnlinePlayers()) {
+                                if (SocialSpy.socialspy.contains(admin)) {
+                                    if (admin.getUniqueId().equals(sender)){
+                                        sender.sendMessage(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + targetname + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                                        recipient.sendMessage(sendername + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                                    }else{
+                                        admin.sendMessage(ChatColor.RED + "[SocialSpy] " + ChatColor.WHITE + sendername + ChatColor.GOLD + " >> " + ChatColor.WHITE + targetname + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                                    }
+                                }
+                            }
                             sender.sendMessage(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + targetname + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
-                            if (recipient.hasPermission("se.socialspy")){
-                                recipient.sendMessage(sendername + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
-                            }else{
-                                recipient.sendMessage(sendername + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
-                                for (Player admin: Bukkit.getOnlinePlayers()){
-                                    try {
-                                        if (SocialSpy.socialspy.get(admin.getUniqueId()).booleanValue() == Boolean.TRUE){
-                                            admin.sendMessage(ChatColor.RED + "[SocialSpy] " + ChatColor.WHITE + sendername + ChatColor.GOLD + " >> " + ChatColor.WHITE + targetname + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
-                                            return true;
-                                        }
-                                    }catch (NullPointerException n){
-                                        // Do Nothing
-                                    }
-                                }
-                            }
+                            recipient.sendMessage(sendername + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
                             return true;
-                        }else {
-                            if (Reply.reply.containsKey(recipient.getUniqueId())){
-                                sender.sendMessage(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + targetname + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
-                                recipient.sendMessage(sendername + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
-                            }else{
-                                for (Player admin: Bukkit.getOnlinePlayers()){
-                                    try {
-                                        if (SocialSpy.socialspy.get(admin.getUniqueId()).booleanValue() == Boolean.TRUE){
-                                            admin.sendMessage(ChatColor.RED + "[SocialSpy] " + ChatColor.WHITE + sendername + ChatColor.GOLD + " >> " + ChatColor.WHITE + targetname + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
-                                            return true;
-                                        }
-                                    }catch (NullPointerException n){
-                                        // Do Nothing
+                        } else {
+                            // Loop to check through all Online Players and get all players who are included within the HashMap
+                            for (Player admin : Bukkit.getOnlinePlayers()) {
+                                if (SocialSpy.socialspy.contains(admin)) {
+                                    if (admin.getUniqueId().equals(sender)){
+                                        sender.sendMessage(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + targetname + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                                        recipient.sendMessage(sendername + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                                    }else{
+                                        admin.sendMessage(ChatColor.RED + "[SocialSpy] " + ChatColor.WHITE + sendername + ChatColor.GOLD + " >> " + ChatColor.WHITE + targetname + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
                                     }
                                 }
-                                recipient.sendMessage(sendername + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
                             }
+                            sender.sendMessage(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + targetname + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                            recipient.sendMessage(sendername + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                            return true;
                         }
-                        return true;
                     } else {
                         messager.sendMessage(ChatColor.RED + "That person has messaging disabled!");
+                        return true;
                     }
                 }
             } else {
