@@ -43,14 +43,14 @@ public class Reply implements CommandExecutor {
                         for (Player admin : Bukkit.getOnlinePlayers()) {
                             if (SocialSpy.socialspy.contains(admin)) {
                                 if (admin.getUniqueId().equals(sender)){
-                                    sender.sendMessage(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + player.getName() + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                                    sender.sendMessage(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + name + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
                                     Bukkit.getPlayer(reply.get(player.getUniqueId())).sendMessage(player.getName() + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
                                 }else{
                                     admin.sendMessage(ChatColor.RED + "[SocialSpy] " + ChatColor.WHITE + player.getName()  + ChatColor.GOLD + " >> " + ChatColor.WHITE + name + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
                                 }
                             }
                         }
-                        sender.sendMessage(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + player.getName() + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                        sender.sendMessage(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + name + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
                         Bukkit.getPlayer(reply.get(player.getUniqueId())).sendMessage(player.getName() + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
                         return true;
                     } else {
@@ -58,14 +58,14 @@ public class Reply implements CommandExecutor {
                         for (Player admin : Bukkit.getOnlinePlayers()) {
                             if (SocialSpy.socialspy.contains(admin)) {
                                 if (admin.getUniqueId().equals(sender)){
-                                    sender.sendMessage(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + player.getName() + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                                    sender.sendMessage(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + name + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
                                     Bukkit.getPlayer(reply.get(player.getUniqueId())).sendMessage(player.getName() + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
                                 }else{
                                     admin.sendMessage(ChatColor.RED + "[SocialSpy] " + ChatColor.WHITE + player.getName()  + ChatColor.GOLD + " >> " + ChatColor.WHITE + name + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
                                 }
                             }
                         }
-                        sender.sendMessage(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + player.getName() + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                        sender.sendMessage(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + name + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
                         Bukkit.getPlayer(reply.get(player.getUniqueId())).sendMessage(player.getName() + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
                         return true;
                     }
