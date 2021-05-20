@@ -3,6 +3,7 @@ package me.rocketmankianproductions.serveressentials.tasks;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.commands.Message;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -28,17 +29,20 @@ public class Broadcast extends BukkitRunnable {
     @Override
     public void run() {
         if (config.getBoolean("broadcast")) {
-            String prefix = plugin.getConfig().getString("prefix");
-            List<String> messages = (plugin.getConfig().getStringList("broadcast-messages"));
-            if (ServerEssentials.isConnectedToPlaceholderAPI) {
-                @NotNull List<String> placeholder = PlaceholderAPI.setPlaceholders(player, messages);
-                getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', prefix + " " + ChatColor.WHITE + placeholder.get(counter)));
-            } else {
-                getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', prefix + " " + ChatColor.WHITE + messages.get(counter)));
-            }
-            counter = counter + 1;
-            if (counter == messages.size()) {
-                counter = 0;
+            Integer minplayers = ServerEssentials.getPlugin().getConfig().getInt("broadcast-min-players");
+            if (Bukkit.getOnlinePlayers().size() == minplayers){
+                String prefix = plugin.getConfig().getString("prefix");
+                List<String> messages = (plugin.getConfig().getStringList("broadcast-messages"));
+                if (ServerEssentials.isConnectedToPlaceholderAPI) {
+                    @NotNull List<String> placeholder = PlaceholderAPI.setPlaceholders(player, messages);
+                    getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', prefix + " " + ChatColor.WHITE + placeholder.get(counter)));
+                } else {
+                    getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', prefix + " " + ChatColor.WHITE + messages.get(counter)));
+                }
+                counter = counter + 1;
+                if (counter == messages.size()) {
+                    counter = 0;
+                }
             }
         }
     }
