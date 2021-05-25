@@ -1,9 +1,6 @@
 package me.rocketmankianproductions.serveressentials.events;
 
 import github.scarsz.discordsrv.DiscordSRV;
-import github.scarsz.discordsrv.api.ListenerPriority;
-import github.scarsz.discordsrv.api.Subscribe;
-import github.scarsz.discordsrv.api.events.DiscordGuildMessagePreProcessEvent;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.commands.StaffChat;
@@ -15,12 +12,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class PlayerChatEvent implements Listener {
-
-    private final ServerEssentials plugin;
-
-    public PlayerChatEvent(ServerEssentials plugin) {
-        this.plugin = plugin;
-    }
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent c) {
@@ -39,22 +30,6 @@ public class PlayerChatEvent implements Listener {
             } else {
                 Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', "&d(&5&lStaff&d) ") + ChatColor.LIGHT_PURPLE + player.getDisplayName() + ": " + ChatColor.GRAY + message, "se.staffchat");
                 c.setCancelled(true);
-            }
-        }
-    }
-
-    @Subscribe(priority = ListenerPriority.MONITOR)
-    public void discordMessageReceived(DiscordGuildMessagePreProcessEvent event) {
-        TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName("staffchat");
-        if (textChannel == null || ServerEssentials.getPlugin().getConfig().getBoolean("enable-discord-integration") == false){
-            if (event.getMessage().getChannel().equals(textChannel)){
-                textChannel.sendMessage("Discord Integration is disabled, or the channel is invalid!").queue();
-            }
-        }else{
-            if (event.getMessage().getChannel().equals(textChannel)) {
-                String message = event.getMessage().getContentDisplay();
-                String name = event.getMessage().getAuthor().getName();
-                Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', "&b&lDiscord" + " &f» " + "&d(&5&lStaff&d) " + ChatColor.LIGHT_PURPLE + name + "&f: " + ChatColor.GRAY + message), "se.staffchat");
             }
         }
     }
