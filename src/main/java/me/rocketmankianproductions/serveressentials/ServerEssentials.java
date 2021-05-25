@@ -69,7 +69,6 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "Events have been enabled.");
         // End
         LoggerMessage.log(LoggerMessage.LogLevel.OUTLINE, "*********************");
-        DiscordSRV.api.subscribe(discordsrvListener);
     }
 
 
@@ -260,6 +259,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         if (Bukkit.getPluginManager().getPlugin("DiscordSRV") != null) {
             //Bleh
             LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "DiscordSRV Integration has been enabled.");
+            DiscordSRV.api.subscribe(discordsrvListener);
             isConnectedToDiscordSRV = true;
         } else {
             LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "DiscordSRV is not installed!");
