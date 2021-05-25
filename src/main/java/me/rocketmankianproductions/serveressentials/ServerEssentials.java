@@ -30,7 +30,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
 
     public ArrayList<Player> invisible_list = new ArrayList<>();
 
-    private PlayerChatEvent discordsrvListener = new PlayerChatEvent(this);
+    private DiscordMessageReceived discordsrvListener = new DiscordMessageReceived(this);
 
     public static boolean hasUpdate() {
         return hasUpdate;
@@ -237,7 +237,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new PlayerLeaveListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerRespawnListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerClickEvent(), this);
-        getServer().getPluginManager().registerEvents(new PlayerChatEvent(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerChatEvent(), this);
         // God Command
         getServer().getPluginManager().registerEvents(new God(), this);
     }
@@ -259,6 +259,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         if (Bukkit.getPluginManager().getPlugin("DiscordSRV") != null) {
             //Bleh
             LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "DiscordSRV Integration has been enabled.");
+            getServer().getPluginManager().registerEvents(new DiscordMessageReceived(this), this);
             DiscordSRV.api.subscribe(discordsrvListener);
             isConnectedToDiscordSRV = true;
         } else {
