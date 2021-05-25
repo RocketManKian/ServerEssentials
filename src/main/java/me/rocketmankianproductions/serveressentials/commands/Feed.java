@@ -46,7 +46,7 @@ public class Feed implements CommandExecutor {
                             return true;
                         }
                     }
-                } else if (args.length > 1) {
+                } else {
                     player.sendMessage(ChatColor.RED + "Incorrect format! Use /feed (name)");
                     return true;
                 }

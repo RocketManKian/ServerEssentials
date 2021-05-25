@@ -5,22 +5,12 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 1.50.8
+# This config was generated for version 1.50.9
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
 #     - All words that change text in game include quotation marks.
 #     - Don't change any words present before the ':'.
-
-############################################################
-# +------------------------------------------------------+ #
-# +              Server Essentials (Debug)              + #
-# +------------------------------------------------------+ #
-############################################################
-# Only enable this option if you want to see extra debug messages.
-#
-# Default: false
-debug: false
 ############################################################
 # +------------------------------------------------------+ #
 # +              Server Essentials (Global)              + #
@@ -30,13 +20,9 @@ debug: false
 no-permission-message: ""
 # Changes the prefix that appears at the start of every message and command.
 prefix: "[Server Essentials]"
-# Enable or Disable the Website command
-enable-website-command: true
 # Changes the '/website' command text
 # Permission is 'se.website'.
 website-command: "Website Command"
-# Enable or Disable the Discord command
-enable-discord-command: true
 # Changes the '/discord' command text
 # Permission is 'se.discord'.
 discord-command: "Discord Command"
@@ -52,10 +38,6 @@ first-time-join: "&aWelcome to the Server!"
 join-symbol: "&6[&a+&6]"
 # Change the Leave Symbol that is displayed before the player's name.
 leave-symbol: "&6[&c-&6]"
-# Enable or Disable the Rules command
-enable-rules-command: true
-# Enable or Disable the Playtime command
-enable-playtime-command: true
 # Enable to send players to the Spawn upon Joining
 spawn-on-join: false
 # Enable to send players to the Spawn upon Dying
@@ -106,13 +88,13 @@ motd-message:
 # +              Server Essentials (Discord)             + #
 # +------------------------------------------------------+ #
 ############################################################
-# Enable Discord Integration for the Report Command
+# Enable Discord Integration for the Report and Staff Chat Commands
 enable-discord-integration: false
 # Change the name of the Discord Channel where report notifications are sent.
 # This name will have to be entered into the DiscordSRV config.yml File.
 # ["report-logs": "000000000000000000"] as an example.
 channel-name: report-logs
-# Adds a message that is pasted before the Embed Message is sent
+# Adds a message that is pasted before the Report Command Embed Message is sent
 # Useful for pinging a group with all Staff Members inside when a Report is sent
 # Please make sure to paste the Group ID into the quotations for this to work correctly
 # To disable this leave the contents within the "" blank

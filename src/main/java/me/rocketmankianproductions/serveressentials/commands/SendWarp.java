@@ -17,9 +17,9 @@ public class SendWarp implements CommandExecutor {
         Location loc;
         Player player = (Player) sender;
 
-        if (sender instanceof Player){
-            if (player.hasPermission("se.sendwarp")){
-                if (args.length == 2){
+        if (sender instanceof Player) {
+            if (player.hasPermission("se.sendwarp")) {
+                if (args.length == 2) {
                     if (Setwarp.file.exists() && Setwarp.fileConfig.getString("Warp." + args[1] + ".World") != null) {
                         Player target = Bukkit.getServer().getPlayer(args[0]);
                         if (target != null) {
@@ -58,18 +58,16 @@ public class SendWarp implements CommandExecutor {
                         return true;
                     }
                 }
-            }else{
-                if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
+            } else {
+                if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
                     player.sendMessage(ChatColor.RED + "You do not have the required permission (se.sendhome) to run this command.");
                     return true;
-                }else{
+                } else {
                     String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
                 }
                 return true;
             }
-        }else{
-            return false;
         }
         return false;
     }

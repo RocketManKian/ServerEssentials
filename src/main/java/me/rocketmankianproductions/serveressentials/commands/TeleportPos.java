@@ -51,8 +51,8 @@ public class TeleportPos implements CommandExecutor {
                 }else{
                     String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                    return true;
                 }
-            return true;
         } else if (sender instanceof ConsoleCommandSender){
             if (args.length == 4){
                 Player target = Bukkit.getPlayerExact(args[0]);

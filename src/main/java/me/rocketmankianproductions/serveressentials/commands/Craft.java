@@ -16,16 +16,14 @@ public class Craft implements CommandExecutor {
         Player player = (Player) sender;
 
         if (player.hasPermission("se.craft")){
-            if (args.length == 0){
-                if (sender instanceof Player){
+            if (args.length == 0) {
+                if (sender instanceof Player) {
                     player.playSound(((Player) sender).getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 3.0F, 2.0F);
-                    player.openWorkbench((Location)null, true);
+                    player.openWorkbench((Location) null, true);
                     return true;
-                }else{
+                } else {
                     player.sendMessage(ChatColor.RED + "You are not a player");
                 }
-            }else{
-                return false;
             }
         }else{
             if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
@@ -34,8 +32,8 @@ public class Craft implements CommandExecutor {
             }else{
                 String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                return true;
             }
-            return true;
         }
         return false;
     }

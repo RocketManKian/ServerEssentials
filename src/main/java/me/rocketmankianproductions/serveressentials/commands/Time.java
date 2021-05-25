@@ -44,8 +44,6 @@ public class Time implements CommandExecutor {
                         }
                         player.sendMessage(ChatColor.GREEN + "Time set to Midnight");
                         return true;
-                    }else{
-                        return false;
                     }
                 }else{
                     if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){

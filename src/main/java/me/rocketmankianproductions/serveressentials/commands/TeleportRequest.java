@@ -60,7 +60,7 @@ public class TeleportRequest implements CommandExecutor {
                             message2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpdeny"));
                             target.spigot().sendMessage(message2);
                             target.sendMessage(ChatColor.GOLD + "This request will timeout in " + ChatColor.RED + delay3 + " seconds");
-                            if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null){
+                            if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
                                 Bukkit.getScheduler().cancelTask(teleportcancel.get(target.getUniqueId()));
                             }
                             teleportcancel.put(target.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
@@ -84,8 +84,6 @@ public class TeleportRequest implements CommandExecutor {
                     player.sendMessage(ChatColor.RED + "§cThat player is offline.");
                     return true;
                 }
-            } else {
-                return false;
             }
         }
         if (command.getName().equalsIgnoreCase("tpahere")) {
@@ -96,8 +94,8 @@ public class TeleportRequest implements CommandExecutor {
                 } else {
                     String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                    return true;
                 }
-                return true;
             }
             if (args.length == 1) {
                 Player target = Bukkit.getPlayer(args[0]);
@@ -117,7 +115,7 @@ public class TeleportRequest implements CommandExecutor {
                             message2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpdeny"));
                             target.spigot().sendMessage(message2);
                             target.sendMessage(ChatColor.GOLD + "This request will timeout in " + ChatColor.RED + delay3 + " seconds");
-                            if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null){
+                            if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
                                 Bukkit.getScheduler().cancelTask(teleportcancel.get(target.getUniqueId()));
                             }
                             teleportcancel.put(target.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
@@ -141,8 +139,6 @@ public class TeleportRequest implements CommandExecutor {
                     player.sendMessage(ChatColor.RED + "§cThat player is offline.");
                     return true;
                 }
-            } else {
-                return false;
             }
         }
         if (command.getName().equalsIgnoreCase("tpacancel")) {

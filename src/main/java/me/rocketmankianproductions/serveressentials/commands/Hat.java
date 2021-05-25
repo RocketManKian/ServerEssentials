@@ -36,12 +36,9 @@ public class Hat implements CommandExecutor {
                     }
                     return true;
                 }
-            } else {
-                return false;
             }
-        } else {
-            return false;
         }
+        return false;
     }
     public void hatCommand(Player player) {
         ItemStack activeitem = player.getItemInHand();

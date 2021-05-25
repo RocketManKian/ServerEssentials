@@ -17,11 +17,7 @@ public class Discord implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
-        // If the enable-discord-command boolean is set to false it will display a message.
-        if (!ServerEssentials.getPlugin().getConfig().getBoolean("enable-discord-command"))
-            player.sendMessage(ChatColor.RED + "Command is disabled. Please contact an Administrator.");
-        // Otherwise if the player has the se.discord permission it will proceed with command
-        else if (player.hasPermission("se.discord")) {
+        if (player.hasPermission("se.discord")) {
             String prefix = ServerEssentials.getPlugin().getConfig().getString("prefix");
             String discord = ServerEssentials.getPlugin().getConfig().getString("discord-command");
             if (ServerEssentials.isConnectedToPlaceholderAPI) {
@@ -38,8 +34,8 @@ public class Discord implements CommandExecutor {
             }else{
                 String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                return true;
             }
-            return true;
         }
         return false;
     }

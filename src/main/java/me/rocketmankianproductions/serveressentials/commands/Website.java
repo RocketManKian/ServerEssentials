@@ -17,9 +17,7 @@ public class Website implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
-        if (!ServerEssentials.getPlugin().getConfig().getBoolean("enable-website-command"))
-            player.sendMessage(ChatColor.RED + "Command is disabled. Please contact an Administrator.");
-        else if (player.hasPermission("se.website")) {
+        if (player.hasPermission("se.website")) {
             String prefix = ServerEssentials.getPlugin().getConfig().getString("prefix");
             String website = ServerEssentials.getPlugin().getConfig().getString("website-command");
             if (ServerEssentials.isConnectedToPlaceholderAPI) {
@@ -35,8 +33,8 @@ public class Website implements CommandExecutor {
             }else{
                 String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                return true;
             }
-            return true;
         }
         return false;
     }

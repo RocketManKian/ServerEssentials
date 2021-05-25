@@ -31,8 +31,6 @@ public class Rules implements CommandExecutor {
 
     //setup function
     public Rules() {
-        //ServerEssentials.plugin.getLogger().info("Setting up Rules file...");
-
         //setup rules.yml
         file = new File(ServerEssentials.plugin.getDataFolder(), filepath);
         if (!file.exists()) {
@@ -58,39 +56,34 @@ public class Rules implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
-        //stop if entered from console
-        if (sender instanceof ConsoleCommandSender) {
-            return false;
-        }
-
-        //check if file exists
-        if (fileConfig == null) {
-            ServerEssentials.plugin.getLogger().warning(filepath + " not loaded, abort!");
-            return false;
-        }
-
-        //print rules to the player
-        Player player = (Player) sender;
-        if (!ServerEssentials.getPlugin().getConfig().getBoolean("enable-rules-command"))
-            player.sendMessage(ChatColor.RED + "Command is disabled. Please contact an Administrator.");
-        else if (player.hasPermission("se.rules")) {
-            player.sendMessage(ChatColor.GREEN + "Server Rules:");
-            int index = 1;
-            for (String rule : fileConfig.getStringList(configpath)){
-                player.sendMessage(index + ". " + rule);
-                index++;
+        if (sender instanceof Player) {
+            //check if file exists
+            if (fileConfig == null) {
+                ServerEssentials.plugin.getLogger().warning(filepath + " not loaded, abort!");
+                return false;
             }
-        }else{
-            if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
-                player.sendMessage(ChatColor.RED + "You do not have the required permission (se.rules) to run this command.");
-                return true;
-            }else{
-                String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+
+            //print rules to the player
+            Player player = (Player) sender;
+            if (player.hasPermission("se.rules")) {
+                player.sendMessage(ChatColor.GREEN + "Server Rules:");
+                int index = 1;
+                for (String rule : fileConfig.getStringList(configpath)) {
+                    player.sendMessage(index + ". " + rule);
+                    index++;
+                }
+            } else {
+                if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
+                    player.sendMessage(ChatColor.RED + "You do not have the required permission (se.rules) to run this command.");
+                    return true;
+                } else {
+                    String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                    return true;
+                }
             }
-            return true;
         }
-        return true;
+        return false;
     }
 
     public static void reload() {

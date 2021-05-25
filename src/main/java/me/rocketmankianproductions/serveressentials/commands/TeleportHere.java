@@ -22,9 +22,9 @@ public class TeleportHere implements CommandExecutor {
                 } else if (target != sender) {
                     try {
                         String target2 = target.getName();
-                        if (sender.hasPermission("se.silenttp")){
+                        if (sender.hasPermission("se.silenttp")) {
                             sender.sendMessage(ChatColor.GREEN + target2 + " has been teleported to you");
-                        }else if (!sender.hasPermission("se.silenttp")){
+                        } else if (!sender.hasPermission("se.silenttp")) {
                             target.sendMessage(ChatColor.GREEN + "You have been teleported to " + sender2);
                             sender.sendMessage(ChatColor.GREEN + target2 + " has been teleported to you");
                         }
@@ -34,8 +34,6 @@ public class TeleportHere implements CommandExecutor {
                     }
                     return true;
                 }
-            }else{
-                return false;
             }
         }else{
             // If it doesn't succeed with either then it'll send the player a required permission message
@@ -45,8 +43,8 @@ public class TeleportHere implements CommandExecutor {
             }else{
                 String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                return true;
             }
-            return true;
         }
         return false;
     }

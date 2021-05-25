@@ -56,8 +56,8 @@ public class Warp implements CommandExecutor {
                             } else {
                                 String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
                                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                                return true;
                             }
-                            return true;
                         }
                     } else {
                         player.sendMessage("Warp Doesn't Exist!");
@@ -158,8 +158,8 @@ public class Warp implements CommandExecutor {
                 } else {
                     String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                    return true;
                 }
-                return true;
             }
         }else if (sender instanceof ConsoleCommandSender || sender instanceof BlockCommandSender) {
             if (args.length == 2) {

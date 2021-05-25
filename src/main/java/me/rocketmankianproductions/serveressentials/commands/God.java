@@ -60,8 +60,8 @@ public class God implements CommandExecutor, Listener {
             } else {
                 String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                return true;
             }
-            return true;
         }
         return false;
     }

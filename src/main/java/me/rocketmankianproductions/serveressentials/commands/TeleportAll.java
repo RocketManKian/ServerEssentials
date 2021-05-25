@@ -26,9 +26,6 @@ public class TeleportAll implements CommandExecutor {
                     }
                     player.sendMessage(ChatColor.GREEN + "Teleported " + (numOfPlayer - 1) + " player(s) to you.");
                 }
-                else if (args.length >= 1){
-                    return false;
-                }
             } else {
                 if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
                     player.sendMessage(ChatColor.RED + "You do not have the required permission (se.tpall) to run this command.");
@@ -36,8 +33,8 @@ public class TeleportAll implements CommandExecutor {
                 }else{
                     String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                    return true;
                 }
-                return true;
             }
         }
         return true;

@@ -1,5 +1,6 @@
 package me.rocketmankianproductions.serveressentials;
 
+import github.scarsz.discordsrv.DiscordSRV;
 import me.rocketmankianproductions.serveressentials.Metrics.MetricsLite;
 import me.rocketmankianproductions.serveressentials.UpdateChecker.Update;
 import me.rocketmankianproductions.serveressentials.commands.*;
@@ -28,6 +29,8 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
     public static boolean isConnectedToDiscordSRV = false;
 
     public ArrayList<Player> invisible_list = new ArrayList<>();
+
+    private PlayerChatEvent discordsrvListener = new PlayerChatEvent(this);
 
     public static boolean hasUpdate() {
         return hasUpdate;
@@ -66,6 +69,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "Events have been enabled.");
         // End
         LoggerMessage.log(LoggerMessage.LogLevel.OUTLINE, "*********************");
+        DiscordSRV.api.subscribe(discordsrvListener);
     }
 
 
@@ -214,6 +218,8 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("sendwarp").setExecutor(new SendWarp());
         // Social Spy Command
         getCommand("socialspy").setExecutor(new SocialSpy());
+        // Staff Chat Command
+        getCommand("staffchat").setExecutor(new StaffChat());
     }
 
     @Override
@@ -232,6 +238,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new PlayerLeaveListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerRespawnListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerClickEvent(), this);
+        getServer().getPluginManager().registerEvents(new PlayerChatEvent(this), this);
         // God Command
         getServer().getPluginManager().registerEvents(new God(), this);
     }

@@ -6,13 +6,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 public class Invsee implements CommandExecutor, Listener {
@@ -42,11 +38,11 @@ public class Invsee implements CommandExecutor, Listener {
                     } else {
                         String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                        return true;
                     }
-                    return true;
                 }
             } else if (args.length == 2) {
-                if (player.hasPermission("se.invsee")) {
+                if (player.hasPermission("se.invsee.others")) {
                     Inventory myInventory = Bukkit.createInventory(player, 9, "Equipped Armor");
                     Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
                     if (targetPlayer == sender) {
@@ -70,13 +66,13 @@ public class Invsee implements CommandExecutor, Listener {
                     }
                 } else {
                     if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
-                        player.sendMessage(ChatColor.RED + "You do not have the required permission (se.invsee) to run this command.");
+                        player.sendMessage(ChatColor.RED + "You do not have the required permission (se.invsee.others) to run this command.");
                         return true;
                     } else {
                         String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                        return true;
                     }
-                    return true;
                 }
             }
         }
