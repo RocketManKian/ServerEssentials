@@ -23,10 +23,9 @@ public class PrimaryHome implements CommandExecutor {
 
         if (sender instanceof Player){
             if (player.hasPermission("se.sethome")){
-                if (args.length == 1){
-                    String world = player.getWorld().getName();
+                if (args.length == 1) {
                     String name = player.getUniqueId().toString();
-                    if (Sethome.fileConfig.getString("Home." + name + "." + args[0]) != null){
+                    if (Sethome.fileConfig.getString("Home." + name + "." + args[0]) != null) {
                         home.remove(player.getUniqueId());
                         home.put(player.getUniqueId(), args[0]);
                         System.out.println(home);
@@ -38,11 +37,7 @@ public class PrimaryHome implements CommandExecutor {
                         Sethome.reload();
                         player.sendMessage(ChatColor.GOLD + args[0] + ChatColor.GREEN + " set as Primary Home");
                         return true;
-                    }else{
-                        return false;
                     }
-                }else{
-                    return false;
                 }
             }else{
                 if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
@@ -51,8 +46,8 @@ public class PrimaryHome implements CommandExecutor {
                 } else {
                     String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                    return true;
                 }
-                return true;
             }
         }else{
             sender.sendMessage(ChatColor.RED + "You are not a player");

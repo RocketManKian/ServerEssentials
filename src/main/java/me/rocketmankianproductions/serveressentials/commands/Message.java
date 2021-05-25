@@ -50,8 +50,10 @@ public class Message implements CommandExecutor {
                                     if (admin.getUniqueId().equals(sender)){
                                         sender.sendMessage(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + targetname + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
                                         recipient.sendMessage(sendername + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                                        return true;
                                     }else{
                                         admin.sendMessage(ChatColor.RED + "[SocialSpy] " + ChatColor.WHITE + sendername + ChatColor.GOLD + " >> " + ChatColor.WHITE + targetname + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                                        return true;
                                     }
                                 }
                             }
@@ -65,8 +67,10 @@ public class Message implements CommandExecutor {
                                     if (admin.getUniqueId().equals(sender)){
                                         sender.sendMessage(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + targetname + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
                                         recipient.sendMessage(sendername + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                                        return true;
                                     }else{
                                         admin.sendMessage(ChatColor.RED + "[SocialSpy] " + ChatColor.WHITE + sendername + ChatColor.GOLD + " >> " + ChatColor.WHITE + targetname + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                                        return true;
                                     }
                                 }
                             }
@@ -86,8 +90,8 @@ public class Message implements CommandExecutor {
                 }else{
                     String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
                     messager.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                    return true;
                 }
-                return true;
             }
         }else if (sender instanceof ConsoleCommandSender){
             String sm = "";

@@ -95,8 +95,8 @@ public class Sethome implements CommandExecutor {
                     } else {
                         String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                        return true;
                     }
-                    return true;
                 }
             } else {
                 player.sendMessage(ChatColor.RED + "Use \"/sethome (name)\" to set your home.");

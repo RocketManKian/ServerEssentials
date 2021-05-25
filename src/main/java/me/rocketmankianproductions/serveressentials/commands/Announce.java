@@ -45,8 +45,8 @@ public class Announce implements CommandExecutor {
                 } else {
                     String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                    return true;
                 }
-                return true;
             }
         } else if (sender instanceof ConsoleCommandSender) {
             Player target = Bukkit.getPlayer(args[0]);
@@ -59,13 +59,14 @@ public class Announce implements CommandExecutor {
                     }
                     @NotNull String placeholder = PlaceholderAPI.setPlaceholders(target, announce);
                     Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', prefix + ChatColor.WHITE + " " + placeholder));
+                    return true;
                 } else {
                     for (String message : args) {
                         announce = (announce + message + " ");
                     }
                     Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', prefix + ChatColor.WHITE + " " + announce));
+                    return true;
                 }
-                return true;
             } else {
                 System.out.println("Incorrect Format! Usage: /announce <Message>");
                 return true;

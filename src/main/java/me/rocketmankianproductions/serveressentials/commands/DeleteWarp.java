@@ -18,11 +18,10 @@ public class DeleteWarp implements CommandExecutor {
         // Checking if the player has the se.deletewarp permission
         if (player.hasPermission("se.deletewarp")) {
             if (args.length == 1) {
-                String name = player.getUniqueId().toString();
                 // Averaging out the whether the file exists or not by checking for value in one of the default saving points
                 if (Setwarp.file.exists() && Setwarp.fileConfig.getString("Warp." + args[0]) != null) {
                     // If the file exists then it will get deleted upon execution of command
-                    if (Setwarp.fileConfig.getStringList("Warp.") != null){
+                    if (Setwarp.fileConfig.getStringList("Warp.") != null) {
                         Setwarp.fileConfig.set("Warp." + args[0], null);
                         try {
                             Setwarp.fileConfig.save(Setwarp.file);
@@ -31,7 +30,7 @@ public class DeleteWarp implements CommandExecutor {
                         }
                         player.sendMessage(ChatColor.GREEN + "Warp " + ChatColor.GOLD + args[0] + ChatColor.GREEN + " has been successfully deleted");
                         return true;
-                    }else {
+                    } else {
                         Setwarp.fileConfig.set("Warp", null);
                         try {
                             Setwarp.fileConfig.save(Setwarp.file);
@@ -45,19 +44,17 @@ public class DeleteWarp implements CommandExecutor {
                     sender.sendMessage(ChatColor.RED + "Warp Doesn't Exist");
                     return true;
                 }
-            }else if (args.length == 0){
-                return false;
             }
         } else {
-            if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
+            if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
                 player.sendMessage(ChatColor.RED + "You do not have the required permission (se.deletewarp) to run this command.");
                 return true;
-            }else{
+            } else {
                 String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
             }
             return true;
         }
-        return true;
+        return false;
     }
 }

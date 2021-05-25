@@ -39,44 +39,41 @@ public class Repair implements CommandExecutor {
                     player.sendMessage(ChatColor.RED + "You are not a player");
                     return true;
                 }
-            } else if (args.length == 1){
-                if (args[0].equalsIgnoreCase("all")){
-                    for (int i = 0; i <= 36; i++){
+            } else if (args.length == 1) {
+                if (args[0].equalsIgnoreCase("all")) {
+                    for (int i = 0; i <= 36; i++) {
                         try {
                             player.getInventory().getItem(i).setDurability((short) 0);
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             //bleh
                         }
                     }
                     player.getInventory().getItemInOffHand().setDurability((short) 0);
-                    if (player.getInventory().getBoots() != null){
+                    if (player.getInventory().getBoots() != null) {
                         player.getInventory().getBoots().setDurability((short) 0);
-                    }else if (player.getInventory().getLeggings() != null){
+                    } else if (player.getInventory().getLeggings() != null) {
                         player.getInventory().getLeggings().setDurability((short) 0);
-                    }else if (player.getInventory().getChestplate() != null){
+                    } else if (player.getInventory().getChestplate() != null) {
                         player.getInventory().getChestplate().setDurability((short) 0);
-                    }else if (player.getInventory().getHelmet() != null){
+                    } else if (player.getInventory().getHelmet() != null) {
                         player.getInventory().getHelmet().setDurability((short) 0);
-                    }else{
+                    } else {
                         // Bleh
                     }
                     player.sendMessage(ChatColor.GREEN + "Repaired all item(s)!");
                     return true;
-                }else{
-                    return false;
                 }
-            }else{
-                return false;
             }
         } else {
-            if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
+            if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
                 player.sendMessage(ChatColor.RED + "You do not have the required permission (se.repair) to run this command.");
                 return true;
-            }else{
+            } else {
                 String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                return true;
             }
-            return true;
         }
+        return false;
     }
 }

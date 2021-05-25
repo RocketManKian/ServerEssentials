@@ -21,7 +21,7 @@ public class Hurt implements CommandExecutor {
                 // Checking if the player has the se.hurt permission
                 if (player.hasPermission("se.hurt")) {
                     // Checking if the player exists
-                    if (args.length>=2) {
+                    if (args.length >= 2) {
                         try {
                             Player playerToHurt = Bukkit.getPlayer(args[0]);
                             double damageAmount = Double.parseDouble(args[1]);
@@ -33,20 +33,18 @@ public class Hurt implements CommandExecutor {
                             return true;
                         }
                     }
-                    return false;
-                }
-                else {
-                    if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
+                } else {
+                    if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
                         player.sendMessage(ChatColor.RED + "You do not have the required permission (se.hurt) to run this command.");
                         return true;
-                    }else{
+                    } else {
                         String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                        return true;
                     }
-                    return true;
                 }
             }
         }
-                return true;
-            }
-        }
+        return false;
+    }
+}

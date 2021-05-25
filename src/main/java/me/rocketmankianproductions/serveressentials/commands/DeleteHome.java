@@ -31,18 +31,19 @@ public class DeleteHome implements CommandExecutor {
                     return true;
                 } else {
                     sender.sendMessage(ChatColor.RED + "Home Doesn't Exist");
+                    return true;
                 }
             }
         } else {
-            if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
+            if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
                 player.sendMessage(ChatColor.RED + "You do not have the required permission (se.deletehome) to run this command.");
                 return true;
-            }else{
+            } else {
                 String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                return true;
             }
-            return true;
         }
-        return true;
+        return false;
     }
 }

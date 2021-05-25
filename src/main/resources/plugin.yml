@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 1.50.8
+version: 1.50.9
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -218,6 +218,10 @@ commands:
   socialspy:
     description: Social Spy Command
     usage: Incorrect format! Please use /socialspy
+  staffchat:
+    description: Staff Chat Command
+    usage: Incorrect format! Please use /staffchat
+    aliases: [sc, ac, adminchat]
 permissions:
   se.all:
     description: "Gives access to all commands."
@@ -252,6 +256,7 @@ permissions:
       se.announce: true
       se.tptoggle: true
       se.invsee: true
+      se.invsee.others: true
       se.gamemode.creative: true
       se.gamemode.survival: true
       se.gamemode.adventure: true
@@ -287,6 +292,7 @@ permissions:
       se.warps.all: true
       se.sendwarp: true
       se.socialspy: true
+      se.staffchat: true
   se.reload:
     description: "Gives access to the /se reload command."
     default: false
@@ -478,4 +484,10 @@ permissions:
     default: false
   se.socialspy:
     description: "Social Spy Permission"
+    default: false
+  se.invsee.others:
+    description: "Invsee Others Permission"
+    default: false
+  se.staffchat:
+    description: "Invsee Others Permission"
     default: false

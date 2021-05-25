@@ -51,10 +51,16 @@ public class TeleportRequest implements CommandExecutor {
                             player.sendMessage(ChatColor.GOLD + "You sent a teleport request to " + ChatColor.WHITE + target.getName() + ".");
                             player.sendMessage(ChatColor.GOLD + "To cancel this request, type " + ChatColor.RED + "/tpacancel");
                             target.sendMessage(ChatColor.WHITE + player.getName() + ChatColor.GOLD + " sent a teleport request to you.");
-                            target.sendMessage(ChatColor.GOLD + "To accept, type" + ChatColor.RED + " /tpaccept.");
-                            target.sendMessage(ChatColor.GOLD + "To deny, type " + ChatColor.RED + "/tpdeny.");
+                            TextComponent message = new TextComponent(ChatColor.GOLD + "To accept, type" + ChatColor.RED + " /tpaccept.");
+                            message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Accept Teleport Request")));
+                            message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaccept"));
+                            target.spigot().sendMessage(message);
+                            TextComponent message2 = new TextComponent(ChatColor.GOLD + "To deny, type " + ChatColor.RED + "/tpdeny.");
+                            message2.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.RED + "Deny Teleport Request")));
+                            message2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpdeny"));
+                            target.spigot().sendMessage(message2);
                             target.sendMessage(ChatColor.GOLD + "This request will timeout in " + ChatColor.RED + delay3 + " seconds");
-                            if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null){
+                            if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
                                 Bukkit.getScheduler().cancelTask(teleportcancel.get(target.getUniqueId()));
                             }
                             teleportcancel.put(target.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
@@ -78,8 +84,6 @@ public class TeleportRequest implements CommandExecutor {
                     player.sendMessage(ChatColor.RED + "§cThat player is offline.");
                     return true;
                 }
-            } else {
-                return false;
             }
         }
         if (command.getName().equalsIgnoreCase("tpahere")) {
@@ -90,8 +94,8 @@ public class TeleportRequest implements CommandExecutor {
                 } else {
                     String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                    return true;
                 }
-                return true;
             }
             if (args.length == 1) {
                 Player target = Bukkit.getPlayer(args[0]);
@@ -102,10 +106,16 @@ public class TeleportRequest implements CommandExecutor {
                             player.sendMessage(ChatColor.GOLD + "You sent a teleport here request to " + ChatColor.WHITE + target.getName() + ".");
                             player.sendMessage(ChatColor.GOLD + "To cancel this request, type " + ChatColor.RED + "/tpacancel");
                             target.sendMessage(ChatColor.WHITE + player.getName() + ChatColor.GOLD + " would like you to teleport to them");
-                            target.sendMessage(ChatColor.GOLD + "To accept, type" + ChatColor.RED + " /tpaccept.");
-                            target.sendMessage(ChatColor.GOLD + "To deny, type " + ChatColor.RED + "/tpdeny.");
+                            TextComponent message = new TextComponent(ChatColor.GOLD + "To accept, type" + ChatColor.RED + " /tpaccept.");
+                            message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Accept Teleport Request")));
+                            message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaccept"));
+                            target.spigot().sendMessage(message);
+                            TextComponent message2 = new TextComponent(ChatColor.GOLD + "To deny, type " + ChatColor.RED + "/tpdeny.");
+                            message2.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.RED + "Deny Teleport Request")));
+                            message2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpdeny"));
+                            target.spigot().sendMessage(message2);
                             target.sendMessage(ChatColor.GOLD + "This request will timeout in " + ChatColor.RED + delay3 + " seconds");
-                            if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null){
+                            if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
                                 Bukkit.getScheduler().cancelTask(teleportcancel.get(target.getUniqueId()));
                             }
                             teleportcancel.put(target.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
@@ -129,8 +139,6 @@ public class TeleportRequest implements CommandExecutor {
                     player.sendMessage(ChatColor.RED + "§cThat player is offline.");
                     return true;
                 }
-            } else {
-                return false;
             }
         }
         if (command.getName().equalsIgnoreCase("tpacancel")) {

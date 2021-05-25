@@ -13,11 +13,8 @@ public class Playtime implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
-        // Checking if the enable-playtime-command boolean is set to false
-        if (!ServerEssentials.getPlugin().getConfig().getBoolean("enable-playtime-command")) {
-            player.sendMessage(ChatColor.RED + "Command is disabled. Please contact an Administrator.");
         // Otherwise checking if the player has the correct permission
-        } else if (player.hasPermission("se.playtime")) {
+        if (player.hasPermission("se.playtime")) {
             if (args.length == 1){
                 Player target = Bukkit.getPlayerExact(args[0]);
                 if (target != null){

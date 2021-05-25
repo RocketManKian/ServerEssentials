@@ -20,8 +20,10 @@ public class DeleteSpawn implements CommandExecutor {
                 Setspawn.file.delete();
                 Setspawn.reload();
                 player.sendMessage(ChatColor.GREEN + "Spawn Deleted");
+                return true;
             } else {
                 sender.sendMessage(ChatColor.RED + "Spawn Doesn't Exist");
+                return true;
             }
         } else {
             if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
@@ -30,9 +32,8 @@ public class DeleteSpawn implements CommandExecutor {
             }else{
                 String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                return true;
             }
-            return true;
         }
-        return false;
     }
 }
