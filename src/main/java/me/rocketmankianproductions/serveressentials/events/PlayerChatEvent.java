@@ -20,16 +20,16 @@ public class PlayerChatEvent implements Listener {
         if (StaffChat.staffchat.contains(player)) {
             String message = c.getMessage();
             if (ServerEssentials.isConnectedToDiscordSRV && ServerEssentials.getPlugin().getConfig().getBoolean("enable-discord-integration") == true) {
-                TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName("staffchat");
+                TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName("staff-chat");
                 if (textChannel != null) {
                     String player1 = player.getDisplayName();
                     player1 = ChatColor.stripColor(player1);
                     textChannel.sendMessage("**" + player1 + "** » " + message).queue();
-                    Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', "&d(&5&lStaff&d) ") + ChatColor.LIGHT_PURPLE + player.getDisplayName() + ": " + ChatColor.GRAY + message, "se.staffchat");
+                    Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', "&d(&5&lStaff&d) ") + ChatColor.LIGHT_PURPLE + player.getName() + ": " + ChatColor.GRAY + message, "se.staffchat");
                     c.setCancelled(true);
                 }
             } else {
-                Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', "&d(&5&lStaff&d) ") + ChatColor.LIGHT_PURPLE + player.getDisplayName() + ": " + ChatColor.GRAY + message, "se.staffchat");
+                Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', "&d(&5&lStaff&d) ") + ChatColor.LIGHT_PURPLE + player.getName() + ": " + ChatColor.GRAY + message, "se.staffchat");
                 c.setCancelled(true);
             }
         }
