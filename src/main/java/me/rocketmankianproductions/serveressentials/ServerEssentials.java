@@ -159,6 +159,14 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("adventure").setExecutor(new Gamemode());
         // Spectator Command
         getCommand("spectator").setExecutor(new Gamemode());
+        // GMC Command
+        getCommand("gmc").setExecutor(new Gamemode());
+        // GMS Command
+        getCommand("gms").setExecutor(new Gamemode());
+        // GMSP Command
+        getCommand("gmsp").setExecutor(new Gamemode());
+        // GMA Command
+        getCommand("gma").setExecutor(new Gamemode());
         // Fly Command
         getCommand("fly").setExecutor(new Fly());
         // Kill Command

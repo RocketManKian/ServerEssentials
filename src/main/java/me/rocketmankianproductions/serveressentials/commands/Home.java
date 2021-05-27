@@ -173,7 +173,7 @@ public class Home implements CommandExecutor {
                                     return true;
                                 }
                             }
-                        }else{
+                        } else {
                             player.sendMessage("Incorrect format! Please use /home (name) to teleport to your home");
                             return true;
                         }

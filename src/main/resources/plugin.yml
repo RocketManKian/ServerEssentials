@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 1.60.0
+version: 1.60.1
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -103,6 +103,18 @@ commands:
     description: Spectator Command
     usage: Incorrect format! Please use /gamemode <mode>
     aliases: [3]
+  gmc:
+    description: Creative Command
+    usage: Incorrect format! Please use /gmc
+  gms:
+    description: Survival Command
+    usage: Incorrect format! Please use /gms
+  gmsp:
+    description: Spectator Command
+    usage: Incorrect format! Please use /gmsp
+  gma:
+    description: Adventure Command
+    usage: Incorrect format! Please use /gma
   fly:
     description: Fly Command
     usage: Incorrect format! Please use /fly
