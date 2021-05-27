@@ -46,7 +46,7 @@ public class PlayerClickEvent implements Listener {
                         player.sendMessage(ChatColor.GREEN + "Warp " + ChatColor.GOLD + warp + ChatColor.GREEN + " has been successfully deleted");
                         player.closeInventory();
                     }
-                }else if (e.getClick()==ClickType.LEFT){
+                }else if (e.getClick()==ClickType.LEFT) {
                     if (player.hasPermission("se.warps." + warp) || player.hasPermission("se.warps.all")) {
                         // Gathering Location
                         float yaw = Setwarp.fileConfig.getInt("Warp." + warp + ".Yaw");
@@ -64,13 +64,13 @@ public class PlayerClickEvent implements Listener {
                             player.sendMessage("Successfully warped to " + warp);
                         }
                         player.closeInventory();
-                    }
-                }else{
-                    if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
-                        player.sendMessage(ChatColor.RED + "You do not have the required permission (se.warps." + warp + ") to run this command.");
                     } else {
-                        String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                        if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
+                            player.sendMessage(ChatColor.RED + "You do not have the required permission (se.warps." + warp + ") to run this command.");
+                        } else {
+                            String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                        }
                     }
                 }
             }
