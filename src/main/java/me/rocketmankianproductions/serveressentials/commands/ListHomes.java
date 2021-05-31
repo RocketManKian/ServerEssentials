@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListHomes implements CommandExecutor {
-    @Override
+
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
 

@@ -12,7 +12,6 @@ import java.io.IOException;
 
 public class DeleteHome implements CommandExecutor {
 
-    @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
         // Checking if the player has the se.deletehome permission

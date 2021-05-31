@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 1.60.1
+# This config was generated for version 1.60.2
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -46,8 +46,6 @@ spawn-on-death: false
 remove-effects-on-heal: false
 # Vanish On Join
 vanish-on-join: false
-# Default Home Count
-default-home-count: 3
 # How long until Teleport Requests Timeout (in Seconds)
 teleport-cancel: 5
 ############################################################
@@ -132,3 +130,5 @@ home-item: RED_BED
 home-name-colour: "&a"
 # Enable Subtitle Text on screen when teleporting to Home
 enable-home-subtitle: false
+# Default Home Count
+default-home-count: 3

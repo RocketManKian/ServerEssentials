@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 1.60.1
+version: 1.60.2
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -164,6 +164,15 @@ commands:
   midnight:
     description: Midnight Command
     usage: Incorrect format! Please use /midnight
+  sun:
+    description: Clear Weather Command
+    usage: Incorrect format! Please use /sun
+  thunder:
+    description: Storm Command
+    usage: Incorrect format! Please use /thunder
+  storm:
+    description: Storm Command
+    usage: Incorrect format! Please use /storm
   vanish:
     description: Vanish Command
     usage: Incorrect format! Please use /vanish
