@@ -195,6 +195,12 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("sunset").setExecutor(new Time());
         // Midnight Command
         getCommand("midnight").setExecutor(new Time());
+        // Midnight Command
+        getCommand("sun").setExecutor(new Time());
+        // Midnight Command
+        getCommand("storm").setExecutor(new Time());
+        // Midnight Command
+        getCommand("thunder").setExecutor(new Time());
         // Vanish Command
         getCommand("vanish").setExecutor(new Vanish());
         // Test Command

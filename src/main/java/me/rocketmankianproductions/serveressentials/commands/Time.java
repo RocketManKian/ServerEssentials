@@ -44,6 +44,18 @@ public class Time implements CommandExecutor {
                         }
                         player.sendMessage(ChatColor.GREEN + "Time set to Midnight");
                         return true;
+                    }else if (command.getName().equalsIgnoreCase("sun")) {
+                        for (World world : Bukkit.getServer().getWorlds()) {
+                            world.setStorm(false);
+                        }
+                        player.sendMessage(ChatColor.GREEN + "Weather changed to " + ChatColor.GOLD + "Sun");
+                        return true;
+                    }else if (command.getName().equalsIgnoreCase("storm") || command.getName().equalsIgnoreCase("thunder")) {
+                        for (World world : Bukkit.getServer().getWorlds()) {
+                            world.setStorm(true);
+                        }
+                        player.sendMessage(ChatColor.GREEN + "Weather changed to " + ChatColor.GOLD + "Storm");
+                        return true;
                     }
                 }else{
                     if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
@@ -80,6 +92,18 @@ public class Time implements CommandExecutor {
                     world.setTime(18000);
                 }
                 System.out.println(ChatColor.GREEN + "Time set to Midnight");
+                return true;
+            }else if (command.getName().equalsIgnoreCase("sun")) {
+                for (World world : Bukkit.getServer().getWorlds()) {
+                    world.setStorm(false);
+                }
+                System.out.println(ChatColor.GREEN + "Weather changed to " + ChatColor.GOLD + "Sun");
+                return true;
+            }else if (command.getName().equalsIgnoreCase("storm") || command.getName().equalsIgnoreCase("thunder")) {
+                for (World world : Bukkit.getServer().getWorlds()) {
+                    world.setStorm(true);
+                }
+                System.out.println(ChatColor.GREEN + "Weather changed to " + ChatColor.GOLD + "Storm");
                 return true;
             }
         }
