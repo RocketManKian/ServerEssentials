@@ -1,10 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -51,14 +47,8 @@ public class TeleportRequest implements CommandExecutor {
                             player.sendMessage(ChatColor.GOLD + "You sent a teleport request to " + ChatColor.WHITE + target.getName() + ".");
                             player.sendMessage(ChatColor.GOLD + "To cancel this request, type " + ChatColor.RED + "/tpacancel");
                             target.sendMessage(ChatColor.WHITE + player.getName() + ChatColor.GOLD + " sent a teleport request to you.");
-                            TextComponent message = new TextComponent(ChatColor.GOLD + "To accept, type" + ChatColor.RED + " /tpaccept.");
-                            message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Accept Teleport Request")));
-                            message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaccept"));
-                            target.spigot().sendMessage(message);
-                            TextComponent message2 = new TextComponent(ChatColor.GOLD + "To deny, type " + ChatColor.RED + "/tpdeny.");
-                            message2.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.RED + "Deny Teleport Request")));
-                            message2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpdeny"));
-                            target.spigot().sendMessage(message2);
+                            target.sendMessage(ChatColor.GOLD + "To accept, type" + ChatColor.RED + " /tpaccept.");
+                            target.sendMessage(ChatColor.GOLD + "To deny, type " + ChatColor.RED + "/tpdeny.");
                             target.sendMessage(ChatColor.GOLD + "This request will timeout in " + ChatColor.RED + delay3 + " seconds");
                             if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
                                 Bukkit.getScheduler().cancelTask(teleportcancel.get(target.getUniqueId()));
@@ -106,14 +96,8 @@ public class TeleportRequest implements CommandExecutor {
                             player.sendMessage(ChatColor.GOLD + "You sent a teleport here request to " + ChatColor.WHITE + target.getName() + ".");
                             player.sendMessage(ChatColor.GOLD + "To cancel this request, type " + ChatColor.RED + "/tpacancel");
                             target.sendMessage(ChatColor.WHITE + player.getName() + ChatColor.GOLD + " would like you to teleport to them");
-                            TextComponent message = new TextComponent(ChatColor.GOLD + "To accept, type" + ChatColor.RED + " /tpaccept.");
-                            message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Accept Teleport Request")));
-                            message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaccept"));
-                            target.spigot().sendMessage(message);
-                            TextComponent message2 = new TextComponent(ChatColor.GOLD + "To deny, type " + ChatColor.RED + "/tpdeny.");
-                            message2.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.RED + "Deny Teleport Request")));
-                            message2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpdeny"));
-                            target.spigot().sendMessage(message2);
+                            target.sendMessage(ChatColor.GOLD + "To accept, type" + ChatColor.RED + " /tpaccept.");
+                            target.sendMessage(ChatColor.GOLD + "To deny, type " + ChatColor.RED + "/tpdeny.");
                             target.sendMessage(ChatColor.GOLD + "This request will timeout in " + ChatColor.RED + delay3 + " seconds");
                             if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
                                 Bukkit.getScheduler().cancelTask(teleportcancel.get(target.getUniqueId()));
