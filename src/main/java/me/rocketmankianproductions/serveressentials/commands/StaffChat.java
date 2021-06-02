@@ -38,10 +38,10 @@ public class StaffChat implements CommandExecutor {
                     TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName("staff-chat");
                     if (textChannel != null && ServerEssentials.isConnectedToDiscordSRV && ServerEssentials.plugin.getConfig().getBoolean("enable-discord-integration")){
                         textChannel.sendMessage("**" + playername + "** » " + myArgs).queue();
-                        Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', "&d(&5&lStaff&d) ") + ChatColor.LIGHT_PURPLE + playername + ": " + ChatColor.GRAY + myArgs, "se.staffchat");
+                        Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', "&d(&5&lStaff&d) ") + ChatColor.LIGHT_PURPLE + player.getName() + ": " + ChatColor.GRAY + myArgs, "se.staffchat");
                         return true;
                     }else{
-                        Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', "&d(&5&lStaff&d) ") + ChatColor.LIGHT_PURPLE + playername + ": " + ChatColor.GRAY + myArgs, "se.staffchat");
+                        Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', "&d(&5&lStaff&d) ") + ChatColor.LIGHT_PURPLE + player.getName() + ": " + ChatColor.GRAY + myArgs, "se.staffchat");
                         return true;
                     }
                 }
