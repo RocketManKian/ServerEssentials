@@ -1,15 +1,12 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 public class Version {
-    FileConfiguration config = ServerEssentials.getPlugin().getConfig();
     public static ServerEssentials plugin;
 
     public Version(ServerEssentials plugin) {
