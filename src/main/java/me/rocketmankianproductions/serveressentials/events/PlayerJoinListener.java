@@ -2,10 +2,8 @@ package me.rocketmankianproductions.serveressentials.events;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
-import me.rocketmankianproductions.serveressentials.UpdateChecker.Update;
 import me.rocketmankianproductions.serveressentials.commands.*;
 import org.bukkit.*;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,9 +21,8 @@ public class PlayerJoinListener implements Listener {
 
         // Checking if the player is op and if the plugin has an update
         if ((player.isOp() || player.hasPermission("se.alert")) && ServerEssentials.getPlugin().hasUpdate()) {
-            new Update(ServerEssentials.getPlugin(), 86675).getLatestVersion(version -> {
-                player.sendMessage(ChatColor.RED + "Server Essentials Has An Update." + ChatColor.GREEN + "\nNew Version: " + version);
-            });
+            String version = ServerEssentials.getPlugin().getDescription().getVersion();
+            player.sendMessage(ChatColor.RED + "Server Essentials Has An Update." + ChatColor.GREEN + "\nNew Version: " + version);
         }
 
         // Sets default value if player has the permission.
