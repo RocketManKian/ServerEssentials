@@ -6,14 +6,17 @@ import me.rocketmankianproductions.serveressentials.commands.Setwarp;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -84,7 +87,7 @@ public class PlayerClickEvent implements Listener {
                 if (e.getClick() == ClickType.RIGHT) {
                     if (player.hasPermission("se.deletehome")) {
                         Player target = (Player) e.getInventory().getHolder();
-                        if (e.getInventory().getHolder().equals(target)){
+                        if (e.getInventory().getHolder().equals(target)) {
                             UUID targetname = target.getUniqueId();
                             Sethome.fileConfig.set("Home." + targetname + "." + home, null);
                             try {
@@ -94,7 +97,7 @@ public class PlayerClickEvent implements Listener {
                             }
                             player.sendMessage(ChatColor.GREEN + "Home " + ChatColor.GOLD + home + ChatColor.GREEN + " has been successfully deleted");
                             player.closeInventory();
-                        }else{
+                        } else {
                             Sethome.fileConfig.set("Home." + name + "." + home, null);
                             try {
                                 Sethome.fileConfig.save(Sethome.file);

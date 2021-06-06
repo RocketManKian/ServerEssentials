@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.plugin.PluginDescriptionFile;
 
 import java.io.IOException;
 
@@ -22,9 +23,8 @@ public class PlayerJoinListener implements Listener {
 
         // Checking if the player is op and if the plugin has an update
         if ((player.isOp() || player.hasPermission("se.alert")) && ServerEssentials.getPlugin().hasUpdate()) {
-            new Update(ServerEssentials.getPlugin(), 86675).getLatestVersion(version -> {
-                player.sendMessage(ChatColor.RED + "Server Essentials Has An Update." + ChatColor.GREEN + "\nNew Version: " + version);
-            });
+            String version = ServerEssentials.getPlugin().getDescription().getVersion();
+            player.sendMessage(ChatColor.RED + "Server Essentials Has An Update." + ChatColor.GREEN + "\nNew Version: " + version);
         }
 
         // Sets default value if player has the permission.

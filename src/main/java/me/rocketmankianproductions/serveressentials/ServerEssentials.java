@@ -11,6 +11,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -284,15 +285,14 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
 
     public void registerUpdate() {
         // UpdateChecker
-        new Update(this, 86675).getLatestVersion(version -> {
-            if (this.getDescription().getVersion().equalsIgnoreCase(version)) {
-                LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "Server Essentials is up to date!");
-                hasUpdate = false;
-            } else {
-                LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "Server Essentials has an update.");
-                hasUpdate = true;
-            }
-        });
+        String version = ServerEssentials.getPlugin().getDescription().getVersion();
+        if (version.equalsIgnoreCase("1.60.4")){
+            LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "Server Essentials is up to date!");
+            hasUpdate = false;
+        }else{
+            LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "Server Essentials has an update.");
+            hasUpdate = true;
+        }
     }
 
     public static ServerEssentials getPlugin() {

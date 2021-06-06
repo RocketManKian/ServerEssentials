@@ -1,8 +1,6 @@
 package me.rocketmankianproductions.serveressentials.events;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
-import me.rocketmankianproductions.serveressentials.commands.PrimaryHome;
-import me.rocketmankianproductions.serveressentials.commands.Sethome;
 import me.rocketmankianproductions.serveressentials.commands.Setspawn;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -12,9 +10,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerRespawnEvent;
-
-import java.util.HashMap;
-import java.util.UUID;
 
 public class PlayerRespawnListener implements Listener {
 

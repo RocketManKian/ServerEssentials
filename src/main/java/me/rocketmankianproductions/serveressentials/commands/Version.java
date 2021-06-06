@@ -21,9 +21,8 @@ public class Version {
         if (sender instanceof Player){
             Player player = (Player) sender;
             if (player.hasPermission("se.version")) {
-                String prefix = ServerEssentials.getPlugin().getConfig().getString("prefix");
                 String version = ServerEssentials.getPlugin().getDescription().getVersion();
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + " " + ChatColor.WHITE + "Version: " + ChatColor.GREEN + version));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&bServer Essentials&7] " + ChatColor.WHITE + "Version: " + ChatColor.GREEN + version));
             } else {
                 if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
                     player.sendMessage(ChatColor.RED + "You do not have the required permission (se.version) to run this command.");
@@ -33,9 +32,8 @@ public class Version {
                 }
             }
         }else if (sender instanceof ConsoleCommandSender) {
-            String prefix = ServerEssentials.getPlugin().getConfig().getString("prefix");
             String version = ServerEssentials.getPlugin().getDescription().getVersion();
-            System.out.println(ChatColor.translateAlternateColorCodes('&', prefix + " " + ChatColor.WHITE + "Version: " + ChatColor.GREEN + version));
+            System.out.println(ChatColor.translateAlternateColorCodes('&',  "&7[&bServer Essentials&7] " + ChatColor.WHITE + "Version: " + ChatColor.GREEN + version));
         }
     }
 }
