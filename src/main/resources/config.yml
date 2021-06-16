@@ -74,7 +74,7 @@ broadcast-min-players: 1
 # Enable the MOTD Message Upon Joining
 enable-motd: true
 # How long the Plugin will wait until the MOTD is sent to the player after joining (in Seconds)
-motd-delay: 100
+motd-delay: 5
 # Change the Messaging for the MOTD
 motd-message:
   - '-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-'
