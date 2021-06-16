@@ -132,3 +132,11 @@ home-name-colour: "&a"
 enable-home-subtitle: false
 # Default Home Count
 default-home-count: 3
+############################################################
+# +------------------------------------------------------+ #
+# +              Server Essentials (Chat)                + #
+# +------------------------------------------------------+ #
+############################################################
+# Change the Chat Colour for Every Player
+# Please Use Minecraft Colour Codes as Seen Below
+chat-colour: "&7"
