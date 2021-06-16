@@ -23,12 +23,14 @@ public class Repair implements CommandExecutor {
             if (args.length == 0) {
                 if (sender instanceof Player) {
                     if (!player.getItemInHand().getType().equals(Material.AIR)) {
-                        if (player.getItemInHand().getDurability() == player.getItemInHand().getMaxItemUseDuration()) {
+                        ItemStack item = player.getItemInHand();
+                        short durability = item.getDurability();
+                        if (durability == 0) {
                             player.sendMessage(ChatColor.RED + "Durability is max");
                             return true;
                         } else {
                             player.getItemInHand().setDurability((short) 0);
-                            player.sendMessage(ChatColor.BLUE + player.getItemInHand().getI18NDisplayName() + ChatColor.GREEN + " repaired!");
+                            player.sendMessage(ChatColor.BLUE + player.getItemInHand().getItemMeta().getDisplayName() + ChatColor.GREEN + " repaired!");
                             return true;
                         }
                     } else {
