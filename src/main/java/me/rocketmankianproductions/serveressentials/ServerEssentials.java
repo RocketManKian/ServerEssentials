@@ -11,7 +11,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
-import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -28,6 +27,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
     public static boolean hasUpdate;
     public static boolean isConnectedToPlaceholderAPI = false;
     public static boolean isConnectedToDiscordSRV = false;
+    public static boolean isConnectedToLuckPerms = false;
 
     public ArrayList<Player> invisible_list = new ArrayList<>();
 
@@ -48,6 +48,8 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         registerPlaceholder();
         // DiscordSRV
         registerDiscordSRV();
+        // LuckPerms
+        registerLuckPerms();
         // Metrics
         MetricsLite metricsLite = new MetricsLite(this);
         // Setup Config
@@ -280,6 +282,15 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         } else {
             LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "DiscordSRV is not installed!");
             isConnectedToDiscordSRV = false;
+        }
+    }
+
+    public void registerLuckPerms() {
+        // PlaceholderAPI
+        if (Bukkit.getPluginManager().getPlugin("LuckPerms") != null) {
+            isConnectedToLuckPerms = true;
+        } else {
+            isConnectedToLuckPerms = false;
         }
     }
 
