@@ -2,16 +2,12 @@ package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.Damageable;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 public class Repair implements CommandExecutor {
@@ -23,12 +19,14 @@ public class Repair implements CommandExecutor {
             if (args.length == 0) {
                 if (sender instanceof Player) {
                     if (!player.getItemInHand().getType().equals(Material.AIR)) {
-                        if (player.getItemInHand().getDurability() == player.getItemInHand().getMaxItemUseDuration()) {
+                        ItemStack item = player.getItemInHand();
+                        short durability = item.getDurability();
+                        if (durability == 0) {
                             player.sendMessage(ChatColor.RED + "Durability is max");
                             return true;
                         } else {
                             player.getItemInHand().setDurability((short) 0);
-                            player.sendMessage(ChatColor.BLUE + player.getItemInHand().getI18NDisplayName() + ChatColor.GREEN + " repaired!");
+                            player.sendMessage(ChatColor.AQUA + player.getItemInHand().getType().toString() + ChatColor.GREEN + " repaired!");
                             return true;
                         }
                     } else {
