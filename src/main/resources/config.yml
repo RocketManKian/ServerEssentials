@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 1.60.6
+# This config was generated for version 1.60.7
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -47,7 +47,7 @@ remove-effects-on-heal: false
 # Vanish On Join
 vanish-on-join: false
 # How long until Teleport Requests Timeout (in Seconds)
-teleport-cancel: 5
+teleport-cancel: 30
 ############################################################
 # +------------------------------------------------------+ #
 # +              Server Essentials (Broadcast)           + #

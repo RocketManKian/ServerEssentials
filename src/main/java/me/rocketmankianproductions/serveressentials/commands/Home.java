@@ -42,15 +42,14 @@ public class Home implements CommandExecutor {
                         // Teleporting Player
                         player.teleport(loc);
                         Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
-                        if (subtitle){
-                            player.sendTitle("Successfully teleported to Home", null);
+                        if (subtitle) {
+                            player.sendTitle("Successfully teleported to " + ChatColor.GOLD + args[0], null);
                             return true;
-                        }else{
-                            player.sendMessage("Successfully teleported to Home.");
+                        } else {
+                            player.sendMessage("Successfully teleported to " + ChatColor.GOLD + args[0]);
                             return true;
                         }
-                    } else
-                        return false;
+                    }
                 } else {
                     player.sendMessage("Home Doesn't Exist!");
                     return true;
@@ -166,7 +165,7 @@ public class Home implements CommandExecutor {
                                             yaw, 0);
                                     // Teleporting To Target's Home
                                     player.teleport(loc);
-                                    player.sendMessage(ChatColor.GREEN + "You have been teleported to " + ChatColor.WHITE + target.getName() + "'s" + ChatColor.GREEN + " home");
+                                    player.sendMessage("You have been teleported to " + ChatColor.GOLD + target.getName() + "'s" + " home");
                                     return true;
                                 } else {
                                     player.sendMessage("Home Doesn't Exist!");

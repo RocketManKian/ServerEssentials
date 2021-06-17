@@ -64,7 +64,7 @@ public class PlayerClickEvent implements Listener {
                         if (subtitle) {
                             player.sendTitle("Warped to " + ChatColor.GOLD + warp, null);
                         } else {
-                            player.sendMessage("Successfully warped to " + warp);
+                            player.sendMessage( "Successfully warped to " + ChatColor.GOLD + warp);
                         }
                         player.closeInventory();
                     } else {
@@ -121,7 +121,7 @@ public class PlayerClickEvent implements Listener {
                     if (subtitle) {
                         player.sendTitle("Teleported to " + ChatColor.GOLD + home, null);
                     } else {
-                        player.sendMessage("Successfully teleported to " + home);
+                        player.sendMessage("Successfully teleported to " + ChatColor.GOLD + home);
                     }
                     player.closeInventory();
                 }
