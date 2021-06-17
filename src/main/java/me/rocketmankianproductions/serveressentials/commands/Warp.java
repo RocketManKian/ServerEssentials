@@ -41,7 +41,7 @@ public class Warp implements CommandExecutor {
                                 player.teleport(loc);
                                 Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
                                 if (subtitle){
-                                    player.sendTitle("Teleported to " + ChatColor.GOLD + args[0], null);
+                                    player.sendTitle("Warped to " + ChatColor.GOLD + args[0], null);
                                     return true;
                                 }else{
                                     player.sendMessage("Successfully warped to " + args[0]);
@@ -178,10 +178,10 @@ public class Warp implements CommandExecutor {
                             // Teleporting Target
                             target.teleport(loc);
                             if (subtitle){
-                                target.sendTitle("Teleported to " + ChatColor.GOLD + args[1], null);
+                                target.sendTitle("Warped to " + ChatColor.GOLD + args[1], null);
                                 return true;
                             }else{
-                                target.sendMessage("Successfully warped to " + args[1]);
+                                target.sendMessage("Successfully warped to " + ChatColor.GOLD + args[1]);
                                 return true;
                             }
                         }
