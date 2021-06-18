@@ -41,5 +41,15 @@ public class PlayerChatEvent implements Listener {
             String playername = player.getDisplayName();
             c.setFormat("<" + playername + "> " + message );
         }
+        if (ServerEssentials.plugin.getConfig().getString("chat-format").length() != 0){
+            String message = c.getMessage();
+            String format = ServerEssentials.getPlugin().getConfig().getString("chat-format");
+            format = format.replace("%playername%", player.getDisplayName());
+            if (ServerEssentials.plugin.getConfig().getString("chat-colour").length() == 2) {
+                message = ChatColor.translateAlternateColorCodes('&', chatcolour + message);
+                c.setFormat(format + message);
+            }
+            c.setFormat(format + message);
+        }
     }
 }
