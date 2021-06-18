@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 1.60.7
+# This config was generated for version 1.60.8
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -140,3 +140,6 @@ default-home-count: 3
 # Change the Chat Colour for Every Player
 # Please Use Minecraft Colour Codes as Seen Below
 chat-colour: "&7"
+# Change the Chat Format
+# %playername% - Player Display Name
+chat-format: "<%playername%> "
