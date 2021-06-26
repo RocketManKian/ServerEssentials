@@ -1,13 +1,17 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
+import com.sun.istack.internal.NotNull;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.events.PlayerClickEvent;
 import me.rocketmankianproductions.serveressentials.tasks.Broadcast;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitTask;
+import org.bukkit.event.HandlerList;
+import org.bukkit.event.Listener;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.RegisteredListener;
 
 public class Reload {
 
@@ -36,6 +40,8 @@ public class Reload {
                 ServerEssentials.broadcastLoop.cancel();
                 Long delay = ServerEssentials.getPlugin().getConfig().getLong("broadcast-delay");
                 ServerEssentials.broadcastLoop = new Broadcast(ServerEssentials.plugin).runTaskTimer(ServerEssentials.plugin, delay, delay);
+                HandlerList.unregisterAll((Plugin) ServerEssentials.plugin);
+                ServerEssentials.plugin.registerEvents();
             } else {
                 if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
                     player.sendMessage(ChatColor.RED + "You do not have the required permission (se.reload) to run this command.");

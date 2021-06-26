@@ -23,11 +23,10 @@ import java.util.UUID;
 public class Home implements CommandExecutor {
 
     private static HashMap<UUID, Integer> hometeleport = new HashMap<>();
-    int delay = ServerEssentials.plugin.getConfig().getInt("home-teleport");
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        int delay = ServerEssentials.plugin.getConfig().getInt("home-teleport");
         Player player = (Player) sender;
-        Location loc;
         String name = player.getUniqueId().toString();
 
         if (args.length == 1) {
@@ -35,14 +34,7 @@ public class Home implements CommandExecutor {
             if (player.hasPermission("se.home")) {
                 // Check if the File Exists and if Location.World has data
                 if (Sethome.file.exists() && Sethome.fileConfig.getString("Home." + name + "." + args[0] + ".World") != null) {
-                    // Gathering Location
-                    float yaw = Sethome.fileConfig.getInt("Home." + name + "." + args[0] + ".Yaw");
-                    //float pitch = Sethome.fileConfig.getInt("Home." + player.getName() + ".Pitch");
-                    loc = new Location(Bukkit.getWorld(Sethome.fileConfig.getString("Home." + name + "." + args[0] + ".World")),
-                            Sethome.fileConfig.getDouble("Home." + name + "." + args[0] + ".X"),
-                            Sethome.fileConfig.getDouble("Home." + name + "." + args[0] + ".Y"),
-                            Sethome.fileConfig.getDouble("Home." + name + "." + args[0] + ".Z"),
-                            yaw, 0);
+                    Location loc = getLocation(args, player);
                     if (args.length == 1) {
                         if (ServerEssentials.plugin.getConfig().getInt("home-teleport") == 0) {
                             player.teleport(loc);
@@ -51,7 +43,7 @@ public class Home implements CommandExecutor {
                                 player.sendTitle("Successfully teleported to " + ChatColor.GOLD + args[0], null);
                                 return true;
                             } else {
-                                player.sendMessage("Successfully teleported to " + ChatColor.GOLD + args[0]);
+                                player.sendMessage(ChatColor.GREEN + "Successfully teleported to " + ChatColor.GOLD + args[0]);
                                 return true;
                             }
                         }else{
@@ -69,7 +61,7 @@ public class Home implements CommandExecutor {
                                         if (subtitle) {
                                             player.sendTitle("Successfully teleported to " + ChatColor.GOLD + args[0], null);
                                         } else {
-                                            player.sendMessage("Successfully teleported to " + ChatColor.GOLD + args[0]);
+                                            player.sendMessage(ChatColor.GREEN + "Successfully teleported to " + ChatColor.GOLD + args[0]);
                                         }
                                     }
                                 }
@@ -185,7 +177,7 @@ public class Home implements CommandExecutor {
                                 if (Sethome.file.exists() && Sethome.fileConfig.getString("Home." + targetname + "." + args[1] + ".World") != null) {
                                     // Gathering Location
                                     float yaw = Sethome.fileConfig.getInt("Home." + targetname + "." + args[1] + ".Yaw");
-                                    loc = new Location(Bukkit.getWorld(Sethome.fileConfig.getString("Home." + targetname + "." + args[1] + ".World")),
+                                    Location loc = new Location(Bukkit.getWorld(Sethome.fileConfig.getString("Home." + targetname + "." + args[1] + ".World")),
                                             Sethome.fileConfig.getDouble("Home." + targetname + "." + args[1] + ".X"),
                                             Sethome.fileConfig.getDouble("Home." + targetname + "." + args[1] + ".Y"),
                                             Sethome.fileConfig.getDouble("Home." + targetname + "." + args[1] + ".Z"),
@@ -219,6 +211,17 @@ public class Home implements CommandExecutor {
                 return true;
             }
         }
-        return true;
+        return false;
+    }
+    public static Location getLocation(String[] args, Player player) {
+        UUID name = player.getUniqueId();
+        // Gathering Location
+        float yaw = Sethome.fileConfig.getInt("Home." + name + "." + args[0] + ".Yaw");
+        Location loc = new Location(Bukkit.getWorld(Sethome.fileConfig.getString("Home." + name + "." + args[0] + ".World")),
+                Sethome.fileConfig.getDouble("Home." + name + "." + args[0] + ".X"),
+                Sethome.fileConfig.getDouble("Home." + name + "." + args[0] + ".Y"),
+                Sethome.fileConfig.getDouble("Home." + name + "." + args[0] + ".Z"),
+                yaw, 0);
+        return loc;
     }
 }

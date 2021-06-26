@@ -11,29 +11,23 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
 public class Spawn implements CommandExecutor {
 
     private static HashMap<UUID, Integer> spawnteleport = new HashMap<>();
-    int delay = ServerEssentials.plugin.getConfig().getInt("spawn-teleport");
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-
-        Location loc;
+        int delay = ServerEssentials.plugin.getConfig().getInt("spawn-teleport");
         if (sender instanceof Player){
             Player player = (Player) sender;
             // Checking if the player has the correct permission
             if (player.hasPermission("se.spawn")) {
                 // Check if the File Exists and if Location.World has data
                 if (Setspawn.file.exists() && Setspawn.fileConfig.getString("Location.World") != null) {
-                    // Gathering Location
-                    float yaw = Setspawn.fileConfig.getInt("Location.Yaw");
-                    float pitch = Setspawn.fileConfig.getInt("Location.Pitch");
-                    loc = new Location(Bukkit.getWorld(Setspawn.fileConfig.getString("Location.World")), Setspawn.fileConfig.getDouble("Location.X"), Setspawn.fileConfig.getDouble("Location.Y"), Setspawn.fileConfig.getDouble("Location.Z"), yaw, pitch);
+                    Location loc = getLocation();
                     if (args.length == 0) {
                         if (ServerEssentials.plugin.getConfig().getInt("spawn-teleport") == 0){
                             // Teleporting Player
@@ -92,10 +86,7 @@ public class Spawn implements CommandExecutor {
                 if (target != null){
                     // Check if the File Exists and if Location.World has data
                     if (Setspawn.file.exists() && Setspawn.fileConfig.getString("Location.World") != null) {
-                        // Gathering Location
-                        float yaw = Setspawn.fileConfig.getInt("Location.Yaw");
-                        float pitch = Setspawn.fileConfig.getInt("Location.Pitch");
-                        loc = new Location(Bukkit.getWorld(Setspawn.fileConfig.getString("Location.World")), Setspawn.fileConfig.getDouble("Location.X"), Setspawn.fileConfig.getDouble("Location.Y"), Setspawn.fileConfig.getDouble("Location.Z"), yaw, pitch);
+                        Location loc = getLocation();
                         // Teleporting player to Location
                         target.teleport(loc);
                         // Sending the Sender and Target a message
@@ -113,5 +104,12 @@ public class Spawn implements CommandExecutor {
             }
         }
         return false;
+    }
+    public static Location getLocation() {
+        // Gathering Location
+        float yaw = Setspawn.fileConfig.getInt("Location.Yaw");
+        float pitch = Setspawn.fileConfig.getInt("Location.Pitch");
+        Location loc = new Location(Bukkit.getWorld(Setspawn.fileConfig.getString("Location.World")), Setspawn.fileConfig.getDouble("Location.X"), Setspawn.fileConfig.getDouble("Location.Y"), Setspawn.fileConfig.getDouble("Location.Z"), yaw, pitch);
+        return loc;
     }
 }
