@@ -61,6 +61,8 @@ public class Reload {
             ServerEssentials.broadcastLoop.cancel();
             Long delay = ServerEssentials.getPlugin().getConfig().getLong("broadcast-delay");
             ServerEssentials.broadcastLoop = new Broadcast(ServerEssentials.plugin).runTaskTimer(ServerEssentials.plugin, delay, delay);
+            HandlerList.unregisterAll((Plugin) ServerEssentials.plugin);
+            ServerEssentials.plugin.registerEvents();
         }
     }
 }
