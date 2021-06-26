@@ -25,7 +25,6 @@ public class Warp implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        Location loc;
         // Checking if the player has the correct permission
         if (sender instanceof Player){
             Player player = (Player) sender;
@@ -34,14 +33,7 @@ public class Warp implements CommandExecutor {
                     if (Setwarp.file.exists() && Setwarp.fileConfig.getString("Warp." + args[0] + ".World") != null) {
                         // Check if the File Exists and if Location.World has data
                         if (sender.hasPermission("se.warps." + args[0]) || sender.hasPermission("se.warps.all")) {
-                            // Gathering Location
-                            float yaw = Setwarp.fileConfig.getInt("Warp." + args[0] + ".Yaw");
-                            float pitch = Sethome.fileConfig.getInt("Home." + player.getName() + ".Pitch");
-                            loc = new Location(Bukkit.getWorld(Setwarp.fileConfig.getString("Warp." + args[0] + ".World")),
-                                    Setwarp.fileConfig.getDouble("Warp." + args[0] + ".X"),
-                                    Setwarp.fileConfig.getDouble("Warp." + args[0] + ".Y"),
-                                    Setwarp.fileConfig.getDouble("Warp." + args[0] + ".Z"),
-                                    yaw, pitch);
+                            Location loc = getLocation(args);
                             if (args.length == 1) {
                                 if (ServerEssentials.plugin.getConfig().getInt("warp-teleport") == 0){
                                     player.teleport(loc);
@@ -50,7 +42,7 @@ public class Warp implements CommandExecutor {
                                         player.sendTitle("Warped to " + ChatColor.GOLD + args[0], null);
                                         return true;
                                     } else {
-                                        player.sendMessage("Successfully warped to " + ChatColor.GOLD + args[0]);
+                                        player.sendMessage(ChatColor.GREEN + "Successfully warped to " + ChatColor.GOLD + args[0]);
                                         return true;
                                     }
                                 }else{
@@ -68,7 +60,7 @@ public class Warp implements CommandExecutor {
                                                 if (subtitle) {
                                                     player.sendTitle("Warped to " + ChatColor.GOLD + args[0], null);
                                                 } else {
-                                                    player.sendMessage("Successfully warped to " + ChatColor.GOLD + args[0]);
+                                                    player.sendMessage(ChatColor.GREEN + "Successfully warped to " + ChatColor.GOLD + args[0]);
                                                 }
                                             }
                                         }
@@ -197,7 +189,7 @@ public class Warp implements CommandExecutor {
                             Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
                             // Gathering Location
                             float yaw = Setwarp.fileConfig.getInt("Warp." + args[1] + ".Yaw");
-                            loc = new Location(Bukkit.getWorld(Setwarp.fileConfig.getString("Warp." + args[1] + ".World")),
+                            Location loc = new Location(Bukkit.getWorld(Setwarp.fileConfig.getString("Warp." + args[1] + ".World")),
                                     Setwarp.fileConfig.getDouble("Warp." + args[1] + ".X"),
                                     Setwarp.fileConfig.getDouble("Warp." + args[1] + ".Y"),
                                     Setwarp.fileConfig.getDouble("Warp." + args[1] + ".Z"),
@@ -223,5 +215,16 @@ public class Warp implements CommandExecutor {
             }
         }
         return false;
+    }
+
+    public static Location getLocation(String[] args) {
+        // Gathering Location
+        float yaw = Setwarp.fileConfig.getInt("Warp." + args[0] + ".Yaw");
+        Location loc = new Location(Bukkit.getWorld(Setwarp.fileConfig.getString("Warp." + args[0] + ".World")),
+                Setwarp.fileConfig.getDouble("Warp." + args[0] + ".X"),
+                Setwarp.fileConfig.getDouble("Warp." + args[0] + ".Y"),
+                Setwarp.fileConfig.getDouble("Warp." + args[0] + ".Z"),
+                yaw, 0);
+        return loc;
     }
 }
