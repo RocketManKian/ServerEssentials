@@ -14,9 +14,15 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class Warp implements CommandExecutor {
+
+    private static HashMap<UUID, Integer> warpteleport = new HashMap<>();
+    int delay = ServerEssentials.plugin.getConfig().getInt("warp-teleport");
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Location loc;
@@ -37,18 +43,39 @@ public class Warp implements CommandExecutor {
                                     Setwarp.fileConfig.getDouble("Warp." + args[0] + ".Z"),
                                     yaw, pitch);
                             if (args.length == 1) {
-                                // Teleporting Player
-                                player.teleport(loc);
-                                Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
-                                if (subtitle){
-                                    player.sendTitle("Warped to " + ChatColor.GOLD + args[0], null);
-                                    return true;
+                                if (ServerEssentials.plugin.getConfig().getInt("warp-teleport") == 0){
+                                    player.teleport(loc);
+                                    Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
+                                    if (subtitle) {
+                                        player.sendTitle("Warped to " + ChatColor.GOLD + args[0], null);
+                                        return true;
+                                    } else {
+                                        player.sendMessage("Successfully warped to " + ChatColor.GOLD + args[0]);
+                                        return true;
+                                    }
                                 }else{
-                                    player.sendMessage("Successfully warped to " + args[0]);
+                                    player.sendMessage(ChatColor.GREEN + "Warping to " + ChatColor.GOLD + args[0] + ChatColor.GREEN + " in " + ChatColor.GOLD + delay + " Seconds");
+                                    delay = delay * 20;
+                                    if (warpteleport.containsKey(player.getUniqueId()) && warpteleport.get(player.getUniqueId()) != null) {
+                                        Bukkit.getScheduler().cancelTask(warpteleport.get(player.getUniqueId()));
+                                    }
+                                    warpteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                                        public void run() {
+                                            if (warpteleport.containsKey(player.getUniqueId())) {
+                                                // Teleporting Player
+                                                player.teleport(loc);
+                                                Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
+                                                if (subtitle) {
+                                                    player.sendTitle("Warped to " + ChatColor.GOLD + args[0], null);
+                                                } else {
+                                                    player.sendMessage("Successfully warped to " + ChatColor.GOLD + args[0]);
+                                                }
+                                            }
+                                        }
+                                    }, delay));
                                     return true;
                                 }
-                            } else
-                                return false;
+                            }
                         } else {
                             if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
                                 player.sendMessage(ChatColor.RED + "You do not have the required permission (se.warps." + args[0] + ") to run this command.");
