@@ -19,10 +19,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.UUID;
 
 public class PlayerClickEvent implements Listener {
+
     Location loc;
+    private static HashMap<UUID, Integer> hometeleport = new HashMap<>();
+    private static HashMap<UUID, Integer> warpteleport = new HashMap<>();
 
     @EventHandler
     public void onClick(InventoryClickEvent e){
@@ -51,22 +55,56 @@ public class PlayerClickEvent implements Listener {
                     }
                 }else if (e.getClick()==ClickType.LEFT) {
                     if (player.hasPermission("se.warps." + warp) || player.hasPermission("se.warps.all")) {
-                        // Gathering Location
-                        float yaw = Setwarp.fileConfig.getInt("Warp." + warp + ".Yaw");
-                        float pitch = Sethome.fileConfig.getInt("Home." + player.getName() + ".Pitch");
-                        loc = new Location(Bukkit.getWorld(Setwarp.fileConfig.getString("Warp." + warp + ".World")),
-                                Setwarp.fileConfig.getDouble("Warp." + warp + ".X"),
-                                Setwarp.fileConfig.getDouble("Warp." + warp + ".Y"),
-                                Setwarp.fileConfig.getDouble("Warp." + warp + ".Z"),
-                                yaw, pitch);
-                        player.teleport(loc);
-                        Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
-                        if (subtitle) {
-                            player.sendTitle("Warped to " + ChatColor.GOLD + warp, null);
-                        } else {
-                            player.sendMessage( "Successfully warped to " + ChatColor.GOLD + warp);
+                        if (ServerEssentials.plugin.getConfig().getInt("warp-teleport") == 0){
+                            // Gathering Location
+                            float yaw = Setwarp.fileConfig.getInt("Warp." + warp + ".Yaw");
+                            float pitch = Sethome.fileConfig.getInt("Home." + player.getName() + ".Pitch");
+                            loc = new Location(Bukkit.getWorld(Setwarp.fileConfig.getString("Warp." + warp + ".World")),
+                                    Setwarp.fileConfig.getDouble("Warp." + warp + ".X"),
+                                    Setwarp.fileConfig.getDouble("Warp." + warp + ".Y"),
+                                    Setwarp.fileConfig.getDouble("Warp." + warp + ".Z"),
+                                    yaw, pitch);
+                            // Teleporting Player
+                            player.teleport(loc);
+                            Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
+                            if (subtitle) {
+                                player.sendTitle("Warped to " + ChatColor.GOLD + warp, null);
+                            } else {
+                                player.sendMessage( "Successfully warped to " + ChatColor.GOLD + warp);
+                            }
+                            player.closeInventory();
+                        }else{
+                            // Gathering Location
+                            float yaw = Setwarp.fileConfig.getInt("Warp." + warp + ".Yaw");
+                            float pitch = Sethome.fileConfig.getInt("Home." + player.getName() + ".Pitch");
+                            loc = new Location(Bukkit.getWorld(Setwarp.fileConfig.getString("Warp." + warp + ".World")),
+                                    Setwarp.fileConfig.getDouble("Warp." + warp + ".X"),
+                                    Setwarp.fileConfig.getDouble("Warp." + warp + ".Y"),
+                                    Setwarp.fileConfig.getDouble("Warp." + warp + ".Z"),
+                                    yaw, pitch);
+                            int seconds = ServerEssentials.plugin.getConfig().getInt("warp-teleport");
+                            player.sendMessage(ChatColor.GREEN + "Warping in " + ChatColor.GOLD + seconds + " Seconds");
+                            seconds = seconds * 20;
+                            if (warpteleport.containsKey(player.getUniqueId()) && warpteleport.get(player.getUniqueId()) != null) {
+                                Bukkit.getScheduler().cancelTask(warpteleport.get(player.getUniqueId()));
+                            }
+                            String finalWarp = warp;
+                            warpteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                                public void run() {
+                                    if (warpteleport.containsKey(player.getUniqueId())) {
+                                        // Teleporting Player
+                                        player.teleport(loc);
+                                        Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
+                                        if (subtitle) {
+                                            player.sendTitle("Warped to " + ChatColor.GOLD + finalWarp, null);
+                                        } else {
+                                            player.sendMessage( "Successfully warped to " + ChatColor.GOLD + finalWarp);
+                                        }
+                                    }
+                                }
+                            }, seconds));
+                            player.closeInventory();
                         }
-                        player.closeInventory();
                     } else {
                         if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
                             player.sendMessage(ChatColor.RED + "You do not have the required permission (se.warps." + warp + ") to run this command.");
@@ -109,21 +147,54 @@ public class PlayerClickEvent implements Listener {
                         }
                     }
                 } else if (e.getClick() == ClickType.LEFT) {
-                    // Gathering Location
-                    float yaw = Sethome.fileConfig.getInt("Home." + name + "." + home + ".Yaw");
-                    loc = new Location(Bukkit.getWorld(Sethome.fileConfig.getString("Home." + name + "." + home + ".World")),
-                            Sethome.fileConfig.getDouble("Home." + name + "." + home + ".X"),
-                            Sethome.fileConfig.getDouble("Home." + name + "." + home + ".Y"),
-                            Sethome.fileConfig.getDouble("Home." + name + "." + home + ".Z"),
-                            yaw, 0);
-                    player.teleport(loc);
-                    Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
-                    if (subtitle) {
-                        player.sendTitle("Teleported to " + ChatColor.GOLD + home, null);
-                    } else {
-                        player.sendMessage("Successfully teleported to " + ChatColor.GOLD + home);
+                    if (ServerEssentials.plugin.getConfig().getInt("home-teleport") == 0){
+                        // Gathering Location
+                        float yaw = Sethome.fileConfig.getInt("Home." + name + "." + home + ".Yaw");
+                        loc = new Location(Bukkit.getWorld(Sethome.fileConfig.getString("Home." + name + "." + home + ".World")),
+                                Sethome.fileConfig.getDouble("Home." + name + "." + home + ".X"),
+                                Sethome.fileConfig.getDouble("Home." + name + "." + home + ".Y"),
+                                Sethome.fileConfig.getDouble("Home." + name + "." + home + ".Z"),
+                                yaw, 0);
+                        // Teleporting Player
+                        player.teleport(loc);
+                        Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
+                        if (subtitle) {
+                            player.sendTitle("Teleported to " + ChatColor.GOLD + home, null);
+                        } else {
+                            player.sendMessage("Successfully teleported to " + ChatColor.GOLD + home);
+                        }
+                        player.closeInventory();
+                    }else{
+                        int seconds = ServerEssentials.plugin.getConfig().getInt("home-teleport");
+                        player.sendMessage(ChatColor.GREEN + "Teleporting to Home in " + ChatColor.GOLD + seconds + " Seconds");
+                        seconds = seconds * 20;
+                        // Gathering Location
+                        float yaw = Sethome.fileConfig.getInt("Home." + name + "." + home + ".Yaw");
+                        loc = new Location(Bukkit.getWorld(Sethome.fileConfig.getString("Home." + name + "." + home + ".World")),
+                                Sethome.fileConfig.getDouble("Home." + name + "." + home + ".X"),
+                                Sethome.fileConfig.getDouble("Home." + name + "." + home + ".Y"),
+                                Sethome.fileConfig.getDouble("Home." + name + "." + home + ".Z"),
+                                yaw, 0);
+                        if (hometeleport.containsKey(player.getUniqueId()) && hometeleport.get(player.getUniqueId()) != null) {
+                            Bukkit.getScheduler().cancelTask(hometeleport.get(player.getUniqueId()));
+                        }
+                        String finalHome = home;
+                        hometeleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                            public void run() {
+                                if (hometeleport.containsKey(player.getUniqueId())) {
+                                    // Teleporting Player
+                                    player.teleport(loc);
+                                    Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
+                                    if (subtitle) {
+                                        player.sendTitle("Teleported to " + ChatColor.GOLD + finalHome, null);
+                                    } else {
+                                        player.sendMessage("Successfully teleported to " + ChatColor.GOLD + finalHome);
+                                    }
+                                }
+                            }
+                        }, seconds));
+                        player.closeInventory();
                     }
-                    player.closeInventory();
                 }
             }
         }

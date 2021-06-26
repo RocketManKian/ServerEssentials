@@ -11,8 +11,6 @@ import org.bukkit.scheduler.BukkitTask;
 
 public class Reload {
 
-    public static BukkitTask broadcastLoop;
-    FileConfiguration config = ServerEssentials.getPlugin().getConfig();
     public static ServerEssentials plugin;
 
     public Reload(ServerEssentials plugin) {
@@ -38,8 +36,6 @@ public class Reload {
                 ServerEssentials.broadcastLoop.cancel();
                 Long delay = ServerEssentials.getPlugin().getConfig().getLong("broadcast-delay");
                 ServerEssentials.broadcastLoop = new Broadcast(ServerEssentials.plugin).runTaskTimer(ServerEssentials.plugin, delay, delay);
-                // Applying Any Event Changes
-                ServerEssentials.getPlugin().registerEvents();
             } else {
                 if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
                     player.sendMessage(ChatColor.RED + "You do not have the required permission (se.reload) to run this command.");

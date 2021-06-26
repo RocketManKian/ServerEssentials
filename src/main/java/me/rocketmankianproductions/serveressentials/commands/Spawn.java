@@ -12,14 +12,17 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.UUID;
 
 public class Spawn implements CommandExecutor {
 
-    ArrayList<Player> cooldown = new ArrayList<Player>();
-
+    private static HashMap<UUID, Integer> spawnteleport = new HashMap<>();
+    int delay = ServerEssentials.plugin.getConfig().getInt("spawn-teleport");
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+
         Location loc;
         if (sender instanceof Player){
             Player player = (Player) sender;
@@ -32,10 +35,28 @@ public class Spawn implements CommandExecutor {
                     float pitch = Setspawn.fileConfig.getInt("Location.Pitch");
                     loc = new Location(Bukkit.getWorld(Setspawn.fileConfig.getString("Location.World")), Setspawn.fileConfig.getDouble("Location.X"), Setspawn.fileConfig.getDouble("Location.Y"), Setspawn.fileConfig.getDouble("Location.Z"), yaw, pitch);
                     if (args.length == 0) {
-                        // Teleporting Player
-                        player.teleport(loc);
-                        player.sendMessage("Successfully teleported to spawn.");
-                        return true;
+                        if (ServerEssentials.plugin.getConfig().getInt("spawn-teleport") == 0){
+                            // Teleporting Player
+                            player.teleport(loc);
+                            player.sendMessage("Successfully teleported to spawn.");
+                            return true;
+                        }else{
+                            player.sendMessage(ChatColor.GREEN + "Teleporting to Spawn in " + ChatColor.GOLD + delay + " Seconds");
+                            delay = delay * 20;
+                            if (spawnteleport.containsKey(player.getUniqueId()) && spawnteleport.get(player.getUniqueId()) != null) {
+                                Bukkit.getScheduler().cancelTask(spawnteleport.get(player.getUniqueId()));
+                            }
+                            spawnteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                                public void run() {
+                                    if (spawnteleport.containsKey(player.getUniqueId())) {
+                                        // Teleporting Player
+                                        player.teleport(loc);
+                                        player.sendMessage("Successfully teleported to spawn.");
+                                    }
+                                }
+                            }, delay));
+                            return true;
+                        }
                     } else if (args.length >= 1) {
                         Player target = Bukkit.getPlayerExact(args[0]);
                         // Checking if the player exists

@@ -16,9 +16,14 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class Home implements CommandExecutor {
+
+    private static HashMap<UUID, Integer> hometeleport = new HashMap<>();
+    int delay = ServerEssentials.plugin.getConfig().getInt("home-teleport");
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
@@ -39,14 +44,36 @@ public class Home implements CommandExecutor {
                             Sethome.fileConfig.getDouble("Home." + name + "." + args[0] + ".Z"),
                             yaw, 0);
                     if (args.length == 1) {
-                        // Teleporting Player
-                        player.teleport(loc);
-                        Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
-                        if (subtitle) {
-                            player.sendTitle("Successfully teleported to " + ChatColor.GOLD + args[0], null);
-                            return true;
-                        } else {
-                            player.sendMessage("Successfully teleported to " + ChatColor.GOLD + args[0]);
+                        if (ServerEssentials.plugin.getConfig().getInt("home-teleport") == 0) {
+                            player.teleport(loc);
+                            Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
+                            if (subtitle) {
+                                player.sendTitle("Successfully teleported to " + ChatColor.GOLD + args[0], null);
+                                return true;
+                            } else {
+                                player.sendMessage("Successfully teleported to " + ChatColor.GOLD + args[0]);
+                                return true;
+                            }
+                        }else{
+                            player.sendMessage(ChatColor.GREEN + "Teleporting to " + ChatColor.GOLD + args[0] + ChatColor.GREEN + " in " + ChatColor.GOLD + delay + " Seconds");
+                            delay = delay * 20;
+                            if (hometeleport.containsKey(player.getUniqueId()) && hometeleport.get(player.getUniqueId()) != null) {
+                                Bukkit.getScheduler().cancelTask(hometeleport.get(player.getUniqueId()));
+                            }
+                            hometeleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                                public void run() {
+                                    if (hometeleport.containsKey(player.getUniqueId())) {
+                                        // Teleporting Player
+                                        player.teleport(loc);
+                                        Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
+                                        if (subtitle) {
+                                            player.sendTitle("Successfully teleported to " + ChatColor.GOLD + args[0], null);
+                                        } else {
+                                            player.sendMessage("Successfully teleported to " + ChatColor.GOLD + args[0]);
+                                        }
+                                    }
+                                }
+                            }, delay));
                             return true;
                         }
                     }

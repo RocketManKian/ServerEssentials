@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 1.60.8
+# This config was generated for version 1.60.9
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -100,6 +100,15 @@ channel-name: report-logs
 group-id: ""
 ############################################################
 # +------------------------------------------------------+ #
+# +              Server Essentials (Spawn)                + #
+# +------------------------------------------------------+ #
+############################################################
+# How many Seconds the Player has to wait before they are teleported to Spawn
+# Make sure to use Ticks: 1 Seconds = 20 Ticks
+# Set to '0' to Disable
+spawn-teleport: 5
+############################################################
+# +------------------------------------------------------+ #
 # +              Server Essentials (Warp)                + #
 # +------------------------------------------------------+ #
 ############################################################
@@ -114,6 +123,9 @@ warp-item: DIAMOND_BLOCK
 warp-name-colour: "&a"
 # Enable Subtitle Text on screen when teleporting to a Warp
 enable-warp-subtitle: false
+# How many Seconds the Player has to wait before they are teleported to a Warp
+# Set to '0' to Disable
+warp-teleport: 5
 ############################################################
 # +------------------------------------------------------+ #
 # +              Server Essentials (Home)                + #
@@ -132,6 +144,9 @@ home-name-colour: "&a"
 enable-home-subtitle: false
 # Default Home Count
 default-home-count: 3
+# How many Seconds the Player has to wait before they are teleported to Home
+# Set to '0' to Disable
+home-teleport: 5
 ############################################################
 # +------------------------------------------------------+ #
 # +              Server Essentials (Chat)                + #
