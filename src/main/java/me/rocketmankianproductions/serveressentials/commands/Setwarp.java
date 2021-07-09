@@ -52,22 +52,45 @@ public class Setwarp implements CommandExecutor {
         Player player = (Player) sender;
         if (sender instanceof Player) {
             if (args.length == 1) {
+                Boolean blacklistenabled = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-blacklist");
                 String world = player.getWorld().getName();
                 String name = player.getUniqueId().toString();
                 if (player.hasPermission("se.setwarp")) {
-                    fileConfig.set("Warp." + args[0] + ".World", world);
-                    fileConfig.set("Warp." + args[0] + ".X", player.getLocation().getX());
-                    fileConfig.set("Warp." + args[0] + ".Y", player.getLocation().getY());
-                    fileConfig.set("Warp." + args[0] + ".Z", player.getLocation().getZ());
-                    fileConfig.set("Warp." + args[0] + ".Yaw", player.getLocation().getYaw());
-                    try {
-                        fileConfig.save(file);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    if (blacklistenabled){
+                        for (String worlds : ServerEssentials.plugin.getConfig().getStringList("warp-blacklist")){
+                            if (player.getWorld().getName().equalsIgnoreCase(worlds)){
+                                player.sendMessage(ChatColor.RED + "You cannot set a Warp in a Blacklisted World");
+                                return true;
+                            }
+                        }
+                        fileConfig.set("Warp." + args[0] + ".World", world);
+                        fileConfig.set("Warp." + args[0] + ".X", player.getLocation().getX());
+                        fileConfig.set("Warp." + args[0] + ".Y", player.getLocation().getY());
+                        fileConfig.set("Warp." + args[0] + ".Z", player.getLocation().getZ());
+                        fileConfig.set("Warp." + args[0] + ".Yaw", player.getLocation().getYaw());
+                        try {
+                            fileConfig.save(file);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Setwarp.reload();
+                        player.sendMessage(ChatColor.GREEN + "Successfully set warp location!");
+                        return true;
+                    }else{
+                        fileConfig.set("Warp." + args[0] + ".World", world);
+                        fileConfig.set("Warp." + args[0] + ".X", player.getLocation().getX());
+                        fileConfig.set("Warp." + args[0] + ".Y", player.getLocation().getY());
+                        fileConfig.set("Warp." + args[0] + ".Z", player.getLocation().getZ());
+                        fileConfig.set("Warp." + args[0] + ".Yaw", player.getLocation().getYaw());
+                        try {
+                            fileConfig.save(file);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Setwarp.reload();
+                        player.sendMessage(ChatColor.GREEN + "Successfully set warp location!");
+                        return true;
                     }
-                    Setwarp.reload();
-                    player.sendMessage(ChatColor.GREEN + "Successfully set warp location!");
-                    return true;
                 } else {
                     if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
                         player.sendMessage(ChatColor.RED + "You do not have the required permission (se.setwarp) to run this command.");

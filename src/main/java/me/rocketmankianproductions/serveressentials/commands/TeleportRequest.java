@@ -40,31 +40,65 @@ public class TeleportRequest implements CommandExecutor {
             }
             if (args.length == 1) {
                 Player target = Bukkit.getPlayer(args[0]);
+                Boolean blacklistedworld = ServerEssentials.plugin.getConfig().getBoolean("enable-teleport-blacklist");
                 if (target != null) {
                     if (target != player) {
-                        if (TPToggle.fileConfig.getBoolean("tptoggle." + target.getName(), false) == false) {
-                            tpa.put(target.getUniqueId(), player.getUniqueId());
-                            player.sendMessage(ChatColor.GOLD + "You sent a teleport request to " + ChatColor.WHITE + target.getName() + ".");
-                            player.sendMessage(ChatColor.GOLD + "To cancel this request, type " + ChatColor.RED + "/tpacancel");
-                            target.sendMessage(ChatColor.WHITE + player.getName() + ChatColor.GOLD + " sent a teleport request to you.");
-                            target.sendMessage(ChatColor.GOLD + "To accept, type" + ChatColor.RED + " /tpaccept.");
-                            target.sendMessage(ChatColor.GOLD + "To deny, type " + ChatColor.RED + "/tpdeny.");
-                            target.sendMessage(ChatColor.GOLD + "This request will timeout in " + ChatColor.RED + delay3 + " seconds");
-                            if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
-                                Bukkit.getScheduler().cancelTask(teleportcancel.get(target.getUniqueId()));
-                            }
-                            teleportcancel.put(target.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
-                                public void run() {
-                                    if (tpa.containsKey(target.getUniqueId())) {
-                                        target.sendMessage(ChatColor.RED + "Teleport request timed out");
-                                        tpa.remove(target.getUniqueId());
-                                    }
+                        if (blacklistedworld){
+                            for (String worlds : ServerEssentials.plugin.getConfig().getStringList("teleport-blacklist")){
+                                if (target.getWorld().getName().equalsIgnoreCase(worlds)){
+                                    player.sendMessage(ChatColor.RED + "Target is in a Blacklisted World");
+                                    return true;
                                 }
-                            }, delay2));
-                            return true;
-                        } else {
-                            player.sendMessage(ChatColor.RED + "That person has Teleporting disabled.");
-                            return true;
+                            }
+                            if (TPToggle.fileConfig.getBoolean("tptoggle." + target.getName(), false) == false) {
+                                tpa.put(target.getUniqueId(), player.getUniqueId());
+                                player.sendMessage(ChatColor.GOLD + "You sent a teleport request to " + ChatColor.WHITE + target.getName() + ".");
+                                player.sendMessage(ChatColor.GOLD + "To cancel this request, type " + ChatColor.RED + "/tpacancel");
+                                target.sendMessage(ChatColor.WHITE + player.getName() + ChatColor.GOLD + " sent a teleport request to you.");
+                                target.sendMessage(ChatColor.GOLD + "To accept, type" + ChatColor.RED + " /tpaccept.");
+                                target.sendMessage(ChatColor.GOLD + "To deny, type " + ChatColor.RED + "/tpdeny.");
+                                target.sendMessage(ChatColor.GOLD + "This request will timeout in " + ChatColor.RED + delay3 + " seconds");
+                                if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
+                                    Bukkit.getScheduler().cancelTask(teleportcancel.get(target.getUniqueId()));
+                                }
+                                teleportcancel.put(target.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
+                                    public void run() {
+                                        if (tpa.containsKey(target.getUniqueId())) {
+                                            target.sendMessage(ChatColor.RED + "Teleport request timed out");
+                                            tpa.remove(target.getUniqueId());
+                                        }
+                                    }
+                                }, delay2));
+                                return true;
+                            } else {
+                                player.sendMessage(ChatColor.RED + "That person has Teleporting disabled.");
+                                return true;
+                            }
+                        }else{
+                            if (TPToggle.fileConfig.getBoolean("tptoggle." + target.getName(), false) == false) {
+                                tpa.put(target.getUniqueId(), player.getUniqueId());
+                                player.sendMessage(ChatColor.GOLD + "You sent a teleport request to " + ChatColor.WHITE + target.getName() + ".");
+                                player.sendMessage(ChatColor.GOLD + "To cancel this request, type " + ChatColor.RED + "/tpacancel");
+                                target.sendMessage(ChatColor.WHITE + player.getName() + ChatColor.GOLD + " sent a teleport request to you.");
+                                target.sendMessage(ChatColor.GOLD + "To accept, type" + ChatColor.RED + " /tpaccept.");
+                                target.sendMessage(ChatColor.GOLD + "To deny, type " + ChatColor.RED + "/tpdeny.");
+                                target.sendMessage(ChatColor.GOLD + "This request will timeout in " + ChatColor.RED + delay3 + " seconds");
+                                if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
+                                    Bukkit.getScheduler().cancelTask(teleportcancel.get(target.getUniqueId()));
+                                }
+                                teleportcancel.put(target.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
+                                    public void run() {
+                                        if (tpa.containsKey(target.getUniqueId())) {
+                                            target.sendMessage(ChatColor.RED + "Teleport request timed out");
+                                            tpa.remove(target.getUniqueId());
+                                        }
+                                    }
+                                }, delay2));
+                                return true;
+                            } else {
+                                player.sendMessage(ChatColor.RED + "That person has Teleporting disabled.");
+                                return true;
+                            }
                         }
                     } else {
                         player.sendMessage(ChatColor.RED + "You cannot teleport to yourself!");
@@ -89,31 +123,65 @@ public class TeleportRequest implements CommandExecutor {
             }
             if (args.length == 1) {
                 Player target = Bukkit.getPlayer(args[0]);
+                Boolean blacklistedworld = ServerEssentials.plugin.getConfig().getBoolean("enable-teleport-blacklist");
                 if (target != null) {
                     if (target != player) {
-                        if (TPToggle.fileConfig.getBoolean("tptoggle." + target.getName(), false) == false) {
-                            tpahere.put(target.getUniqueId(), player.getUniqueId());
-                            player.sendMessage(ChatColor.GOLD + "You sent a teleport here request to " + ChatColor.WHITE + target.getName() + ".");
-                            player.sendMessage(ChatColor.GOLD + "To cancel this request, type " + ChatColor.RED + "/tpacancel");
-                            target.sendMessage(ChatColor.WHITE + player.getName() + ChatColor.GOLD + " would like you to teleport to them");
-                            target.sendMessage(ChatColor.GOLD + "To accept, type" + ChatColor.RED + " /tpaccept.");
-                            target.sendMessage(ChatColor.GOLD + "To deny, type " + ChatColor.RED + "/tpdeny.");
-                            target.sendMessage(ChatColor.GOLD + "This request will timeout in " + ChatColor.RED + delay3 + " seconds");
-                            if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
-                                Bukkit.getScheduler().cancelTask(teleportcancel.get(target.getUniqueId()));
-                            }
-                            teleportcancel.put(target.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
-                                public void run() {
-                                    if (tpahere.containsKey(target.getUniqueId())) {
-                                        target.sendMessage(ChatColor.RED + "Teleport request timed out");
-                                        tpahere.remove(target.getUniqueId());
-                                    }
+                        if (blacklistedworld){
+                            for (String worlds : ServerEssentials.plugin.getConfig().getStringList("teleport-blacklist")){
+                                if (player.getWorld().getName().equalsIgnoreCase(worlds)){
+                                    player.sendMessage(ChatColor.RED + "Cannot send Teleport Here Request because you are in a Blacklisted World");
+                                    return true;
                                 }
-                            }, delay2));
-                            return true;
-                        } else {
-                            player.sendMessage(ChatColor.RED + "That person has Teleporting disabled.");
-                            return true;
+                            }
+                            if (TPToggle.fileConfig.getBoolean("tptoggle." + target.getName(), false) == false) {
+                                tpahere.put(target.getUniqueId(), player.getUniqueId());
+                                player.sendMessage(ChatColor.GOLD + "You sent a teleport here request to " + ChatColor.WHITE + target.getName() + ".");
+                                player.sendMessage(ChatColor.GOLD + "To cancel this request, type " + ChatColor.RED + "/tpacancel");
+                                target.sendMessage(ChatColor.WHITE + player.getName() + ChatColor.GOLD + " would like you to teleport to them");
+                                target.sendMessage(ChatColor.GOLD + "To accept, type" + ChatColor.RED + " /tpaccept.");
+                                target.sendMessage(ChatColor.GOLD + "To deny, type " + ChatColor.RED + "/tpdeny.");
+                                target.sendMessage(ChatColor.GOLD + "This request will timeout in " + ChatColor.RED + delay3 + " seconds");
+                                if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
+                                    Bukkit.getScheduler().cancelTask(teleportcancel.get(target.getUniqueId()));
+                                }
+                                teleportcancel.put(target.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
+                                    public void run() {
+                                        if (tpahere.containsKey(target.getUniqueId())) {
+                                            target.sendMessage(ChatColor.RED + "Teleport request timed out");
+                                            tpahere.remove(target.getUniqueId());
+                                        }
+                                    }
+                                }, delay2));
+                                return true;
+                            } else {
+                                player.sendMessage(ChatColor.RED + "That person has Teleporting disabled.");
+                                return true;
+                            }
+                        }else{
+                            if (TPToggle.fileConfig.getBoolean("tptoggle." + target.getName(), false) == false) {
+                                tpahere.put(target.getUniqueId(), player.getUniqueId());
+                                player.sendMessage(ChatColor.GOLD + "You sent a teleport here request to " + ChatColor.WHITE + target.getName() + ".");
+                                player.sendMessage(ChatColor.GOLD + "To cancel this request, type " + ChatColor.RED + "/tpacancel");
+                                target.sendMessage(ChatColor.WHITE + player.getName() + ChatColor.GOLD + " would like you to teleport to them");
+                                target.sendMessage(ChatColor.GOLD + "To accept, type" + ChatColor.RED + " /tpaccept.");
+                                target.sendMessage(ChatColor.GOLD + "To deny, type " + ChatColor.RED + "/tpdeny.");
+                                target.sendMessage(ChatColor.GOLD + "This request will timeout in " + ChatColor.RED + delay3 + " seconds");
+                                if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
+                                    Bukkit.getScheduler().cancelTask(teleportcancel.get(target.getUniqueId()));
+                                }
+                                teleportcancel.put(target.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
+                                    public void run() {
+                                        if (tpahere.containsKey(target.getUniqueId())) {
+                                            target.sendMessage(ChatColor.RED + "Teleport request timed out");
+                                            tpahere.remove(target.getUniqueId());
+                                        }
+                                    }
+                                }, delay2));
+                                return true;
+                            } else {
+                                player.sendMessage(ChatColor.RED + "That person has Teleporting disabled.");
+                                return true;
+                            }
                         }
                     } else {
                         player.sendMessage(ChatColor.RED + "You cannot teleport to yourself!");

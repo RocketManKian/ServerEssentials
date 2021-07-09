@@ -2,6 +2,7 @@ package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.LoggerMessage;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import net.kyori.adventure.platform.facet.Facet;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -67,10 +68,8 @@ public class Rules implements CommandExecutor {
             Player player = (Player) sender;
             if (player.hasPermission("se.rules")) {
                 player.sendMessage(ChatColor.GREEN + "Server Rules:");
-                int index = 1;
                 for (String rule : fileConfig.getStringList(configpath)) {
-                    player.sendMessage(index + ". " + rule);
-                    index++;
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', rule));
                 }
             } else {
                 if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
