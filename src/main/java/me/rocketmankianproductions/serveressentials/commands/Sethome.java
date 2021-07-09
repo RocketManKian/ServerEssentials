@@ -2,8 +2,10 @@ package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.LoggerMessage;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.NamespacedKey;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,6 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 public class Sethome implements CommandExecutor {
 
@@ -63,30 +66,73 @@ public class Sethome implements CommandExecutor {
                     if (inventorySection != null) {
                        homesAmount = inventorySection.getKeys(false).size();
                     }
-                    if (fileConfig.getString("Home." + name + "." + args[0]) != null || player.hasPermission("se.sethome.unlimited")) {
-                        createHome(name, args, world, player);
-                        return true;
-                    } else if (player.hasPermission("se.sethome")) {
-                        if (homesAmount < maxHomes) {
+                    Boolean blacklistenabled = ServerEssentials.getPlugin().getConfig().getBoolean("enable-home-blacklist");
+                    if (blacklistenabled) {
+                        for (String worlds : ServerEssentials.plugin.getConfig().getStringList("home-blacklist")) {
+                            if (player.getWorld().getName().equalsIgnoreCase(worlds)) {
+                                player.sendMessage(ChatColor.RED + "You cannot set a Home in a Blacklisted World");
+                                return true;
+                            }
+                        }
+                        if (fileConfig.getString("Home." + name + "." + args[0]) != null || player.hasPermission("se.sethome.unlimited")) {
                             createHome(name, args, world, player);
-                        } else {
-                            player.sendMessage(ChatColor.RED + "You cannot set any more homes. (Max Homes: " + maxHomes + ")");
+                            return true;
+                        } else if (player.hasPermission("se.sethome")) {
+                            if (homesAmount < maxHomes) {
+                                createHome(name, args, world, player);
+                            } else {
+                                player.sendMessage(ChatColor.RED + "You cannot set any more homes. (Max Homes: " + maxHomes + ")");
+                                return true;
+                            }
+                            return true;
+                        } else if (!player.hasPermission("se.sethome")) {
+                            if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
+                                player.sendMessage(ChatColor.RED + "You do not have the required permission (se.sethome) to run this command.");
+                                return true;
+                            } else {
+                                String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                            }
                             return true;
                         }
-                        return true;
-                    } else if (!player.hasPermission("se.sethome")) {
-                        if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
-                            player.sendMessage(ChatColor.RED + "You do not have the required permission (se.sethome) to run this command.");
+                    }else{
+                        if (fileConfig.getString("Home." + name + "." + args[0]) != null || player.hasPermission("se.sethome.unlimited")) {
+                            createHome(name, args, world, player);
                             return true;
-                        } else {
-                            String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                        } else if (player.hasPermission("se.sethome")) {
+                            if (homesAmount < maxHomes) {
+                                createHome(name, args, world, player);
+                            } else {
+                                player.sendMessage(ChatColor.RED + "You cannot set any more homes. (Max Homes: " + maxHomes + ")");
+                                return true;
+                            }
+                            return true;
+                        } else if (!player.hasPermission("se.sethome")) {
+                            if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
+                                player.sendMessage(ChatColor.RED + "You do not have the required permission (se.sethome) to run this command.");
+                                return true;
+                            } else {
+                                String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                            }
+                            return true;
                         }
-                        return true;
                     }
                 } else if (fileConfig.getString("Home." + name + "." + args[0]) == null && player.hasPermission("se.sethome")) {
-                    createHome(name, args, world, player);
-                    return true;
+                    Boolean blacklistenabled = ServerEssentials.getPlugin().getConfig().getBoolean("enable-home-blacklist");
+                    if (blacklistenabled){
+                        for (String worlds : ServerEssentials.plugin.getConfig().getStringList("home-blacklist")) {
+                            if (player.getWorld().getName().equalsIgnoreCase(worlds)) {
+                                player.sendMessage(ChatColor.RED + "You cannot set a Home in a Blacklisted World");
+                                return true;
+                            }
+                        }
+                        createHome(name, args, world, player);
+                        return true;
+                    }else{
+                        createHome(name, args, world, player);
+                        return true;
+                    }
                 } else {
                     if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
                         player.sendMessage(ChatColor.RED + "You do not have the required permission (se.sethome) to run this command.");

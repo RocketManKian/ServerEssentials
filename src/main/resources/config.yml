@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 1.70.1
+# This config was generated for version 1.70.2
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -126,6 +126,12 @@ enable-warp-subtitle: false
 # How many Seconds the Player has to wait before they are teleported to a Warp
 # Set to '0' to Disable
 warp-teleport: 5
+# Enable Blacklisted World Feature for Warps
+# Default: False
+enable-warp-blacklist: false
+# Blacklist Worlds where Player's cannot create Warps
+warp-blacklist:
+  - world
 ############################################################
 # +------------------------------------------------------+ #
 # +              Server Essentials (Home)                + #
@@ -147,6 +153,23 @@ default-home-count: 3
 # How many Seconds the Player has to wait before they are teleported to Home
 # Set to '0' to Disable
 home-teleport: 5
+# Enable Blacklisted World Feature for Homes
+enable-home-blacklist: false
+# Blacklist Worlds where Player's cannot set homes
+# Default: False
+home-blacklist:
+  - world
+############################################################
+# +------------------------------------------------------+ #
+# +              Server Essentials (Teleport)            + #
+# +------------------------------------------------------+ #
+# Enable Blacklisted World Feature for Teleporting to Players
+# Default: False
+enable-teleport-blacklist: false
+# Blacklist Worlds where Player's cannot teleport to other Players
+teleport-blacklist:
+  - world
+############################################################
 ############################################################
 # +------------------------------------------------------+ #
 # +              Server Essentials (Chat)                + #
