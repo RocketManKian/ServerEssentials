@@ -132,7 +132,7 @@ public class PlayerClickEvent implements Listener {
                         }
                     }
                 } else if (e.getClick() == ClickType.LEFT) {
-                    if (ServerEssentials.plugin.getConfig().getInt("home-teleport") == 0){
+                    if (ServerEssentials.plugin.getConfig().getInt("home-teleport") == 0) {
                         Location loc = getHomeLocation(home, player);
                         // Teleporting Player
                         player.teleport(loc);
@@ -143,7 +143,7 @@ public class PlayerClickEvent implements Listener {
                             player.sendMessage(ChatColor.GREEN + "Successfully teleported to " + ChatColor.GOLD + home);
                         }
                         player.closeInventory();
-                    }else{
+                    } else {
                         int seconds = ServerEssentials.plugin.getConfig().getInt("home-teleport");
                         player.sendMessage(ChatColor.GREEN + "Teleporting to Home in " + ChatColor.GOLD + seconds + " Seconds");
                         seconds = seconds * 20;
