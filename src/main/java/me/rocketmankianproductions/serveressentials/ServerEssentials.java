@@ -237,6 +237,8 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("staffchat").setExecutor(new StaffChat());
         // Trash Command
         getCommand("trash").setExecutor(new Trash());
+        // Back Command
+        getCommand("back").setExecutor(new Back());
     }
 
     @Override
@@ -256,6 +258,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new PlayerRespawnListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerClickEvent(), this);
         getServer().getPluginManager().registerEvents(new PlayerChatEvent(), this);
+        getServer().getPluginManager().registerEvents(new PlayerDeathEvent(), this);
         // God Command
         getServer().getPluginManager().registerEvents(new God(), this);
     }

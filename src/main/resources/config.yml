@@ -172,6 +172,28 @@ teleport-blacklist:
 ############################################################
 ############################################################
 # +------------------------------------------------------+ #
+# +              Server Essentials (Back)                + #
+# +------------------------------------------------------+ #
+############################################################
+# Enable or Disable Saving Location when teleporting to someone
+teleport-save: true
+# Enable or Disable Saving Location when teleport to your Home
+home-save: true
+# Enable or Disable Saving Location when warping to a Warp
+warp-save: true
+# Enable or Disable Saving Location when teleporting to Spawn
+spawn-save: true
+# Enable or Disable Saving Location upon Death
+death-save: true
+# Enable Blacklisted World Feature for the Back Command
+# Default: False
+enable-back-blacklist: false
+# Blacklist Worlds where Player's cannot use /back
+back-blacklist:
+  - world
+############################################################
+############################################################
+# +------------------------------------------------------+ #
 # +              Server Essentials (Chat)                + #
 # +------------------------------------------------------+ #
 ############################################################

@@ -224,12 +224,28 @@ public class TeleportRequest implements CommandExecutor {
                 if (tpa.containsKey(player.getUniqueId())) {
                     player.sendMessage(ChatColor.GREEN + "You accepted the teleport request.");
                     Bukkit.getPlayer(tpa.get(player.getUniqueId())).sendMessage(ChatColor.WHITE + player.getName() + ChatColor.GREEN + " accepted the teleport request.");
+                    if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")){
+                        if (Back.location.containsKey(Bukkit.getPlayer(tpa.get(player.getUniqueId())))){
+                            Back.location.remove((Bukkit.getPlayer(tpa.get(player.getUniqueId()))));
+                            Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
+                        }else{
+                            Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
+                        }
+                    }
                     Bukkit.getPlayer(tpa.get(player.getUniqueId())).teleport(player);
                     tpa.remove(player.getUniqueId());
                     return true;
                 } else if (tpahere.containsKey(player.getUniqueId())) {
                     player.sendMessage(ChatColor.GREEN + "You accepted the teleport request.");
                     Bukkit.getPlayer(tpahere.get(player.getUniqueId())).sendMessage(ChatColor.WHITE + player.getName() + ChatColor.GREEN + " accepted the teleport request.");
+                    if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")){
+                        if (Back.location.containsKey(player.getUniqueId())){
+                            Back.location.remove(player.getUniqueId());
+                            Back.location.put(player.getUniqueId(), player.getLocation());
+                        }else{
+                            Back.location.put(player.getUniqueId(), player.getLocation());
+                        }
+                    }
                     player.teleport(Bukkit.getPlayer(tpahere.get(player.getUniqueId())));
                     tpahere.remove(player.getUniqueId());
                     return true;
