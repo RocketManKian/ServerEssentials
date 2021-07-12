@@ -18,6 +18,13 @@ public class PlayerDeathEvent implements Listener {
             }else{
                 Back.location.put(player.getUniqueId(), player.getLocation());
             }
+        }else if (player.hasPermission("se.back.bypass")){
+            if (Back.location.containsKey(player.getUniqueId())){
+                Back.location.remove(player.getUniqueId());
+                Back.location.put(player.getUniqueId(), player.getLocation());
+            }else{
+                Back.location.put(player.getUniqueId(), player.getLocation());
+            }
         }
     }
 }

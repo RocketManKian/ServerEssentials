@@ -44,6 +44,13 @@ public class Home implements CommandExecutor {
                                 }else{
                                     Back.location.put(player.getUniqueId(), player.getLocation());
                                 }
+                            }else if (player.hasPermission("se.back.bypass")){
+                                if (Back.location.containsKey(player.getUniqueId())){
+                                    Back.location.remove(player.getUniqueId());
+                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                }else{
+                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                }
                             }
                             player.teleport(loc);
                             Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
@@ -60,17 +67,24 @@ public class Home implements CommandExecutor {
                             if (hometeleport.containsKey(player.getUniqueId()) && hometeleport.get(player.getUniqueId()) != null) {
                                 Bukkit.getScheduler().cancelTask(hometeleport.get(player.getUniqueId()));
                             }
-                            if (ServerEssentials.plugin.getConfig().getBoolean("home-save")){
-                                if (Back.location.containsKey(player.getUniqueId())){
-                                    Back.location.remove(player.getUniqueId());
-                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                }else{
-                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                }
-                            }
                             hometeleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
                                 public void run() {
                                     if (hometeleport.containsKey(player.getUniqueId())) {
+                                        if (ServerEssentials.plugin.getConfig().getBoolean("home-save")){
+                                            if (Back.location.containsKey(player.getUniqueId())){
+                                                Back.location.remove(player.getUniqueId());
+                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                                            }else{
+                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                                            }
+                                        }else if (player.hasPermission("se.back.bypass")){
+                                            if (Back.location.containsKey(player.getUniqueId())){
+                                                Back.location.remove(player.getUniqueId());
+                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                                            }else{
+                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                                            }
+                                        }
                                         // Teleporting Player
                                         player.teleport(loc);
                                         Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
@@ -199,6 +213,13 @@ public class Home implements CommandExecutor {
                                             Sethome.fileConfig.getDouble("Home." + targetname + "." + args[1] + ".Z"),
                                             yaw, 0);
                                     if (ServerEssentials.plugin.getConfig().getBoolean("home-save")){
+                                        if (Back.location.containsKey(player.getUniqueId())){
+                                            Back.location.remove(player.getUniqueId());
+                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                        }else{
+                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                        }
+                                    }else if (player.hasPermission("se.back.bypass")){
                                         if (Back.location.containsKey(player.getUniqueId())){
                                             Back.location.remove(player.getUniqueId());
                                             Back.location.put(player.getUniqueId(), player.getLocation());

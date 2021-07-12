@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 1.70.4
+version: 1.70.5
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -322,6 +322,7 @@ permissions:
       se.staffchat: true
       se.trash: true
       se.back: true
+      se.back.bypass: true
   se.reload:
     description: "Gives access to the /se reload command."
     default: false
@@ -525,4 +526,7 @@ permissions:
     default: false
   se.back:
     description: "Back Command"
+    default: false
+  se.back.bypass:
+    description: "Back Bypass Permission"
     default: false

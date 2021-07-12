@@ -43,6 +43,13 @@ public class Warp implements CommandExecutor {
                                         }else{
                                             Back.location.put(player.getUniqueId(), player.getLocation());
                                         }
+                                    }else if (player.hasPermission("se.back.bypass")){
+                                        if (Back.location.containsKey(player.getUniqueId())){
+                                            Back.location.remove(player.getUniqueId());
+                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                        }else{
+                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                        }
                                     }
                                     player.teleport(loc);
                                     Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
@@ -59,17 +66,24 @@ public class Warp implements CommandExecutor {
                                     if (warpteleport.containsKey(player.getUniqueId()) && warpteleport.get(player.getUniqueId()) != null) {
                                         Bukkit.getScheduler().cancelTask(warpteleport.get(player.getUniqueId()));
                                     }
-                                    if (ServerEssentials.plugin.getConfig().getBoolean("warp-save")){
-                                        if (Back.location.containsKey(player.getUniqueId())){
-                                            Back.location.remove(player.getUniqueId());
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        }else{
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        }
-                                    }
                                     warpteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
                                         public void run() {
                                             if (warpteleport.containsKey(player.getUniqueId())) {
+                                                if (ServerEssentials.plugin.getConfig().getBoolean("warp-save")){
+                                                    if (Back.location.containsKey(player.getUniqueId())){
+                                                        Back.location.remove(player.getUniqueId());
+                                                        Back.location.put(player.getUniqueId(), player.getLocation());
+                                                    }else{
+                                                        Back.location.put(player.getUniqueId(), player.getLocation());
+                                                    }
+                                                }else if (player.hasPermission("se.back.bypass")){
+                                                    if (Back.location.containsKey(player.getUniqueId())){
+                                                        Back.location.remove(player.getUniqueId());
+                                                        Back.location.put(player.getUniqueId(), player.getLocation());
+                                                    }else{
+                                                        Back.location.put(player.getUniqueId(), player.getLocation());
+                                                    }
+                                                }
                                                 // Teleporting Player
                                                 player.teleport(loc);
                                                 Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
@@ -211,6 +225,13 @@ public class Warp implements CommandExecutor {
                                     Setwarp.fileConfig.getDouble("Warp." + args[1] + ".Z"),
                                     yaw, 0);
                             if (ServerEssentials.plugin.getConfig().getBoolean("warp-save")){
+                                if (Back.location.containsKey(target.getUniqueId())){
+                                    Back.location.remove(target.getUniqueId());
+                                    Back.location.put(target.getUniqueId(), target.getLocation());
+                                }else{
+                                    Back.location.put(target.getUniqueId(), target.getLocation());
+                                }
+                            }else if (target.hasPermission("se.back.bypass")){
                                 if (Back.location.containsKey(target.getUniqueId())){
                                     Back.location.remove(target.getUniqueId());
                                     Back.location.put(target.getUniqueId(), target.getLocation());
