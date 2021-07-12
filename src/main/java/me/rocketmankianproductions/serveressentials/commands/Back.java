@@ -41,11 +41,30 @@ public class Back implements CommandExecutor {
                     Long delay = ServerEssentials.getPlugin().getConfig().getLong("back-cooldown");
                     int delay2 = (int) (delay * 20);
                     int delay3 = delay2 / 20;
-                    if (location.containsKey(player.getUniqueId())){
+                    if (location.containsKey(player.getUniqueId())) {
                         Boolean blacklistedworld = ServerEssentials.plugin.getConfig().getBoolean("enable-back-blacklist");
-                        if (blacklistedworld){
-                            for (String worlds : ServerEssentials.plugin.getConfig().getStringList("back-blacklist")){
-                                if (player.getWorld().getName().equalsIgnoreCase(worlds)){
+                        if (player.hasPermission("se.back.bypass")) {
+                            if (!backcancel.containsKey(player.getUniqueId())) {
+                                player.teleport(location.get(player.getUniqueId()));
+                                player.sendMessage(ChatColor.GOLD + "Teleported to previous location");
+                                backcancel.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
+                                    public void run() {
+                                        backconfirm.put(player.getUniqueId(), true);
+                                        backcancel.remove(player.getUniqueId());
+                                    }
+                                }, delay2));
+                                setTimer(delay3);
+                                startTimer();
+                                return true;
+                            }
+                            if (backcancel.containsKey(player.getUniqueId()) && backcancel.get(player.getUniqueId()) != null) {
+                                player.sendMessage(ChatColor.RED + "You cannot use this command for another " + ChatColor.GOLD + time + " Seconds");
+                                return true;
+                            }
+                        }
+                        if (blacklistedworld) {
+                            for (String worlds : ServerEssentials.plugin.getConfig().getStringList("back-blacklist")) {
+                                if (player.getWorld().getName().equalsIgnoreCase(worlds)) {
                                     player.sendMessage(ChatColor.RED + "Cannot use Back Command in a Blacklisted World");
                                     return true;
                                 }
@@ -67,7 +86,8 @@ public class Back implements CommandExecutor {
                                 player.sendMessage(ChatColor.RED + "You cannot use this command for another " + ChatColor.GOLD + time + " Seconds");
                                 return true;
                             }
-                        }else{
+                        }
+                        if (!blacklistedworld){
                             if (!backcancel.containsKey(player.getUniqueId())) {
                                 player.teleport(location.get(player.getUniqueId()));
                                 player.sendMessage(ChatColor.GOLD + "Teleported to previous location");
