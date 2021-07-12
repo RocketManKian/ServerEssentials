@@ -1,6 +1,7 @@
 package me.rocketmankianproductions.serveressentials.events;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.commands.Back;
 import me.rocketmankianproductions.serveressentials.commands.Sethome;
 import me.rocketmankianproductions.serveressentials.commands.Setwarp;
 import org.bukkit.Bukkit;
@@ -56,6 +57,14 @@ public class PlayerClickEvent implements Listener {
                     if (player.hasPermission("se.warps." + warp) || player.hasPermission("se.warps.all")) {
                         if (ServerEssentials.plugin.getConfig().getInt("warp-teleport") == 0){
                             Location loc = getWarpLocation(warp, player);
+                            if (ServerEssentials.plugin.getConfig().getBoolean("warp-save")){
+                                if (Back.location.containsKey(player.getUniqueId())){
+                                    Back.location.remove(player.getUniqueId());
+                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                }else{
+                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                }
+                            }
                             // Teleporting Player
                             player.teleport(loc);
                             Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
@@ -73,6 +82,14 @@ public class PlayerClickEvent implements Listener {
                             seconds = seconds * 20;
                             if (warpteleport.containsKey(player.getUniqueId()) && warpteleport.get(player.getUniqueId()) != null) {
                                 Bukkit.getScheduler().cancelTask(warpteleport.get(player.getUniqueId()));
+                            }
+                            if (ServerEssentials.plugin.getConfig().getBoolean("warp-save")){
+                                if (Back.location.containsKey(player.getUniqueId())){
+                                    Back.location.remove(player.getUniqueId());
+                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                }else{
+                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                }
                             }
                             warpteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
                                 public void run() {
@@ -134,6 +151,14 @@ public class PlayerClickEvent implements Listener {
                 } else if (e.getClick() == ClickType.LEFT) {
                     if (ServerEssentials.plugin.getConfig().getInt("home-teleport") == 0) {
                         Location loc = getHomeLocation(home, player);
+                        if (ServerEssentials.plugin.getConfig().getBoolean("home-save")){
+                            if (Back.location.containsKey(player.getUniqueId())){
+                                Back.location.remove(player.getUniqueId());
+                                Back.location.put(player.getUniqueId(), player.getLocation());
+                            }else{
+                                Back.location.put(player.getUniqueId(), player.getLocation());
+                            }
+                        }
                         // Teleporting Player
                         player.teleport(loc);
                         Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
@@ -152,6 +177,14 @@ public class PlayerClickEvent implements Listener {
                             Bukkit.getScheduler().cancelTask(hometeleport.get(player.getUniqueId()));
                         }
                         String finalHome = home;
+                        if (ServerEssentials.plugin.getConfig().getBoolean("home-save")){
+                            if (Back.location.containsKey(player.getUniqueId())){
+                                Back.location.remove(player.getUniqueId());
+                                Back.location.put(player.getUniqueId(), player.getLocation());
+                            }else{
+                                Back.location.put(player.getUniqueId(), player.getLocation());
+                            }
+                        }
                         hometeleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
                             public void run() {
                                 if (hometeleport.containsKey(player.getUniqueId())) {

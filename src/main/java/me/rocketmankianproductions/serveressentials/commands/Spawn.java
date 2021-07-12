@@ -30,6 +30,14 @@ public class Spawn implements CommandExecutor {
                     Location loc = getLocation();
                     if (args.length == 0) {
                         if (ServerEssentials.plugin.getConfig().getInt("spawn-teleport") == 0){
+                            if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")){
+                                if (Back.location.containsKey(player.getUniqueId())){
+                                    Back.location.remove(player.getUniqueId());
+                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                }else{
+                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                }
+                            }
                             // Teleporting Player
                             player.teleport(loc);
                             player.sendMessage("Successfully teleported to spawn.");
@@ -39,6 +47,14 @@ public class Spawn implements CommandExecutor {
                             delay = delay * 20;
                             if (spawnteleport.containsKey(player.getUniqueId()) && spawnteleport.get(player.getUniqueId()) != null) {
                                 Bukkit.getScheduler().cancelTask(spawnteleport.get(player.getUniqueId()));
+                            }
+                            if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")){
+                                if (Back.location.containsKey(player.getUniqueId())){
+                                    Back.location.remove(player.getUniqueId());
+                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                }else{
+                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                }
                             }
                             spawnteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
                                 public void run() {
@@ -55,6 +71,14 @@ public class Spawn implements CommandExecutor {
                         Player target = Bukkit.getPlayerExact(args[0]);
                         // Checking if the player exists
                         if (target != null) {
+                            if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")){
+                                if (Back.location.containsKey(target.getUniqueId())){
+                                    Back.location.remove(target.getUniqueId());
+                                    Back.location.put(target.getUniqueId(), target.getLocation());
+                                }else{
+                                    Back.location.put(target.getUniqueId(), target.getLocation());
+                                }
+                            }
                             // Teleporting player to Location
                             target.teleport(loc);
                             // Sending the Sender and Target a message
@@ -87,6 +111,14 @@ public class Spawn implements CommandExecutor {
                     // Check if the File Exists and if Location.World has data
                     if (Setspawn.file.exists() && Setspawn.fileConfig.getString("Location.World") != null) {
                         Location loc = getLocation();
+                        if (ServerEssentials.plugin.getConfig().getBoolean("spawn-save")){
+                            if (Back.location.containsKey(target.getUniqueId())){
+                                Back.location.remove(target.getUniqueId());
+                                Back.location.put(target.getUniqueId(), target.getLocation());
+                            }else{
+                                Back.location.put(target.getUniqueId(), target.getLocation());
+                            }
+                        }
                         // Teleporting player to Location
                         target.teleport(loc);
                         // Sending the Sender and Target a message

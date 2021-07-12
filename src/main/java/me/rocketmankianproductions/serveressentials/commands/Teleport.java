@@ -32,12 +32,27 @@ public class Teleport implements CommandExecutor {
                     } else {
                         String target2 = target.getName();
                         try {
-                            player.teleport(target.getLocation());
                             if (sender.hasPermission("se.silenttp")) {
                                 sender.sendMessage(ChatColor.GREEN + "Teleported to " + ChatColor.GOLD + target2);
+                                if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")){
+                                    if (Back.location.containsKey(player.getUniqueId())){
+                                        Back.location.remove(player.getUniqueId());
+                                        Back.location.put(player.getUniqueId(), player.getLocation());
+                                    }else{
+                                        Back.location.put(player.getUniqueId(), player.getLocation());
+                                    }
+                                }
                                 player.teleport(target.getLocation());
                                 return true;
                             } else if (!sender.hasPermission("se.silenttp")) {
+                                if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")){
+                                    if (Back.location.containsKey(player.getUniqueId())){
+                                        Back.location.remove(player.getUniqueId());
+                                        Back.location.put(player.getUniqueId(), player.getLocation());
+                                    }else{
+                                        Back.location.put(player.getUniqueId(), player.getLocation());
+                                    }
+                                }
                                 sender.sendMessage(ChatColor.GREEN + "Teleported to " + ChatColor.GOLD + target2);
                                 target.sendMessage(ChatColor.GOLD + sender2 + ChatColor.GREEN + " has teleported to you!");
                                 player.teleport(target.getLocation());
@@ -64,16 +79,40 @@ public class Teleport implements CommandExecutor {
                             if (sender.hasPermission("se.silenttp")) {
                                 if (target == sender){
                                     target.sendMessage(ChatColor.GOLD + sender2 + ChatColor.GREEN + " has teleported to you!");
+                                    if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")){
+                                        if (Back.location.containsKey(playerToSend.getUniqueId())){
+                                            Back.location.remove(playerToSend.getUniqueId());
+                                            Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
+                                        }else{
+                                            Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
+                                        }
+                                    }
                                     playerToSend.teleport(target.getLocation());
                                     return true;
                                 }else if (playerToSend == sender){
                                     playerToSend.sendMessage(ChatColor.GREEN + "You have teleported to " + ChatColor.GOLD + target2);
+                                    if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")){
+                                        if (Back.location.containsKey(playerToSend.getUniqueId())){
+                                            Back.location.remove(playerToSend.getUniqueId());
+                                            Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
+                                        }else{
+                                            Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
+                                        }
+                                    }
                                     playerToSend.teleport(target.getLocation());
                                     return true;
                                 }else{
                                     sender.sendMessage(ChatColor.GREEN + "Teleported " + ChatColor.GOLD + sender2 + ChatColor.GREEN + " to " + ChatColor.GOLD + target2);
                                     playerToSend.sendMessage(ChatColor.GREEN + "You have teleported to " + ChatColor.GOLD + target2);
                                     target.sendMessage(ChatColor.GOLD + sender2 + ChatColor.GREEN + " has teleported to you!");
+                                    if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")){
+                                        if (Back.location.containsKey(playerToSend.getUniqueId())){
+                                            Back.location.remove(playerToSend.getUniqueId());
+                                            Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
+                                        }else{
+                                            Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
+                                        }
+                                    }
                                     playerToSend.teleport(target.getLocation());
                                     return true;
                                 }
@@ -81,17 +120,41 @@ public class Teleport implements CommandExecutor {
                                 if (target == sender) {
                                     playerToSend.sendMessage(ChatColor.GREEN + "You have teleported to " + ChatColor.GOLD + target2);
                                     target.sendMessage(ChatColor.GOLD + sender2 + ChatColor.GREEN + " has teleported to you!");
+                                    if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")){
+                                        if (Back.location.containsKey(playerToSend.getUniqueId())){
+                                            Back.location.remove(playerToSend.getUniqueId());
+                                            Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
+                                        }else{
+                                            Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
+                                        }
+                                    }
                                     playerToSend.teleport(target.getLocation());
                                     return true;
                                 } else if (playerToSend == sender){
                                     target.sendMessage(ChatColor.GOLD + sender2 + ChatColor.GREEN + " has teleported to you!");
                                     playerToSend.sendMessage(ChatColor.GREEN + "You have teleported to " + ChatColor.GOLD + target2);
+                                    if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")){
+                                        if (Back.location.containsKey(playerToSend.getUniqueId())){
+                                            Back.location.remove(playerToSend.getUniqueId());
+                                            Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
+                                        }else{
+                                            Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
+                                        }
+                                    }
                                     playerToSend.teleport(target.getLocation());
                                     return true;
                                 }else{
                                     sender.sendMessage(ChatColor.GREEN + "Teleported " + ChatColor.GOLD + sender2 + ChatColor.GREEN + " to " + ChatColor.GOLD + target2);
                                     target.sendMessage(ChatColor.GOLD + sender2 + ChatColor.GREEN + " has teleported to you!");
                                     playerToSend.sendMessage(ChatColor.GREEN + "You have teleported to " + ChatColor.GOLD + target2);
+                                    if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")){
+                                        if (Back.location.containsKey(playerToSend.getUniqueId())){
+                                            Back.location.remove(playerToSend.getUniqueId());
+                                            Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
+                                        }else{
+                                            Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
+                                        }
+                                    }
                                     playerToSend.teleport(target.getLocation());
                                     return true;
                                 }
@@ -123,6 +186,14 @@ public class Teleport implements CommandExecutor {
                     try {
                         String target2 = target.getName();
                         String sender2 = playerToSend.getName();
+                        if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")){
+                            if (Back.location.containsKey(playerToSend.getUniqueId())){
+                                Back.location.remove(playerToSend.getUniqueId());
+                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
+                            }else{
+                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
+                            }
+                        }
                         playerToSend.teleport(target.getLocation());
                         sender.sendMessage(ChatColor.GREEN + "Teleported " + ChatColor.GOLD + sender2 + ChatColor.GREEN + " to " + ChatColor.GOLD + target2);
                         return true;
@@ -140,6 +211,14 @@ public class Teleport implements CommandExecutor {
                     try {
                         String target2 = target.getName();
                         String sender2 = playerToSend.getName();
+                        if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")){
+                            if (Back.location.containsKey(playerToSend.getUniqueId())){
+                                Back.location.remove(playerToSend.getUniqueId());
+                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
+                            }else{
+                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
+                            }
+                        }
                         playerToSend.teleport(target.getLocation());
                         playerToSend.sendMessage(ChatColor.GREEN + "You have been teleported to " + ChatColor.GOLD + target2);
                         target.sendMessage(ChatColor.GOLD + sender2 + ChatColor.GREEN +" has been teleported to you");

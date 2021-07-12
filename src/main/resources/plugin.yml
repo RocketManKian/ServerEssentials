@@ -246,6 +246,9 @@ commands:
   trash:
     description: Trash Command
     usage: Incorrect format! Please use /trash
+  back:
+    description: Back Command
+    usage: Incorrect format! Please use /back
 permissions:
   se.all:
     description: "Gives access to all commands."
@@ -318,6 +321,7 @@ permissions:
       se.socialspy: true
       se.staffchat: true
       se.trash: true
+      se.back: true
   se.reload:
     description: "Gives access to the /se reload command."
     default: false
@@ -518,4 +522,7 @@ permissions:
     default: false
   se.trash:
     description: "Trash Command"
+    default: false
+  se.back:
+    description: "Back Command"
     default: false

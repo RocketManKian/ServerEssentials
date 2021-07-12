@@ -37,6 +37,14 @@ public class Home implements CommandExecutor {
                     Location loc = getLocation(args, player);
                     if (args.length == 1) {
                         if (ServerEssentials.plugin.getConfig().getInt("home-teleport") == 0) {
+                            if (ServerEssentials.plugin.getConfig().getBoolean("home-save")){
+                                if (Back.location.containsKey(player.getUniqueId())){
+                                    Back.location.remove(player.getUniqueId());
+                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                }else{
+                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                }
+                            }
                             player.teleport(loc);
                             Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
                             if (subtitle) {
@@ -51,6 +59,14 @@ public class Home implements CommandExecutor {
                             delay = delay * 20;
                             if (hometeleport.containsKey(player.getUniqueId()) && hometeleport.get(player.getUniqueId()) != null) {
                                 Bukkit.getScheduler().cancelTask(hometeleport.get(player.getUniqueId()));
+                            }
+                            if (ServerEssentials.plugin.getConfig().getBoolean("home-save")){
+                                if (Back.location.containsKey(player.getUniqueId())){
+                                    Back.location.remove(player.getUniqueId());
+                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                }else{
+                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                }
                             }
                             hometeleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
                                 public void run() {
@@ -182,6 +198,14 @@ public class Home implements CommandExecutor {
                                             Sethome.fileConfig.getDouble("Home." + targetname + "." + args[1] + ".Y"),
                                             Sethome.fileConfig.getDouble("Home." + targetname + "." + args[1] + ".Z"),
                                             yaw, 0);
+                                    if (ServerEssentials.plugin.getConfig().getBoolean("home-save")){
+                                        if (Back.location.containsKey(player.getUniqueId())){
+                                            Back.location.remove(player.getUniqueId());
+                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                        }else{
+                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                        }
+                                    }
                                     // Teleporting To Target's Home
                                     player.teleport(loc);
                                     player.sendMessage("You have been teleported to " + ChatColor.GOLD + target.getName() + "'s" + " home");
