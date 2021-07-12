@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 1.70.4
+# This config was generated for version 1.70.5
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -46,8 +46,6 @@ spawn-on-death: false
 remove-effects-on-heal: false
 # Vanish On Join
 vanish-on-join: false
-# How long until Teleport Requests Timeout (in Seconds)
-teleport-cancel: 30
 ############################################################
 # +------------------------------------------------------+ #
 # +              Server Essentials (Broadcast)           + #
@@ -169,6 +167,8 @@ enable-teleport-blacklist: false
 # Blacklist Worlds where Player's cannot teleport to other Players
 teleport-blacklist:
   - world
+# How long until Teleport Requests Timeout (in Seconds)
+teleport-cancel: 30
 ############################################################
 # +------------------------------------------------------+ #
 # +              Server Essentials (Back)                + #
@@ -190,6 +190,8 @@ enable-back-blacklist: false
 # Blacklist Worlds where Player's cannot use /back
 back-blacklist:
   - world
+# How long Players have to wait until they can use the Back Command again
+back-cooldown: 30
 ############################################################
 # +------------------------------------------------------+ #
 # +              Server Essentials (Chat)                + #

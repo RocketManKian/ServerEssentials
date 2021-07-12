@@ -259,6 +259,13 @@ public class TeleportRequest implements CommandExecutor {
                         }else{
                             Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
                         }
+                    }else if (player.hasPermission("se.back.bypass")){
+                        if (Back.location.containsKey(Bukkit.getPlayer(tpa.get(player.getUniqueId())))){
+                            Back.location.remove((Bukkit.getPlayer(tpa.get(player.getUniqueId()))));
+                            Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
+                        }else{
+                            Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
+                        }
                     }
                     Bukkit.getPlayer(tpa.get(player.getUniqueId())).teleport(player);
                     tpa.remove(player.getUniqueId());
@@ -272,6 +279,13 @@ public class TeleportRequest implements CommandExecutor {
                             Back.location.put(player.getUniqueId(), player.getLocation());
                         }else{
                             Back.location.put(player.getUniqueId(), player.getLocation());
+                        }
+                    }else if (player.hasPermission("se.back.bypass")){
+                        if (Back.location.containsKey(Bukkit.getPlayer(tpa.get(player.getUniqueId())))){
+                            Back.location.remove((Bukkit.getPlayer(tpa.get(player.getUniqueId()))));
+                            Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
+                        }else{
+                            Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
                         }
                     }
                     player.teleport(Bukkit.getPlayer(tpahere.get(player.getUniqueId())));
