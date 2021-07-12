@@ -8,6 +8,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitScheduler;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -18,6 +20,8 @@ public class Back implements CommandExecutor {
     public static HashMap<UUID, Location> location = new HashMap<UUID, Location>();
     public static HashMap<UUID, Integer> backcancel = new HashMap<UUID, Integer>();
     public static HashMap<UUID, Boolean> backconfirm = new HashMap<UUID, Boolean>();
+    int time;
+    int taskID;
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -55,10 +59,12 @@ public class Back implements CommandExecutor {
                                         backcancel.remove(player.getUniqueId());
                                     }
                                 }, delay2));
+                                setTimer(delay3);
+                                startTimer();
                                 return true;
                             }
                             if (backcancel.containsKey(player.getUniqueId()) && backcancel.get(player.getUniqueId()) != null) {
-                                player.sendMessage(ChatColor.RED + "You cannot use this command for another " + ChatColor.GOLD + delay3 + " Seconds");
+                                player.sendMessage(ChatColor.RED + "You cannot use this command for another " + ChatColor.GOLD + time + " Seconds");
                                 return true;
                             }
                         }else{
@@ -71,10 +77,12 @@ public class Back implements CommandExecutor {
                                         backcancel.remove(player.getUniqueId());
                                     }
                                 }, delay2));
+                                setTimer(delay3);
+                                startTimer();
                                 return true;
                             }
                             if (backcancel.containsKey(player.getUniqueId()) && backcancel.get(player.getUniqueId()) != null) {
-                                player.sendMessage(ChatColor.RED + "You cannot use this command for another " + ChatColor.GOLD + delay3 + " Seconds");
+                                player.sendMessage(ChatColor.RED + "You cannot use this command for another " + ChatColor.GOLD + time + " Seconds");
                                 return true;
                             }
                         }
@@ -95,5 +103,24 @@ public class Back implements CommandExecutor {
             }
         }
         return false;
+    }
+    public void setTimer(int amount) {
+        time = amount;
+    }
+    public void startTimer() {
+        BukkitScheduler scheduler = Bukkit.getServer().getScheduler();
+        taskID = scheduler.scheduleSyncRepeatingTask(ServerEssentials.plugin, new Runnable() {
+            @Override
+            public void run() {
+                if(time == 0) {
+                    stopTimer();
+                    return;
+                }
+                time = time - 1;
+            }
+        }, 0L, 20L);
+    }
+    public void stopTimer() {
+        Bukkit.getScheduler().cancelTask(taskID);
     }
 }
