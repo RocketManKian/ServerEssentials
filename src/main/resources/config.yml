@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 1.70.5
+# This config was generated for version 1.70.6
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -197,6 +197,9 @@ back-cooldown: 30
 # +              Server Essentials (Chat)                + #
 # +------------------------------------------------------+ #
 ############################################################
+# Enable or Disable the Chat Formatting and Colouring Features
+# Default: true
+chat-features: true
 # Change the Chat Colour for Every Player
 # Please Use Minecraft Colour Codes as Seen Below
 chat-colour: "&7"
