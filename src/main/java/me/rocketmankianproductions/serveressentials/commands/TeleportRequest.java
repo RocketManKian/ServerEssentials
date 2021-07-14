@@ -12,17 +12,21 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 public class TeleportRequest implements CommandExecutor {
 
-    private static HashMap<UUID, UUID> tpa = new HashMap<>();
-    private static HashMap<UUID, UUID> tpahere = new HashMap<>();
-    private static HashMap<UUID, Integer> teleportcancel = new HashMap<>();
+    public static HashMap<UUID, UUID> tpa = new HashMap<>();
+    public static HashMap<UUID, UUID> tpahere = new HashMap<>();
+    public static HashMap<UUID, Integer> teleportcancel = new HashMap<>();
+    public static HashMap<UUID, Integer> teleport = new HashMap<>();
+    public static ArrayList<UUID> cancel = new ArrayList<>();
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        int tpwait = ServerEssentials.plugin.getConfig().getInt("teleport-wait");
         Long delay = ServerEssentials.getPlugin().getConfig().getLong("teleport-cancel");
         int delay2 = (int) (delay * 20);
         int delay3 = delay2 / 20;
@@ -249,51 +253,220 @@ public class TeleportRequest implements CommandExecutor {
         }
         if (command.getName().equalsIgnoreCase("tpaccept")) {
             if (player.hasPermission("se.tpaccept")) {
-                if (tpa.containsKey(player.getUniqueId())) {
-                    player.sendMessage(ChatColor.GREEN + "You accepted the teleport request.");
-                    Bukkit.getPlayer(tpa.get(player.getUniqueId())).sendMessage(ChatColor.WHITE + player.getName() + ChatColor.GREEN + " accepted the teleport request.");
-                    if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")){
-                        if (Back.location.containsKey(Bukkit.getPlayer(tpa.get(player.getUniqueId())))){
-                            Back.location.remove((Bukkit.getPlayer(tpa.get(player.getUniqueId()))));
-                            Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
-                        }else{
-                            Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
+                if (ServerEssentials.plugin.getConfig().getInt("teleport-wait") == 0){
+                    if (tpa.containsKey(player.getUniqueId())) {
+                        if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")){
+                            if (Back.location.containsKey(Bukkit.getPlayer(tpa.get(player.getUniqueId())))){
+                                Back.location.remove((Bukkit.getPlayer(tpa.get(player.getUniqueId()))));
+                                Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
+                            }else{
+                                Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
+                            }
+                        }else if (player.hasPermission("se.back.bypass")){
+                            if (Back.location.containsKey(Bukkit.getPlayer(tpa.get(player.getUniqueId())))){
+                                Back.location.remove((Bukkit.getPlayer(tpa.get(player.getUniqueId()))));
+                                Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
+                            }else{
+                                Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
+                            }
                         }
-                    }else if (player.hasPermission("se.back.bypass")){
-                        if (Back.location.containsKey(Bukkit.getPlayer(tpa.get(player.getUniqueId())))){
-                            Back.location.remove((Bukkit.getPlayer(tpa.get(player.getUniqueId()))));
-                            Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
-                        }else{
-                            Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
+                        // Teleporting Player
+                        Bukkit.getPlayer(tpa.get(player.getUniqueId())).teleport(player);
+                        tpa.remove(player.getUniqueId());
+                        player.sendMessage(ChatColor.GREEN + "You accepted the teleport request.");
+                        Bukkit.getPlayer(tpa.get(player.getUniqueId())).sendMessage(ChatColor.WHITE + player.getName() + ChatColor.GREEN + " accepted the teleport request.");
+                        return true;
+                    } else if (tpahere.containsKey(player.getUniqueId())) {
+                        player.sendMessage(ChatColor.GREEN + "You accepted the teleport request.");
+                        Bukkit.getPlayer(tpahere.get(player.getUniqueId())).sendMessage(ChatColor.WHITE + player.getName() + ChatColor.GREEN + " accepted the teleport request.");
+                        if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")){
+                            if (Back.location.containsKey(player.getUniqueId())){
+                                Back.location.remove(player.getUniqueId());
+                                Back.location.put(player.getUniqueId(), player.getLocation());
+                            }else{
+                                Back.location.put(player.getUniqueId(), player.getLocation());
+                            }
+                        }else if (player.hasPermission("se.back.bypass")){
+                            if (Back.location.containsKey(Bukkit.getPlayer(tpa.get(player.getUniqueId())))){
+                                Back.location.remove((Bukkit.getPlayer(tpa.get(player.getUniqueId()))));
+                                Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
+                            }else{
+                                Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
+                            }
+                        }
+                        player.teleport(Bukkit.getPlayer(tpahere.get(player.getUniqueId())));
+                        tpahere.remove(player.getUniqueId());
+                        return true;
+                    } else if (tpahere.get(player.getUniqueId()) == null || tpa.get(player.getUniqueId()) == null) {
+                        player.sendMessage(ChatColor.RED + "There's no request to accept.");
+                        return true;
+                    }
+                }else{
+                    if (ServerEssentials.plugin.getConfig().getBoolean("teleport-movement-cancel")){
+                        if (tpa.containsKey(player.getUniqueId())) {
+                            Player target = Bukkit.getPlayer(tpa.get(player.getUniqueId()));
+                            teleportcancel.remove(player.getUniqueId());
+                            teleportcancel.remove(target.getUniqueId());
+                            cancel.add(target.getUniqueId());
+                            player.sendMessage(ChatColor.GREEN + "Successfully accepted Teleport Request");
+                            target.sendMessage(ChatColor.GREEN + "Teleporting to " + ChatColor.GOLD + player.getName() + ChatColor.GREEN + " in " + ChatColor.GOLD + tpwait + " Seconds");
+                            tpwait = tpwait * 20;
+                            if (teleport.containsKey(player.getUniqueId()) && teleport.get(player.getUniqueId()) != null) {
+                                Bukkit.getScheduler().cancelTask(teleport.get(player.getUniqueId()));
+                            }
+                            teleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                                public void run() {
+                                    if (cancel.contains(target.getUniqueId())){
+                                        if (teleport.containsKey(player.getUniqueId())) {
+                                            if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")){
+                                                if (Back.location.containsKey(Bukkit.getPlayer(tpa.get(player.getUniqueId())))){
+                                                    Back.location.remove((Bukkit.getPlayer(tpa.get(player.getUniqueId()))));
+                                                    Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
+                                                }else{
+                                                    Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
+                                                }
+                                            }else if (player.hasPermission("se.back.bypass")){
+                                                if (Back.location.containsKey(Bukkit.getPlayer(tpa.get(player.getUniqueId())))){
+                                                    Back.location.remove((Bukkit.getPlayer(tpa.get(player.getUniqueId()))));
+                                                    Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
+                                                }else{
+                                                    Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
+                                                }
+                                            }
+                                            // Teleporting Player
+                                            target.sendMessage(ChatColor.GREEN + "Successfully teleported to " + ChatColor.GOLD + player.getName());
+                                            Bukkit.getPlayer(tpa.get(player.getUniqueId())).teleport(player);
+                                            teleport.remove(player.getUniqueId());
+                                            cancel.remove(target.getUniqueId());
+                                            tpa.remove(player.getUniqueId());
+                                        }
+                                    }
+                                }
+                            }, tpwait));
+                            return true;
+                        } else if (tpahere.containsKey(player.getUniqueId())) {
+                            Player target = Bukkit.getPlayer(tpahere.get(player.getUniqueId()));
+                            teleportcancel.remove(player.getUniqueId());
+                            teleportcancel.remove(target.getUniqueId());
+                            cancel.add(player.getUniqueId());
+                            Bukkit.getPlayer(tpahere.get(player.getUniqueId())).sendMessage(ChatColor.WHITE + player.getName() + ChatColor.GREEN + " accepted the teleport request.");
+                            player.sendMessage(ChatColor.GREEN + "Teleporting to " + ChatColor.GOLD + target.getName() + ChatColor.GREEN + " in " + ChatColor.GOLD + tpwait + " Seconds");
+                            tpwait = tpwait * 20;
+                            if (teleport.containsKey(player.getUniqueId()) && teleport.get(player.getUniqueId()) != null) {
+                                Bukkit.getScheduler().cancelTask(teleport.get(player.getUniqueId()));
+                            }
+                            teleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                                public void run() {
+                                    if (cancel.contains(player.getUniqueId())){
+                                        if (teleport.containsKey(player.getUniqueId())) {
+                                            if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")){
+                                                if (Back.location.containsKey(player.getUniqueId())){
+                                                    Back.location.remove(player.getUniqueId());
+                                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                                }else{
+                                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                                }
+                                            }else if (player.hasPermission("se.back.bypass")){
+                                                if (Back.location.containsKey(Bukkit.getPlayer(tpa.get(player.getUniqueId())))){
+                                                    Back.location.remove((Bukkit.getPlayer(tpa.get(player.getUniqueId()))));
+                                                    Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
+                                                }else{
+                                                    Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
+                                                }
+                                            }
+                                            player.teleport(Bukkit.getPlayer(tpahere.get(player.getUniqueId())));
+                                            cancel.remove(player.getUniqueId());
+                                            teleport.remove(player.getUniqueId());
+                                            tpahere.remove(target.getUniqueId());
+                                        }
+                                    }
+                                }
+                            }, tpwait));
+                            return true;
+                        } else if (tpahere.get(player.getUniqueId()) == null || tpa.get(player.getUniqueId()) == null) {
+                            player.sendMessage(ChatColor.RED + "There's no request to accept.");
+                            return true;
+                        }
+                    }else{
+                        if (tpa.containsKey(player.getUniqueId())) {
+                            Player target = Bukkit.getPlayer(tpa.get(player.getUniqueId()));
+                            teleportcancel.remove(player.getUniqueId());
+                            teleportcancel.remove(target.getUniqueId());
+                            player.sendMessage(ChatColor.GREEN + "Successfully accepted Teleport Request");
+                            target.sendMessage(ChatColor.GREEN + "Teleporting to " + ChatColor.GOLD + player.getName() + ChatColor.GREEN + " in " + ChatColor.GOLD + tpwait + " Seconds");
+                            tpwait = tpwait * 20;
+                            if (teleport.containsKey(player.getUniqueId()) && teleport.get(player.getUniqueId()) != null) {
+                                Bukkit.getScheduler().cancelTask(teleport.get(player.getUniqueId()));
+                            }
+                            teleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                                public void run() {
+                                    if (teleport.containsKey(player.getUniqueId())) {
+                                        if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")) {
+                                            if (Back.location.containsKey(Bukkit.getPlayer(tpa.get(player.getUniqueId())))) {
+                                                Back.location.remove((Bukkit.getPlayer(tpa.get(player.getUniqueId()))));
+                                                Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
+                                            } else {
+                                                Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
+                                            }
+                                        } else if (player.hasPermission("se.back.bypass")) {
+                                            if (Back.location.containsKey(Bukkit.getPlayer(tpa.get(player.getUniqueId())))) {
+                                                Back.location.remove((Bukkit.getPlayer(tpa.get(player.getUniqueId()))));
+                                                Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
+                                            } else {
+                                                Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
+                                            }
+                                        }
+                                        // Teleporting Player
+                                        target.sendMessage(ChatColor.GREEN + "Successfully teleported to " + ChatColor.GOLD + player.getName());
+                                        Bukkit.getPlayer(tpa.get(player.getUniqueId())).teleport(player);
+                                        teleport.remove(player.getUniqueId());
+                                        tpa.remove(player.getUniqueId());
+                                    }
+                                }
+                            }, tpwait));
+                            return true;
+                        } else if (tpahere.containsKey(player.getUniqueId())) {
+                            Player target = Bukkit.getPlayer(tpahere.get(player.getUniqueId()));
+                            teleportcancel.remove(player.getUniqueId());
+                            teleportcancel.remove(target.getUniqueId());
+                            player.sendMessage(ChatColor.GREEN + "Teleporting to " + ChatColor.GOLD + target.getName() + ChatColor.GREEN + " in " + ChatColor.GOLD + tpwait + " Seconds");
+                            Bukkit.getPlayer(tpahere.get(player.getUniqueId())).sendMessage(ChatColor.WHITE + player.getName() + ChatColor.GREEN + " accepted the teleport request.");
+                            tpwait = tpwait * 20;
+                            if (teleport.containsKey(player.getUniqueId()) && teleport.get(player.getUniqueId()) != null) {
+                                Bukkit.getScheduler().cancelTask(teleport.get(player.getUniqueId()));
+                            }
+                            teleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                                public void run() {
+                                    if (teleport.containsKey(player.getUniqueId())) {
+                                        if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")) {
+                                            if (Back.location.containsKey(player.getUniqueId())) {
+                                                Back.location.remove(player.getUniqueId());
+                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                                            } else {
+                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                                            }
+                                        } else if (player.hasPermission("se.back.bypass")) {
+                                            if (Back.location.containsKey(Bukkit.getPlayer(tpa.get(player.getUniqueId())))) {
+                                                Back.location.remove((Bukkit.getPlayer(tpa.get(player.getUniqueId()))));
+                                                Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
+                                            } else {
+                                                Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
+                                            }
+                                        }
+                                        player.teleport(Bukkit.getPlayer(tpahere.get(player.getUniqueId())));
+                                        tpahere.remove(player.getUniqueId());
+                                        teleport.remove(player.getUniqueId());
+                                        tpahere.remove(target.getUniqueId());
+                                        player.sendMessage(ChatColor.GREEN + "Successfully teleported to " + ChatColor.GOLD + target.getName());
+                                    }
+                                }
+                            }, tpwait));
+                            return true;
+                        } else if (tpahere.get(player.getUniqueId()) == null || tpa.get(player.getUniqueId()) == null) {
+                            player.sendMessage(ChatColor.RED + "There's no request to accept.");
+                            return true;
                         }
                     }
-                    Bukkit.getPlayer(tpa.get(player.getUniqueId())).teleport(player);
-                    tpa.remove(player.getUniqueId());
-                    return true;
-                } else if (tpahere.containsKey(player.getUniqueId())) {
-                    player.sendMessage(ChatColor.GREEN + "You accepted the teleport request.");
-                    Bukkit.getPlayer(tpahere.get(player.getUniqueId())).sendMessage(ChatColor.WHITE + player.getName() + ChatColor.GREEN + " accepted the teleport request.");
-                    if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")){
-                        if (Back.location.containsKey(player.getUniqueId())){
-                            Back.location.remove(player.getUniqueId());
-                            Back.location.put(player.getUniqueId(), player.getLocation());
-                        }else{
-                            Back.location.put(player.getUniqueId(), player.getLocation());
-                        }
-                    }else if (player.hasPermission("se.back.bypass")){
-                        if (Back.location.containsKey(Bukkit.getPlayer(tpa.get(player.getUniqueId())))){
-                            Back.location.remove((Bukkit.getPlayer(tpa.get(player.getUniqueId()))));
-                            Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
-                        }else{
-                            Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
-                        }
-                    }
-                    player.teleport(Bukkit.getPlayer(tpahere.get(player.getUniqueId())));
-                    tpahere.remove(player.getUniqueId());
-                    return true;
-                } else if (tpahere.get(player.getUniqueId()) == null || tpa.get(player.getUniqueId()) == null) {
-                    player.sendMessage(ChatColor.RED + "There's no request to accept.");
-                    return true;
                 }
             } else {
                 if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {

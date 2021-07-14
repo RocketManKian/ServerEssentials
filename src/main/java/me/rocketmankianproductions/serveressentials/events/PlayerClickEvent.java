@@ -1,9 +1,7 @@
 package me.rocketmankianproductions.serveressentials.events;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
-import me.rocketmankianproductions.serveressentials.commands.Back;
-import me.rocketmankianproductions.serveressentials.commands.Sethome;
-import me.rocketmankianproductions.serveressentials.commands.Setwarp;
+import me.rocketmankianproductions.serveressentials.commands.*;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -82,44 +80,89 @@ public class PlayerClickEvent implements Listener {
                             }
                             player.closeInventory();
                         }else{
-                            Location loc = getWarpLocation(warp, player);
-                            String finalWarp = warp;
-                            int seconds = ServerEssentials.plugin.getConfig().getInt("warp-teleport");
-                            player.sendMessage(ChatColor.GREEN + "Warping to " + ChatColor.GOLD + warp + ChatColor.GREEN + " in " + ChatColor.GOLD + seconds + " Seconds");
-                            seconds = seconds * 20;
-                            if (warpteleport.containsKey(player.getUniqueId()) && warpteleport.get(player.getUniqueId()) != null) {
-                                Bukkit.getScheduler().cancelTask(warpteleport.get(player.getUniqueId()));
-                            }
-                            warpteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
-                                public void run() {
-                                    if (warpteleport.containsKey(player.getUniqueId())) {
-                                        if (ServerEssentials.plugin.getConfig().getBoolean("warp-save")){
-                                            if (Back.location.containsKey(player.getUniqueId())){
-                                                Back.location.remove(player.getUniqueId());
-                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                            }else{
-                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                            if (ServerEssentials.plugin.getConfig().getBoolean("warp-movement-cancel")){
+                                Warp.cancel.add(player.getUniqueId());
+                                Location loc = getWarpLocation(warp, player);
+                                String finalWarp = warp;
+                                int seconds = ServerEssentials.plugin.getConfig().getInt("warp-teleport");
+                                player.sendMessage(ChatColor.GREEN + "Warping to " + ChatColor.GOLD + warp + ChatColor.GREEN + " in " + ChatColor.GOLD + seconds + " Seconds");
+                                seconds = seconds * 20;
+                                if (warpteleport.containsKey(player.getUniqueId()) && warpteleport.get(player.getUniqueId()) != null) {
+                                    Bukkit.getScheduler().cancelTask(warpteleport.get(player.getUniqueId()));
+                                }
+                                warpteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                                    public void run() {
+                                        if (Warp.cancel.contains(player.getUniqueId())){
+                                            if (warpteleport.containsKey(player.getUniqueId())) {
+                                                if (ServerEssentials.plugin.getConfig().getBoolean("warp-save")){
+                                                    if (Back.location.containsKey(player.getUniqueId())){
+                                                        Back.location.remove(player.getUniqueId());
+                                                        Back.location.put(player.getUniqueId(), player.getLocation());
+                                                    }else{
+                                                        Back.location.put(player.getUniqueId(), player.getLocation());
+                                                    }
+                                                }else if (player.hasPermission("se.back.bypass")){
+                                                    if (Back.location.containsKey(player.getUniqueId())){
+                                                        Back.location.remove(player.getUniqueId());
+                                                        Back.location.put(player.getUniqueId(), player.getLocation());
+                                                    }else{
+                                                        Back.location.put(player.getUniqueId(), player.getLocation());
+                                                    }
+                                                }
+                                                // Teleporting Player
+                                                player.teleport(loc);
+                                                Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
+                                                if (subtitle) {
+                                                    player.sendTitle("Warped to " + ChatColor.GOLD + finalWarp, null);
+                                                } else {
+                                                    player.sendMessage(ChatColor.GREEN + "Successfully warped to " + ChatColor.GOLD + finalWarp);
+                                                }
+                                                Warp.cancel.remove(player.getUniqueId());
                                             }
-                                        }else if (player.hasPermission("se.back.bypass")){
-                                            if (Back.location.containsKey(player.getUniqueId())){
-                                                Back.location.remove(player.getUniqueId());
-                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                            }else{
-                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                            }
-                                        }
-                                        // Teleporting Player
-                                        player.teleport(loc);
-                                        Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
-                                        if (subtitle) {
-                                            player.sendTitle("Warped to " + ChatColor.GOLD + finalWarp, null);
-                                        } else {
-                                            player.sendMessage(ChatColor.GREEN + "Successfully warped to " + ChatColor.GOLD + finalWarp);
                                         }
                                     }
+                                }, seconds));
+                                player.closeInventory();
+                            }else{
+                                Location loc = getWarpLocation(warp, player);
+                                String finalWarp = warp;
+                                int seconds = ServerEssentials.plugin.getConfig().getInt("warp-teleport");
+                                player.sendMessage(ChatColor.GREEN + "Warping to " + ChatColor.GOLD + warp + ChatColor.GREEN + " in " + ChatColor.GOLD + seconds + " Seconds");
+                                seconds = seconds * 20;
+                                if (warpteleport.containsKey(player.getUniqueId()) && warpteleport.get(player.getUniqueId()) != null) {
+                                    Bukkit.getScheduler().cancelTask(warpteleport.get(player.getUniqueId()));
                                 }
-                            }, seconds));
-                            player.closeInventory();
+                                warpteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                                    public void run() {
+                                        if (warpteleport.containsKey(player.getUniqueId())) {
+                                            if (ServerEssentials.plugin.getConfig().getBoolean("warp-save")){
+                                                if (Back.location.containsKey(player.getUniqueId())){
+                                                    Back.location.remove(player.getUniqueId());
+                                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                                }else{
+                                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                                }
+                                            }else if (player.hasPermission("se.back.bypass")){
+                                                if (Back.location.containsKey(player.getUniqueId())){
+                                                    Back.location.remove(player.getUniqueId());
+                                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                                }else{
+                                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                                }
+                                            }
+                                            // Teleporting Player
+                                            player.teleport(loc);
+                                            Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
+                                            if (subtitle) {
+                                                player.sendTitle("Warped to " + ChatColor.GOLD + finalWarp, null);
+                                            } else {
+                                                player.sendMessage(ChatColor.GREEN + "Successfully warped to " + ChatColor.GOLD + finalWarp);
+                                            }
+                                        }
+                                    }
+                                }, seconds));
+                                player.closeInventory();
+                            }
                         }
                     } else {
                         if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
@@ -190,44 +233,89 @@ public class PlayerClickEvent implements Listener {
                         }
                         player.closeInventory();
                     } else {
-                        int seconds = ServerEssentials.plugin.getConfig().getInt("home-teleport");
-                        player.sendMessage(ChatColor.GREEN + "Teleporting to Home in " + ChatColor.GOLD + seconds + " Seconds");
-                        seconds = seconds * 20;
-                        Location loc = getHomeLocation(home, player);
-                        if (hometeleport.containsKey(player.getUniqueId()) && hometeleport.get(player.getUniqueId()) != null) {
-                            Bukkit.getScheduler().cancelTask(hometeleport.get(player.getUniqueId()));
-                        }
-                        String finalHome = home;
-                        hometeleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
-                            public void run() {
-                                if (hometeleport.containsKey(player.getUniqueId())) {
-                                    if (ServerEssentials.plugin.getConfig().getBoolean("home-save")){
-                                        if (Back.location.containsKey(player.getUniqueId())){
-                                            Back.location.remove(player.getUniqueId());
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        }else{
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                        if (ServerEssentials.plugin.getConfig().getBoolean("home-movement-cancel")){
+                            Home.cancel.add(player.getUniqueId());
+                            int seconds = ServerEssentials.plugin.getConfig().getInt("home-teleport");
+                            player.sendMessage(ChatColor.GREEN + "Teleporting to Home in " + ChatColor.GOLD + seconds + " Seconds");
+                            seconds = seconds * 20;
+                            Location loc = getHomeLocation(home, player);
+                            if (hometeleport.containsKey(player.getUniqueId()) && hometeleport.get(player.getUniqueId()) != null) {
+                                Bukkit.getScheduler().cancelTask(hometeleport.get(player.getUniqueId()));
+                            }
+                            String finalHome = home;
+                            hometeleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                                public void run() {
+                                    if (Home.cancel.contains(player.getUniqueId())){
+                                        if (hometeleport.containsKey(player.getUniqueId())) {
+                                            if (ServerEssentials.plugin.getConfig().getBoolean("home-save")){
+                                                if (Back.location.containsKey(player.getUniqueId())){
+                                                    Back.location.remove(player.getUniqueId());
+                                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                                }else{
+                                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                                }
+                                            }else if (player.hasPermission("se.back.bypass")){
+                                                if (Back.location.containsKey(player.getUniqueId())){
+                                                    Back.location.remove(player.getUniqueId());
+                                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                                }else{
+                                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                                }
+                                            }
+                                            // Teleporting Player
+                                            player.teleport(loc);
+                                            Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
+                                            if (subtitle) {
+                                                player.sendTitle("Teleported to " + ChatColor.GOLD + finalHome, null);
+                                            } else {
+                                                player.sendMessage(ChatColor.GREEN + "Successfully teleported to " + ChatColor.GOLD + finalHome);
+                                            }
+                                            Home.cancel.remove(player.getUniqueId());
                                         }
-                                    }else if (player.hasPermission("se.back.bypass")){
-                                        if (Back.location.containsKey(player.getUniqueId())){
-                                            Back.location.remove(player.getUniqueId());
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        }else{
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        }
-                                    }
-                                    // Teleporting Player
-                                    player.teleport(loc);
-                                    Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
-                                    if (subtitle) {
-                                        player.sendTitle("Teleported to " + ChatColor.GOLD + finalHome, null);
-                                    } else {
-                                        player.sendMessage(ChatColor.GREEN + "Successfully teleported to " + ChatColor.GOLD + finalHome);
                                     }
                                 }
+                            }, seconds));
+                            player.closeInventory();
+                        }else{
+                            int seconds = ServerEssentials.plugin.getConfig().getInt("home-teleport");
+                            player.sendMessage(ChatColor.GREEN + "Teleporting to Home in " + ChatColor.GOLD + seconds + " Seconds");
+                            seconds = seconds * 20;
+                            Location loc = getHomeLocation(home, player);
+                            if (hometeleport.containsKey(player.getUniqueId()) && hometeleport.get(player.getUniqueId()) != null) {
+                                Bukkit.getScheduler().cancelTask(hometeleport.get(player.getUniqueId()));
                             }
-                        }, seconds));
-                        player.closeInventory();
+                            String finalHome = home;
+                            hometeleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                                public void run() {
+                                    if (hometeleport.containsKey(player.getUniqueId())) {
+                                        if (ServerEssentials.plugin.getConfig().getBoolean("home-save")){
+                                            if (Back.location.containsKey(player.getUniqueId())){
+                                                Back.location.remove(player.getUniqueId());
+                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                                            }else{
+                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                                            }
+                                        }else if (player.hasPermission("se.back.bypass")){
+                                            if (Back.location.containsKey(player.getUniqueId())){
+                                                Back.location.remove(player.getUniqueId());
+                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                                            }else{
+                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                                            }
+                                        }
+                                        // Teleporting Player
+                                        player.teleport(loc);
+                                        Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
+                                        if (subtitle) {
+                                            player.sendTitle("Teleported to " + ChatColor.GOLD + finalHome, null);
+                                        } else {
+                                            player.sendMessage(ChatColor.GREEN + "Successfully teleported to " + ChatColor.GOLD + finalHome);
+                                        }
+                                    }
+                                }
+                            }, seconds));
+                            player.closeInventory();
+                        }
                     }
                 }
             }

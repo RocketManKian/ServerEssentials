@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 1.70.6
+# This config was generated for version 1.70.7
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -105,6 +105,10 @@ group-id: ""
 # Make sure to use Ticks: 1 Seconds = 20 Ticks
 # Set to '0' to Disable
 spawn-teleport: 5
+# Enable or Disable the ability to stop Teleportation when the Player Moves
+# Only works if 'spawn-teleport' is higher than 0
+# Default: true
+spawn-movement-cancel: true
 ############################################################
 # +------------------------------------------------------+ #
 # +              Server Essentials (Warp)                + #
@@ -130,6 +134,10 @@ enable-warp-blacklist: false
 # Blacklist Worlds where Player's cannot create Warps
 warp-blacklist:
   - world
+# Enable or Disable the ability to stop Warping when the Player Moves
+# Only works if 'warp-teleport' is higher than 0
+# Default: true
+warp-movement-cancel: true
 ############################################################
 # +------------------------------------------------------+ #
 # +              Server Essentials (Home)                + #
@@ -157,6 +165,10 @@ enable-home-blacklist: false
 # Default: False
 home-blacklist:
   - world
+# Enable or Disable the ability to stop Teleportation when the Player Moves
+# Only works if 'home-teleport' is higher than 0
+# Default: true
+home-movement-cancel: true
 ############################################################
 # +------------------------------------------------------+ #
 # +              Server Essentials (Teleport)            + #
@@ -169,6 +181,12 @@ teleport-blacklist:
   - world
 # How long until Teleport Requests Timeout (in Seconds)
 teleport-cancel: 30
+# Enable or Disable the ability to stop Teleportation when the Player Moves
+# Default: true
+teleport-movement-cancel: true
+# How many Seconds the Player has to wait before they are teleported to someone
+# Set to '0' to Disable
+teleport-wait: 5
 ############################################################
 # +------------------------------------------------------+ #
 # +              Server Essentials (Back)                + #

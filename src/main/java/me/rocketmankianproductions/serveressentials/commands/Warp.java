@@ -22,6 +22,7 @@ public class Warp implements CommandExecutor {
 
     private static HashMap<UUID, Integer> warpteleport = new HashMap<>();
     int delay = ServerEssentials.plugin.getConfig().getInt("warp-teleport");
+    public static ArrayList<UUID> cancel = new ArrayList<>();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -61,41 +62,83 @@ public class Warp implements CommandExecutor {
                                         return true;
                                     }
                                 }else{
-                                    player.sendMessage(ChatColor.GREEN + "Warping to " + ChatColor.GOLD + args[0] + ChatColor.GREEN + " in " + ChatColor.GOLD + delay + " Seconds");
-                                    delay = delay * 20;
-                                    if (warpteleport.containsKey(player.getUniqueId()) && warpteleport.get(player.getUniqueId()) != null) {
-                                        Bukkit.getScheduler().cancelTask(warpteleport.get(player.getUniqueId()));
-                                    }
-                                    warpteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
-                                        public void run() {
-                                            if (warpteleport.containsKey(player.getUniqueId())) {
-                                                if (ServerEssentials.plugin.getConfig().getBoolean("warp-save")){
-                                                    if (Back.location.containsKey(player.getUniqueId())){
-                                                        Back.location.remove(player.getUniqueId());
-                                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                                    }else{
-                                                        Back.location.put(player.getUniqueId(), player.getLocation());
+                                    if (ServerEssentials.plugin.getConfig().getBoolean("warp-movement-cancel")){
+                                        cancel.add(player.getUniqueId());
+                                        player.sendMessage(ChatColor.GREEN + "Warping to " + ChatColor.GOLD + args[0] + ChatColor.GREEN + " in " + ChatColor.GOLD + delay + " Seconds");
+                                        delay = delay * 20;
+                                        if (warpteleport.containsKey(player.getUniqueId()) && warpteleport.get(player.getUniqueId()) != null) {
+                                            Bukkit.getScheduler().cancelTask(warpteleport.get(player.getUniqueId()));
+                                        }
+                                        warpteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                                            public void run() {
+                                                if (cancel.contains(player.getUniqueId())){
+                                                    if (warpteleport.containsKey(player.getUniqueId())) {
+                                                        if (ServerEssentials.plugin.getConfig().getBoolean("warp-save")){
+                                                            if (Back.location.containsKey(player.getUniqueId())){
+                                                                Back.location.remove(player.getUniqueId());
+                                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                                                            }else{
+                                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                                                            }
+                                                        }else if (player.hasPermission("se.back.bypass")){
+                                                            if (Back.location.containsKey(player.getUniqueId())){
+                                                                Back.location.remove(player.getUniqueId());
+                                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                                                            }else{
+                                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                                                            }
+                                                        }
+                                                        // Teleporting Player
+                                                        player.teleport(loc);
+                                                        Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
+                                                        if (subtitle) {
+                                                            player.sendTitle("Warped to " + ChatColor.GOLD + args[0], null);
+                                                        } else {
+                                                            player.sendMessage(ChatColor.GREEN + "Successfully warped to " + ChatColor.GOLD + args[0]);
+                                                        }
+                                                        cancel.remove(player.getUniqueId());
                                                     }
-                                                }else if (player.hasPermission("se.back.bypass")){
-                                                    if (Back.location.containsKey(player.getUniqueId())){
-                                                        Back.location.remove(player.getUniqueId());
-                                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                                    }else{
-                                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                                    }
-                                                }
-                                                // Teleporting Player
-                                                player.teleport(loc);
-                                                Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
-                                                if (subtitle) {
-                                                    player.sendTitle("Warped to " + ChatColor.GOLD + args[0], null);
-                                                } else {
-                                                    player.sendMessage(ChatColor.GREEN + "Successfully warped to " + ChatColor.GOLD + args[0]);
                                                 }
                                             }
+                                        }, delay));
+                                        return true;
+                                    }else{
+                                        player.sendMessage(ChatColor.GREEN + "Warping to " + ChatColor.GOLD + args[0] + ChatColor.GREEN + " in " + ChatColor.GOLD + delay + " Seconds");
+                                        delay = delay * 20;
+                                        if (warpteleport.containsKey(player.getUniqueId()) && warpteleport.get(player.getUniqueId()) != null) {
+                                            Bukkit.getScheduler().cancelTask(warpteleport.get(player.getUniqueId()));
                                         }
-                                    }, delay));
-                                    return true;
+                                        warpteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                                            public void run() {
+                                                if (warpteleport.containsKey(player.getUniqueId())) {
+                                                    if (ServerEssentials.plugin.getConfig().getBoolean("warp-save")){
+                                                        if (Back.location.containsKey(player.getUniqueId())){
+                                                            Back.location.remove(player.getUniqueId());
+                                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                                        }else{
+                                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                                        }
+                                                    }else if (player.hasPermission("se.back.bypass")){
+                                                        if (Back.location.containsKey(player.getUniqueId())){
+                                                            Back.location.remove(player.getUniqueId());
+                                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                                        }else{
+                                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                                        }
+                                                    }
+                                                    // Teleporting Player
+                                                    player.teleport(loc);
+                                                    Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
+                                                    if (subtitle) {
+                                                        player.sendTitle("Warped to " + ChatColor.GOLD + args[0], null);
+                                                    } else {
+                                                        player.sendMessage(ChatColor.GREEN + "Successfully warped to " + ChatColor.GOLD + args[0]);
+                                                    }
+                                                }
+                                            }
+                                        }, delay));
+                                        return true;
+                                    }
                                 }
                             }
                         } else {

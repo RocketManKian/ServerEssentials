@@ -11,12 +11,14 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
 public class Spawn implements CommandExecutor {
 
     private static HashMap<UUID, Integer> spawnteleport = new HashMap<>();
+    public static ArrayList<UUID> cancel = new ArrayList<>();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -50,36 +52,74 @@ public class Spawn implements CommandExecutor {
                             player.sendMessage("Successfully teleported to spawn.");
                             return true;
                         }else{
-                            player.sendMessage(ChatColor.GREEN + "Teleporting to Spawn in " + ChatColor.GOLD + delay + " Seconds");
-                            delay = delay * 20;
-                            if (spawnteleport.containsKey(player.getUniqueId()) && spawnteleport.get(player.getUniqueId()) != null) {
-                                Bukkit.getScheduler().cancelTask(spawnteleport.get(player.getUniqueId()));
-                            }
-                            spawnteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
-                                public void run() {
-                                    if (spawnteleport.containsKey(player.getUniqueId())) {
-                                        if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")){
-                                            if (Back.location.containsKey(player.getUniqueId())){
-                                                Back.location.remove(player.getUniqueId());
-                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                            }else{
-                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                            }
-                                        }else if (player.hasPermission("se.back.bypass")){
-                                            if (Back.location.containsKey(player.getUniqueId())){
-                                                Back.location.remove(player.getUniqueId());
-                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                            }else{
-                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                            if (ServerEssentials.plugin.getConfig().getBoolean("spawn-movement-cancel")){
+                                cancel.add(player.getUniqueId());
+                                player.sendMessage(ChatColor.GREEN + "Teleporting to Spawn in " + ChatColor.GOLD + delay + " Seconds");
+                                delay = delay * 20;
+                                if (spawnteleport.containsKey(player.getUniqueId()) && spawnteleport.get(player.getUniqueId()) != null) {
+                                    Bukkit.getScheduler().cancelTask(spawnteleport.get(player.getUniqueId()));
+                                }
+                                spawnteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                                    public void run() {
+                                        if (cancel.contains(player.getUniqueId())){
+                                            if (spawnteleport.containsKey(player.getUniqueId())) {
+                                                if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")){
+                                                    if (Back.location.containsKey(player.getUniqueId())){
+                                                        Back.location.remove(player.getUniqueId());
+                                                        Back.location.put(player.getUniqueId(), player.getLocation());
+                                                    }else{
+                                                        Back.location.put(player.getUniqueId(), player.getLocation());
+                                                    }
+                                                }else if (player.hasPermission("se.back.bypass")){
+                                                    if (Back.location.containsKey(player.getUniqueId())){
+                                                        Back.location.remove(player.getUniqueId());
+                                                        Back.location.put(player.getUniqueId(), player.getLocation());
+                                                    }else{
+                                                        Back.location.put(player.getUniqueId(), player.getLocation());
+                                                    }
+                                                }
+                                                // Teleporting Player
+                                                player.teleport(loc);
+                                                player.sendMessage("Successfully teleported to spawn.");
+                                                cancel.remove(player.getUniqueId());
+                                                spawnteleport.remove(player.getUniqueId());
                                             }
                                         }
-                                        // Teleporting Player
-                                        player.teleport(loc);
-                                        player.sendMessage("Successfully teleported to spawn.");
                                     }
+                                }, delay));
+                                return true;
+                            }else{
+                                player.sendMessage(ChatColor.GREEN + "Teleporting to Spawn in " + ChatColor.GOLD + delay + " Seconds");
+                                delay = delay * 20;
+                                if (spawnteleport.containsKey(player.getUniqueId()) && spawnteleport.get(player.getUniqueId()) != null) {
+                                    Bukkit.getScheduler().cancelTask(spawnteleport.get(player.getUniqueId()));
                                 }
-                            }, delay));
-                            return true;
+                                spawnteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                                    public void run() {
+                                        if (spawnteleport.containsKey(player.getUniqueId())) {
+                                            if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")){
+                                                if (Back.location.containsKey(player.getUniqueId())){
+                                                    Back.location.remove(player.getUniqueId());
+                                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                                }else{
+                                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                                }
+                                            }else if (player.hasPermission("se.back.bypass")){
+                                                if (Back.location.containsKey(player.getUniqueId())){
+                                                    Back.location.remove(player.getUniqueId());
+                                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                                }else{
+                                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                                }
+                                            }
+                                            // Teleporting Player
+                                            player.teleport(loc);
+                                            player.sendMessage("Successfully teleported to spawn.");
+                                        }
+                                    }
+                                }, delay));
+                                return true;
+                            }
                         }
                     } else if (args.length >= 1) {
                         Player target = Bukkit.getPlayerExact(args[0]);
