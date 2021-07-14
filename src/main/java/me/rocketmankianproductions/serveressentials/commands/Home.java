@@ -22,7 +22,8 @@ import java.util.UUID;
 
 public class Home implements CommandExecutor {
 
-    private static HashMap<UUID, Integer> hometeleport = new HashMap<>();
+    public static HashMap<UUID, Integer> hometeleport = new HashMap<>();
+    public static ArrayList<UUID> cancel = new ArrayList<>();
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         int delay = ServerEssentials.plugin.getConfig().getInt("home-teleport");
@@ -62,41 +63,85 @@ public class Home implements CommandExecutor {
                                 return true;
                             }
                         }else{
-                            player.sendMessage(ChatColor.GREEN + "Teleporting to " + ChatColor.GOLD + args[0] + ChatColor.GREEN + " in " + ChatColor.GOLD + delay + " Seconds");
-                            delay = delay * 20;
-                            if (hometeleport.containsKey(player.getUniqueId()) && hometeleport.get(player.getUniqueId()) != null) {
-                                Bukkit.getScheduler().cancelTask(hometeleport.get(player.getUniqueId()));
-                            }
-                            hometeleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
-                                public void run() {
-                                    if (hometeleport.containsKey(player.getUniqueId())) {
-                                        if (ServerEssentials.plugin.getConfig().getBoolean("home-save")){
-                                            if (Back.location.containsKey(player.getUniqueId())){
-                                                Back.location.remove(player.getUniqueId());
-                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                            }else{
-                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                            if (ServerEssentials.plugin.getConfig().getBoolean("home-movement-cancel")){
+                                cancel.add(player.getUniqueId());
+                                player.sendMessage(ChatColor.GREEN + "Teleporting to " + ChatColor.GOLD + args[0] + ChatColor.GREEN + " in " + ChatColor.GOLD + delay + " Seconds");
+                                delay = delay * 20;
+                                if (hometeleport.containsKey(player.getUniqueId()) && hometeleport.get(player.getUniqueId()) != null) {
+                                    Bukkit.getScheduler().cancelTask(hometeleport.get(player.getUniqueId()));
+                                }
+                                hometeleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                                    public void run() {
+                                        if (cancel.contains(player.getUniqueId())){
+                                            if (hometeleport.containsKey(player.getUniqueId())) {
+                                                if (ServerEssentials.plugin.getConfig().getBoolean("home-save")) {
+                                                    if (Back.location.containsKey(player.getUniqueId())) {
+                                                        Back.location.remove(player.getUniqueId());
+                                                        Back.location.put(player.getUniqueId(), player.getLocation());
+                                                    } else {
+                                                        Back.location.put(player.getUniqueId(), player.getLocation());
+                                                    }
+                                                } else if (player.hasPermission("se.back.bypass")) {
+                                                    if (Back.location.containsKey(player.getUniqueId())) {
+                                                        Back.location.remove(player.getUniqueId());
+                                                        Back.location.put(player.getUniqueId(), player.getLocation());
+                                                    } else {
+                                                        Back.location.put(player.getUniqueId(), player.getLocation());
+                                                    }
+                                                }
+                                                // Teleporting Player
+                                                player.teleport(loc);
+                                                Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
+                                                if (subtitle) {
+                                                    player.sendTitle("Successfully teleported to " + ChatColor.GOLD + args[0], null);
+                                                } else {
+                                                    player.sendMessage(ChatColor.GREEN + "Successfully teleported to " + ChatColor.GOLD + args[0]);
+                                                }
+                                                cancel.remove(player.getUniqueId());
                                             }
-                                        }else if (player.hasPermission("se.back.bypass")){
-                                            if (Back.location.containsKey(player.getUniqueId())){
-                                                Back.location.remove(player.getUniqueId());
-                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                            }else{
-                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                            }
-                                        }
-                                        // Teleporting Player
-                                        player.teleport(loc);
-                                        Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
-                                        if (subtitle) {
-                                            player.sendTitle("Successfully teleported to " + ChatColor.GOLD + args[0], null);
-                                        } else {
-                                            player.sendMessage(ChatColor.GREEN + "Successfully teleported to " + ChatColor.GOLD + args[0]);
                                         }
                                     }
+                                }, delay));
+                                return true;
+                            }else{
+                                player.sendMessage(ChatColor.GREEN + "Teleporting to " + ChatColor.GOLD + args[0] + ChatColor.GREEN + " in " + ChatColor.GOLD + delay + " Seconds");
+                                delay = delay * 20;
+                                if (hometeleport.containsKey(player.getUniqueId()) && hometeleport.get(player.getUniqueId()) != null) {
+                                    Bukkit.getScheduler().cancelTask(hometeleport.get(player.getUniqueId()));
                                 }
-                            }, delay));
-                            return true;
+                                hometeleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                                    public void run() {
+                                        if (cancel.contains(player.getUniqueId())){
+                                            if (hometeleport.containsKey(player.getUniqueId())) {
+                                                if (ServerEssentials.plugin.getConfig().getBoolean("home-save")) {
+                                                    if (Back.location.containsKey(player.getUniqueId())) {
+                                                        Back.location.remove(player.getUniqueId());
+                                                        Back.location.put(player.getUniqueId(), player.getLocation());
+                                                    } else {
+                                                        Back.location.put(player.getUniqueId(), player.getLocation());
+                                                    }
+                                                } else if (player.hasPermission("se.back.bypass")) {
+                                                    if (Back.location.containsKey(player.getUniqueId())) {
+                                                        Back.location.remove(player.getUniqueId());
+                                                        Back.location.put(player.getUniqueId(), player.getLocation());
+                                                    } else {
+                                                        Back.location.put(player.getUniqueId(), player.getLocation());
+                                                    }
+                                                }
+                                                // Teleporting Player
+                                                player.teleport(loc);
+                                                Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
+                                                if (subtitle) {
+                                                    player.sendTitle("Successfully teleported to " + ChatColor.GOLD + args[0], null);
+                                                } else {
+                                                    player.sendMessage(ChatColor.GREEN + "Successfully teleported to " + ChatColor.GOLD + args[0]);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }, delay));
+                                return true;
+                            }
                         }
                     }
                 } else {
