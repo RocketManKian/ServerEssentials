@@ -59,11 +59,11 @@ public class TeleportRequest implements CommandExecutor {
                                 player.sendMessage(ChatColor.GOLD + "You sent a teleport request to " + ChatColor.WHITE + target.getName() + ".");
                                 player.sendMessage(ChatColor.GOLD + "To cancel this request, type " + ChatColor.RED + "/tpacancel");
                                 target.sendMessage(ChatColor.WHITE + player.getName() + ChatColor.GOLD + " sent a teleport request to you.");
-                                player.sendMessage(ChatColor.GOLD + "To accept, type" + ChatColor.RED + " /tpaccept.");
-                                player.sendMessage(ChatColor.GOLD + "To deny, type " + ChatColor.RED + "/tpdeny.");
+                                target.sendMessage(ChatColor.GOLD + "To accept, type" + ChatColor.RED + " /tpaccept.");
+                                target.sendMessage(ChatColor.GOLD + "To deny, type " + ChatColor.RED + "/tpdeny.");
                                 target.sendMessage(ChatColor.GOLD + "This request will timeout in " + ChatColor.RED + delay3 + " seconds");
                                 if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
-                                    Bukkit.getScheduler().cancelTask(teleportcancel.get(target.getUniqueId()));
+                                    cancelTimeout(target);
                                 }
                                 teleportcancel.put(target.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
                                     public void run() {
@@ -88,7 +88,7 @@ public class TeleportRequest implements CommandExecutor {
                                 target.sendMessage(ChatColor.GOLD + "To deny, type " + ChatColor.RED + "/tpdeny.");
                                 target.sendMessage(ChatColor.GOLD + "This request will timeout in " + ChatColor.RED + delay3 + " seconds");
                                 if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
-                                    Bukkit.getScheduler().cancelTask(teleportcancel.get(target.getUniqueId()));
+                                    cancelTimeout(target);
                                 }
                                 teleportcancel.put(target.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
                                     public void run() {
@@ -146,7 +146,7 @@ public class TeleportRequest implements CommandExecutor {
                                 target.sendMessage(ChatColor.GOLD + "To deny, type " + ChatColor.RED + "/tpdeny.");
                                 target.sendMessage(ChatColor.GOLD + "This request will timeout in " + ChatColor.RED + delay3 + " seconds");
                                 if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
-                                    Bukkit.getScheduler().cancelTask(teleportcancel.get(target.getUniqueId()));
+                                    cancelTimeout(target);
                                 }
                                 teleportcancel.put(target.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
                                     public void run() {
@@ -171,7 +171,7 @@ public class TeleportRequest implements CommandExecutor {
                                 target.sendMessage(ChatColor.GOLD + "To deny, type " + ChatColor.RED + "/tpdeny.");
                                 target.sendMessage(ChatColor.GOLD + "This request will timeout in " + ChatColor.RED + delay3 + " seconds");
                                 if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
-                                    Bukkit.getScheduler().cancelTask(teleportcancel.get(target.getUniqueId()));
+                                    cancelTimeout(target);
                                 }
                                 teleportcancel.put(target.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
                                     public void run() {
@@ -242,15 +242,15 @@ public class TeleportRequest implements CommandExecutor {
                                 Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
                             }
                         }
+                        Player target = Bukkit.getPlayer(tpa.get(player.getUniqueId()));
                         // Teleporting Player
                         Bukkit.getPlayer(tpa.get(player.getUniqueId())).teleport(player);
                         tpa.remove(player.getUniqueId());
-                        player.sendMessage(ChatColor.GREEN + "You accepted the teleport request.");
-                        Bukkit.getPlayer(tpa.get(player.getUniqueId())).sendMessage(ChatColor.WHITE + player.getName() + ChatColor.GREEN + " accepted the teleport request.");
+                        cancelTimeout(player);
+                        player.sendMessage(ChatColor.WHITE + target.getName() + ChatColor.GREEN + " has teleported to you");
+                        target.sendMessage(ChatColor.WHITE + player.getName() + ChatColor.GREEN + " has accepted the teleport request.");
                         return true;
                     } else if (tpahere.containsKey(player.getUniqueId())) {
-                        player.sendMessage(ChatColor.GREEN + "You accepted the teleport request.");
-                        Bukkit.getPlayer(tpahere.get(player.getUniqueId())).sendMessage(ChatColor.WHITE + player.getName() + ChatColor.GREEN + " accepted the teleport request.");
                         if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")){
                             if (Back.location.containsKey(player.getUniqueId())){
                                 Back.location.remove(player.getUniqueId());
@@ -259,14 +259,18 @@ public class TeleportRequest implements CommandExecutor {
                                 Back.location.put(player.getUniqueId(), player.getLocation());
                             }
                         }else if (player.hasPermission("se.back.bypass")){
-                            if (Back.location.containsKey(Bukkit.getPlayer(tpa.get(player.getUniqueId())))){
-                                Back.location.remove((Bukkit.getPlayer(tpa.get(player.getUniqueId()))));
-                                Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
+                            if (Back.location.containsKey(Bukkit.getPlayer(tpahere.get(player.getUniqueId())))){
+                                Back.location.remove((Bukkit.getPlayer(tpahere.get(player.getUniqueId()))));
+                                Back.location.put((Bukkit.getPlayer(tpahere.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpahere.get(player.getUniqueId()))).getLocation());
                             }else{
-                                Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
+                                Back.location.put((Bukkit.getPlayer(tpahere.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpahere.get(player.getUniqueId()))).getLocation());
                             }
                         }
+                        Player target = Bukkit.getPlayer(tpahere.get(player.getUniqueId()));
+                        target.sendMessage(ChatColor.WHITE + player.getName() + ChatColor.GREEN + " has teleported to you");
+                        player.sendMessage(ChatColor.GREEN + "Successfully teleported to " + ChatColor.WHITE + target.getName());
                         player.teleport(Bukkit.getPlayer(tpahere.get(player.getUniqueId())));
+                        cancelTimeout(player);
                         tpahere.remove(player.getUniqueId());
                         return true;
                     } else if (tpahere.get(player.getUniqueId()) == null || tpa.get(player.getUniqueId()) == null) {
@@ -277,11 +281,10 @@ public class TeleportRequest implements CommandExecutor {
                     if (ServerEssentials.plugin.getConfig().getBoolean("teleport-movement-cancel")){
                         if (tpa.containsKey(player.getUniqueId())) {
                             Player target = Bukkit.getPlayer(tpa.get(player.getUniqueId()));
-                            teleportcancel.remove(player.getUniqueId());
-                            teleportcancel.remove(target.getUniqueId());
+                            cancelTimeout(player);
                             cancel.add(target.getUniqueId());
-                            player.sendMessage(ChatColor.GREEN + "Successfully accepted Teleport Request");
-                            target.sendMessage(ChatColor.GREEN + "Teleporting to " + ChatColor.GOLD + player.getName() + ChatColor.GREEN + " in " + ChatColor.GOLD + tpwait + " Seconds");
+                            player.sendMessage(ChatColor.GREEN + "Successfully accepted " + ChatColor.WHITE + target.getName() + "'s " + ChatColor.GREEN + "Teleport Request");
+                            target.sendMessage(ChatColor.GREEN + "Teleporting to " + ChatColor.WHITE + player.getName() + ChatColor.GREEN + " in " + ChatColor.GOLD + tpwait + " Seconds");
                             tpwait = tpwait * 20;
                             if (teleport.containsKey(player.getUniqueId()) && teleport.get(player.getUniqueId()) != null) {
                                 Bukkit.getScheduler().cancelTask(teleport.get(player.getUniqueId()));
@@ -306,7 +309,8 @@ public class TeleportRequest implements CommandExecutor {
                                                 }
                                             }
                                             // Teleporting Player
-                                            target.sendMessage(ChatColor.GREEN + "Successfully teleported to " + ChatColor.GOLD + player.getName());
+                                            target.sendMessage(ChatColor.GREEN + "Successfully teleported to " + ChatColor.WHITE + player.getName());
+                                            player.sendMessage(ChatColor.GOLD + target.getName() + ChatColor.WHITE + " has teleported to you");
                                             Bukkit.getPlayer(tpa.get(player.getUniqueId())).teleport(player);
                                             teleport.remove(player.getUniqueId());
                                             cancel.remove(target.getUniqueId());
@@ -318,11 +322,10 @@ public class TeleportRequest implements CommandExecutor {
                             return true;
                         } else if (tpahere.containsKey(player.getUniqueId())) {
                             Player target = Bukkit.getPlayer(tpahere.get(player.getUniqueId()));
-                            teleportcancel.remove(player.getUniqueId());
-                            teleportcancel.remove(target.getUniqueId());
+                            cancelTimeout(player);
                             cancel.add(player.getUniqueId());
                             Bukkit.getPlayer(tpahere.get(player.getUniqueId())).sendMessage(ChatColor.WHITE + player.getName() + ChatColor.GREEN + " accepted the teleport request.");
-                            player.sendMessage(ChatColor.GREEN + "Teleporting to " + ChatColor.GOLD + target.getName() + ChatColor.GREEN + " in " + ChatColor.GOLD + tpwait + " Seconds");
+                            player.sendMessage(ChatColor.GREEN + "Teleporting to " + ChatColor.WHITE + target.getName() + ChatColor.GREEN + " in " + ChatColor.GOLD + tpwait + " Seconds");
                             tpwait = tpwait * 20;
                             if (teleport.containsKey(player.getUniqueId()) && teleport.get(player.getUniqueId()) != null) {
                                 Bukkit.getScheduler().cancelTask(teleport.get(player.getUniqueId()));
@@ -339,13 +342,15 @@ public class TeleportRequest implements CommandExecutor {
                                                     Back.location.put(player.getUniqueId(), player.getLocation());
                                                 }
                                             }else if (player.hasPermission("se.back.bypass")){
-                                                if (Back.location.containsKey(Bukkit.getPlayer(tpa.get(player.getUniqueId())))){
-                                                    Back.location.remove((Bukkit.getPlayer(tpa.get(player.getUniqueId()))));
-                                                    Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
+                                                if (Back.location.containsKey(Bukkit.getPlayer(tpahere.get(player.getUniqueId())))){
+                                                    Back.location.remove((Bukkit.getPlayer(tpahere.get(player.getUniqueId()))));
+                                                    Back.location.put((Bukkit.getPlayer(tpahere.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpahere.get(player.getUniqueId()))).getLocation());
                                                 }else{
-                                                    Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
+                                                    Back.location.put((Bukkit.getPlayer(tpahere.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpahere.get(player.getUniqueId()))).getLocation());
                                                 }
                                             }
+                                            target.sendMessage(ChatColor.WHITE + player.getName() + ChatColor.GREEN + " has teleported to you");
+                                            player.sendMessage(ChatColor.GREEN + "Successfully teleported to " + ChatColor.WHITE + target.getName());
                                             player.teleport(Bukkit.getPlayer(tpahere.get(player.getUniqueId())));
                                             cancel.remove(player.getUniqueId());
                                             teleport.remove(player.getUniqueId());
@@ -362,10 +367,9 @@ public class TeleportRequest implements CommandExecutor {
                     }else{
                         if (tpa.containsKey(player.getUniqueId())) {
                             Player target = Bukkit.getPlayer(tpa.get(player.getUniqueId()));
-                            teleportcancel.remove(player.getUniqueId());
-                            teleportcancel.remove(target.getUniqueId());
-                            player.sendMessage(ChatColor.GREEN + "Successfully accepted Teleport Request");
-                            target.sendMessage(ChatColor.GREEN + "Teleporting to " + ChatColor.GOLD + player.getName() + ChatColor.GREEN + " in " + ChatColor.GOLD + tpwait + " Seconds");
+                            cancelTimeout(player);
+                            player.sendMessage(ChatColor.GREEN + "Successfully accepted " + ChatColor.WHITE + target.getName() + "'s " + ChatColor.GREEN + "Teleport Request");
+                            target.sendMessage(ChatColor.GREEN + "Teleporting to " + ChatColor.WHITE + player.getName() + ChatColor.GREEN + " in " + ChatColor.GOLD + tpwait + " Seconds");
                             tpwait = tpwait * 20;
                             if (teleport.containsKey(player.getUniqueId()) && teleport.get(player.getUniqueId()) != null) {
                                 Bukkit.getScheduler().cancelTask(teleport.get(player.getUniqueId()));
@@ -389,7 +393,8 @@ public class TeleportRequest implements CommandExecutor {
                                             }
                                         }
                                         // Teleporting Player
-                                        target.sendMessage(ChatColor.GREEN + "Successfully teleported to " + ChatColor.GOLD + player.getName());
+                                        player.sendMessage(ChatColor.WHITE + target.getName() + ChatColor.GREEN + " has teleported to you");
+                                        target.sendMessage(ChatColor.GREEN + "Successfully teleported to " + ChatColor.WHITE + player.getName());
                                         Bukkit.getPlayer(tpa.get(player.getUniqueId())).teleport(player);
                                         teleport.remove(player.getUniqueId());
                                         tpa.remove(player.getUniqueId());
@@ -399,9 +404,8 @@ public class TeleportRequest implements CommandExecutor {
                             return true;
                         } else if (tpahere.containsKey(player.getUniqueId())) {
                             Player target = Bukkit.getPlayer(tpahere.get(player.getUniqueId()));
-                            teleportcancel.remove(player.getUniqueId());
-                            teleportcancel.remove(target.getUniqueId());
-                            player.sendMessage(ChatColor.GREEN + "Teleporting to " + ChatColor.GOLD + target.getName() + ChatColor.GREEN + " in " + ChatColor.GOLD + tpwait + " Seconds");
+                            cancelTimeout(player);
+                            player.sendMessage(ChatColor.GREEN + "Teleporting to " + ChatColor.WHITE + target.getName() + ChatColor.GREEN + " in " + ChatColor.GOLD + tpwait + " Seconds");
                             Bukkit.getPlayer(tpahere.get(player.getUniqueId())).sendMessage(ChatColor.WHITE + player.getName() + ChatColor.GREEN + " accepted the teleport request.");
                             tpwait = tpwait * 20;
                             if (teleport.containsKey(player.getUniqueId()) && teleport.get(player.getUniqueId()) != null) {
@@ -418,18 +422,19 @@ public class TeleportRequest implements CommandExecutor {
                                                 Back.location.put(player.getUniqueId(), player.getLocation());
                                             }
                                         } else if (player.hasPermission("se.back.bypass")) {
-                                            if (Back.location.containsKey(Bukkit.getPlayer(tpa.get(player.getUniqueId())))) {
-                                                Back.location.remove((Bukkit.getPlayer(tpa.get(player.getUniqueId()))));
-                                                Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
+                                            if (Back.location.containsKey(Bukkit.getPlayer(tpahere.get(player.getUniqueId())))) {
+                                                Back.location.remove((Bukkit.getPlayer(tpahere.get(player.getUniqueId()))));
+                                                Back.location.put((Bukkit.getPlayer(tpahere.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpahere.get(player.getUniqueId()))).getLocation());
                                             } else {
-                                                Back.location.put((Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpa.get(player.getUniqueId()))).getLocation());
+                                                Back.location.put((Bukkit.getPlayer(tpahere.get(player.getUniqueId()))).getUniqueId(), (Bukkit.getPlayer(tpahere.get(player.getUniqueId()))).getLocation());
                                             }
                                         }
+                                        target.sendMessage(ChatColor.WHITE + player.getName() + ChatColor.GREEN + " has teleported to you");
+                                        player.sendMessage(ChatColor.GREEN + "Successfully teleported to " + ChatColor.WHITE + target.getName());
                                         player.teleport(Bukkit.getPlayer(tpahere.get(player.getUniqueId())));
                                         tpahere.remove(player.getUniqueId());
                                         teleport.remove(player.getUniqueId());
                                         tpahere.remove(target.getUniqueId());
-                                        player.sendMessage(ChatColor.GREEN + "Successfully teleported to " + ChatColor.GOLD + target.getName());
                                     }
                                 }
                             }, tpwait));
@@ -494,5 +499,9 @@ public class TeleportRequest implements CommandExecutor {
             }
         }
         return null;
+    }
+
+    public static void cancelTimeout (Player target){
+        Bukkit.getScheduler().cancelTask(teleportcancel.get(target.getUniqueId()));
     }
 }

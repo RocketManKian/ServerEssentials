@@ -38,15 +38,21 @@ public class PlayerMoveEvent implements Listener {
         }
         if (TeleportRequest.cancel.contains(player.getUniqueId()) || TeleportRequest.cancel.contains(Bukkit.getPlayer(TeleportRequest.tpa.get(player.getUniqueId())))){
             if (m.getFrom().getX() != m.getTo().getX() && m.getFrom().getZ() != m.getTo().getZ()){
-                UUID player2 = getKey(TeleportRequest.tpa, player.getUniqueId());
-                UUID player3 = getKey(TeleportRequest.tpa, player.getUniqueId());
-                TeleportRequest.tpa.remove(player2);
-                TeleportRequest.tpahere.remove(player3);
-                TeleportRequest.teleportcancel.remove(player.getUniqueId());
-                TeleportRequest.teleportcancel.remove(player2);
-                TeleportRequest.teleportcancel.remove(player3);
+                UUID player2u = getKey(TeleportRequest.tpa, player.getUniqueId());
+                Player player2 = Bukkit.getPlayer(getKey(TeleportRequest.tpa, player.getUniqueId()));
+                Player player3 = Bukkit.getPlayer(getKey(TeleportRequest.tpahere, player.getUniqueId()));
+                UUID player3u = getKey(TeleportRequest.tpa, player.getUniqueId());
+                if (player.getUniqueId().equals(player2u)){
+                    TeleportRequest.tpa.remove(player2);
+                    TeleportRequest.cancelTimeout(player2);
+                    TeleportRequest.cancel.remove((Bukkit.getPlayer(TeleportRequest.tpa.get(player.getUniqueId()))));
+                }
+                if (player.getUniqueId().equals(player3u)){
+                    TeleportRequest.cancelTimeout(player3);
+                    TeleportRequest.tpahere.remove(player3);
+                    TeleportRequest.cancel.remove((Bukkit.getPlayer(TeleportRequest.tpahere.get(player.getUniqueId()))));
+                }
                 TeleportRequest.cancel.remove(player.getUniqueId());
-                TeleportRequest.cancel.remove((Bukkit.getPlayer(TeleportRequest.tpa.get(player.getUniqueId()))));
                 player.sendMessage(ChatColor.RED + "Teleportation cancelled due to Movement");
             }
         }
