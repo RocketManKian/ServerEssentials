@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 1.70.8
+# This config was generated for version 1.70.9
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -117,6 +117,7 @@ spawn-movement-cancel: true
 # Enable or Disable the Warp GUI
 enable-warp-gui: true
 # Determine the amount of slots inside the Warp GUI
+# Minimum: '9'
 warp-gui-size: 9
 # Change the Item that shows for Warps in the Warp GUI
 warp-item: DIAMOND_BLOCK
@@ -146,6 +147,7 @@ warp-movement-cancel: true
 # Enable or Disable the Home GUI
 enable-home-gui: true
 # Determine the amount of slots inside the Home GUI
+# Minimum: '9'
 home-gui-size: 9
 # Change the Item that shows for Homes in the Home GUI
 home-item: RED_BED

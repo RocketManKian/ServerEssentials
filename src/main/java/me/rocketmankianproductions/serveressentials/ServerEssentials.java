@@ -126,6 +126,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("home").setTabCompleter(new TabCompletion());
         // Deletehome Command
         getCommand("deletehome").setExecutor(new DeleteHome());
+        getCommand("deletehome").setTabCompleter(new TabCompletion());
         // Teleport Command
         getCommand("teleport").setExecutor(new Teleport());
         // TeleportHere Command
@@ -187,6 +188,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("warp").setTabCompleter(new TabCompletion());
         // Warp Command
         getCommand("deletewarp").setExecutor(new DeleteWarp());
+        getCommand("deletewarp").setTabCompleter(new TabCompletion());
         // Repair Command
         getCommand("repair").setExecutor(new Repair());
         // Sunrise Command
