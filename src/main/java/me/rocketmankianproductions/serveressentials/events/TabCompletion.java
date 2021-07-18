@@ -41,7 +41,7 @@ public class TabCompletion implements TabCompleter {
                 if (Setwarp.fileConfig.getStringList("Warp.") != null){
                     ConfigurationSection warps = Setwarp.fileConfig.getConfigurationSection("Warp.");
                     for (String warp: warps.getKeys(false)){
-                        if (player.hasPermission("se.warps." + warp)){
+                        if (player.hasPermission("se.deletewarp")){
                             autoCompletes.add(warp);
                         }
                     }
