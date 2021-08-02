@@ -122,33 +122,44 @@ public class Spawn implements CommandExecutor {
                             }
                         }
                     } else if (args.length >= 1) {
-                        Player target = Bukkit.getPlayerExact(args[0]);
-                        // Checking if the player exists
-                        if (target != null) {
-                            if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")){
-                                if (Back.location.containsKey(target.getUniqueId())){
-                                    Back.location.remove(target.getUniqueId());
-                                    Back.location.put(target.getUniqueId(), target.getLocation());
-                                }else{
-                                    Back.location.put(target.getUniqueId(), target.getLocation());
+                        if (player.hasPermission("se.spawn.others")) {
+                            Player target = Bukkit.getPlayerExact(args[0]);
+                            // Checking if the player exists
+                            if (target != null) {
+                                if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")) {
+                                    if (Back.location.containsKey(target.getUniqueId())) {
+                                        Back.location.remove(target.getUniqueId());
+                                        Back.location.put(target.getUniqueId(), target.getLocation());
+                                    } else {
+                                        Back.location.put(target.getUniqueId(), target.getLocation());
+                                    }
+                                } else if (target.hasPermission("se.back.bypass")) {
+                                    if (Back.location.containsKey(target.getUniqueId())) {
+                                        Back.location.remove(target.getUniqueId());
+                                        Back.location.put(target.getUniqueId(), target.getLocation());
+                                    } else {
+                                        Back.location.put(target.getUniqueId(), target.getLocation());
+                                    }
                                 }
-                            }else if (target.hasPermission("se.back.bypass")){
-                                if (Back.location.containsKey(target.getUniqueId())){
-                                    Back.location.remove(target.getUniqueId());
-                                    Back.location.put(target.getUniqueId(), target.getLocation());
-                                }else{
-                                    Back.location.put(target.getUniqueId(), target.getLocation());
-                                }
+                                // Teleporting player to Location
+                                target.teleport(loc);
+                                // Sending the Sender and Target a message
+                                sender.sendMessage(ChatColor.GREEN + ("You have teleported " + ChatColor.WHITE + target.getName() + ChatColor.GREEN + " to spawn."));
+                                target.sendMessage(ChatColor.GREEN + ("You have been teleported to spawn."));
+                                return true;
+                            } else {
+                                sender.sendMessage(ChatColor.RED + ("Player not found."));
+                                return true;
                             }
-                            // Teleporting player to Location
-                            target.teleport(loc);
-                            // Sending the Sender and Target a message
-                            sender.sendMessage(ChatColor.GREEN + ("You have teleported " + ChatColor.WHITE + target.getName() + ChatColor.GREEN + " to spawn."));
-                            target.sendMessage(ChatColor.GREEN + ("You have been teleported to spawn."));
-                            return true;
-                        } else {
-                            sender.sendMessage(ChatColor.RED + ("Player not found."));
-                            return true;
+                        }else{
+                            if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
+                                player.sendMessage(ChatColor.RED + "You do not have the required permission (se.spawn.others) to run this command.");
+                                return true;
+                            }else{
+                                String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
+                                return true;
+                            }
                         }
                     }
                 } else {

@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 1.70.9
+# This config was generated for version 1.71.0
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -102,7 +102,6 @@ group-id: ""
 # +------------------------------------------------------+ #
 ############################################################
 # How many Seconds the Player has to wait before they are teleported to Spawn
-# Make sure to use Ticks: 1 Seconds = 20 Ticks
 # Set to '0' to Disable
 spawn-teleport: 5
 # Enable or Disable the ability to stop Teleportation when the Player Moves
