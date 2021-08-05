@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 1.71.0
+version: 1.71.1
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -297,6 +297,7 @@ permissions:
       se.msgtoggle: true
       se.craft: true
       se.enderchest: true
+      se.enderchest.others: true
       se.setwarp: true
       se.warp: true
       se.deletewarp: true
@@ -449,6 +450,9 @@ permissions:
     default: false
   se.enderchest:
     description: "Enderchest Command"
+    default: false
+  se.enderchest.others:
+    description: "Enderchest Others Command"
     default: false
   se.setwarp:
     description: "Setwarp Command"
