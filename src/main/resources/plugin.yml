@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 1.71.0
+version: 1.71.1
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -263,6 +263,7 @@ permissions:
       se.version: true
       se.setspawn: true
       se.spawn: true
+      se.spawn.others: true
       se.deletespawn: true
       se.alert: true
       se.silentjoin: true
@@ -296,6 +297,7 @@ permissions:
       se.msgtoggle: true
       se.craft: true
       se.enderchest: true
+      se.enderchest.others: true
       se.setwarp: true
       se.warp: true
       se.deletewarp: true
@@ -349,6 +351,9 @@ permissions:
     default: false
   se.spawn:
     description: "Gives access to the /spawn command"
+    default: false
+  se.spawn.others:
+    description: "Gives access to the teleporting other players to Spawn"
     default: false
   se.deletespawn:
     description: "Gives access to /deletespawn"
@@ -445,6 +450,9 @@ permissions:
     default: false
   se.enderchest:
     description: "Enderchest Command"
+    default: false
+  se.enderchest.others:
+    description: "Enderchest Others Command"
     default: false
   se.setwarp:
     description: "Setwarp Command"
