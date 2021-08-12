@@ -26,9 +26,7 @@ public class PlayerClickEvent implements Listener {
     public void onClick(InventoryClickEvent e){
         Player player = (Player) e.getWhoClicked();
         //InventoryView inv = e.getView();
-        if (e.getView().getTitle().equalsIgnoreCase(ChatColor.AQUA + "Server Essentials")){
-            e.setCancelled(true);
-        }else if (e.getView().getTitle().equalsIgnoreCase("Equipped Armor")){
+        if (e.getView().getTitle().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("invsee-armor-gui")))){
             e.setCancelled(true);
         }else if (e.getView().getTitle().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("warp-gui-name")))){
             e.setCancelled(true);

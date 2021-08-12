@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 1.72.0
+# This config was generated for version 1.72.1
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -16,8 +16,6 @@
 # +              Server Essentials (Global)              + #
 # +------------------------------------------------------+ #
 ############################################################
-# Changes the No Permission Message for ALL Commands
-no-permission-message: ""
 # Changes the prefix that appears at the start of every message and command.
 prefix: "[Server Essentials]"
 # Changes the '/website' command text
