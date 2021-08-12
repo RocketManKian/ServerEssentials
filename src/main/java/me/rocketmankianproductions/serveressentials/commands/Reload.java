@@ -1,20 +1,17 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import me.rocketmankianproductions.serveressentials.tasks.Broadcast;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.Plugin;
-import org.bukkit.scheduler.BukkitTask;
 
 public class Reload {
 
-    public static BukkitTask broadcastLoop;
-    FileConfiguration config = ServerEssentials.getPlugin().getConfig();
     public static ServerEssentials plugin;
 
     public Reload(ServerEssentials plugin) {
@@ -36,6 +33,7 @@ public class Reload {
                 TPToggle.reload();
                 MsgToggle.reload();
                 Setwarp.reload();
+                Lang.reload();
                 // Applying Broadcast Changes
                 ServerEssentials.broadcastLoop.cancel();
                 Long delay = ServerEssentials.getPlugin().getConfig().getLong("broadcast-delay");
@@ -43,12 +41,8 @@ public class Reload {
                 HandlerList.unregisterAll((Plugin) ServerEssentials.plugin);
                 ServerEssentials.plugin.registerEvents();
             } else {
-                if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
-                    player.sendMessage(ChatColor.RED + "You do not have the required permission (se.reload) to run this command.");
-                }else{
-                    String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                }
+                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.reload");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
             }
         } else if (sender instanceof ConsoleCommandSender) {
             ServerEssentials.getPlugin().getLogger().info(ChatColor.translateAlternateColorCodes('&', ChatColor.GREEN + "Server Essentials has been reloaded!"));
@@ -58,6 +52,9 @@ public class Reload {
             SilentJoin.reload();
             Sethome.reload();
             TPToggle.reload();
+            MsgToggle.reload();
+            Setwarp.reload();
+            Lang.reload();
             ServerEssentials.broadcastLoop.cancel();
             Long delay = ServerEssentials.getPlugin().getConfig().getLong("broadcast-delay");
             ServerEssentials.broadcastLoop = new Broadcast(ServerEssentials.plugin).runTaskTimer(ServerEssentials.plugin, delay, delay);

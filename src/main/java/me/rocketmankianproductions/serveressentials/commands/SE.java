@@ -1,6 +1,7 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -92,16 +93,10 @@ public class SE implements CommandExecutor {
                             + "\n/trash - Opens the Trash Chute GUI"
                             + "\n/back - Teleports to Previous Location");
                 } else {
-                    if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
-                        player.sendMessage(ChatColor.RED + "You do not have the required permission (se.info) to run this command.");
-                        return true;
-                    } else {
-                        String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                    }
+                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.info");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                     return true;
                 }
-                return true;
             }
             if (args.length == 1){
                 if (args[0].equals("reload")) {

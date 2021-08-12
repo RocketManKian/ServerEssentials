@@ -1,6 +1,7 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -49,12 +50,14 @@ public class Spawn implements CommandExecutor {
                             }
                             // Teleporting Player
                             player.teleport(loc);
-                            player.sendMessage("Successfully teleported to spawn.");
+                            String msg = Lang.fileConfig.getString("spawn-successful");
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             return true;
                         }else{
                             if (ServerEssentials.plugin.getConfig().getBoolean("spawn-movement-cancel")){
                                 cancel.add(player.getUniqueId());
-                                player.sendMessage(ChatColor.GREEN + "Teleporting to Spawn in " + ChatColor.GOLD + delay + " Seconds");
+                                String msg = Lang.fileConfig.getString("spawn-wait-message").replace("<time>", String.valueOf(delay));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 delay = delay * 20;
                                 if (spawnteleport.containsKey(player.getUniqueId()) && spawnteleport.get(player.getUniqueId()) != null) {
                                     Bukkit.getScheduler().cancelTask(spawnteleport.get(player.getUniqueId()));
@@ -80,7 +83,8 @@ public class Spawn implements CommandExecutor {
                                                 }
                                                 // Teleporting Player
                                                 player.teleport(loc);
-                                                player.sendMessage("Successfully teleported to spawn.");
+                                                String msg = Lang.fileConfig.getString("spawn-successful");
+                                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                                 cancel.remove(player.getUniqueId());
                                                 spawnteleport.remove(player.getUniqueId());
                                             }
@@ -89,7 +93,8 @@ public class Spawn implements CommandExecutor {
                                 }, delay));
                                 return true;
                             }else{
-                                player.sendMessage(ChatColor.GREEN + "Teleporting to Spawn in " + ChatColor.GOLD + delay + " Seconds");
+                                String msg = Lang.fileConfig.getString("spawn-wait-message").replace("<time>", String.valueOf(delay));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 delay = delay * 20;
                                 if (spawnteleport.containsKey(player.getUniqueId()) && spawnteleport.get(player.getUniqueId()) != null) {
                                     Bukkit.getScheduler().cancelTask(spawnteleport.get(player.getUniqueId()));
@@ -114,7 +119,8 @@ public class Spawn implements CommandExecutor {
                                             }
                                             // Teleporting Player
                                             player.teleport(loc);
-                                            player.sendMessage("Successfully teleported to spawn.");
+                                            String msg = Lang.fileConfig.getString("spawn-successful");
+                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                         }
                                     }
                                 }, delay));
@@ -144,37 +150,31 @@ public class Spawn implements CommandExecutor {
                                 // Teleporting player to Location
                                 target.teleport(loc);
                                 // Sending the Sender and Target a message
-                                sender.sendMessage(ChatColor.GREEN + ("You have teleported " + ChatColor.WHITE + target.getName() + ChatColor.GREEN + " to spawn."));
-                                target.sendMessage(ChatColor.GREEN + ("You have been teleported to spawn."));
+                                String msg = Lang.fileConfig.getString("spawn-teleport-target").replace("<target>", target.getName());
+                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                String msg2 = Lang.fileConfig.getString("spawn-teleport-target-success");
+                                target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                                 return true;
                             } else {
-                                sender.sendMessage(ChatColor.RED + ("Player not found."));
+                                String msg = Lang.fileConfig.getString("target-offline");
+                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 return true;
                             }
                         }else{
-                            if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
-                                player.sendMessage(ChatColor.RED + "You do not have the required permission (se.spawn.others) to run this command.");
-                                return true;
-                            }else{
-                                String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                                return true;
-                            }
+                            String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.spawn.others");
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                            return true;
                         }
                     }
                 } else {
                     // Sends Message if Spawn Doesn't Exist
-                    sender.sendMessage("Spawn doesn't exist.");
+                    String msg = Lang.fileConfig.getString("spawn-invalid");
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                 }
             } else {
-                if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
-                    player.sendMessage(ChatColor.RED + "You do not have the required permission (se.spawn) to run this command.");
-                    return true;
-                }else{
-                    String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                    return true;
-                }
+                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.spawn");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                return true;
             }
         }else if (sender instanceof ConsoleCommandSender){
             if (args.length == 1){
@@ -201,15 +201,19 @@ public class Spawn implements CommandExecutor {
                         // Teleporting player to Location
                         target.teleport(loc);
                         // Sending the Sender and Target a message
-                        System.out.println(ChatColor.GREEN + ("You have teleported " + ChatColor.WHITE + target.getName() + ChatColor.GREEN + " to spawn."));
-                        target.sendMessage(ChatColor.GREEN + ("You have been teleported to spawn."));
+                        String msg = Lang.fileConfig.getString("spawn-teleport-target").replace("<target>", target.getName());
+                        System.out.println(ChatColor.translateAlternateColorCodes('&', msg));
+                        String msg2 = Lang.fileConfig.getString("spawn-teleport-target-success");
+                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                         return true;
                     } else {
                         // Sends Message if Spawn Doesn't Exist
-                        System.out.println(ChatColor.RED + "Spawn doesn't exist.");
+                        String msg = Lang.fileConfig.getString("spawn-invalid");
+                        System.out.println(ChatColor.translateAlternateColorCodes('&', msg));
                     }
                 } else {
-                    sender.sendMessage(ChatColor.RED + ("Player not found."));
+                    String msg = Lang.fileConfig.getString("target-offline");
+                    System.out.println(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }
             }

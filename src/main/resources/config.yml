@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 1.71.1
+# This config was generated for version 1.72.0
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -38,6 +38,8 @@ first-time-join: "&aWelcome to the Server!"
 join-symbol: "&6[&a+&6]"
 # Change the Leave Symbol that is displayed before the player's name.
 leave-symbol: "&6[&c-&6]"
+# Enable to send players to the Spawn upon Joining for the First Time
+spawn-on-first-join: false
 # Enable to send players to the Spawn upon Joining
 spawn-on-join: false
 # Enable to send players to the Spawn upon Dying

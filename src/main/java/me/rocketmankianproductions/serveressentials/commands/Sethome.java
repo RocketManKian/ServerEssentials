@@ -2,10 +2,8 @@ package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.LoggerMessage;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
-import org.bukkit.Bukkit;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.ChatColor;
-import org.bukkit.NamespacedKey;
-import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -17,7 +15,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
 
 public class Sethome implements CommandExecutor {
 
@@ -70,7 +67,8 @@ public class Sethome implements CommandExecutor {
                     if (blacklistenabled) {
                         for (String worlds : ServerEssentials.plugin.getConfig().getStringList("home-blacklist")) {
                             if (player.getWorld().getName().equalsIgnoreCase(worlds)) {
-                                player.sendMessage(ChatColor.RED + "You cannot set a Home in a Blacklisted World");
+                                String msg = Lang.fileConfig.getString("home-blacklisted-world");
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 return true;
                             }
                         }
@@ -81,18 +79,14 @@ public class Sethome implements CommandExecutor {
                             if (homesAmount < maxHomes) {
                                 createHome(name, args, world, player);
                             } else {
-                                player.sendMessage(ChatColor.RED + "You cannot set any more homes. (Max Homes: " + maxHomes + ")");
+                                String msg = Lang.fileConfig.getString("home-max-homes").replace("<max>", String.valueOf(maxHomes));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 return true;
                             }
                             return true;
                         } else if (!player.hasPermission("se.sethome")) {
-                            if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
-                                player.sendMessage(ChatColor.RED + "You do not have the required permission (se.sethome) to run this command.");
-                                return true;
-                            } else {
-                                String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                            }
+                            String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.sethome");
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                             return true;
                         }
                     }else{
@@ -103,18 +97,14 @@ public class Sethome implements CommandExecutor {
                             if (homesAmount < maxHomes) {
                                 createHome(name, args, world, player);
                             } else {
-                                player.sendMessage(ChatColor.RED + "You cannot set any more homes. (Max Homes: " + maxHomes + ")");
+                                String msg = Lang.fileConfig.getString("home-max-homes").replace("<max>", String.valueOf(maxHomes));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 return true;
                             }
                             return true;
                         } else if (!player.hasPermission("se.sethome")) {
-                            if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
-                                player.sendMessage(ChatColor.RED + "You do not have the required permission (se.sethome) to run this command.");
-                                return true;
-                            } else {
-                                String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                            }
+                            String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.sethome");
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                             return true;
                         }
                     }
@@ -123,7 +113,8 @@ public class Sethome implements CommandExecutor {
                     if (blacklistenabled){
                         for (String worlds : ServerEssentials.plugin.getConfig().getStringList("home-blacklist")) {
                             if (player.getWorld().getName().equalsIgnoreCase(worlds)) {
-                                player.sendMessage(ChatColor.RED + "You cannot set a Home in a Blacklisted World");
+                                String msg = Lang.fileConfig.getString("home-blacklisted-world");
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 return true;
                             }
                         }
@@ -134,14 +125,9 @@ public class Sethome implements CommandExecutor {
                         return true;
                     }
                 } else {
-                    if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
-                        player.sendMessage(ChatColor.RED + "You do not have the required permission (se.sethome) to run this command.");
-                        return true;
-                    } else {
-                        String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                        return true;
-                    }
+                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.sethome");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                    return true;
                 }
             } else {
                 player.sendMessage(ChatColor.RED + "Use \"/sethome (name)\" to set your home.");
@@ -162,6 +148,7 @@ public class Sethome implements CommandExecutor {
             e.printStackTrace();
         }
         Sethome.reload();
-        player.sendMessage(ChatColor.GREEN + "Successfully set home location!");
+        String msg = Lang.fileConfig.getString("home-set-success");
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
     }
 }

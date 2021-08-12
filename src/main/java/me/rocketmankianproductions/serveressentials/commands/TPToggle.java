@@ -1,6 +1,8 @@
 package me.rocketmankianproductions.serveressentials.commands;
+
 import me.rocketmankianproductions.serveressentials.LoggerMessage;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -11,8 +13,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.UUID;
 
 public class TPToggle {
 
@@ -63,7 +63,8 @@ public class TPToggle {
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                            player.sendMessage(ChatColor.RED + "Teleport Requests have been Disabled");
+                            String msg = Lang.fileConfig.getString("teleport-toggle-enabled");
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             return true;
                         } else {
                             fileConfig.set("tptoggle." + player.getName(), false);
@@ -72,7 +73,8 @@ public class TPToggle {
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                            player.sendMessage(ChatColor.GREEN + "Teleport Requests have been Enabled");
+                            String msg = Lang.fileConfig.getString("teleport-toggle-disabled");
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             return true;
                         }
                     } else {
@@ -80,18 +82,14 @@ public class TPToggle {
                         return true;
                     }
                 } else {
-                    sender.sendMessage(ChatColor.RED + "You aren't a player!");
+                    String msg = Lang.fileConfig.getString("invalid-player");
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }
             } else {
-                if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
-                    player.sendMessage(ChatColor.RED + "You do not have the required permission (se.tptoggle) to run this command.");
-                    return true;
-                }else{
-                    String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                    return true;
-                }
+                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.tptoggle");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                return true;
             }
         }
         return true;

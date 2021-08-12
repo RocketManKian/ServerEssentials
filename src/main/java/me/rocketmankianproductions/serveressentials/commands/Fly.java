@@ -1,6 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
-import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -18,12 +18,14 @@ public class Fly implements CommandExecutor {
                 if (args.length == 0){
                     if (player.getAllowFlight() == true){
                         player.setFlying(true);
-                        player.sendMessage(ChatColor.RED + "Flying disabled");
+                        String msg = Lang.fileConfig.getString("fly-disabled");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         player.setAllowFlight(false);
                         return true;
                     }else {
                         player.setFlying(false);
-                        player.sendMessage(ChatColor.GREEN + "Flying enabled");
+                        String msg = Lang.fileConfig.getString("fly-enabled");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         player.setAllowFlight(true);
                         return true;
                     }
@@ -31,30 +33,30 @@ public class Fly implements CommandExecutor {
                     Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
                     if (targetPlayer.getAllowFlight() == true){
                         targetPlayer.setFlying(true);
-                        targetPlayer.sendMessage(ChatColor.RED + "Flying disabled");
-                        sender.sendMessage(ChatColor.WHITE + targetPlayer.getName() + ChatColor.RED + " can no longer fly");
+                        String msg = Lang.fileConfig.getString("fly-disabled");
+                        targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        String msg2 = Lang.fileConfig.getString("fly-target-disabled").replace("<target>", targetPlayer.getName());
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                         targetPlayer.setAllowFlight(false);
                         return true;
                     }else {
                         targetPlayer.setFlying(false);
-                        targetPlayer.sendMessage(ChatColor.GREEN + "Flying enabled");
-                        sender.sendMessage(ChatColor.WHITE + targetPlayer.getName() + ChatColor.GREEN + " can now fly!");
+                        String msg = Lang.fileConfig.getString("fly-enabled");
+                        targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        String msg2 = Lang.fileConfig.getString("fly-target-enabled").replace("<target>", targetPlayer.getName());
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                         targetPlayer.setAllowFlight(true);
                         return true;
                     }
                 }
             }else{
-                if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
-                    player.sendMessage(ChatColor.RED + "You do not have the required permission (se.fly) to run this command.");
-                    return true;
-                }else{
-                    String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                    return true;
-                }
+                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.fly");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                return true;
             }
         }else{
-            player.sendMessage(ChatColor.RED + "You are not a player.");
+            String msg = Lang.fileConfig.getString("player-offline");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
             return true;
         }
         return false;

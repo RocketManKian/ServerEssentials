@@ -2,6 +2,7 @@ package me.rocketmankianproductions.serveressentials.commands;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -17,16 +18,7 @@ public class Test implements CommandExecutor {
         if (sender instanceof Player) {
             if (player.hasPermission("se.test")) {
                 if (args.length == 1) {
-                    if (args[0].equalsIgnoreCase("permission")) {
-                        if (!(ServerEssentials.getPlugin().getConfig().getString("no-permission-message").length() == 0)) {
-                            String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                            return true;
-                        } else {
-                            player.sendMessage(ChatColor.RED + "The 'no-permission-message' config value is empty.");
-                            return true;
-                        }
-                    } else if (args[0].equalsIgnoreCase("join")) {
+                    if (args[0].equalsIgnoreCase("join")) {
                         if (!(ServerEssentials.getPlugin().getConfig().getString("join-symbol").length() == 0)) {
                             String jm = ServerEssentials.getPlugin().getConfig().getString("join-symbol");
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', jm + " " + player.getDisplayName()));
@@ -80,14 +72,9 @@ public class Test implements CommandExecutor {
                     }
                 }
             } else {
-                if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
-                    player.sendMessage(ChatColor.RED + "You do not have the required permission (se.test) to run this command.");
-                    return true;
-                } else {
-                    String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                    return true;
-                }
+                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.test");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                return true;
             }
         }
         return false;

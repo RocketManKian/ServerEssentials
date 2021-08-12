@@ -4,6 +4,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.UpdateChecker.Update;
 import me.rocketmankianproductions.serveressentials.commands.*;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -67,6 +68,15 @@ public class PlayerJoinListener implements Listener {
                 // Default Message
             }
         }
+        if (!player.hasPlayedBefore() && ServerEssentials.getPlugin().getConfig().getBoolean("spawn-on-first-join") && Setspawn.fileConfig.getString("Location.World") != null){
+            // Gathering Location
+            float yaw = Setspawn.fileConfig.getInt("Location.Yaw");
+            float pitch = Setspawn.fileConfig.getInt("Location.Pitch");
+            // Combining location data
+            loc = new Location(Bukkit.getWorld(Setspawn.fileConfig.getString("Location.World")), Setspawn.fileConfig.getDouble("Location.X"), Setspawn.fileConfig.getDouble("Location.Y"), Setspawn.fileConfig.getDouble("Location.Z"), yaw, pitch);
+            // Teleporting player to location
+            player.teleport(loc);
+        }
         // Handles spawn-on-join
         if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-on-join") && Setspawn.fileConfig.getString("Location.World") != null) {
             // Gathering Location
@@ -84,7 +94,8 @@ public class PlayerJoinListener implements Listener {
                     people.hidePlayer(ServerEssentials.getPlugin(), player);
                 }
                 ServerEssentials.getPlugin().invisible_list.add(player);
-                player.sendMessage(ChatColor.GREEN + "You are now invisible!");
+                String msg = Lang.fileConfig.getString("vanish-enabled");
+                player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
             }
         }
 

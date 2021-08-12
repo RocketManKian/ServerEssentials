@@ -1,17 +1,13 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
-import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.Damageable;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 public class Repair implements CommandExecutor {
@@ -26,19 +22,23 @@ public class Repair implements CommandExecutor {
                         ItemStack item = player.getItemInHand();
                         short durability = item.getDurability();
                         if (durability == 0) {
-                            player.sendMessage(ChatColor.RED + "Durability is max");
+                            String msg = Lang.fileConfig.getString("repair-durability-max");
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             return true;
                         } else {
                             player.getItemInHand().setDurability((short) 0);
-                            player.sendMessage(ChatColor.BLUE + player.getItemInHand().getItemMeta().getDisplayName() + ChatColor.GREEN + " repaired!");
+                            String msg = Lang.fileConfig.getString("repair-successful").replace("<item>", player.getItemInHand().getType().toString());
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             return true;
                         }
                     } else {
-                        player.sendMessage(ChatColor.RED + "You cannot repair that item.");
+                        String msg = Lang.fileConfig.getString("repair-invalid-item");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
                 } else {
-                    player.sendMessage(ChatColor.RED + "You are not a player");
+                    String msg = Lang.fileConfig.getString("invalid-player");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }
             } else if (args.length == 1) {
@@ -62,19 +62,15 @@ public class Repair implements CommandExecutor {
                     } else {
                         // Bleh
                     }
-                    player.sendMessage(ChatColor.GREEN + "Repaired all item(s)!");
+                    String msg = Lang.fileConfig.getString("repair-all-items");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }
             }
         } else {
-            if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
-                player.sendMessage(ChatColor.RED + "You do not have the required permission (se.repair) to run this command.");
-                return true;
-            } else {
-                String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                return true;
-            }
+            String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.repair");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+            return true;
         }
         return false;
     }

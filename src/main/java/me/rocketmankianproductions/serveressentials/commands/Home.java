@@ -1,6 +1,7 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -56,16 +57,19 @@ public class Home implements CommandExecutor {
                             player.teleport(loc);
                             Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
                             if (subtitle) {
-                                player.sendTitle("Successfully teleported to " + ChatColor.GOLD + args[0], null);
+                                String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", args[0]);
+                                player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
                                 return true;
                             } else {
-                                player.sendMessage(ChatColor.GREEN + "Successfully teleported to " + ChatColor.GOLD + args[0]);
+                                String msg = Lang.fileConfig.getString("home-message").replace("<home>", args[0]);
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 return true;
                             }
                         }else{
                             if (ServerEssentials.plugin.getConfig().getBoolean("home-movement-cancel")){
                                 cancel.add(player.getUniqueId());
-                                player.sendMessage(ChatColor.GREEN + "Teleporting to " + ChatColor.GOLD + args[0] + ChatColor.GREEN + " in " + ChatColor.GOLD + delay + " Seconds");
+                                String msg = Lang.fileConfig.getString("home-wait-message").replace("<home>", args[0]).replace("<time>", String.valueOf(delay));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 delay = delay * 20;
                                 if (hometeleport.containsKey(player.getUniqueId()) && hometeleport.get(player.getUniqueId()) != null) {
                                     Bukkit.getScheduler().cancelTask(hometeleport.get(player.getUniqueId()));
@@ -93,9 +97,11 @@ public class Home implements CommandExecutor {
                                                 player.teleport(loc);
                                                 Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
                                                 if (subtitle) {
-                                                    player.sendTitle("Successfully teleported to " + ChatColor.GOLD + args[0], null);
+                                                    String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", args[0]);
+                                                    player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
                                                 } else {
-                                                    player.sendMessage(ChatColor.GREEN + "Successfully teleported to " + ChatColor.GOLD + args[0]);
+                                                    String msg = Lang.fileConfig.getString("home-message").replace("<home>", args[0]);
+                                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                                 }
                                                 cancel.remove(player.getUniqueId());
                                             }
@@ -104,7 +110,8 @@ public class Home implements CommandExecutor {
                                 }, delay));
                                 return true;
                             }else{
-                                player.sendMessage(ChatColor.GREEN + "Teleporting to " + ChatColor.GOLD + args[0] + ChatColor.GREEN + " in " + ChatColor.GOLD + delay + " Seconds");
+                                String msg = Lang.fileConfig.getString("home-wait-message").replace("<home>", args[0]).replace("<time>", String.valueOf(delay));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 delay = delay * 20;
                                 if (hometeleport.containsKey(player.getUniqueId()) && hometeleport.get(player.getUniqueId()) != null) {
                                     Bukkit.getScheduler().cancelTask(hometeleport.get(player.getUniqueId()));
@@ -132,9 +139,11 @@ public class Home implements CommandExecutor {
                                                 player.teleport(loc);
                                                 Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
                                                 if (subtitle) {
-                                                    player.sendTitle("Successfully teleported to " + ChatColor.GOLD + args[0], null);
+                                                    String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", args[0]);
+                                                    player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
                                                 } else {
-                                                    player.sendMessage(ChatColor.GREEN + "Successfully teleported to " + ChatColor.GOLD + args[0]);
+                                                    String msg = Lang.fileConfig.getString("home-message").replace("<home>", args[0]);
+                                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                                 }
                                             }
                                         }
@@ -145,17 +154,13 @@ public class Home implements CommandExecutor {
                         }
                     }
                 } else {
-                    player.sendMessage("Home Doesn't Exist!");
+                    String msg = Lang.fileConfig.getString("home-invalid").replace("<home>", args[0]);
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }
             } else {
-                if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
-                    player.sendMessage(ChatColor.RED + "You do not have the required permission (se.home) to run this command.");
-                    return true;
-                }else{
-                    String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                }
+                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.home");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                 return true;
             }
         } else if (args.length == 0) {
@@ -164,9 +169,10 @@ public class Home implements CommandExecutor {
                     int index = 0;
                     ConfigurationSection inventorySection = Sethome.fileConfig.getConfigurationSection("Home." + name);
                     Integer size = ServerEssentials.plugin.getConfig().getInt("home-gui-size");
-                    Inventory inv = Bukkit.createInventory(player, size, ChatColor.AQUA + "Home GUI");
+                    Inventory inv = Bukkit.createInventory(player, size, ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("home-gui-name")));
                     if (inventorySection == null){
-                        player.sendMessage(ChatColor.RED + "home.yml file is empty or null");
+                        String msg = Lang.fileConfig.getString("home-file-error").replace("<home>", args[0]);
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }else{
                         assert inventorySection != null;
@@ -180,9 +186,11 @@ public class Home implements CommandExecutor {
                                         String homecolour = ServerEssentials.plugin.getConfig().getString("home-name-colour");
                                         meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', homecolour + key));
                                         List<String> loreList = new ArrayList<String>();
-                                        loreList.add(ChatColor.DARK_PURPLE + "Click to teleport to " + key);
+                                        String msg = Lang.fileConfig.getString("home-gui-left-click").replace("<home>", key);
+                                        loreList.add(ChatColor.translateAlternateColorCodes('&', msg));
                                         if (player.hasPermission("se.deletehome")){
-                                            loreList.add(ChatColor.RED + "Right Click to Delete Home");
+                                            String msg2 = Lang.fileConfig.getString("home-gui-right-click").replace("<home>", key);
+                                            loreList.add(ChatColor.translateAlternateColorCodes('&', msg2));
                                         }
                                         meta.setLore(loreList);
                                         item.setItemMeta(meta);
@@ -190,23 +198,27 @@ public class Home implements CommandExecutor {
                                         index ++;
                                     }
                                 } catch (NullPointerException e) {
-                                    player.sendMessage(ChatColor.RED + "No Homes have been set.");
+                                    String msg = Lang.fileConfig.getString("no-homes-set");
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 }
                                 player.openInventory(inv);
                                 return true;
                             }else{
-                                player.sendMessage(ChatColor.RED + "GUI Size is too small, increase the value in Config!");
+                                String msg = Lang.fileConfig.getString("home-gui-error");
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 return true;
                             }
                         }else{
-                            player.sendMessage(ChatColor.RED + "No Homes have been set");
+                            String msg = Lang.fileConfig.getString("no-homes-set");
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             return true;
                         }
                     }
                 }else{
                     ConfigurationSection inventorySection = Sethome.fileConfig.getConfigurationSection("Home." + name);
                     if (inventorySection == null) {
-                        player.sendMessage(ChatColor.RED + "home.yml file is empty or null");
+                        String msg = Lang.fileConfig.getString("home-file-error");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     } else if (!inventorySection.getKeys(true).isEmpty()){
                         assert inventorySection != null;
@@ -226,18 +238,14 @@ public class Home implements CommandExecutor {
                         player.sendMessage(ChatColor.GREEN + "---------------------------"
                                 + "\nHome(s) List"
                                 + "\n---------------------------");
-                        player.sendMessage(ChatColor.RED + "No Homes have been set.");
+                        String msg = Lang.fileConfig.getString("no-homes-set");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
                 }
             } else {
-                if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
-                    player.sendMessage(ChatColor.RED + "You do not have the required permission (se.home) to run this command.");
-                    return true;
-                }else{
-                    String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                }
+                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.home");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                 return true;
             }
         }else if (args.length == 2){
@@ -274,10 +282,12 @@ public class Home implements CommandExecutor {
                                     }
                                     // Teleporting To Target's Home
                                     player.teleport(loc);
-                                    player.sendMessage("You have been teleported to " + ChatColor.GOLD + target.getName() + "'s" + " home");
+                                    String msg = Lang.fileConfig.getString("home-teleport-target").replace("<target>", target.getName());
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                     return true;
                                 } else {
-                                    player.sendMessage("Home Doesn't Exist!");
+                                    String msg = Lang.fileConfig.getString("home-invalid");
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                     return true;
                                 }
                             }
@@ -286,18 +296,14 @@ public class Home implements CommandExecutor {
                             return true;
                         }
                     } else {
-                        player.sendMessage(ChatColor.RED + "Player does not exist");
+                        String msg = Lang.fileConfig.getString("player-offline");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
                 }
             }else{
-                if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
-                    player.sendMessage(ChatColor.RED + "You do not have the required permission (se.home.others) to run this command.");
-                    return true;
-                }else{
-                    String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                }
+                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.home.others");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                 return true;
             }
         }

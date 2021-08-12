@@ -1,6 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
-import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -15,8 +15,6 @@ public class Hurt implements CommandExecutor {
         if (Sender instanceof Player) {
             Player player = (Player) Sender;
 
-            //hurt <PLAYER> <AMOUNT>
-
             if (commandLabel.equalsIgnoreCase("hurt")) {
                 // Checking if the player has the se.hurt permission
                 if (player.hasPermission("se.hurt")) {
@@ -26,22 +24,19 @@ public class Hurt implements CommandExecutor {
                             Player playerToHurt = Bukkit.getPlayer(args[0]);
                             double damageAmount = Double.parseDouble(args[1]);
                             playerToHurt.damage(damageAmount);
-                            player.sendMessage(ChatColor.YELLOW + playerToHurt.getName() + ChatColor.RED + " was hurt for " + ChatColor.YELLOW + damageAmount + ChatColor.RED + " damage points");
+                            String msg = Lang.fileConfig.getString("hurt-target").replace("<target>", playerToHurt.getName()).replace("<damage>", args[1]);
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             return true;
                         } catch (NumberFormatException exception) {
-                            player.sendMessage(ChatColor.RED + args[1] + " is not a valid number!");
+                            String msg = Lang.fileConfig.getString("hurt-invalid-number").replace("<damage>", args[1]);
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             return true;
                         }
                     }
                 } else {
-                    if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
-                        player.sendMessage(ChatColor.RED + "You do not have the required permission (se.hurt) to run this command.");
-                        return true;
-                    } else {
-                        String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                        return true;
-                    }
+                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.hurt");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                    return true;
                 }
             }
         }

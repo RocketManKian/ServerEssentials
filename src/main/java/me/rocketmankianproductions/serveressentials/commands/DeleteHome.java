@@ -1,6 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
-import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -26,22 +26,19 @@ public class DeleteHome implements CommandExecutor {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                    player.sendMessage(ChatColor.GREEN + "Home " + ChatColor.GOLD + args[0] + ChatColor.GREEN + " has been successfully deleted");
+                    String msg = Lang.fileConfig.getString("home-deletion-success").replace("<home>", args[0]);
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 } else {
-                    sender.sendMessage(ChatColor.RED + "Home Doesn't Exist");
+                    String msg = Lang.fileConfig.getString("home-deletion-success").replace("<home>", args[0]);
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }
             }
         } else {
-            if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
-                player.sendMessage(ChatColor.RED + "You do not have the required permission (se.deletehome) to run this command.");
-                return true;
-            } else {
-                String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                return true;
-            }
+            String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.deletehome");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+            return true;
         }
         return false;
     }

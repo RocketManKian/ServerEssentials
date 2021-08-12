@@ -1,6 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
-import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,21 +19,18 @@ public class DeleteSpawn implements CommandExecutor {
                 // If the file exists then it will get deleted upon execution of command
                 Setspawn.file.delete();
                 Setspawn.reload();
-                player.sendMessage(ChatColor.GREEN + "Spawn Deleted");
+                String msg = Lang.fileConfig.getString("spawn-deletion-success");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                 return true;
             } else {
-                sender.sendMessage(ChatColor.RED + "Spawn Doesn't Exist");
+                String msg = Lang.fileConfig.getString("spawn-not-found");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                 return true;
             }
         } else {
-            if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
-                player.sendMessage(ChatColor.RED + "You do not have the required permission (se.deletespawn) to run this command.");
-                return true;
-            }else{
-                String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                return true;
-            }
+            String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.deletespawn");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+            return true;
         }
     }
 }

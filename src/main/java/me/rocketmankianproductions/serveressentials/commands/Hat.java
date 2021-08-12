@@ -1,6 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
-import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -19,21 +19,18 @@ public class Hat implements CommandExecutor {
                 if (player.hasPermission("se.hat")) {
                     if (!player.getItemInHand().getType().equals(Material.AIR)) {
                         ItemStack activeitem = player.getItemInHand();
-                        player.sendMessage(ChatColor.GREEN + "You are now wearing " + ChatColor.WHITE + activeitem.getType());
+                        String msg = Lang.fileConfig.getString("hat-success");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         hatCommand(player);
                         return true;
                     } else {
-                        player.sendMessage(ChatColor.RED + "You can't wear that!");
+                        String msg = Lang.fileConfig.getString("hat-invalid");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
                 } else {
-                    if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
-                        player.sendMessage(ChatColor.RED + "You do not have the required permission (se.hat) to run this command.");
-                        return true;
-                    } else {
-                        String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                    }
+                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.hat");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                     return true;
                 }
             }

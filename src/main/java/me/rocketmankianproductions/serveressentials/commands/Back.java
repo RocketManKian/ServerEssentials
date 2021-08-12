@@ -1,6 +1,7 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -8,7 +9,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.jetbrains.annotations.NotNull;
 
@@ -31,10 +31,12 @@ public class Back implements CommandExecutor {
                 if (player.hasPermission("se.back.bypass")){
                     if (location.containsKey(player.getUniqueId())){
                         player.teleport(location.get(player.getUniqueId()));
-                        player.sendMessage(ChatColor.GOLD + "Teleported to previous location");
+                        String msg = Lang.fileConfig.getString("back-previous-location");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }else{
-                        player.sendMessage(ChatColor.RED + "You have no location to return to");
+                        String msg = Lang.fileConfig.getString("back-no-location");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
                 }else{
@@ -46,7 +48,8 @@ public class Back implements CommandExecutor {
                         if (player.hasPermission("se.back.bypass")) {
                             if (!backcancel.containsKey(player.getUniqueId())) {
                                 player.teleport(location.get(player.getUniqueId()));
-                                player.sendMessage(ChatColor.GOLD + "Teleported to previous location");
+                                String msg = Lang.fileConfig.getString("back-previous-location");
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 backcancel.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
                                     public void run() {
                                         backconfirm.put(player.getUniqueId(), true);
@@ -58,20 +61,23 @@ public class Back implements CommandExecutor {
                                 return true;
                             }
                             if (backcancel.containsKey(player.getUniqueId()) && backcancel.get(player.getUniqueId()) != null) {
-                                player.sendMessage(ChatColor.RED + "You cannot use this command for another " + ChatColor.GOLD + time + " Seconds");
+                                String msg = Lang.fileConfig.getString("command-timeout").replace("<time>", String.valueOf(time));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 return true;
                             }
                         }
                         if (blacklistedworld) {
                             for (String worlds : ServerEssentials.plugin.getConfig().getStringList("back-blacklist")) {
                                 if (player.getWorld().getName().equalsIgnoreCase(worlds)) {
-                                    player.sendMessage(ChatColor.RED + "Cannot use Back Command in a Blacklisted World");
+                                    String msg = Lang.fileConfig.getString("back-blacklisted-world");
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                     return true;
                                 }
                             }
                             if (!backcancel.containsKey(player.getUniqueId())) {
                                 player.teleport(location.get(player.getUniqueId()));
-                                player.sendMessage(ChatColor.GOLD + "Teleported to previous location");
+                                String msg = Lang.fileConfig.getString("back-previous-location");
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 backcancel.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
                                     public void run() {
                                         backconfirm.put(player.getUniqueId(), true);
@@ -83,14 +89,16 @@ public class Back implements CommandExecutor {
                                 return true;
                             }
                             if (backcancel.containsKey(player.getUniqueId()) && backcancel.get(player.getUniqueId()) != null) {
-                                player.sendMessage(ChatColor.RED + "You cannot use this command for another " + ChatColor.GOLD + time + " Seconds");
+                                String msg = Lang.fileConfig.getString("command-timeout").replace("<time>", String.valueOf(time));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 return true;
                             }
                         }
                         if (!blacklistedworld){
                             if (!backcancel.containsKey(player.getUniqueId())) {
                                 player.teleport(location.get(player.getUniqueId()));
-                                player.sendMessage(ChatColor.GOLD + "Teleported to previous location");
+                                String msg = Lang.fileConfig.getString("back-previous-location");
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 backcancel.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
                                     public void run() {
                                         backconfirm.put(player.getUniqueId(), true);
@@ -102,24 +110,21 @@ public class Back implements CommandExecutor {
                                 return true;
                             }
                             if (backcancel.containsKey(player.getUniqueId()) && backcancel.get(player.getUniqueId()) != null) {
-                                player.sendMessage(ChatColor.RED + "You cannot use this command for another " + ChatColor.GOLD + time + " Seconds");
+                                String msg = Lang.fileConfig.getString("command-timeout").replace("<time>", String.valueOf(time));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 return true;
                             }
                         }
                     }else{
-                        player.sendMessage(ChatColor.RED + "You have no location to return to");
+                        String msg = Lang.fileConfig.getString("back-no-location");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
                 }
             }else{
-                if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
-                    player.sendMessage(ChatColor.RED + "You do not have the required permission (se.back) to run this command.");
-                    return true;
-                }else{
-                    String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                    return true;
-                }
+                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.back");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                return true;
             }
         }
         return false;

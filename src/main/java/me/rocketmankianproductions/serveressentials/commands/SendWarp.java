@@ -1,6 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
-import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -36,36 +36,31 @@ public class SendWarp implements CommandExecutor {
                                             yaw, pitch);
                                     // Teleporting Target
                                     target.teleport(loc);
-                                    target.sendMessage("Successfully warped to " + args[1]);
+                                    String msg = Lang.fileConfig.getString("sendwarp-player").replace("<target>", target.getName()).replace("<warp>", args[1]);
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    String msg2 = Lang.fileConfig.getString("sendwarp-target").replace("<warp>", args[1]);
+                                    target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                                     return true;
                                 } else {
-                                    if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
-                                        player.sendMessage(ChatColor.RED + "You do not have the required permission (se.warps." + args[1] + ") to run this command.");
-                                        return true;
-                                    } else {
-                                        String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                                    }
+                                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.warps." + args[1]);
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                                     return true;
                                 }
                             }
                         } else {
-                            player.sendMessage(ChatColor.RED + "Cannot find player " + ChatColor.WHITE + args[0]);
+                            String msg = Lang.fileConfig.getString("target-offline");
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             return true;
                         }
                     } else {
-                        player.sendMessage("Warp Doesn't Exist!");
+                        String msg = Lang.fileConfig.getString("warp-invalid");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
                 }
             } else {
-                if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
-                    player.sendMessage(ChatColor.RED + "You do not have the required permission (se.sendhome) to run this command.");
-                    return true;
-                } else {
-                    String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                }
+                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.sendwarp");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                 return true;
             }
         }

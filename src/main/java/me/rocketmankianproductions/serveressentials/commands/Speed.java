@@ -1,6 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
-import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,32 +19,31 @@ public class Speed implements CommandExecutor {
                     try {
                         speed = Integer.parseInt(args[0]);
                     } catch (NumberFormatException e){
-                        player.sendMessage(ChatColor.RED + "Please provide a speed from 1-10");
+                        String msg = Lang.fileConfig.getString("speed-invalid-number");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
                     if (speed <1 || speed > 10){
-                        player.sendMessage(ChatColor.RED + "Please provide a speed from 1-10");
+                        String msg = Lang.fileConfig.getString("speed-invalid-number");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
                     if (player.isFlying()){
                         player.setFlySpeed((float) speed / 10);
-                        player.sendMessage(ChatColor.GOLD + "Set" + ChatColor.RED + " flying" + ChatColor.GOLD + " speed to " + ChatColor.RED + (float)speed);
+                        String msg = Lang.fileConfig.getString("speed-fly-success").replace("<speed>", String.valueOf((float)speed));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }else if (!player.isFlying()){
                         player.setWalkSpeed((float) speed / 10);
-                        player.sendMessage(ChatColor.GOLD + "Set" + ChatColor.RED + " walking" + ChatColor.GOLD + " speed to " + ChatColor.RED + (float)speed);
+                        String msg = Lang.fileConfig.getString("speed-walk-success").replace("<speed>", String.valueOf((float)speed));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
                 }
             }else{
-                if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
-                    player.sendMessage(ChatColor.RED + "You do not have the required permission (se.speed) to run this command.");
-                    return true;
-                }else{
-                    String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                    return true;
-                }
+                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.speed");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                return true;
             }
         }
         return false;

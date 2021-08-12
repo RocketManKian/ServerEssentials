@@ -1,6 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
-import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -33,7 +33,8 @@ public class Reply implements CommandExecutor {
 
                 // check if theres something in the hashmap / something to reply to
                 if (reply.get(player.getUniqueId()) == null) {
-                    sender.sendMessage(ChatColor.RED + "There is no message to reply to");
+                    String msg = Lang.fileConfig.getString("reply-no-message");
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 } else if (Bukkit.getServer().getOnlinePlayers().contains(Bukkit.getPlayer(reply.get(player.getUniqueId())))) {
                     Reply.reply.put(reply.get(player.getUniqueId()), player.getUniqueId()); // put again to hashmap
@@ -70,19 +71,15 @@ public class Reply implements CommandExecutor {
                         return true;
                     }
                 } else {
-                    sender.sendMessage(ChatColor.RED + "That player is offline");
+                    String msg = Lang.fileConfig.getString("target-offline");
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }
             }
         } else {
-            if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) { // could produce NPE
-                player.sendMessage(ChatColor.RED + "You do not have the required permission (se.reply) to run this command.");
-                return true;
-            } else {
-                String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                return true;
-            }
+            String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.reply");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+            return true;
         }
     }
 }

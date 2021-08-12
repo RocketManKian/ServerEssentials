@@ -1,6 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
-import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -25,43 +25,46 @@ public class God implements CommandExecutor, Listener {
         if (player.hasPermission("se.god")) {
             if (args.length == 0) {
                 if (god_toggle.contains(player.getName())) {
-                    player.sendMessage(ChatColor.RED + "Godmode Disabled");
+                    String msg = Lang.fileConfig.getString("god-disabled");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     god_toggle.remove(player.getName());
                     return true;
                 } else if (!god_toggle.contains(player.getName())) {
-                    player.sendMessage(ChatColor.GREEN + "Godmode Enabled");
+                    String msg = Lang.fileConfig.getString("god-enabled");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     god_toggle.add(player.getName());
                     return true;
                 }
             } else if (args.length == 1) {
                 Player target = Bukkit.getPlayer(args[0]);
                 if (target == sender) {
-                    sender.sendMessage(ChatColor.RED + "Use /god to set yourself into Godmode");
+                    String msg = Lang.fileConfig.getString("god-target-is-sender");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 } else if (target == null) {
-                    sender.sendMessage(ChatColor.RED + "Player does not exist");
+                    String msg = Lang.fileConfig.getString("player-offline");
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }else if (god_toggle.contains(target.getName())){
-                    player.sendMessage(ChatColor.RED + "Godmode Disabled for " + ChatColor.WHITE + target.getName());
-                    target.sendMessage(ChatColor.RED + "Godmode Disabled");
+                    String msg = Lang.fileConfig.getString("god-disabled-target").replace("<target>", target.getName());
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    String msg2 = Lang.fileConfig.getString("god-disabled");
+                    target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                     god_toggle.remove(target.getName());
                     return true;
                 }else if (!god_toggle.contains(target.getName())){
-                    player.sendMessage(ChatColor.GREEN + "Godmode Enabled for " + ChatColor.WHITE + target.getName());
-                    target.sendMessage(ChatColor.GREEN + "Godmode Enabled");
+                    String msg = Lang.fileConfig.getString("god-enabled-target").replace("<target>", target.getName());
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    String msg2 = Lang.fileConfig.getString("god-enabled");
+                    target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                     god_toggle.add(target.getName());
                     return true;
                 }
             }
         }else{
-            if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
-                player.sendMessage(ChatColor.RED + "You do not have the required permission (se.god) to run this command.");
-                return true;
-            } else {
-                String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                return true;
-            }
+            String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.god");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+            return true;
         }
         return false;
     }

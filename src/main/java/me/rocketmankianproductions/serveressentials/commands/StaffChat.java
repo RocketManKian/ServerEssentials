@@ -3,6 +3,7 @@ package me.rocketmankianproductions.serveressentials.commands;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -24,11 +25,13 @@ public class StaffChat implements CommandExecutor {
             if (player.hasPermission("se.staffchat")){
                 if (args.length == 0) {
                     if (!staffchat.contains(player)){
-                        player.sendMessage(ChatColor.GOLD + "StaffChat has been" + ChatColor.GREEN + " enabled!");
+                        String msg = Lang.fileConfig.getString("staffchat-enabled");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         staffchat.add(player);
                         return true;
                     }else{
-                        player.sendMessage(ChatColor.GOLD + "StaffChat has been" + ChatColor.RED + " disabled!");
+                        String msg = Lang.fileConfig.getString("staffchat-disabled");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         staffchat.remove(player);
                         return true;
                     }
@@ -45,6 +48,10 @@ public class StaffChat implements CommandExecutor {
                         return true;
                     }
                 }
+            }else{
+                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.staffchat");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                return true;
             }
         }
         return false;

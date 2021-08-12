@@ -4,6 +4,7 @@ import me.rocketmankianproductions.serveressentials.commands.Home;
 import me.rocketmankianproductions.serveressentials.commands.Spawn;
 import me.rocketmankianproductions.serveressentials.commands.TeleportRequest;
 import me.rocketmankianproductions.serveressentials.commands.Warp;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -21,19 +22,22 @@ public class PlayerMoveEvent implements Listener {
         if (Home.cancel.contains(player.getUniqueId())){
             if (m.getFrom().getX() != m.getTo().getX() && m.getFrom().getZ() != m.getTo().getZ()){
                 Home.cancel.remove(player.getUniqueId());
-                player.sendMessage(ChatColor.RED + "Teleportation cancelled due to Movement");
+                String msg = Lang.fileConfig.getString("home-movement-cancel");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
             }
         }
         if (Warp.cancel.contains(player.getUniqueId())){
             if (m.getFrom().getX() != m.getTo().getX() && m.getFrom().getZ() != m.getTo().getZ()){
                 Warp.cancel.remove(player.getUniqueId());
-                player.sendMessage(ChatColor.RED + "Warping cancelled due to Movement");
+                String msg = Lang.fileConfig.getString("warp-movement-cancel");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
             }
         }
         if (Spawn.cancel.contains(player.getUniqueId())){
             if (m.getFrom().getX() != m.getTo().getX() && m.getFrom().getZ() != m.getTo().getZ()){
                 Spawn.cancel.remove(player.getUniqueId());
-                player.sendMessage(ChatColor.RED + "Teleportation cancelled due to Movement");
+                String msg = Lang.fileConfig.getString("spawn-movement-cancel");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
             }
         }
         if (TeleportRequest.cancel.contains(player.getUniqueId()) || TeleportRequest.cancel.contains(Bukkit.getPlayer(TeleportRequest.tpa.get(player.getUniqueId())))){
@@ -53,7 +57,8 @@ public class PlayerMoveEvent implements Listener {
                     TeleportRequest.cancel.remove((Bukkit.getPlayer(TeleportRequest.tpahere.get(player.getUniqueId()))));
                 }
                 TeleportRequest.cancel.remove(player.getUniqueId());
-                player.sendMessage(ChatColor.RED + "Teleportation cancelled due to Movement");
+                String msg = Lang.fileConfig.getString("teleport-movement-cancel");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
             }
         }
     }

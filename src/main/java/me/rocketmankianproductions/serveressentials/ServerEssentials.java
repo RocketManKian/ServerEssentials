@@ -5,6 +5,7 @@ import me.rocketmankianproductions.serveressentials.Metrics.MetricsLite;
 import me.rocketmankianproductions.serveressentials.UpdateChecker.Update;
 import me.rocketmankianproductions.serveressentials.commands.*;
 import me.rocketmankianproductions.serveressentials.events.*;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import me.rocketmankianproductions.serveressentials.tasks.Broadcast;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -43,6 +44,8 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         // Plugin startup logic
         LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "Server Essentials has been enabled.");
         this.saveDefaultConfig();
+        // Lang File
+        Lang.setup();
         // Placeholder API
         registerPlaceholder();
         // DiscordSRV

@@ -1,7 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
-import me.rocketmankianproductions.serveressentials.LoggerMessage;
-import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
@@ -24,47 +23,48 @@ public class Time implements CommandExecutor {
                         for (World world : Bukkit.getServer().getWorlds()) {
                             world.setTime(23041);
                         }
-                        player.sendMessage(ChatColor.GREEN + "Time set to Sunrise");
+                        String msg = Lang.fileConfig.getString("time-sunrise");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }else if (command.getName().equalsIgnoreCase("day")) {
                         for (World world : Bukkit.getServer().getWorlds()) {
                             world.setTime(1000);
                         }
-                        player.sendMessage(ChatColor.GREEN + "Time set to Day");
+                        String msg = Lang.fileConfig.getString("time-day");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }else if (command.getName().equalsIgnoreCase("sunset") || command.getName().equalsIgnoreCase("dusk")) {
                         for (World world : Bukkit.getServer().getWorlds()) {
                             world.setTime(12610);
                         }
-                        player.sendMessage(ChatColor.GREEN + "Time set to Sunset");
+                        String msg = Lang.fileConfig.getString("time-sunset");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }else if (command.getName().equalsIgnoreCase("midnight")) {
                         for (World world : Bukkit.getServer().getWorlds()) {
                             world.setTime(18000);
                         }
-                        player.sendMessage(ChatColor.GREEN + "Time set to Midnight");
+                        String msg = Lang.fileConfig.getString("time-midnight");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }else if (command.getName().equalsIgnoreCase("sun")) {
                         for (World world : Bukkit.getServer().getWorlds()) {
                             world.setStorm(false);
                         }
-                        player.sendMessage(ChatColor.GREEN + "Weather changed to " + ChatColor.GOLD + "Sun");
+                        String msg = Lang.fileConfig.getString("weather-sun");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }else if (command.getName().equalsIgnoreCase("storm") || command.getName().equalsIgnoreCase("thunder")) {
                         for (World world : Bukkit.getServer().getWorlds()) {
                             world.setStorm(true);
                         }
-                        player.sendMessage(ChatColor.GREEN + "Weather changed to " + ChatColor.GOLD + "Storm");
+                        String msg = Lang.fileConfig.getString("weather-storm");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
                 }else{
-                    if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
-                        player.sendMessage(ChatColor.RED + "You do not have the required permission (se.time) to run this command.");
-                        return true;
-                    }else{
-                        String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                    }
+                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.time");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                     return true;
                 }
             }
@@ -73,37 +73,43 @@ public class Time implements CommandExecutor {
                 for (World world : Bukkit.getServer().getWorlds()) {
                     world.setTime(23041);
                 }
-                System.out.println(ChatColor.GREEN + "Time set to Sunrise");
+                String msg = Lang.fileConfig.getString("time-sunrise");
+                System.out.println(ChatColor.translateAlternateColorCodes('&', msg));
                 return true;
             } else if (command.getName().equalsIgnoreCase("day")) {
                 for (World world : Bukkit.getServer().getWorlds()) {
                     world.setTime(1000);
                 }
-                System.out.println(ChatColor.GREEN + "Time set to Day");
+                String msg = Lang.fileConfig.getString("time-day");
+                System.out.println(ChatColor.translateAlternateColorCodes('&', msg));
                 return true;
             } else if (command.getName().equalsIgnoreCase("sunset") || command.getName().equalsIgnoreCase("dusk")) {
                 for (World world : Bukkit.getServer().getWorlds()) {
                     world.setTime(12610);
                 }
-                System.out.println(ChatColor.GREEN + "Time set to Sunset");
+                String msg = Lang.fileConfig.getString("time-sunset");
+                System.out.println(ChatColor.translateAlternateColorCodes('&', msg));
                 return true;
             } else if (command.getName().equalsIgnoreCase("midnight")) {
                 for (World world : Bukkit.getServer().getWorlds()) {
                     world.setTime(18000);
                 }
-                System.out.println(ChatColor.GREEN + "Time set to Midnight");
+                String msg = Lang.fileConfig.getString("time-midnight");
+                System.out.println(ChatColor.translateAlternateColorCodes('&', msg));
                 return true;
             }else if (command.getName().equalsIgnoreCase("sun")) {
                 for (World world : Bukkit.getServer().getWorlds()) {
                     world.setStorm(false);
                 }
-                System.out.println(ChatColor.GREEN + "Weather changed to " + ChatColor.GOLD + "Sun");
+                String msg = Lang.fileConfig.getString("weather-sun");
+                System.out.println(ChatColor.translateAlternateColorCodes('&', msg));
                 return true;
             }else if (command.getName().equalsIgnoreCase("storm") || command.getName().equalsIgnoreCase("thunder")) {
                 for (World world : Bukkit.getServer().getWorlds()) {
                     world.setStorm(true);
                 }
-                System.out.println(ChatColor.GREEN + "Weather changed to " + ChatColor.GOLD + "Storm");
+                String msg = Lang.fileConfig.getString("weather-storm");
+                System.out.println(ChatColor.translateAlternateColorCodes('&', msg));
                 return true;
             }
         }
