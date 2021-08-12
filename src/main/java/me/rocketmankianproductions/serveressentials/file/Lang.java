@@ -93,6 +93,7 @@ public class Lang {
                 fileConfig.addDefault("hurt-target", "<target> was hurt for <damage> damage points");
                 fileConfig.addDefault("hurt-invalid-number", "<damage> is not a valid number");
                 fileConfig.addDefault("invsee-target-is-sender", "You cannot open your own inventory");
+                fileConfig.addDefault("invsee-armor-gui", "Equipped Armor");
                 fileConfig.addDefault("kill-self", "You just killed yourself");
                 fileConfig.addDefault("kill-target", "You just killed <target>");
                 fileConfig.addDefault("lore-invalid-item", "Please hold a valid item to set the lore");
