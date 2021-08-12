@@ -1,6 +1,7 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -55,16 +56,19 @@ public class Warp implements CommandExecutor {
                                     player.teleport(loc);
                                     Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
                                     if (subtitle) {
-                                        player.sendTitle("Warped to " + ChatColor.GOLD + args[0], null);
+                                        String msg = Lang.fileConfig.getString("warp-subtitle").replace("<warp>", args[0]);
+                                        player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
                                         return true;
                                     } else {
-                                        player.sendMessage(ChatColor.GREEN + "Successfully warped to " + ChatColor.GOLD + args[0]);
+                                        String msg = Lang.fileConfig.getString("warp-message").replace("<warp>", args[0]);
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                         return true;
                                     }
                                 }else{
                                     if (ServerEssentials.plugin.getConfig().getBoolean("warp-movement-cancel")){
                                         cancel.add(player.getUniqueId());
-                                        player.sendMessage(ChatColor.GREEN + "Warping to " + ChatColor.GOLD + args[0] + ChatColor.GREEN + " in " + ChatColor.GOLD + delay + " Seconds");
+                                        String msg = Lang.fileConfig.getString("warp-wait-message").replace("<warp>", args[0]).replace("<time>", String.valueOf(delay));
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                         delay = delay * 20;
                                         if (warpteleport.containsKey(player.getUniqueId()) && warpteleport.get(player.getUniqueId()) != null) {
                                             Bukkit.getScheduler().cancelTask(warpteleport.get(player.getUniqueId()));
@@ -92,9 +96,11 @@ public class Warp implements CommandExecutor {
                                                         player.teleport(loc);
                                                         Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
                                                         if (subtitle) {
-                                                            player.sendTitle("Warped to " + ChatColor.GOLD + args[0], null);
+                                                            String msg = Lang.fileConfig.getString("warp-subtitle").replace("<warp>", args[0]);
+                                                            player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
                                                         } else {
-                                                            player.sendMessage(ChatColor.GREEN + "Successfully warped to " + ChatColor.GOLD + args[0]);
+                                                            String msg = Lang.fileConfig.getString("warp-message").replace("<warp>", args[0]);
+                                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                                         }
                                                         cancel.remove(player.getUniqueId());
                                                     }
@@ -103,7 +109,8 @@ public class Warp implements CommandExecutor {
                                         }, delay));
                                         return true;
                                     }else{
-                                        player.sendMessage(ChatColor.GREEN + "Warping to " + ChatColor.GOLD + args[0] + ChatColor.GREEN + " in " + ChatColor.GOLD + delay + " Seconds");
+                                        String msg = Lang.fileConfig.getString("warp-wait-message").replace("<warp>", args[0]).replace("<time>", String.valueOf(delay));
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                         delay = delay * 20;
                                         if (warpteleport.containsKey(player.getUniqueId()) && warpteleport.get(player.getUniqueId()) != null) {
                                             Bukkit.getScheduler().cancelTask(warpteleport.get(player.getUniqueId()));
@@ -130,9 +137,11 @@ public class Warp implements CommandExecutor {
                                                     player.teleport(loc);
                                                     Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
                                                     if (subtitle) {
-                                                        player.sendTitle("Warped to " + ChatColor.GOLD + args[0], null);
+                                                        String msg = Lang.fileConfig.getString("warp-subtitle").replace("<warp>", args[0]);
+                                                        player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
                                                     } else {
-                                                        player.sendMessage(ChatColor.GREEN + "Successfully warped to " + ChatColor.GOLD + args[0]);
+                                                        String msg = Lang.fileConfig.getString("warp-message").replace("<warp>", args[0]);
+                                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                                     }
                                                 }
                                             }
@@ -142,17 +151,13 @@ public class Warp implements CommandExecutor {
                                 }
                             }
                         } else {
-                            if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
-                                player.sendMessage(ChatColor.RED + "You do not have the required permission (se.warps." + args[0] + ") to run this command.");
-                                return true;
-                            } else {
-                                String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                                return true;
-                            }
+                            String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.warps." + args[0]);
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                            return true;
                         }
                     } else {
-                        player.sendMessage("Warp Doesn't Exist!");
+                        String msg = Lang.fileConfig.getString("warp-invalid");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
                 } else if (args.length == 0) {
@@ -160,11 +165,12 @@ public class Warp implements CommandExecutor {
                         if (ServerEssentials.plugin.getConfig().getBoolean("enable-warp-gui")){
                             int index = 0;
                             Integer size = ServerEssentials.plugin.getConfig().getInt("warp-gui-size");
-                            Inventory inv = Bukkit.createInventory(null, size, ChatColor.AQUA + "Warp GUI");
+                            Inventory inv = Bukkit.createInventory(null, size, ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("warp-gui-name")));
                             ConfigurationSection inventorySection = Setwarp.fileConfig.getConfigurationSection("Warp.");
                             ConfigurationSection inventorySection2 = Setwarp.fileConfig.getConfigurationSection("Warp");
                             if (inventorySection == null && inventorySection2 == null){
-                                player.sendMessage(ChatColor.RED + "warp.yml file is empty or null");
+                                String msg = Lang.fileConfig.getString("warp-file-error");
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 return true;
                             }else{
                                 assert inventorySection2 != null;
@@ -179,9 +185,11 @@ public class Warp implements CommandExecutor {
                                                 String warpcolour = ServerEssentials.plugin.getConfig().getString("warp-name-colour");
                                                 meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', warpcolour + key));
                                                 List<String> loreList = new ArrayList<String>();
-                                                loreList.add(ChatColor.DARK_PURPLE + "Click to teleport to " + key);
+                                                String msg = Lang.fileConfig.getString("warp-gui-left-click").replace("<warp>", key);
+                                                loreList.add(ChatColor.translateAlternateColorCodes('&', msg));
                                                 if (player.hasPermission("se.deletewarp")){
-                                                    loreList.add(ChatColor.RED + "Right click to Delete Warp");
+                                                    String msg2 = Lang.fileConfig.getString("warp-gui-right-click");
+                                                    loreList.add(ChatColor.translateAlternateColorCodes('&', msg2));
                                                 }
                                                 meta.setLore(loreList);
                                                 item.setItemMeta(meta);
@@ -189,16 +197,19 @@ public class Warp implements CommandExecutor {
                                                 index ++;
                                             }
                                         } catch (NullPointerException e) {
-                                            player.sendMessage(ChatColor.RED + "No Warps have been set.");
+                                            String msg = Lang.fileConfig.getString("no-warps-set");
+                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                         }
                                         player.openInventory(inv);
                                         return true;
                                     }else{
-                                        player.sendMessage(ChatColor.RED + "GUI Size is too small, increase the value in Config!");
+                                        String msg = Lang.fileConfig.getString("warp-gui-invalid");
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                         return true;
                                     }
                                 }else{
-                                    player.sendMessage(ChatColor.RED + "No Warps are available");
+                                    String msg = Lang.fileConfig.getString("no-warps-set");
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                     return true;
                                 }
                             }
@@ -206,7 +217,8 @@ public class Warp implements CommandExecutor {
                             ConfigurationSection inventorySection = Setwarp.fileConfig.getConfigurationSection("Warp.");
                             ConfigurationSection inventorySection2 = Setwarp.fileConfig.getConfigurationSection("Warp");
                             if (inventorySection == null && inventorySection2 == null) {
-                                player.sendMessage(ChatColor.RED + "warp.yml file is empty or null");
+                                String msg = Lang.fileConfig.getString("warp-file-error");
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 return true;
                             }else if (!inventorySection.getKeys(true).isEmpty()){
                                 assert inventorySection != null;
@@ -228,30 +240,21 @@ public class Warp implements CommandExecutor {
                                 player.sendMessage(ChatColor.GREEN + "---------------------------"
                                         + "\nWarp(s) List"
                                         + "\n---------------------------");
-                                player.sendMessage(ChatColor.RED + "No Warps have been set.");
+                                String msg = Lang.fileConfig.getString("no-warps-set");
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 return true;
                             }
                         }
                     } else {
-                        if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
-                            player.sendMessage(ChatColor.RED + "You do not have the required permission (se.warp) to run this command.");
-                            return true;
-                        } else {
-                            String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                        }
+                        String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.warp");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                         return true;
                     }
                 }
             } else {
-                if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
-                    player.sendMessage(ChatColor.RED + "You do not have the required permission (se.warp) to run this command.");
-                    return true;
-                } else {
-                    String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                    return true;
-                }
+                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.warp");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                return true;
             }
         }else if (sender instanceof ConsoleCommandSender || sender instanceof BlockCommandSender) {
             if (args.length == 2) {
@@ -285,19 +288,23 @@ public class Warp implements CommandExecutor {
                             // Teleporting Target
                             target.teleport(loc);
                             if (subtitle){
-                                target.sendTitle("Warped to " + ChatColor.GOLD + args[1], null);
+                                String msg = Lang.fileConfig.getString("warp-subtitle").replace("<warp>", args[1]);
+                                target.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
                                 return true;
                             }else{
-                                target.sendMessage("Successfully warped to " + ChatColor.GOLD + args[1]);
+                                String msg = Lang.fileConfig.getString("warp-message").replace("<warp>", args[1]);
+                                target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 return true;
                             }
                         }
                     } else {
-                        sender.sendMessage(ChatColor.RED + "Cannot find player " + ChatColor.WHITE + args[0]);
+                        String msg = Lang.fileConfig.getString("target-offline");
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
                 } else {
-                    sender.sendMessage("Warp Doesn't Exist!");
+                    String msg = Lang.fileConfig.getString("warp-invalid");
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }
             }

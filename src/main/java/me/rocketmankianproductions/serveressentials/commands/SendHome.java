@@ -1,6 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
-import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -36,11 +36,14 @@ public class SendHome implements CommandExecutor {
                                             yaw, 0);
                                     // Teleporting Target
                                     target.teleport(loc);
-                                    target.sendMessage("You have been teleported to your home");
-                                    player.sendMessage(ChatColor.GREEN + "Teleported " + ChatColor.WHITE + target.getName() + ChatColor.GREEN + " to their home");
+                                    String msg = Lang.fileConfig.getString("sendhome-target");
+                                    target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    String msg2 = Lang.fileConfig.getString("sendhome-player").replace("<target>", target.getName());
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                                     return true;
                                 } else {
-                                    player.sendMessage("Home Doesn't Exist!");
+                                    String msg = Lang.fileConfig.getString("home-invalid");
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                     return true;
                                 }
                             }
@@ -49,19 +52,15 @@ public class SendHome implements CommandExecutor {
                             return true;
                         }
                     }else{
-                        player.sendMessage(ChatColor.RED + "Player does not exist");
+                        String msg = Lang.fileConfig.getString("target-offline");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
                 }
             }else{
-                if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
-                    player.sendMessage(ChatColor.RED + "You do not have the required permission (se.sendhome) to run this command.");
-                    return true;
-                }else{
-                    String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                    return true;
-                }
+                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.sendhome");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                return true;
             }
         }
         return false;

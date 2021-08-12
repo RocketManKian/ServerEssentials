@@ -5,6 +5,7 @@ import github.scarsz.discordsrv.dependencies.jda.api.EmbedBuilder;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import me.rocketmankianproductions.serveressentials.LoggerMessage;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -18,7 +19,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
-import java.util.EnumSet;
 
 public class Report implements CommandExecutor {
 
@@ -32,13 +32,16 @@ public class Report implements CommandExecutor {
                 if (args.length >= 2) {
                     Player target = Bukkit.getPlayer(args[0]);
                     if (target == null) {
-                        player.sendMessage(ChatColor.RED + "Player doesn't exist");
+                        String msg = Lang.fileConfig.getString("target-offline");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     } else if (target == sender) {
-                        player.sendMessage(ChatColor.RED + "You cannot report yourself");
+                        String msg = Lang.fileConfig.getString("report-self");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     } else {
-                        player.sendMessage(ChatColor.GOLD + "Report sent successfully!");
+                        String msg = Lang.fileConfig.getString("report-successful");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         StringBuilder builder = new StringBuilder();
                         int startArg = 1;
                         int endArg = args.length;
@@ -123,14 +126,9 @@ public class Report implements CommandExecutor {
                     }
                 }
             }else{
-                if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
-                    player.sendMessage(ChatColor.RED + "You do not have the required permission (se.report) to run this command.");
-                    return true;
-                } else {
-                    String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                    return true;
-                }
+                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.report");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                return true;
             }
         }
         return false;

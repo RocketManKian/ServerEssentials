@@ -1,6 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
-import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -18,33 +18,32 @@ public class TeleportHere implements CommandExecutor {
                 Player target = Bukkit.getPlayer(args[0]);
                 String sender2 = sender.getName();
                 if (target == sender) {
-                    sender.sendMessage(ChatColor.RED + "You cannot teleport yourself to yourself...");
+                    String msg = Lang.fileConfig.getString("teleport-self");
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                 } else if (target != sender) {
                     try {
                         String target2 = target.getName();
                         if (sender.hasPermission("se.silenttp")) {
-                            sender.sendMessage(ChatColor.GREEN + target2 + " has been teleported to you");
+                            String msg = Lang.fileConfig.getString("teleport-target-success").replace("<sender>", target2);
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         } else if (!sender.hasPermission("se.silenttp")) {
-                            target.sendMessage(ChatColor.GREEN + "You have been teleported to " + sender2);
-                            sender.sendMessage(ChatColor.GREEN + target2 + " has been teleported to you");
+                            String msg = Lang.fileConfig.getString("teleport-force-target").replace("<target>", sender2);
+                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            String msg2 = Lang.fileConfig.getString("teleport-target-success").replace("<sender>", target2);
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                         }
                         target.teleport(player.getLocation());
                     } catch (NullPointerException e) {
-                        player.sendMessage(ChatColor.RED + "Player does not exist.");
+                        String msg = Lang.fileConfig.getString("target-offline");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     }
                     return true;
                 }
             }
         }else{
-            // If it doesn't succeed with either then it'll send the player a required permission message
-            if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
-                player.sendMessage(ChatColor.RED + "You do not have the required permission (se.teleport) to run this command.");
-                return true;
-            }else{
-                String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                return true;
-            }
+            String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.teleport");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+            return true;
         }
         return false;
     }

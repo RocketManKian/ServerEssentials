@@ -2,6 +2,7 @@ package me.rocketmankianproductions.serveressentials.events;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.commands.*;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -29,7 +30,7 @@ public class PlayerClickEvent implements Listener {
             e.setCancelled(true);
         }else if (e.getView().getTitle().equalsIgnoreCase("Equipped Armor")){
             e.setCancelled(true);
-        }else if (e.getView().getTitle().equalsIgnoreCase(ChatColor.AQUA + "Warp GUI")){
+        }else if (e.getView().getTitle().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("warp-gui-name")))){
             e.setCancelled(true);
             ItemStack item = e.getCurrentItem();
             if (item != null){
@@ -43,7 +44,8 @@ public class PlayerClickEvent implements Listener {
                         } catch (IOException i) {
                             i.printStackTrace();
                         }
-                        player.sendMessage(ChatColor.GREEN + "Warp " + ChatColor.GOLD + warp + ChatColor.GREEN + " has been successfully deleted");
+                        String msg = Lang.fileConfig.getString("warp-deleted").replace("<warp>", warp);
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         player.closeInventory();
                     }
                 }else if (e.getClick()==ClickType.LEFT) {
@@ -69,9 +71,11 @@ public class PlayerClickEvent implements Listener {
                             player.teleport(loc);
                             Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
                             if (subtitle) {
-                                player.sendTitle("Warped to " + ChatColor.GOLD + warp, null);
+                                String msg = Lang.fileConfig.getString("warp-subtitle").replace("<warp>", warp);
+                                player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
                             } else {
-                                player.sendMessage(ChatColor.GREEN + "Successfully warped to " + ChatColor.GOLD + warp);
+                                String msg = Lang.fileConfig.getString("warp-message").replace("<warp>", warp);
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             }
                             player.closeInventory();
                         }else{
@@ -80,7 +84,8 @@ public class PlayerClickEvent implements Listener {
                                 Location loc = getWarpLocation(warp, player);
                                 String finalWarp = warp;
                                 int seconds = ServerEssentials.plugin.getConfig().getInt("warp-teleport");
-                                player.sendMessage(ChatColor.GREEN + "Warping to " + ChatColor.GOLD + warp + ChatColor.GREEN + " in " + ChatColor.GOLD + seconds + " Seconds");
+                                String msg = Lang.fileConfig.getString("warp-wait-message").replace("<warp>", warp).replace("<time>", String.valueOf(seconds));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 seconds = seconds * 20;
                                 if (warpteleport.containsKey(player.getUniqueId()) && warpteleport.get(player.getUniqueId()) != null) {
                                     Bukkit.getScheduler().cancelTask(warpteleport.get(player.getUniqueId()));
@@ -108,9 +113,11 @@ public class PlayerClickEvent implements Listener {
                                                 player.teleport(loc);
                                                 Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
                                                 if (subtitle) {
-                                                    player.sendTitle("Warped to " + ChatColor.GOLD + finalWarp, null);
+                                                    String msg = Lang.fileConfig.getString("warp-subtitle").replace("<warp>", finalWarp);
+                                                    player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
                                                 } else {
-                                                    player.sendMessage(ChatColor.GREEN + "Successfully warped to " + ChatColor.GOLD + finalWarp);
+                                                    String msg = Lang.fileConfig.getString("warp-message").replace("<warp>", finalWarp);
+                                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                                 }
                                                 Warp.cancel.remove(player.getUniqueId());
                                             }
@@ -122,7 +129,8 @@ public class PlayerClickEvent implements Listener {
                                 Location loc = getWarpLocation(warp, player);
                                 String finalWarp = warp;
                                 int seconds = ServerEssentials.plugin.getConfig().getInt("warp-teleport");
-                                player.sendMessage(ChatColor.GREEN + "Warping to " + ChatColor.GOLD + warp + ChatColor.GREEN + " in " + ChatColor.GOLD + seconds + " Seconds");
+                                String msg = Lang.fileConfig.getString("warp-wait-message").replace("<warp>", warp).replace("<time>", String.valueOf(seconds));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 seconds = seconds * 20;
                                 if (warpteleport.containsKey(player.getUniqueId()) && warpteleport.get(player.getUniqueId()) != null) {
                                     Bukkit.getScheduler().cancelTask(warpteleport.get(player.getUniqueId()));
@@ -149,9 +157,11 @@ public class PlayerClickEvent implements Listener {
                                             player.teleport(loc);
                                             Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
                                             if (subtitle) {
-                                                player.sendTitle("Warped to " + ChatColor.GOLD + finalWarp, null);
+                                                String msg = Lang.fileConfig.getString("warp-subtitle").replace("<warp>", finalWarp);
+                                                player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
                                             } else {
-                                                player.sendMessage(ChatColor.GREEN + "Successfully warped to " + ChatColor.GOLD + finalWarp);
+                                                String msg = Lang.fileConfig.getString("warp-message").replace("<warp>", finalWarp);
+                                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                             }
                                         }
                                     }
@@ -160,16 +170,12 @@ public class PlayerClickEvent implements Listener {
                             }
                         }
                     } else {
-                        if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
-                            player.sendMessage(ChatColor.RED + "You do not have the required permission (se.warps." + warp + ") to run this command.");
-                        } else {
-                            String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                        }
+                        String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.warps." + warp);
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                     }
                 }
             }
-        }else if (e.getView().getTitle().equalsIgnoreCase(ChatColor.AQUA + "Home GUI")) {
+        }else if (e.getView().getTitle().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("home-gui-name")))) {
             e.setCancelled(true);
             String name = player.getUniqueId().toString();
             ItemStack item = e.getCurrentItem();
@@ -187,7 +193,8 @@ public class PlayerClickEvent implements Listener {
                             } catch (IOException i) {
                                 i.printStackTrace();
                             }
-                            player.sendMessage(ChatColor.GREEN + "Home " + ChatColor.GOLD + home + ChatColor.GREEN + " has been successfully deleted");
+                            String msg = Lang.fileConfig.getString("home-deleted").replace("<home>", home);
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             player.closeInventory();
                         } else {
                             Sethome.fileConfig.set("Home." + name + "." + home, null);
@@ -196,7 +203,8 @@ public class PlayerClickEvent implements Listener {
                             } catch (IOException i) {
                                 i.printStackTrace();
                             }
-                            player.sendMessage(ChatColor.GREEN + "Home " + ChatColor.GOLD + home + ChatColor.GREEN + " has been successfully deleted");
+                            String msg = Lang.fileConfig.getString("home-deleted").replace("<home>", home);
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             player.closeInventory();
                         }
                     }
@@ -222,16 +230,19 @@ public class PlayerClickEvent implements Listener {
                         player.teleport(loc);
                         Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
                         if (subtitle) {
-                            player.sendTitle("Teleported to " + ChatColor.GOLD + home, null);
+                            String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", home);
+                            player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
                         } else {
-                            player.sendMessage(ChatColor.GREEN + "Successfully teleported to " + ChatColor.GOLD + home);
+                            String msg = Lang.fileConfig.getString("home-message").replace("<home>", home);
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         }
                         player.closeInventory();
                     } else {
                         if (ServerEssentials.plugin.getConfig().getBoolean("home-movement-cancel")){
                             Home.cancel.add(player.getUniqueId());
                             int seconds = ServerEssentials.plugin.getConfig().getInt("home-teleport");
-                            player.sendMessage(ChatColor.GREEN + "Teleporting to Home in " + ChatColor.GOLD + seconds + " Seconds");
+                            String msg = Lang.fileConfig.getString("home-wait-message").replace("<home>", home).replace("<time>", String.valueOf(seconds));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             seconds = seconds * 20;
                             Location loc = getHomeLocation(home, player);
                             if (hometeleport.containsKey(player.getUniqueId()) && hometeleport.get(player.getUniqueId()) != null) {
@@ -261,9 +272,11 @@ public class PlayerClickEvent implements Listener {
                                             player.teleport(loc);
                                             Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
                                             if (subtitle) {
-                                                player.sendTitle("Teleported to " + ChatColor.GOLD + finalHome, null);
+                                                String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", finalHome);
+                                                player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
                                             } else {
-                                                player.sendMessage(ChatColor.GREEN + "Successfully teleported to " + ChatColor.GOLD + finalHome);
+                                                String msg = Lang.fileConfig.getString("home-message").replace("<home>", finalHome);
+                                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                             }
                                             Home.cancel.remove(player.getUniqueId());
                                         }
@@ -273,7 +286,8 @@ public class PlayerClickEvent implements Listener {
                             player.closeInventory();
                         }else{
                             int seconds = ServerEssentials.plugin.getConfig().getInt("home-teleport");
-                            player.sendMessage(ChatColor.GREEN + "Teleporting to Home in " + ChatColor.GOLD + seconds + " Seconds");
+                            String msg = Lang.fileConfig.getString("home-wait-message").replace("<home>", home).replace("<time>", String.valueOf(seconds));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             seconds = seconds * 20;
                             Location loc = getHomeLocation(home, player);
                             if (hometeleport.containsKey(player.getUniqueId()) && hometeleport.get(player.getUniqueId()) != null) {
@@ -302,9 +316,11 @@ public class PlayerClickEvent implements Listener {
                                         player.teleport(loc);
                                         Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
                                         if (subtitle) {
-                                            player.sendTitle("Teleported to " + ChatColor.GOLD + finalHome, null);
+                                            String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", finalHome);
+                                            player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
                                         } else {
-                                            player.sendMessage(ChatColor.GREEN + "Successfully teleported to " + ChatColor.GOLD + finalHome);
+                                            String msg = Lang.fileConfig.getString("home-message").replace("<home>", finalHome);
+                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                         }
                                     }
                                 }

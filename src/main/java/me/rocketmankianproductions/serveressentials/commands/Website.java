@@ -2,17 +2,14 @@ package me.rocketmankianproductions.serveressentials.commands;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.ChatColor;
-import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 public class Website implements CommandExecutor {
-
-    FileConfiguration config = ServerEssentials.getPlugin().getConfig();
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -27,14 +24,9 @@ public class Website implements CommandExecutor {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + " " + ChatColor.WHITE + website));
             }
         } else {
-            if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
-                player.sendMessage(ChatColor.RED + "You do not have the required permission (se.website) to run this command.");
-                return true;
-            }else{
-                String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                return true;
-            }
+            String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.website");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+            return true;
         }
         return false;
     }

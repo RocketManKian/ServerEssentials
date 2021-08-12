@@ -1,6 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
-import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -20,26 +20,23 @@ public class Rename implements CommandExecutor {
                 if (args.length >= 1) {
                     ItemStack hand = player.getItemInHand();
                     if (hand.getType().equals(Material.AIR)) {
-                        player.sendMessage(ChatColor.RED + "Please hold a valid item to rename.");
+                        String msg = Lang.fileConfig.getString("rename-invalid-item");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     } else {
                         ItemMeta im = hand.getItemMeta();
                         String myArgs = String.join(" ", args);
                         im.setDisplayName(ChatColor.translateAlternateColorCodes('&', myArgs));
                         hand.setItemMeta(im);
-                        player.sendMessage(ChatColor.GREEN + "Successfully set item name as " + ChatColor.translateAlternateColorCodes('&', myArgs));
+                        String msg = Lang.fileConfig.getString("rename-successful").replace("<name>", myArgs);
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
                 }
             }else{
-                if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
-                    player.sendMessage(ChatColor.RED + "You do not have the required permission (se.rename) to run this command.");
-                    return true;
-                }else{
-                    String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                    return true;
-                }
+                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.rename");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                return true;
             }
         }
         return false;

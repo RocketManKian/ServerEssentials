@@ -1,6 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
-import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.UUID;
 
 public class SocialSpy implements CommandExecutor {
 
@@ -22,23 +21,20 @@ public class SocialSpy implements CommandExecutor {
             if (player.hasPermission("se.socialspy")) {
                 // Check if Player isn't already included in ArrayList
                 if (!socialspy.contains(player)) {
-                    player.sendMessage(ChatColor.GREEN + "SocialSpy has been enabled");
+                    String msg = Lang.fileConfig.getString("socialspy-enabled");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     socialspy.add(player);
                     return true;
                 } else {
-                    player.sendMessage(ChatColor.GREEN + "SocialSpy has been disabled");
+                    String msg = Lang.fileConfig.getString("socialspy-disabled");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     socialspy.remove(player);
                     return true;
                 }
             } else {
-                if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
-                    player.sendMessage(ChatColor.RED + "You do not have the required permission (se.socialspy) to run this command.");
-                    return true;
-                } else {
-                    String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                    return true;
-                }
+                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.socialspy");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                return true;
             }
         }
         return false;

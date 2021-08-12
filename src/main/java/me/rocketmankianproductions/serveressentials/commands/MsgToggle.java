@@ -1,6 +1,8 @@
 package me.rocketmankianproductions.serveressentials.commands;
+
 import me.rocketmankianproductions.serveressentials.LoggerMessage;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -65,7 +67,8 @@ public class MsgToggle {
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                            player.sendMessage(ChatColor.RED + "Incoming Messages have been Disabled");
+                            String msg = Lang.fileConfig.getString("message-toggle-enabled");
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             return true;
                         } else {
                             fileConfig.set("msgtoggle." + player.getName(), false);
@@ -74,7 +77,8 @@ public class MsgToggle {
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
-                            player.sendMessage(ChatColor.GREEN + "Incoming Messages have been Enabled");
+                            String msg = Lang.fileConfig.getString("message-toggle-disabled");
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             return true;
                         }
                     } else {
@@ -82,18 +86,14 @@ public class MsgToggle {
                         return true;
                     }
                 } else {
-                    sender.sendMessage(ChatColor.RED + "You aren't a player!");
+                    String msg = Lang.fileConfig.getString("invalid-player");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }
             } else {
-                if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
-                    player.sendMessage(ChatColor.RED + "You do not have the required permission (se.msgtoggle) to run this command.");
-                    return true;
-                }else{
-                    String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                    return true;
-                }
+                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.msgtoggle");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                return true;
             }
         }
         return true;

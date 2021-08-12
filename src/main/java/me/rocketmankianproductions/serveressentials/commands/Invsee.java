@@ -1,6 +1,7 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -22,34 +23,33 @@ public class Invsee implements CommandExecutor, Listener {
                 if (player.hasPermission("se.invsee")) {
                     Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
                     if (targetPlayer == sender) {
-                        sender.sendMessage(ChatColor.RED + "You cannot open your own inventory.");
+                        String msg = Lang.fileConfig.getString("invsee-target-is-sender");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     } else if (Bukkit.getPlayer(args[0]) == null) {
-                        player.sendMessage(ChatColor.RED + "That player is not online!");
+                        String msg = Lang.fileConfig.getString("target-offline");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     } else if (!(Bukkit.getPlayer(args[0]) == null)) {
                         player.openInventory(targetPlayer.getInventory());
                         return true;
                     }
                 } else {
-                    if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
-                        player.sendMessage(ChatColor.RED + "You do not have the required permission (se.invsee) to run this command.");
-                        return true;
-                    } else {
-                        String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                        return true;
-                    }
+                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.invsee");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                    return true;
                 }
             } else if (args.length == 2) {
                 if (player.hasPermission("se.invsee.others")) {
                     Inventory myInventory = Bukkit.createInventory(player, 9, "Equipped Armor");
                     Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
                     if (targetPlayer == sender) {
-                        sender.sendMessage(ChatColor.RED + "You cannot open your own inventory.");
+                        String msg = Lang.fileConfig.getString("invsee-target-is-sender");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     } else if (Bukkit.getPlayer(args[0]) == null) {
-                        player.sendMessage(ChatColor.RED + "That player is not online!");
+                        String msg = Lang.fileConfig.getString("target-offline");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     } else if (!(Bukkit.getPlayer(args[0]) == null)) {
                         if (targetPlayer.getInventory().getHelmet() != null){
@@ -65,14 +65,9 @@ public class Invsee implements CommandExecutor, Listener {
                         return true;
                     }
                 } else {
-                    if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0) {
-                        player.sendMessage(ChatColor.RED + "You do not have the required permission (se.invsee.others) to run this command.");
-                        return true;
-                    } else {
-                        String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                        return true;
-                    }
+                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.invsee.others");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                    return true;
                 }
             }
         }

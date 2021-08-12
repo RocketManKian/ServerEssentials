@@ -1,6 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
-import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -8,8 +8,6 @@ import org.bukkit.World;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-
-import java.io.InputStream;
 
 public class TeleportPos implements CommandExecutor {
 
@@ -23,50 +21,55 @@ public class TeleportPos implements CommandExecutor {
                         World myworld = player.getWorld();
                         Location yourlocation = new Location(myworld, Double.parseDouble(args[0]), Double.parseDouble(args[1]), Double.parseDouble(args[2]));
                         player.teleport(yourlocation);
-                        sender.sendMessage(ChatColor.GREEN + "Teleported to chosen coordinates...");
+                        String msg = Lang.fileConfig.getString("teleport-pos-success");
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     } catch (NumberFormatException e) {
-                        player.sendMessage(ChatColor.RED + "Please enter valid coordinates.");
+                        String msg = Lang.fileConfig.getString("teleport-pos-invalid");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     }
                 } else if (args.length == 4){
                     Player target = Bukkit.getPlayerExact(args[0]);
                     if (target == null){
-                        player.sendMessage(ChatColor.RED + "Player doesn't exist");
+                        String msg = Lang.fileConfig.getString("target-offline");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     }else if (args[0].equalsIgnoreCase(target.getName())){
                         try {
                             World myworld = target.getWorld();
                             Location yourlocation = new Location(myworld, Double.parseDouble(args[1]), Double.parseDouble(args[2]), Double.parseDouble(args[3]));
                             target.teleport(yourlocation);
-                            target.sendMessage(ChatColor.GREEN + "You have been teleported");
-                            sender.sendMessage(ChatColor.GREEN + "Teleported " + target.getName() + " to chosen coordinates...");
+                            String msg = Lang.fileConfig.getString("teleport-pos-target-success");
+                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            String msg2 = Lang.fileConfig.getString("teleport-pos-target-message").replace("<target>", target.getName());
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                         } catch (NumberFormatException e) {
-                            player.sendMessage(ChatColor.RED + "Please enter valid coordinates.");
+                            String msg = Lang.fileConfig.getString("teleport-pos-invalid");
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         }
                     }
                 }
-            } else
-                // If it doesn't succeed with either then it'll send the player a required permission message
-                if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
-                    player.sendMessage(ChatColor.RED + "You do not have the required permission (se.tppos) to run this command.");
-                    return true;
-                }else{
-                    String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                    return true;
-                }
+            } else {
+                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.tppos");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                return true;
+            }
         } else if (sender instanceof ConsoleCommandSender){
             if (args.length == 4){
                 Player target = Bukkit.getPlayerExact(args[0]);
                 if (target == null){
-                    System.out.println(ChatColor.RED + "Player doesn't exist");
+                    String msg = Lang.fileConfig.getString("target-offline");
+                    System.out.println(ChatColor.translateAlternateColorCodes('&', msg));
                 }else {
                     try {
                         World myworld = target.getWorld();
                         Location yourlocation = new Location(myworld, Double.parseDouble(args[1]), Double.parseDouble(args[2]), Double.parseDouble(args[3]));
                         target.teleport(yourlocation);
-                        target.sendMessage(ChatColor.GREEN + "You have been teleported");
-                        System.out.println(ChatColor.GREEN + "Teleported " + target.getName() + " to chosen coordinates...");
+                        String msg = Lang.fileConfig.getString("teleport-pos-target-success");
+                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        String msg2 = Lang.fileConfig.getString("teleport-pos-target-message").replace("<target>", target.getName());
+                        System.out.println(ChatColor.translateAlternateColorCodes('&', msg2));
                     } catch (NumberFormatException e) {
-                        System.out.println(ChatColor.RED + "Please enter valid coordinates.");
+                        String msg = Lang.fileConfig.getString("teleport-pos-invalid");
+                        System.out.println(ChatColor.translateAlternateColorCodes('&', msg));
                     }
                 }
             }else{
@@ -76,14 +79,16 @@ public class TeleportPos implements CommandExecutor {
             if (args.length == 4){
                 Player target = Bukkit.getPlayer(args[0]);
                 if (target == null){
-                    sender.sendMessage(ChatColor.RED + "Player doesn't exist");
+                    String msg = Lang.fileConfig.getString("target-offline");
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                 }else {
                     try {
                         World myworld = target.getWorld();
                         Location yourlocation = new Location(myworld, Double.parseDouble(args[1]), Double.parseDouble(args[2]), Double.parseDouble(args[3]));
                         target.teleport(yourlocation);
                     } catch (NumberFormatException e) {
-                        sender.sendMessage(ChatColor.RED + "Please enter valid coordinates.");
+                        String msg = Lang.fileConfig.getString("teleport-pos-invalid");
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     }
                 }
             }else{

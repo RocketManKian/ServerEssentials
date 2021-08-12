@@ -2,6 +2,7 @@ package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.LoggerMessage;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -47,10 +48,12 @@ public class SilentJoin {
         if (player.hasPermission("se.silentjoin")) {
             if (fileConfig.getBoolean("silent." + player.getName(), false) == false) {
                 fileConfig.set("silent." + player.getName(), true);
-                player.sendMessage(ChatColor.GREEN + "SilentJoin has been Enabled");
+                String msg = Lang.fileConfig.getString("silentjoin-enabled");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
             } else {
                 fileConfig.set("silent." + player.getName(), false);
-                player.sendMessage(ChatColor.RED + "SilentJoin has been Disabled");
+                String msg = Lang.fileConfig.getString("silentjoin-disabled");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
             }
             try {
                 fileConfig.save(file);
@@ -58,12 +61,8 @@ public class SilentJoin {
                 e.printStackTrace();
             }
         } else {
-            if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
-                player.sendMessage(ChatColor.RED + "You do not have the required permission (se.silentjoin) to run this command.");
-            }else{
-                String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-            }
+            String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.silentjoin");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
         }
     }
     public static void reload() {

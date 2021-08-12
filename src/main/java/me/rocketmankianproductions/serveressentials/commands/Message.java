@@ -1,6 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
-import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -9,8 +9,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.UUID;
 
 public class Message implements CommandExecutor {
 
@@ -26,10 +24,12 @@ public class Message implements CommandExecutor {
                     //recipient == target
                     Player recipient = Bukkit.getPlayer(args[0]);
                     if (recipient == sender) {
-                        sender.sendMessage(ChatColor.RED + "You cannot message yourself.");
+                        String msg = Lang.fileConfig.getString("message-self");
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     } else if (recipient == null) {
-                        sender.sendMessage(ChatColor.RED + "Player does not exist");
+                        String msg = Lang.fileConfig.getString("target-offline");
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
                     // Check if recipient has messaging enabled
@@ -79,19 +79,15 @@ public class Message implements CommandExecutor {
                             return true;
                         }
                     } else {
-                        messager.sendMessage(ChatColor.RED + "That person has messaging disabled!");
+                        String msg = Lang.fileConfig.getString("message-disabled");
+                        messager.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
                 }
             } else {
-                if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
-                    messager.sendMessage(ChatColor.RED + "You do not have the required permission (se.message) to run this command.");
-                    return true;
-                }else{
-                    String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                    messager.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                    return true;
-                }
+                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.message");
+                messager.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                return true;
             }
         }else if (sender instanceof ConsoleCommandSender){
             String sm = "";
@@ -113,7 +109,8 @@ public class Message implements CommandExecutor {
                     recipient.sendMessage("Console" + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
                     return true;
                 } else {
-                    System.out.println(ChatColor.RED + "That person has messaging disabled!");
+                    String msg = Lang.fileConfig.getString("message-disabled");
+                    System.out.println(ChatColor.translateAlternateColorCodes('&', msg));
                 }
             }
         }

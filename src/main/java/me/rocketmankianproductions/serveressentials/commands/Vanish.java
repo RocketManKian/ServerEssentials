@@ -1,6 +1,7 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -9,8 +10,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class Vanish implements CommandExecutor {
-
-    ServerEssentials plugin;
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -24,49 +23,52 @@ public class Vanish implements CommandExecutor {
                             people.showPlayer(ServerEssentials.getPlugin(), player);
                         }
                         ServerEssentials.getPlugin().invisible_list.remove(player);
-                        player.sendMessage(ChatColor.GREEN + "You are now visible to other players on the server.");
+                        String msg = Lang.fileConfig.getString("vanish-disabled");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     }else if(!ServerEssentials.getPlugin().invisible_list.contains(player)){
                         for (Player people : Bukkit.getOnlinePlayers()){
                             people.hidePlayer(ServerEssentials.getPlugin(), player);
                         }
                         ServerEssentials.getPlugin().invisible_list.add(player);
-                        player.sendMessage(ChatColor.GREEN + "You are now invisible!");
+                        String msg = Lang.fileConfig.getString("vanish-enabled");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     }
                 }else if (args.length == 1){
                     Player target = Bukkit.getPlayer(args[0]);
                     if (target == sender) {
-                        sender.sendMessage(ChatColor.RED + "You cannot message yourself.");
+                        String msg = Lang.fileConfig.getString("target-self");
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     } else if (target == null) {
-                        sender.sendMessage(ChatColor.RED + "Player does not exist");
+                        String msg = Lang.fileConfig.getString("target-offline");
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     } else if (ServerEssentials.getPlugin().invisible_list.contains(target)){
                         for (Player people : Bukkit.getOnlinePlayers()){
                             people.showPlayer(ServerEssentials.getPlugin(), target);
                         }
                         ServerEssentials.getPlugin().invisible_list.remove(target);
-                        target.sendMessage(ChatColor.GREEN + "You are now visible to other players on the server.");
-                        player.sendMessage(target.getName() + " is now visible");
+                        String msg = Lang.fileConfig.getString("vanish-disabled");
+                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        String msg2 = Lang.fileConfig.getString("vanish-target-disabled");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                     } else if (!ServerEssentials.getPlugin().invisible_list.contains(target)){
                         for (Player people : Bukkit.getOnlinePlayers()){
                             people.hidePlayer(ServerEssentials.getPlugin(), target);
                         }
                         ServerEssentials.getPlugin().invisible_list.add(target);
-                        target.sendMessage(ChatColor.GREEN + "You are now invisible!");
-                        player.sendMessage(target.getName() + " is now invisible");
+                        String msg = Lang.fileConfig.getString("vanish-enabled");
+                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        String msg2 = Lang.fileConfig.getString("vanish-target-enabled").replace("<target>", target.getName());
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                     }
                 }else{
                     return false;
                 }
             }else{
-                if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
-                    player.sendMessage(ChatColor.RED + "You do not have the required permission (se.vanish) to run this command.");
-                    return true;
-                }else{
-                    String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                    return true;
-                }
+                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.vanish");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                return true;
             }
         }
         return true;

@@ -1,6 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
-import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Statistic;
@@ -30,10 +30,12 @@ public class Playtime implements CommandExecutor {
                         int minutes = rest / (20 * 60);
                         rest = rest % (20 * 60);
                         int seconds = rest / 20;
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.WHITE + target.getName() + ChatColor.GOLD + " has played for " + days + ChatColor.GOLD + " Days " + hours + ChatColor.GOLD + " Hours " + minutes + ChatColor.GOLD + " Minutes " + seconds + ChatColor.GOLD + " Seconds"));
+                        String msg = Lang.fileConfig.getString("playtime-target").replace("<target>", target.getName()).replace("<days>", String.valueOf(days)).replace("<hours>", String.valueOf(hours)).replace("<minutes>", String.valueOf(minutes)).replace("<seconds>", String.valueOf(seconds));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }else{
                         player.sendMessage("Incorrect Format! Please use /playtime");
+                        return true;
                     }
                 } else if (target == null && Bukkit.getOfflinePlayer(args[0]).hasPlayedBefore()){
                     // Converting the playtime stored as 20 ticks per second into Days, Hours, Minutes and Seconds.
@@ -47,7 +49,8 @@ public class Playtime implements CommandExecutor {
                     int minutes = rest / (20 * 60);
                     rest = rest % (20 * 60);
                     int seconds = rest / 20;
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.WHITE + args[0] + ChatColor.GOLD + " has played for " + days + ChatColor.GOLD + " Days " + hours + ChatColor.GOLD + " Hours " + minutes + ChatColor.GOLD + " Minutes " + seconds + ChatColor.GOLD + " Seconds"));
+                    String msg = Lang.fileConfig.getString("playtime-target").replace("<target>", target.getName()).replace("<days>", String.valueOf(days)).replace("<hours>", String.valueOf(hours)).replace("<minutes>", String.valueOf(minutes)).replace("<seconds>", String.valueOf(seconds));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }else{
                     player.sendMessage(ChatColor.RED + "Player doesn't exist!");
@@ -65,17 +68,13 @@ public class Playtime implements CommandExecutor {
                 int minutes = rest / (20 * 60);
                 rest = rest % (20 * 60);
                 int seconds = rest / 20;
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.GOLD + "You have played for " + days + ChatColor.GOLD + " Days " + hours + ChatColor.GOLD + " Hours " + minutes + ChatColor.GOLD + " Minutes " + seconds + ChatColor.GOLD + " Seconds"));
+                String msg = Lang.fileConfig.getString("playtime-self").replace("<days>", String.valueOf(days)).replace("<hours>", String.valueOf(hours)).replace("<minutes>", String.valueOf(minutes)).replace("<seconds>", String.valueOf(seconds));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                 return true;
             }
         } else {
-            if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
-                player.sendMessage(ChatColor.RED + "You do not have the required permission (se.playtime) to run this command.");
-                return true;
-            }else{
-                String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-            }
+            String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.playtime");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
             return true;
         }
         return false;

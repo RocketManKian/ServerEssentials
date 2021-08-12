@@ -2,6 +2,7 @@ package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.LoggerMessage;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -54,12 +55,12 @@ public class Setwarp implements CommandExecutor {
             if (args.length == 1) {
                 Boolean blacklistenabled = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-blacklist");
                 String world = player.getWorld().getName();
-                String name = player.getUniqueId().toString();
                 if (player.hasPermission("se.setwarp")) {
                     if (blacklistenabled){
                         for (String worlds : ServerEssentials.plugin.getConfig().getStringList("warp-blacklist")){
                             if (player.getWorld().getName().equalsIgnoreCase(worlds)){
-                                player.sendMessage(ChatColor.RED + "You cannot set a Warp in a Blacklisted World");
+                                String msg = Lang.fileConfig.getString("warp-blacklisted-world");
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 return true;
                             }
                         }
@@ -74,7 +75,8 @@ public class Setwarp implements CommandExecutor {
                             e.printStackTrace();
                         }
                         Setwarp.reload();
-                        player.sendMessage(ChatColor.GREEN + "Successfully set warp location!");
+                        String msg = Lang.fileConfig.getString("warp-set-successful");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }else{
                         fileConfig.set("Warp." + args[0] + ".World", world);
@@ -88,18 +90,14 @@ public class Setwarp implements CommandExecutor {
                             e.printStackTrace();
                         }
                         Setwarp.reload();
-                        player.sendMessage(ChatColor.GREEN + "Successfully set warp location!");
+                        String msg = Lang.fileConfig.getString("warp-set-successful");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
                 } else {
-                    if (ServerEssentials.plugin.getConfig().getString("no-permission-message").length() == 0){
-                        player.sendMessage(ChatColor.RED + "You do not have the required permission (se.setwarp) to run this command.");
-                        return true;
-                    }else{
-                        String permission = ServerEssentials.getPlugin().getConfig().getString("no-permission-message");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', permission));
-                        return true;
-                    }
+                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.setwarp");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                    return true;
                 }
             }
         } else {
