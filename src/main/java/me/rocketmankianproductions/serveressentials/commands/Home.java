@@ -33,7 +33,7 @@ public class Home implements CommandExecutor {
 
         if (args.length == 1) {
             // Checking if the player has the correct permission
-            if (player.hasPermission("se.home")) {
+            if (player.hasPermission("se.home") || player.hasPermission("se.all")) {
                 // Check if the File Exists and if Location.World has data
                 if (Sethome.file.exists() && Sethome.fileConfig.getString("Home." + name + "." + args[0] + ".World") != null) {
                     Location loc = getLocation(args, player);
@@ -164,7 +164,7 @@ public class Home implements CommandExecutor {
                 return true;
             }
         } else if (args.length == 0) {
-            if (player.hasPermission("se.home")){
+            if (player.hasPermission("se.home") || player.hasPermission("se.all")){
                 if (ServerEssentials.plugin.getConfig().getBoolean("enable-home-gui")){
                     int index = 0;
                     ConfigurationSection inventorySection = Sethome.fileConfig.getConfigurationSection("Home." + name);
@@ -250,7 +250,7 @@ public class Home implements CommandExecutor {
             }
         }else if (args.length == 2){
             Player target = Bukkit.getPlayer(args[0]);
-            if (player.hasPermission("se.home.others")) {
+            if (player.hasPermission("se.home.others") || player.hasPermission("se.all")) {
                 if (args.length == 2) {
                     if (target != null) {
                         String targetname = target.getUniqueId().toString();

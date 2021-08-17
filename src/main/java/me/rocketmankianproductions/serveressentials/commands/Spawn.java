@@ -27,7 +27,7 @@ public class Spawn implements CommandExecutor {
         if (sender instanceof Player){
             Player player = (Player) sender;
             // Checking if the player has the correct permission
-            if (player.hasPermission("se.spawn")) {
+            if (player.hasPermission("se.spawn") || player.hasPermission("se.all")) {
                 // Check if the File Exists and if Location.World has data
                 if (Setspawn.file.exists() && Setspawn.fileConfig.getString("Location.World") != null) {
                     Location loc = getLocation();
@@ -128,7 +128,7 @@ public class Spawn implements CommandExecutor {
                             }
                         }
                     } else if (args.length >= 1) {
-                        if (player.hasPermission("se.spawn.others")) {
+                        if (player.hasPermission("se.spawn.others") || player.hasPermission("se.all")) {
                             Player target = Bukkit.getPlayerExact(args[0]);
                             // Checking if the player exists
                             if (target != null) {

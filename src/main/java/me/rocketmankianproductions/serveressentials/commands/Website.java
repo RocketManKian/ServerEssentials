@@ -14,7 +14,7 @@ public class Website implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
-        if (player.hasPermission("se.website")) {
+        if (player.hasPermission("se.website") || player.hasPermission("se.all")) {
             String prefix = ServerEssentials.getPlugin().getConfig().getString("prefix");
             String website = ServerEssentials.getPlugin().getConfig().getString("website-command");
             if (ServerEssentials.isConnectedToPlaceholderAPI) {

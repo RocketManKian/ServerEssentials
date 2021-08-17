@@ -22,7 +22,7 @@ public class God implements CommandExecutor, Listener {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
-        if (player.hasPermission("se.god")) {
+        if (player.hasPermission("se.god") || player.hasPermission("se.all")) {
             if (args.length == 0) {
                 if (god_toggle.contains(player.getName())) {
                     String msg = Lang.fileConfig.getString("god-disabled");

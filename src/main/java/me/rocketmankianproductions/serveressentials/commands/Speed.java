@@ -13,7 +13,7 @@ public class Speed implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
         if (sender instanceof Player){
-            if (player.hasPermission("se.speed")){
+            if (player.hasPermission("se.speed") || player.hasPermission("se.all")){
                 if (args.length == 1){
                     int speed;
                     try {

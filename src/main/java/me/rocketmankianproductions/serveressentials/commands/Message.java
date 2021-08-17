@@ -18,7 +18,7 @@ public class Message implements CommandExecutor {
         if (sender instanceof Player){
             Player messager = (Player) sender;
             // Check if the Sender has the se.message permission
-            if (messager.hasPermission("se.message")) {
+            if (messager.hasPermission("se.message") || messager.hasPermission("se.all")) {
                 String sm = "";
                 if (args.length >= 2) {
                     //recipient == target

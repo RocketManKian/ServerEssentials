@@ -13,7 +13,7 @@ public class TeleportHere implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
-        if (player.hasPermission("se.teleport")){
+        if (player.hasPermission("se.teleport") || player.hasPermission("se.all")){
             if (args.length == 1) {
                 Player target = Bukkit.getPlayer(args[0]);
                 String sender2 = sender.getName();
@@ -23,7 +23,7 @@ public class TeleportHere implements CommandExecutor {
                 } else if (target != sender) {
                     try {
                         String target2 = target.getName();
-                        if (sender.hasPermission("se.silenttp")) {
+                        if (sender.hasPermission("se.silenttp") || player.hasPermission("se.all")) {
                             String msg = Lang.fileConfig.getString("teleport-target-success").replace("<sender>", target2);
                             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         } else if (!sender.hasPermission("se.silenttp")) {

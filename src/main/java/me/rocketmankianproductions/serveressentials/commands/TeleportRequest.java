@@ -34,7 +34,7 @@ public class TeleportRequest implements CommandExecutor {
         }
         Player player = (Player) sender;
         if (command.getName().equalsIgnoreCase("tpa")) {
-            if (!player.hasPermission("se.tpa")) {
+            if (!player.hasPermission("se.tpa") || !player.hasPermission("se.all")) {
                 String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.tpa");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                 return true;
@@ -131,7 +131,7 @@ public class TeleportRequest implements CommandExecutor {
             }
         }
         if (command.getName().equalsIgnoreCase("tpahere")) {
-            if (!player.hasPermission("se.tpahere")) {
+            if (!player.hasPermission("se.tpahere") || !player.hasPermission("se.all")) {
                 String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.tpahere");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                 return true;
@@ -228,7 +228,7 @@ public class TeleportRequest implements CommandExecutor {
             }
         }
         if (command.getName().equalsIgnoreCase("tpacancel")) {
-            if (player.hasPermission("se.tpacancel")) {
+            if (player.hasPermission("se.tpacancel") || player.hasPermission("se.all")) {
                 if (tpa.containsKey(getKey(tpa, player.getUniqueId())) || tpahere.containsKey(getKey(tpahere, player.getUniqueId()))) {
                     String msg = Lang.fileConfig.getString("teleport-cancel");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
@@ -251,7 +251,7 @@ public class TeleportRequest implements CommandExecutor {
             }
         }
         if (command.getName().equalsIgnoreCase("tpaccept")) {
-            if (player.hasPermission("se.tpaccept")) {
+            if (player.hasPermission("se.tpaccept") || player.hasPermission("se.all")) {
                 if (ServerEssentials.plugin.getConfig().getInt("teleport-wait") == 0){
                     if (tpa.containsKey(player.getUniqueId())) {
                         if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")){
@@ -502,7 +502,7 @@ public class TeleportRequest implements CommandExecutor {
             }
         }
         if (command.getName().equalsIgnoreCase("tpdeny")) {
-            if (player.hasPermission("se.tpdeny")) {
+            if (player.hasPermission("se.tpdeny") || player.hasPermission("se.all")) {
                 if (tpa.containsKey(player.getUniqueId())) {
                     Player target = Bukkit.getPlayer(tpa.get(player.getUniqueId()));
                     String msg = Lang.fileConfig.getString("teleport-deny-request-target").replace("<target>", target.getName());

@@ -18,7 +18,7 @@ public class Time implements CommandExecutor {
         if (sender instanceof Player){
             Player player = (Player) sender;
             if (args.length == 0){
-                if (player.hasPermission("se.time")){
+                if (player.hasPermission("se.time") || player.hasPermission("se.all")){
                     if (command.getName().equalsIgnoreCase("dawn") || command.getName().equalsIgnoreCase("sunrise")) {
                         for (World world : Bukkit.getServer().getWorlds()) {
                             world.setTime(23041);

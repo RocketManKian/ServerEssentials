@@ -30,11 +30,11 @@ public class Warp implements CommandExecutor {
         // Checking if the player has the correct permission
         if (sender instanceof Player){
             Player player = (Player) sender;
-            if (player.hasPermission("se.warp")) {
+            if (player.hasPermission("se.warp") || player.hasPermission("se.all")) {
                 if (args.length == 1) {
                     if (Setwarp.file.exists() && Setwarp.fileConfig.getString("Warp." + args[0] + ".World") != null) {
                         // Check if the File Exists and if Location.World has data
-                        if (sender.hasPermission("se.warps." + args[0]) || sender.hasPermission("se.warps.all")) {
+                        if (sender.hasPermission("se.warps." + args[0]) || sender.hasPermission("se.warps.all") || sender.hasPermission("se.all")) {
                             Location loc = getLocation(args);
                             if (args.length == 1) {
                                 if (ServerEssentials.plugin.getConfig().getInt("warp-teleport") == 0){
@@ -161,7 +161,7 @@ public class Warp implements CommandExecutor {
                         return true;
                     }
                 } else if (args.length == 0) {
-                    if (player.hasPermission("se.warp")) {
+                    if (player.hasPermission("se.warp") || player.hasPermission("se.all")) {
                         if (ServerEssentials.plugin.getConfig().getBoolean("enable-warp-gui")){
                             int index = 0;
                             Integer size = ServerEssentials.plugin.getConfig().getInt("warp-gui-size");

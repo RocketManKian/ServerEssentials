@@ -15,7 +15,7 @@ public class DeleteHome implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
         // Checking if the player has the se.deletehome permission
-        if (player.hasPermission("se.deletehome")) {
+        if (player.hasPermission("se.deletehome") || player.hasPermission("se.all")) {
             if (args.length == 1) {
                 String name = player.getUniqueId().toString();
                 // Averaging out the whether the file exists or not by checking for value in one of the default saving points

@@ -18,7 +18,7 @@ public class SendHome implements CommandExecutor {
         Player player = (Player) sender;
 
         if (sender instanceof Player){
-            if (player.hasPermission("se.sendhome")){
+            if (player.hasPermission("se.sendhome") || player.hasPermission("se.all")){
                 if (args.length == 2){
                     Player target = Bukkit.getPlayer(args[0]);
                     if (target != null) {

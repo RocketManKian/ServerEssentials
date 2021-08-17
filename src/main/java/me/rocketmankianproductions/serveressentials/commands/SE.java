@@ -20,7 +20,7 @@ public class SE implements CommandExecutor {
         if (sender instanceof Player) {
             if (args.length == 0) {
                 Player player = (Player) sender;
-                if (player.hasPermission("se.info")) {
+                if (player.hasPermission("se.info") || player.hasPermission("se.all")) {
                     player.sendMessage(ChatColor.GREEN + "---------------------------"
                             + "\nServer Essentials Commands"
                             + "\n---------------------------"

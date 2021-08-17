@@ -7,17 +7,14 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 public class Discord implements CommandExecutor {
 
-    FileConfiguration config = ServerEssentials.getPlugin().getConfig();
-
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
-        if (player.hasPermission("se.discord")) {
+        if (player.hasPermission("se.discord") || player.hasPermission("se.all")) {
             String prefix = ServerEssentials.getPlugin().getConfig().getString("prefix");
             String discord = ServerEssentials.getPlugin().getConfig().getString("discord-command");
             if (ServerEssentials.isConnectedToPlaceholderAPI) {

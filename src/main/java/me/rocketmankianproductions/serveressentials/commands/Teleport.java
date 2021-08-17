@@ -14,7 +14,7 @@ public class Teleport implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (player.hasPermission("se.teleport")) {
+            if (player.hasPermission("se.teleport") || player.hasPermission("se.all")) {
                 // Checking if the player has the correct permission
                 if (args.length == 0) {
                     player.sendMessage(ChatColor.RED + "You need to enter some arguments." + ChatColor.YELLOW
@@ -34,7 +34,7 @@ public class Teleport implements CommandExecutor {
                         return true;
                     } else {
                         String target2 = target.getName();
-                        if (sender.hasPermission("se.silenttp")) {
+                        if (sender.hasPermission("se.silenttp") || sender.hasPermission("se.all")) {
                             if (target == null){
                                 String msg = Lang.fileConfig.getString("target-offline");
                                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
@@ -101,7 +101,7 @@ public class Teleport implements CommandExecutor {
                         return true;
                     } else {
                         String target2 = target.getName();
-                        if (sender.hasPermission("se.silenttp")) {
+                        if (sender.hasPermission("se.silenttp") || sender.hasPermission("se.all")) {
                             if (playerToSend == null){
                                 String msg = Lang.fileConfig.getString("target-offline");
                                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));

@@ -16,7 +16,7 @@ public class Test implements CommandExecutor {
         Player player = (Player) sender;
 
         if (sender instanceof Player) {
-            if (player.hasPermission("se.test")) {
+            if (player.hasPermission("se.test") || player.hasPermission("se.all")) {
                 if (args.length == 1) {
                     if (args[0].equalsIgnoreCase("join")) {
                         if (!(ServerEssentials.getPlugin().getConfig().getString("join-symbol").length() == 0)) {

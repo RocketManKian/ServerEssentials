@@ -14,7 +14,7 @@ public class Playtime implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
         // Otherwise checking if the player has the correct permission
-        if (player.hasPermission("se.playtime")) {
+        if (player.hasPermission("se.playtime") || player.hasPermission("se.all")) {
             if (args.length == 1){
                 Player target = Bukkit.getPlayerExact(args[0]);
                 if (target != null){

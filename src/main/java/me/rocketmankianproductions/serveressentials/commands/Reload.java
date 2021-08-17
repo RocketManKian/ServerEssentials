@@ -22,7 +22,7 @@ public class Reload {
     public void run(CommandSender sender, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (player.hasPermission("se.reload")) {
+            if (player.hasPermission("se.reload") || player.hasPermission("se.all")) {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.GREEN + "Server Essentials has been reloaded!"));
                 // Reloading YML files
                 ServerEssentials.getPlugin().reloadConfig();

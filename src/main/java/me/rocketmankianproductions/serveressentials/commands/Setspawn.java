@@ -53,7 +53,7 @@ public class Setspawn implements CommandExecutor {
         Player player = (Player) sender;
         if (sender instanceof Player) {
             if (args.length == 0) {
-                if (player.hasPermission("se.setspawn")) {
+                if (player.hasPermission("se.setspawn") || player.hasPermission("se.all")) {
                     String world = player.getWorld().getName();
                     fileConfig.set("Location.World", world);
                     fileConfig.set("Location.X", player.getLocation().getX());

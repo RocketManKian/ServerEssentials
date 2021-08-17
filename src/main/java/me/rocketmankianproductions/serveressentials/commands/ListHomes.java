@@ -24,7 +24,7 @@ public class ListHomes implements CommandExecutor {
         Player player = (Player) sender;
 
         if (sender instanceof Player){
-            if (player.hasPermission("se.listhomes")){
+            if (player.hasPermission("se.listhomes") || player.hasPermission("se.all")){
                 if (args.length == 1) {
                     Player target = Bukkit.getPlayer(args[0]);
                     if (ServerEssentials.plugin.getConfig().getBoolean("enable-home-gui")){

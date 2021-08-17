@@ -20,7 +20,7 @@ public class Reply implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
         Player player = (Player) sender;
-        if (player.hasPermission("se.reply")) {
+        if (player.hasPermission("se.reply") || player.hasPermission("se.all")) {
             if (args.length <= 0) {
                 sender.sendMessage(ChatColor.RED + "Usage: /reply <message>");
                 return true;

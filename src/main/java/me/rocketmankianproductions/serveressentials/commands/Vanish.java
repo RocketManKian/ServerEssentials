@@ -16,7 +16,7 @@ public class Vanish implements CommandExecutor {
 
         if (sender instanceof Player){
             Player player = (Player) sender;
-            if (player.hasPermission("se.vanish")){
+            if (player.hasPermission("se.vanish") || player.hasPermission("se.all")){
                 if (args.length == 0){
                     if (ServerEssentials.getPlugin().invisible_list.contains(player)){
                         for (Player people : Bukkit.getOnlinePlayers()){

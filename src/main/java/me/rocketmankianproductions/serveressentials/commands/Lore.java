@@ -18,7 +18,7 @@ public class Lore implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            if (player.hasPermission("se.lore")) {
+            if (player.hasPermission("se.lore") || player.hasPermission("se.all")) {
                 if (args.length >= 1) {
                     ItemStack hand = player.getItemInHand();
                     if (hand.getType().equals(Material.AIR)) {

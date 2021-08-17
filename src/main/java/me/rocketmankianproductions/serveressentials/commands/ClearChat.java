@@ -15,7 +15,7 @@ public class ClearChat implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            if (player.hasPermission("se.clearchat")){
+            if (player.hasPermission("se.clearchat") || player.hasPermission("se.all")){
                 if (command.getName().equalsIgnoreCase("clearchat") || command.getName().equalsIgnoreCase("cc")){
                     for (int x = 0; x < 150; x++){
                         Bukkit.broadcastMessage("");

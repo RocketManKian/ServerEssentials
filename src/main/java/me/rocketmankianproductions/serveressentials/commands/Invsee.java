@@ -20,7 +20,7 @@ public class Invsee implements CommandExecutor, Listener {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (args.length == 1) {
-                if (player.hasPermission("se.invsee")) {
+                if (player.hasPermission("se.invsee") || player.hasPermission("se.all")) {
                     Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
                     if (targetPlayer == sender) {
                         String msg = Lang.fileConfig.getString("invsee-target-is-sender");
@@ -40,7 +40,7 @@ public class Invsee implements CommandExecutor, Listener {
                     return true;
                 }
             } else if (args.length == 2) {
-                if (player.hasPermission("se.invsee.others")) {
+                if (player.hasPermission("se.invsee.others") || player.hasPermission("se.all")) {
                     Inventory myInventory = Bukkit.createInventory(player, 9, ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("invsee-armor-gui")));
                     Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
                     if (targetPlayer == sender) {
