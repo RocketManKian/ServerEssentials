@@ -18,7 +18,7 @@ public class SendWarp implements CommandExecutor {
         Player player = (Player) sender;
 
         if (sender instanceof Player) {
-            if (player.hasPermission("se.sendwarp")) {
+            if (player.hasPermission("se.sendwarp") || player.hasPermission("se.all")) {
                 if (args.length == 2) {
                     if (Setwarp.file.exists() && Setwarp.fileConfig.getString("Warp." + args[1] + ".World") != null) {
                         Player target = Bukkit.getServer().getPlayer(args[0]);

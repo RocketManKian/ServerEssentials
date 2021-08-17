@@ -10,10 +10,11 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class TeleportHere implements CommandExecutor {
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
-        if (player.hasPermission("se.teleport")){
+        if (player.hasPermission("se.teleport") || player.hasPermission("se.all")){
             if (args.length == 1) {
                 Player target = Bukkit.getPlayer(args[0]);
                 String sender2 = sender.getName();

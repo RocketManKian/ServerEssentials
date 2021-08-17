@@ -45,7 +45,7 @@ public class SilentJoin {
 
     public void run(CommandSender sender, String[] args) {
         Player player = (Player) sender;
-        if (player.hasPermission("se.silentjoin")) {
+        if (player.hasPermission("se.silentjoin") || player.hasPermission("se.all")) {
             if (fileConfig.getBoolean("silent." + player.getName(), false) == false) {
                 fileConfig.set("silent." + player.getName(), true);
                 String msg = Lang.fileConfig.getString("silentjoin-enabled");

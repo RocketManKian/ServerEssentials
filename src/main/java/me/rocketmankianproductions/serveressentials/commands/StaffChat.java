@@ -22,7 +22,7 @@ public class StaffChat implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            if (player.hasPermission("se.staffchat")){
+            if (player.hasPermission("se.staffchat") || player.hasPermission("se.all")){
                 if (args.length == 0) {
                     if (!staffchat.contains(player)){
                         String msg = Lang.fileConfig.getString("staffchat-enabled");

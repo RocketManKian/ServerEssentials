@@ -62,7 +62,7 @@ public class Rules implements CommandExecutor {
 
             //print rules to the player
             Player player = (Player) sender;
-            if (player.hasPermission("se.rules")) {
+            if (player.hasPermission("se.rules") || player.hasPermission("se.all")) {
                 player.sendMessage(ChatColor.GREEN + "Server Rules:");
                 for (String rule : fileConfig.getStringList(configpath)) {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', rule));

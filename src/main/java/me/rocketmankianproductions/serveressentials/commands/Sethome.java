@@ -75,7 +75,7 @@ public class Sethome implements CommandExecutor {
                         if (fileConfig.getString("Home." + name + "." + args[0]) != null || player.hasPermission("se.sethome.unlimited")) {
                             createHome(name, args, world, player);
                             return true;
-                        } else if (player.hasPermission("se.sethome")) {
+                        } else if (player.hasPermission("se.sethome") || player.hasPermission("se.all")) {
                             if (homesAmount < maxHomes) {
                                 createHome(name, args, world, player);
                             } else {
@@ -93,7 +93,7 @@ public class Sethome implements CommandExecutor {
                         if (fileConfig.getString("Home." + name + "." + args[0]) != null || player.hasPermission("se.sethome.unlimited")) {
                             createHome(name, args, world, player);
                             return true;
-                        } else if (player.hasPermission("se.sethome")) {
+                        } else if (player.hasPermission("se.sethome") || player.hasPermission("se.all")) {
                             if (homesAmount < maxHomes) {
                                 createHome(name, args, world, player);
                             } else {

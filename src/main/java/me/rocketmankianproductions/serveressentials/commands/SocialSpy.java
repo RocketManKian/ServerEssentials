@@ -18,7 +18,7 @@ public class SocialSpy implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (player.hasPermission("se.socialspy")) {
+            if (player.hasPermission("se.socialspy") || player.hasPermission("se.all")) {
                 // Check if Player isn't already included in ArrayList
                 if (!socialspy.contains(player)) {
                     String msg = Lang.fileConfig.getString("socialspy-enabled");

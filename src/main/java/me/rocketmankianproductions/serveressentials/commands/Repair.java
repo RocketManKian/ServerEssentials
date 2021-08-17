@@ -15,7 +15,7 @@ public class Repair implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
 
-        if (player.hasPermission("se.repair")) {
+        if (player.hasPermission("se.repair") || player.hasPermission("se.all")) {
             if (args.length == 0) {
                 if (sender instanceof Player) {
                     if (!player.getItemInHand().getType().equals(Material.AIR)) {

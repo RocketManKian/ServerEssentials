@@ -16,7 +16,7 @@ public class DeleteWarp implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
         // Checking if the player has the se.deletewarp permission
-        if (player.hasPermission("se.deletewarp")) {
+        if (player.hasPermission("se.deletewarp") || player.hasPermission("se.all")) {
             if (args.length == 1) {
                 // Averaging out the whether the file exists or not by checking for value in one of the default saving points
                 if (Setwarp.file.exists() && Setwarp.fileConfig.getString("Warp." + args[0]) != null) {

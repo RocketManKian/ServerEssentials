@@ -16,9 +16,8 @@ public class Hat implements CommandExecutor {
         Player player = (Player) sender;
         if (sender instanceof Player) {
             if (args.length == 0) {
-                if (player.hasPermission("se.hat")) {
+                if (player.hasPermission("se.hat") || player.hasPermission("se.all")) {
                     if (!player.getItemInHand().getType().equals(Material.AIR)) {
-                        ItemStack activeitem = player.getItemInHand();
                         String msg = Lang.fileConfig.getString("hat-success");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         hatCommand(player);

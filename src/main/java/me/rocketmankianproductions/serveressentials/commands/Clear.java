@@ -14,7 +14,7 @@ public class Clear implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            if (player.hasPermission("se.clear")){
+            if (player.hasPermission("se.clear") || player.hasPermission("se.all")){
                 if (args.length == 0){
                     player.getInventory().clear();
                     String msg = Lang.fileConfig.getString("clear-success");

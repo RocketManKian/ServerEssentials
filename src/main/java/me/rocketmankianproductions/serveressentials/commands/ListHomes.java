@@ -24,7 +24,7 @@ public class ListHomes implements CommandExecutor {
         Player player = (Player) sender;
 
         if (sender instanceof Player){
-            if (player.hasPermission("se.listhomes")){
+            if (player.hasPermission("se.listhomes") || player.hasPermission("se.all")){
                 if (args.length == 1) {
                     Player target = Bukkit.getPlayer(args[0]);
                     if (ServerEssentials.plugin.getConfig().getBoolean("enable-home-gui")){
@@ -52,7 +52,7 @@ public class ListHomes implements CommandExecutor {
                                                 List<String> loreList = new ArrayList<String>();
                                                 String msg = Lang.fileConfig.getString("home-gui-left-click").replace("<home>", key);
                                                 loreList.add(ChatColor.translateAlternateColorCodes('&', msg));
-                                                if (player.hasPermission("se.deletehome")){
+                                                if (player.hasPermission("se.deletehome") || player.hasPermission("se.all")){
                                                     String msg2 = Lang.fileConfig.getString("home-gui-right-click");
                                                     loreList.add(ChatColor.translateAlternateColorCodes('&', msg2));
                                                 }

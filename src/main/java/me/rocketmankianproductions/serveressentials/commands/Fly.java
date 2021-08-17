@@ -14,7 +14,7 @@ public class Fly implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
         if (sender instanceof Player){
-            if (player.hasPermission("se.fly")){
+            if (player.hasPermission("se.fly") || player.hasPermission("se.all")){
                 if (args.length == 0){
                     if (player.getAllowFlight() == true){
                         player.setFlying(true);

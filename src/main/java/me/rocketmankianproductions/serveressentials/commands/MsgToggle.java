@@ -57,7 +57,7 @@ public class MsgToggle {
     public boolean run(CommandSender sender, @NotNull String[] args, Command command) {
         Player player = (Player) sender;
         if (command.getName().equalsIgnoreCase("msgtoggle")) {
-            if (player.hasPermission("se.msgtoggle")) {
+            if (player.hasPermission("se.msgtoggle") || player.hasPermission("se.all")) {
                 if ((sender instanceof Player)) {
                     if (args.length == 0) {
                         if (fileConfig.getBoolean("msgtoggle." + player.getName(), false) == false) {

@@ -33,7 +33,7 @@ public class Gamemode implements CommandExecutor {
                     return true;
                 }
             }else if ((command.getName().equalsIgnoreCase("gmc")) && args.length == 0){
-                if (player.hasPermission("se.gamemode.creative")) {
+                if (player.hasPermission("se.gamemode.creative") || player.hasPermission("se.all")) {
                     if (args.length == 1) {
                         Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
                         targetPlayer.setGameMode(GameMode.CREATIVE);
@@ -54,7 +54,7 @@ public class Gamemode implements CommandExecutor {
                     return true;
                 }
             }else if ((command.getName().equalsIgnoreCase("gms")) && args.length == 0){
-                if (player.hasPermission("se.gamemode.survival")) {
+                if (player.hasPermission("se.gamemode.survival") || player.hasPermission("se.all")) {
                     if (args.length == 1) {
                         Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
                         targetPlayer.setGameMode(GameMode.SURVIVAL);
@@ -75,7 +75,7 @@ public class Gamemode implements CommandExecutor {
                     return true;
                 }
             }else if ((command.getName().equalsIgnoreCase("gmsp")) && args.length == 0){
-                if (player.hasPermission("se.gamemode.spectator")) {
+                if (player.hasPermission("se.gamemode.spectator") || player.hasPermission("se.all")) {
                     if (args.length == 1) {
                         Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
                         targetPlayer.setGameMode(GameMode.SPECTATOR);
@@ -96,7 +96,7 @@ public class Gamemode implements CommandExecutor {
                     return true;
                 }
             }else if ((command.getName().equalsIgnoreCase("gma")) && args.length == 0){
-                if (player.hasPermission("se.gamemode.adventure")) {
+                if (player.hasPermission("se.gamemode.adventure") || player.hasPermission("se.all")) {
                     if (args.length == 1) {
                         Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
                         targetPlayer.setGameMode(GameMode.ADVENTURE);
@@ -168,7 +168,7 @@ public class Gamemode implements CommandExecutor {
         return false;
     }
     public void gmc(String[] args, Player player) {
-        if (player.hasPermission("se.gamemode.creative")) {
+        if (player.hasPermission("se.gamemode.creative") || player.hasPermission("se.all")) {
             if (args.length == 2) {
                 Player targetPlayer = Bukkit.getServer().getPlayer(args[1]);
                 targetPlayer.setGameMode(GameMode.CREATIVE);
@@ -187,7 +187,7 @@ public class Gamemode implements CommandExecutor {
         }
     }
     public void gms(String[] args, Player player) {
-        if (player.hasPermission("se.gamemode.survival")) {
+        if (player.hasPermission("se.gamemode.survival") || player.hasPermission("se.all")) {
             if (args.length == 2) {
                 Player targetPlayer = Bukkit.getServer().getPlayer(args[1]);
                 targetPlayer.setGameMode(GameMode.SURVIVAL);
@@ -206,7 +206,7 @@ public class Gamemode implements CommandExecutor {
         }
     }
     public void gmsp(String[] args, Player player) {
-        if (player.hasPermission("se.gamemode.spectator")) {
+        if (player.hasPermission("se.gamemode.spectator") || player.hasPermission("se.all")) {
             if (args.length == 2) {
                 Player targetPlayer = Bukkit.getServer().getPlayer(args[1]);
                 targetPlayer.setGameMode(GameMode.SPECTATOR);
@@ -225,7 +225,7 @@ public class Gamemode implements CommandExecutor {
         }
     }
     public void gma(String[] args, Player player) {
-        if (player.hasPermission("se.gamemode.adventure")) {
+        if (player.hasPermission("se.gamemode.adventure") || player.hasPermission("se.all")) {
             if (args.length == 2) {
                 Player targetPlayer = Bukkit.getServer().getPlayer(args[1]);
                 targetPlayer.setGameMode(GameMode.ADVENTURE);

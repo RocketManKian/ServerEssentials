@@ -55,7 +55,7 @@ public class Setwarp implements CommandExecutor {
             if (args.length == 1) {
                 Boolean blacklistenabled = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-blacklist");
                 String world = player.getWorld().getName();
-                if (player.hasPermission("se.setwarp")) {
+                if (player.hasPermission("se.setwarp") || player.hasPermission("se.all")) {
                     if (blacklistenabled){
                         for (String worlds : ServerEssentials.plugin.getConfig().getStringList("warp-blacklist")){
                             if (player.getWorld().getName().equalsIgnoreCase(worlds)){

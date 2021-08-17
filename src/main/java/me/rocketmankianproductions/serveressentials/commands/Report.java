@@ -28,7 +28,7 @@ public class Report implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
         if (sender instanceof Player){
-            if (player.hasPermission("se.report")){
+            if (player.hasPermission("se.report") || player.hasPermission("se.all")){
                 if (args.length >= 2) {
                     Player target = Bukkit.getPlayer(args[0]);
                     if (target == null) {

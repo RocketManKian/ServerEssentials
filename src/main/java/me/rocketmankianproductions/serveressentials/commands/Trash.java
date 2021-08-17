@@ -15,7 +15,7 @@ public class Trash implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            if (player.hasPermission("se.trash")){
+            if (player.hasPermission("se.trash") || player.hasPermission("se.all")){
                 Inventory trash = Bukkit.createInventory(player, 27, ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("trash-gui-name")));
                 player.openInventory(trash);
                 return true;

@@ -27,7 +27,7 @@ public class Back implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            if (player.hasPermission("se.back")){
+            if (player.hasPermission("se.back") || player.hasPermission("se.all")){
                 if (player.hasPermission("se.back.bypass")){
                     if (location.containsKey(player.getUniqueId())){
                         player.teleport(location.get(player.getUniqueId()));

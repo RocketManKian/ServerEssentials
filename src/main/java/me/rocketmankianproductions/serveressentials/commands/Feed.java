@@ -16,7 +16,7 @@ public class Feed implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             Player target;
-            if (player.hasPermission("se.feed")) {
+            if (player.hasPermission("se.feed") || player.hasPermission("se.all")) {
                 if (args.length <= 1) {
                     if (args.length == 1) {
                         target = Bukkit.getPlayer(args[0]);

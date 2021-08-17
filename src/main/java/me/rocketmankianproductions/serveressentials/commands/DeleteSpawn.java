@@ -13,7 +13,7 @@ public class DeleteSpawn implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
         // Checking if the player has the se.deletespawn permission
-        if (player.hasPermission("se.deletespawn")) {
+        if (player.hasPermission("se.deletespawn") || player.hasPermission("se.all")) {
             // Averaging out the whether the file exists or not by checking for value in one of the default saving points
             if (Setspawn.file.exists() && Setspawn.fileConfig.getString("Location.World") != null) {
                 // If the file exists then it will get deleted upon execution of command

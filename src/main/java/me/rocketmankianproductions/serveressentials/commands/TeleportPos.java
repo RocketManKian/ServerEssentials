@@ -13,9 +13,10 @@ public class TeleportPos implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (player.hasPermission("se.tppos")) {
+            if (player.hasPermission("se.tppos") || player.hasPermission("se.all")) {
                 if (args.length == 3) {
                     try {
                         World myworld = player.getWorld();

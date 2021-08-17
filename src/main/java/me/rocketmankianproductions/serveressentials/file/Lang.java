@@ -73,7 +73,7 @@ public class Lang {
                 fileConfig.addDefault("heal-target-message", "You have been healed by <sender>");
                 fileConfig.addDefault("home-set-success", "Successfully set home location");
                 fileConfig.addDefault("home-blacklisted-world", "You cannot set a Home in a Blacklisted World");
-                fileConfig.addDefault("home-max-homes", "You cannot set any more homes. (Max Homes: <max>)");
+                fileConfig.addDefault("home-max-homes", "You cannot set any more homes (Max Homes: <max>)");
                 fileConfig.addDefault("home-subtitle", "Successfully teleported to <home>");
                 fileConfig.addDefault("home-message", "Successfully teleported to <home>");
                 fileConfig.addDefault("home-wait-message", "Teleporting to <home> in <time> Seconds");

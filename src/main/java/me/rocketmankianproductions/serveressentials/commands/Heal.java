@@ -18,7 +18,7 @@ public class Heal implements CommandExecutor {
         if (sender instanceof Player) {
             Player target;
             Player player = (Player) sender;
-            if (player.hasPermission("se.heal")) {
+            if (player.hasPermission("se.heal") || player.hasPermission("se.all")) {
                 if (args.length <= 1) {
                     if (args.length == 1) {
                         target = Bukkit.getServer().getPlayer(args[0]);

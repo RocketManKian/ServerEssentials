@@ -53,7 +53,7 @@ public class TPToggle {
     public boolean run(CommandSender sender, @NotNull String[] args, Command command) {
         Player player = (Player) sender;
         if (command.getName().equalsIgnoreCase("tptoggle")) {
-            if (player.hasPermission("se.tptoggle")) {
+            if (player.hasPermission("se.tptoggle") || player.hasPermission("se.all")) {
                 if ((sender instanceof Player)) {
                     if (args.length == 0) {
                         if (fileConfig.getBoolean("tptoggle." + player.getName(), false) == false) {

@@ -18,7 +18,7 @@ public class Announce implements CommandExecutor {
 
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (player.hasPermission("se.announce")) {
+            if (player.hasPermission("se.announce") || player.hasPermission("se.all")) {
                 if (args.length > 0) {
                     String prefix = ServerEssentials.getPlugin().getConfig().getString("prefix");
                     String announce = "";

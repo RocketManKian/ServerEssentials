@@ -17,7 +17,7 @@ public class Hurt implements CommandExecutor {
 
             if (commandLabel.equalsIgnoreCase("hurt")) {
                 // Checking if the player has the se.hurt permission
-                if (player.hasPermission("se.hurt")) {
+                if (player.hasPermission("se.hurt") || player.hasPermission("se.all")) {
                     // Checking if the player exists
                     if (args.length >= 2) {
                         try {

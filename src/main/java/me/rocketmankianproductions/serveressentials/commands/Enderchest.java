@@ -17,13 +17,13 @@ public class Enderchest implements CommandExecutor {
 
         if (sender instanceof Player){
             Player player = (Player) sender;
-            if (player.hasPermission("se.enderchest")) {
+            if (player.hasPermission("se.enderchest") || player.hasPermission("se.all")) {
                 if (args.length == 0) {
                     player.openInventory(player.getEnderChest());
                     player.playSound(((Player) sender).getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 3.0F, 2.0F);
                     return true;
                 } else if (args.length == 1) {
-                    if (player.hasPermission("se.enderchest.others")) {
+                    if (player.hasPermission("se.enderchest.others") || player.hasPermission("se.all")) {
                         Player target = Bukkit.getPlayer(args[0]);
                         if (target == null) {
                             String msg = Lang.fileConfig.getString("target-offline");
