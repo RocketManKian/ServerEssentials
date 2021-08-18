@@ -22,11 +22,11 @@ import java.util.UUID;
 public class Warp implements CommandExecutor {
 
     private static HashMap<UUID, Integer> warpteleport = new HashMap<>();
-    int delay = ServerEssentials.plugin.getConfig().getInt("warp-teleport");
     public static ArrayList<UUID> cancel = new ArrayList<>();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        int delay = ServerEssentials.plugin.getConfig().getInt("warp-teleport");
         // Checking if the player has the correct permission
         if (sender instanceof Player){
             Player player = (Player) sender;
