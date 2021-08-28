@@ -61,6 +61,8 @@ public class Message implements CommandExecutor {
                             recipient.sendMessage(sendername + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
                             return true;
                         } else {
+                            sender.sendMessage(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + targetname + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                            recipient.sendMessage(sendername + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
                             // Loop to check through all Online Players and get all players who are included within the HashMap
                             for (Player admin : Bukkit.getOnlinePlayers()) {
                                 if (SocialSpy.socialspy.contains(admin)) {
@@ -74,8 +76,6 @@ public class Message implements CommandExecutor {
                                     }
                                 }
                             }
-                            sender.sendMessage(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + targetname + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
-                            recipient.sendMessage(sendername + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
                             return true;
                         }
                     } else {
