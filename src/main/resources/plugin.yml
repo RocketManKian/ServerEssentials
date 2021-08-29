@@ -123,7 +123,7 @@ commands:
     usage: Incorrect format! Please use /kill
   msg:
     description: Message Command
-    aliases: [message, w, whisper]
+    aliases: [message]
     usage: Incorrect Format! Please use /msg <player> <message>
   msgtoggle:
     description: Message Toggle Command
