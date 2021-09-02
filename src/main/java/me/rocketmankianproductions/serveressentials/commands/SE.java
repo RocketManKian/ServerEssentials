@@ -91,6 +91,8 @@ public class SE implements CommandExecutor {
                             + "\n/socialspy - Enables or Disables the SocialSpy Feature"
                             + "\n/staffchat - Enables or Disables the StaffChat Command"
                             + "\n/trash - Opens the Trash Chute GUI"
+                            + "\n/report (user) - Report specified User to Admins"
+                            + "\n/reportbug (bug) - Report specified Bug to Admins"
                             + "\n/back - Teleports to Previous Location");
                 } else {
                     String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.info");
