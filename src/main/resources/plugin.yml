@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 1.72.7
+version: 1.72.8
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -226,6 +226,9 @@ commands:
   report:
     description: Report Command
     usage: Incorrect format! Please use /report (user) (reason)
+  reportbug:
+    description: Report Bug Command
+    usage: Incorrect format! Please use /reportbug (bug)
   gui:
     description: GUI Command
     usage: Incorrect format! Please use /gui
@@ -506,7 +509,7 @@ permissions:
     description: "Speed Command"
     default: false
   se.report:
-    description: "Report Command"
+    description: "Report User and Report Bug Commands"
     default: false
   se.reportnotification:
     description: "Report Notification"
