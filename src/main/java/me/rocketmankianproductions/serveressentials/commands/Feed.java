@@ -60,13 +60,13 @@ public class Feed implements CommandExecutor {
                 Player target = Bukkit.getPlayer(args[0]);
                 if (target == null) {
                     String msg = Lang.fileConfig.getString("player-offline");
-                    System.out.println(ChatColor.translateAlternateColorCodes('&', msg));
+                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 } else {
                     target = Bukkit.getServer().getPlayer(args[0]);
                     target.setFoodLevel(20);
                     String msg = Lang.fileConfig.getString("feed-sender-message").replace("<target>", target.getName());
-                    System.out.println(ChatColor.translateAlternateColorCodes('&', msg));
+                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
                     String msg2 = Lang.fileConfig.getString("feed-target-message").replace("<sender>", "Console");
                     target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                     return true;

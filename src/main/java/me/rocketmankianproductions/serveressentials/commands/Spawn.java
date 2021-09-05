@@ -202,18 +202,18 @@ public class Spawn implements CommandExecutor {
                         target.teleport(loc);
                         // Sending the Sender and Target a message
                         String msg = Lang.fileConfig.getString("spawn-teleport-target").replace("<target>", target.getName());
-                        System.out.println(ChatColor.translateAlternateColorCodes('&', msg));
+                        Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
                         String msg2 = Lang.fileConfig.getString("spawn-teleport-target-success");
                         target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                         return true;
                     } else {
                         // Sends Message if Spawn Doesn't Exist
                         String msg = Lang.fileConfig.getString("spawn-invalid");
-                        System.out.println(ChatColor.translateAlternateColorCodes('&', msg));
+                        Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
                     }
                 } else {
                     String msg = Lang.fileConfig.getString("target-offline");
-                    System.out.println(ChatColor.translateAlternateColorCodes('&', msg));
+                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }
             }

@@ -92,12 +92,12 @@ public class Message implements CommandExecutor {
         }else if (sender instanceof ConsoleCommandSender){
             String sm = "";
             if (args.length <= 1) {
-                System.out.println(ChatColor.RED + "Usage: msg <player> <message>");
+                Bukkit.getLogger().info(ChatColor.RED + "Usage: msg <player> <message>");
                 return true;
             } else if (args.length >= 2) {
                 Player recipient = Bukkit.getPlayer(args[0]);
                 if (recipient == null) {
-                    System.out.println(ChatColor.RED + "Player does not exist");
+                    Bukkit.getLogger().info(ChatColor.RED + "Player does not exist");
                     return true;
                 } else if (MsgToggle.fileConfig.getBoolean("msgtoggle." + recipient.getName(), false) == false) {
                     String targetname = recipient.getName();
@@ -105,12 +105,12 @@ public class Message implements CommandExecutor {
                         String arg = (args[i] + " ");
                         sm = (sm + arg);
                     }
-                    System.out.println(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + targetname + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                    Bukkit.getLogger().info(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + targetname + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
                     recipient.sendMessage("Console" + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
                     return true;
                 } else {
                     String msg = Lang.fileConfig.getString("message-disabled");
-                    System.out.println(ChatColor.translateAlternateColorCodes('&', msg));
+                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
                 }
             }
         }

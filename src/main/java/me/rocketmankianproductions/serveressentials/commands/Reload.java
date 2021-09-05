@@ -3,6 +3,7 @@ package me.rocketmankianproductions.serveressentials.commands;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import me.rocketmankianproductions.serveressentials.tasks.Broadcast;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -45,7 +46,7 @@ public class Reload {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
             }
         } else if (sender instanceof ConsoleCommandSender) {
-            ServerEssentials.getPlugin().getLogger().info(ChatColor.translateAlternateColorCodes('&', ChatColor.GREEN + "Server Essentials has been reloaded!"));
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', ChatColor.GREEN + "Server Essentials has been reloaded!"));
             ServerEssentials.getPlugin().reloadConfig();
             Rules.reload();
             Setspawn.reload();
