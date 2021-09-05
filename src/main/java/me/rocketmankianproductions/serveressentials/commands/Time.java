@@ -74,42 +74,42 @@ public class Time implements CommandExecutor {
                     world.setTime(23041);
                 }
                 String msg = Lang.fileConfig.getString("time-sunrise");
-                System.out.println(ChatColor.translateAlternateColorCodes('&', msg));
+                Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
                 return true;
             } else if (command.getName().equalsIgnoreCase("day")) {
                 for (World world : Bukkit.getServer().getWorlds()) {
                     world.setTime(1000);
                 }
                 String msg = Lang.fileConfig.getString("time-day");
-                System.out.println(ChatColor.translateAlternateColorCodes('&', msg));
+                Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
                 return true;
             } else if (command.getName().equalsIgnoreCase("sunset") || command.getName().equalsIgnoreCase("dusk")) {
                 for (World world : Bukkit.getServer().getWorlds()) {
                     world.setTime(12610);
                 }
                 String msg = Lang.fileConfig.getString("time-sunset");
-                System.out.println(ChatColor.translateAlternateColorCodes('&', msg));
+                Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
                 return true;
             } else if (command.getName().equalsIgnoreCase("midnight")) {
                 for (World world : Bukkit.getServer().getWorlds()) {
                     world.setTime(18000);
                 }
                 String msg = Lang.fileConfig.getString("time-midnight");
-                System.out.println(ChatColor.translateAlternateColorCodes('&', msg));
+                Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
                 return true;
             }else if (command.getName().equalsIgnoreCase("sun")) {
                 for (World world : Bukkit.getServer().getWorlds()) {
                     world.setStorm(false);
                 }
                 String msg = Lang.fileConfig.getString("weather-sun");
-                System.out.println(ChatColor.translateAlternateColorCodes('&', msg));
+                Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
                 return true;
             }else if (command.getName().equalsIgnoreCase("storm") || command.getName().equalsIgnoreCase("thunder")) {
                 for (World world : Bukkit.getServer().getWorlds()) {
                     world.setStorm(true);
                 }
                 String msg = Lang.fileConfig.getString("weather-storm");
-                System.out.println(ChatColor.translateAlternateColorCodes('&', msg));
+                Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
                 return true;
             }
         }

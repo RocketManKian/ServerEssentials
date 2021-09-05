@@ -126,7 +126,7 @@ public class Gamemode implements CommandExecutor {
                         String msg = Lang.fileConfig.getString("gamemode-creative-self");
                         targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         String msg2 = Lang.fileConfig.getString("gamemode-creative-target");
-                        System.out.println(ChatColor.translateAlternateColorCodes('&', msg2));
+                        Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg2));
                         return true;
                     }
                 } else if (args[0].equalsIgnoreCase("survival") || args[0].equalsIgnoreCase("s") || args[0].equalsIgnoreCase("0")) {
@@ -136,7 +136,7 @@ public class Gamemode implements CommandExecutor {
                         String msg = Lang.fileConfig.getString("gamemode-survival-self");
                         targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         String msg2 = Lang.fileConfig.getString("gamemode-survival-target");
-                        System.out.println(ChatColor.translateAlternateColorCodes('&', msg2));
+                        Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg2));
                         return true;
                     }
                 } else if (args[0].equalsIgnoreCase("spectator") || args[0].equalsIgnoreCase("3")) {
@@ -146,7 +146,7 @@ public class Gamemode implements CommandExecutor {
                         String msg = Lang.fileConfig.getString("gamemode-spectator-self");
                         targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         String msg2 = Lang.fileConfig.getString("gamemode-spectator-target");
-                        System.out.println(ChatColor.translateAlternateColorCodes('&', msg2));
+                        Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg2));
                         return true;
                     }
                 } else if (args[0].equalsIgnoreCase("adventure") || args[0].equalsIgnoreCase("a") || args[0].equalsIgnoreCase("2")) {
@@ -156,12 +156,12 @@ public class Gamemode implements CommandExecutor {
                         String msg = Lang.fileConfig.getString("gamemode-adventure-self");
                         targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         String msg2 = Lang.fileConfig.getString("gamemode-adventure-target");
-                        System.out.println(ChatColor.translateAlternateColorCodes('&', msg2));
+                        Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg2));
                         return true;
                     }
                 }
             }else{
-                System.out.println(ChatColor.RED + "Incorrect format! Please use /gamemode <mode> <player>");
+                Bukkit.getLogger().info(ChatColor.RED + "Incorrect format! Please use /gamemode <mode> <player>");
                 return true;
             }
         }

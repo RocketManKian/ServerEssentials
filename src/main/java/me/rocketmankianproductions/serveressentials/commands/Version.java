@@ -2,6 +2,7 @@ package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
@@ -27,7 +28,7 @@ public class Version {
             }
         }else if (sender instanceof ConsoleCommandSender) {
             String version = ServerEssentials.getPlugin().getDescription().getVersion();
-            System.out.println(ChatColor.translateAlternateColorCodes('&',  "&7[&bServer Essentials&7] " + ChatColor.WHITE + "Version: " + ChatColor.GREEN + version));
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&',  "&7[&bServer Essentials&7] " + ChatColor.WHITE + "Version: " + ChatColor.GREEN + version));
         }
     }
 }

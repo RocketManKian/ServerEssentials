@@ -58,7 +58,7 @@ public class TeleportPos implements CommandExecutor {
                 Player target = Bukkit.getPlayerExact(args[0]);
                 if (target == null){
                     String msg = Lang.fileConfig.getString("target-offline");
-                    System.out.println(ChatColor.translateAlternateColorCodes('&', msg));
+                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
                 }else {
                     try {
                         World myworld = target.getWorld();
@@ -67,14 +67,14 @@ public class TeleportPos implements CommandExecutor {
                         String msg = Lang.fileConfig.getString("teleport-pos-target-success");
                         target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         String msg2 = Lang.fileConfig.getString("teleport-pos-target-message").replace("<target>", target.getName());
-                        System.out.println(ChatColor.translateAlternateColorCodes('&', msg2));
+                        Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg2));
                     } catch (NumberFormatException e) {
                         String msg = Lang.fileConfig.getString("teleport-pos-invalid");
-                        System.out.println(ChatColor.translateAlternateColorCodes('&', msg));
+                        Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
                     }
                 }
             }else{
-                System.out.println(ChatColor.RED + "Incorrect format! Please use /tppos (target) (x) (y) (z)");
+                Bukkit.getLogger().info(ChatColor.RED + "Incorrect format! Please use /tppos (target) (x) (y) (z)");
             }
         } else if (sender instanceof BlockCommandSender){
             if (args.length == 4){

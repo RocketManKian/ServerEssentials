@@ -64,7 +64,7 @@ public class Announce implements CommandExecutor {
                     return true;
                 }
             } else {
-                System.out.println("Incorrect Format! Usage: /announce <Message>");
+                Bukkit.getLogger().info("Incorrect Format! Usage: /announce <Message>");
                 return true;
             }
         }

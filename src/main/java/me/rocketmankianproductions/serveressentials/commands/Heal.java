@@ -95,7 +95,7 @@ public class Heal implements CommandExecutor {
                         target = Bukkit.getServer().getPlayer(args[0]);
                         target.setHealth(target.getMaxHealth());
                         String msg = Lang.fileConfig.getString("heal-target").replace("<target>", target.getName());
-                        System.out.println(ChatColor.translateAlternateColorCodes('&', msg));
+                        Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
                         String msg2 = Lang.fileConfig.getString("heal-target-message").replace("<sender>", "Console");
                         target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                         for (PotionEffect effect : target.getActivePotionEffects())
@@ -105,14 +105,14 @@ public class Heal implements CommandExecutor {
                         target = Bukkit.getServer().getPlayer(args[0]);
                         target.setHealth(target.getMaxHealth());
                         String msg = Lang.fileConfig.getString("heal-target").replace("<target>", target.getName());
-                        System.out.println(ChatColor.translateAlternateColorCodes('&', msg));
+                        Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
                         String msg2 = Lang.fileConfig.getString("heal-target-message").replace("<sender>", "Console");
                         target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                         return true;
                     }
                 }else{
                     String msg = Lang.fileConfig.getString("target-offline");
-                    System.out.println(ChatColor.translateAlternateColorCodes('&', msg));
+                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }
             }
