@@ -9,6 +9,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -52,6 +53,19 @@ public class StaffChat implements CommandExecutor {
                 String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.staffchat");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                 return true;
+            }
+        }else if (sender instanceof ConsoleCommandSender){
+            if (args.length >= 1){
+                String myArgs = String.join(" ", args);
+                TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName("staff-chat");
+                if (textChannel != null && ServerEssentials.isConnectedToDiscordSRV && ServerEssentials.plugin.getConfig().getBoolean("enable-discord-integration")){
+                    textChannel.sendMessage("**" + "Console" + "** » " + myArgs).queue();
+                    Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', "&d(&5&lStaff&d) ") + ChatColor.LIGHT_PURPLE + "Console" + ": " + ChatColor.GRAY + myArgs, "se.staffchat");
+                    return true;
+                }else{
+                    Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', "&d(&5&lStaff&d) ") + ChatColor.LIGHT_PURPLE + "Console" + ": " + ChatColor.GRAY + myArgs, "se.staffchat");
+                    return true;
+                }
             }
         }
         return false;
