@@ -54,16 +54,21 @@ public class Home implements CommandExecutor {
                                     Back.location.put(player.getUniqueId(), player.getLocation());
                                 }
                             }
-                            player.teleport(loc);
-                            Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
-                            if (subtitle) {
-                                String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", args[0]);
-                                player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
-                                return true;
-                            } else {
-                                String msg = Lang.fileConfig.getString("home-message").replace("<home>", args[0]);
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                return true;
+                            if (loc.isWorldLoaded()){
+                                player.teleport(loc);
+                                Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
+                                if (subtitle) {
+                                    String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", args[0]);
+                                    player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
+                                    return true;
+                                } else {
+                                    String msg = Lang.fileConfig.getString("home-message").replace("<home>", args[0]);
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    return true;
+                                }
+                            }else{
+                                String msg = Lang.fileConfig.getString("home-world-invalid");
+                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             }
                         }else{
                             if (ServerEssentials.plugin.getConfig().getBoolean("home-movement-cancel")){
@@ -93,15 +98,20 @@ public class Home implements CommandExecutor {
                                                         Back.location.put(player.getUniqueId(), player.getLocation());
                                                     }
                                                 }
-                                                // Teleporting Player
-                                                player.teleport(loc);
-                                                Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
-                                                if (subtitle) {
-                                                    String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", args[0]);
-                                                    player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
-                                                } else {
-                                                    String msg = Lang.fileConfig.getString("home-message").replace("<home>", args[0]);
-                                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                if (loc.isWorldLoaded()){
+                                                    // Teleporting Player
+                                                    player.teleport(loc);
+                                                    Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
+                                                    if (subtitle) {
+                                                        String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", args[0]);
+                                                        player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
+                                                    } else {
+                                                        String msg = Lang.fileConfig.getString("home-message").replace("<home>", args[0]);
+                                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                    }
+                                                }else{
+                                                    String msg = Lang.fileConfig.getString("home-world-invalid");
+                                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                                 }
                                                 cancel.remove(player.getUniqueId());
                                             }
@@ -135,15 +145,20 @@ public class Home implements CommandExecutor {
                                                         Back.location.put(player.getUniqueId(), player.getLocation());
                                                     }
                                                 }
-                                                // Teleporting Player
-                                                player.teleport(loc);
-                                                Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
-                                                if (subtitle) {
-                                                    String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", args[0]);
-                                                    player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
-                                                } else {
-                                                    String msg = Lang.fileConfig.getString("home-message").replace("<home>", args[0]);
-                                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                if (loc.isWorldLoaded()){
+                                                    // Teleporting Player
+                                                    player.teleport(loc);
+                                                    Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
+                                                    if (subtitle) {
+                                                        String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", args[0]);
+                                                        player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
+                                                    } else {
+                                                        String msg = Lang.fileConfig.getString("home-message").replace("<home>", args[0]);
+                                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                    }
+                                                }else{
+                                                    String msg = Lang.fileConfig.getString("home-world-invalid");
+                                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                                 }
                                             }
                                         }
@@ -280,11 +295,17 @@ public class Home implements CommandExecutor {
                                             Back.location.put(player.getUniqueId(), player.getLocation());
                                         }
                                     }
-                                    // Teleporting To Target's Home
-                                    player.teleport(loc);
-                                    String msg = Lang.fileConfig.getString("home-teleport-target").replace("<target>", target.getName());
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                    return true;
+                                    if (loc.isWorldLoaded()){
+                                        // Teleporting To Target's Home
+                                        player.teleport(loc);
+                                        String msg = Lang.fileConfig.getString("home-teleport-target").replace("<target>", target.getName());
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                        return true;
+                                    }else{
+                                        String msg = Lang.fileConfig.getString("home-world-invalid");
+                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                        return true;
+                                    }
                                 } else {
                                     String msg = Lang.fileConfig.getString("home-invalid");
                                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));

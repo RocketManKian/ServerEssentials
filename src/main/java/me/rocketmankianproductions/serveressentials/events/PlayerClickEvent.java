@@ -65,14 +65,19 @@ public class PlayerClickEvent implements Listener {
                                     Back.location.put(player.getUniqueId(), player.getLocation());
                                 }
                             }
-                            // Teleporting Player
-                            player.teleport(loc);
-                            Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
-                            if (subtitle) {
-                                String msg = Lang.fileConfig.getString("warp-subtitle").replace("<warp>", warp);
-                                player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
-                            } else {
-                                String msg = Lang.fileConfig.getString("warp-message").replace("<warp>", warp);
+                            if (loc.isWorldLoaded()){
+                                // Teleporting Player
+                                player.teleport(loc);
+                                Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
+                                if (subtitle) {
+                                    String msg = Lang.fileConfig.getString("warp-subtitle").replace("<warp>", warp);
+                                    player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
+                                } else {
+                                    String msg = Lang.fileConfig.getString("warp-message").replace("<warp>", warp);
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                }
+                            }else{
+                                String msg = Lang.fileConfig.getString("warp-world-invalid");
                                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             }
                             player.closeInventory();
@@ -107,14 +112,19 @@ public class PlayerClickEvent implements Listener {
                                                         Back.location.put(player.getUniqueId(), player.getLocation());
                                                     }
                                                 }
-                                                // Teleporting Player
-                                                player.teleport(loc);
-                                                Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
-                                                if (subtitle) {
-                                                    String msg = Lang.fileConfig.getString("warp-subtitle").replace("<warp>", finalWarp);
-                                                    player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
-                                                } else {
-                                                    String msg = Lang.fileConfig.getString("warp-message").replace("<warp>", finalWarp);
+                                                if (loc.isWorldLoaded()){
+                                                    // Teleporting Player
+                                                    player.teleport(loc);
+                                                    Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
+                                                    if (subtitle) {
+                                                        String msg = Lang.fileConfig.getString("warp-subtitle").replace("<warp>", finalWarp);
+                                                        player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
+                                                    } else {
+                                                        String msg = Lang.fileConfig.getString("warp-message").replace("<warp>", finalWarp);
+                                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                    }
+                                                }else{
+                                                    String msg = Lang.fileConfig.getString("warp-world-invalid");
                                                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                                 }
                                                 Warp.cancel.remove(player.getUniqueId());
@@ -151,14 +161,19 @@ public class PlayerClickEvent implements Listener {
                                                     Back.location.put(player.getUniqueId(), player.getLocation());
                                                 }
                                             }
-                                            // Teleporting Player
-                                            player.teleport(loc);
-                                            Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
-                                            if (subtitle) {
-                                                String msg = Lang.fileConfig.getString("warp-subtitle").replace("<warp>", finalWarp);
-                                                player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
-                                            } else {
-                                                String msg = Lang.fileConfig.getString("warp-message").replace("<warp>", finalWarp);
+                                            if (loc.isWorldLoaded()){
+                                                // Teleporting Player
+                                                player.teleport(loc);
+                                                Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
+                                                if (subtitle) {
+                                                    String msg = Lang.fileConfig.getString("warp-subtitle").replace("<warp>", finalWarp);
+                                                    player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
+                                                } else {
+                                                    String msg = Lang.fileConfig.getString("warp-message").replace("<warp>", finalWarp);
+                                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                }
+                                            }else{
+                                                String msg = Lang.fileConfig.getString("warp-world-invalid");
                                                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                             }
                                         }
@@ -224,14 +239,19 @@ public class PlayerClickEvent implements Listener {
                                 Back.location.put(player.getUniqueId(), player.getLocation());
                             }
                         }
-                        // Teleporting Player
-                        player.teleport(loc);
-                        Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
-                        if (subtitle) {
-                            String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", home);
-                            player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
-                        } else {
-                            String msg = Lang.fileConfig.getString("home-message").replace("<home>", home);
+                        if (loc.isWorldLoaded()){
+                            // Teleporting Player
+                            player.teleport(loc);
+                            Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
+                            if (subtitle) {
+                                String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", home);
+                                player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
+                            } else {
+                                String msg = Lang.fileConfig.getString("home-message").replace("<home>", home);
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            }
+                        }else{
+                            String msg = Lang.fileConfig.getString("home-world-invalid");
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         }
                         player.closeInventory();
@@ -266,14 +286,19 @@ public class PlayerClickEvent implements Listener {
                                                     Back.location.put(player.getUniqueId(), player.getLocation());
                                                 }
                                             }
-                                            // Teleporting Player
-                                            player.teleport(loc);
-                                            Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
-                                            if (subtitle) {
-                                                String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", finalHome);
-                                                player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
-                                            } else {
-                                                String msg = Lang.fileConfig.getString("home-message").replace("<home>", finalHome);
+                                            if (loc.isWorldLoaded()){
+                                                // Teleporting Player
+                                                player.teleport(loc);
+                                                Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
+                                                if (subtitle) {
+                                                    String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", finalHome);
+                                                    player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
+                                                } else {
+                                                    String msg = Lang.fileConfig.getString("home-message").replace("<home>", finalHome);
+                                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                }
+                                            }else{
+                                                String msg = Lang.fileConfig.getString("home-world-invalid");
                                                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                             }
                                             Home.cancel.remove(player.getUniqueId());
@@ -310,14 +335,19 @@ public class PlayerClickEvent implements Listener {
                                                 Back.location.put(player.getUniqueId(), player.getLocation());
                                             }
                                         }
-                                        // Teleporting Player
-                                        player.teleport(loc);
-                                        Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
-                                        if (subtitle) {
-                                            String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", finalHome);
-                                            player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
-                                        } else {
-                                            String msg = Lang.fileConfig.getString("home-message").replace("<home>", finalHome);
+                                        if (loc.isWorldLoaded()){
+                                            // Teleporting Player
+                                            player.teleport(loc);
+                                            Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
+                                            if (subtitle) {
+                                                String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", finalHome);
+                                                player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
+                                            } else {
+                                                String msg = Lang.fileConfig.getString("home-message").replace("<home>", finalHome);
+                                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                            }
+                                        }else{
+                                            String msg = Lang.fileConfig.getString("home-world-invalid");
                                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                         }
                                     }
