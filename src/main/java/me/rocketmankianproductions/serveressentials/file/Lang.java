@@ -42,6 +42,7 @@ public class Lang {
                 fileConfig.addDefault("home-not-found", "Home <home> doesn't exist");
                 fileConfig.addDefault("spawn-deletion-success", "Spawn Deleted");
                 fileConfig.addDefault("spawn-not-found", "Spawn doesn't exist");
+                fileConfig.addDefault("spawn-world-invalid", "World isn't loaded!");
                 fileConfig.addDefault("warp-deletion-success", "Warp <warp> has been successfully deleted");
                 fileConfig.addDefault("warp-not-found", "Warp <warp> doesn't exist");
                 fileConfig.addDefault("enderchest-target-is-sender", "Do /ec to access your own Enderchest");

@@ -48,11 +48,17 @@ public class Spawn implements CommandExecutor {
                                     Back.location.put(player.getUniqueId(), player.getLocation());
                                 }
                             }
-                            // Teleporting Player
-                            player.teleport(loc);
-                            String msg = Lang.fileConfig.getString("spawn-successful");
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                            return true;
+                            if (loc.isWorldLoaded()){
+                                // Teleporting Player
+                                player.teleport(loc);
+                                String msg = Lang.fileConfig.getString("spawn-successful");
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                return true;
+                            }else{
+                                String msg = Lang.fileConfig.getString("spawn-world-invalid");
+                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                return true;
+                            }
                         }else{
                             if (ServerEssentials.plugin.getConfig().getBoolean("spawn-movement-cancel")){
                                 cancel.add(player.getUniqueId());
@@ -81,11 +87,16 @@ public class Spawn implements CommandExecutor {
                                                         Back.location.put(player.getUniqueId(), player.getLocation());
                                                     }
                                                 }
-                                                // Teleporting Player
-                                                player.teleport(loc);
-                                                String msg = Lang.fileConfig.getString("spawn-successful");
-                                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                cancel.remove(player.getUniqueId());
+                                                if (loc.isWorldLoaded()){
+                                                    // Teleporting Player
+                                                    player.teleport(loc);
+                                                    String msg = Lang.fileConfig.getString("spawn-successful");
+                                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                    cancel.remove(player.getUniqueId());
+                                                }else{
+                                                    String msg = Lang.fileConfig.getString("spawn-world-invalid");
+                                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                }
                                                 spawnteleport.remove(player.getUniqueId());
                                             }
                                         }
@@ -117,10 +128,15 @@ public class Spawn implements CommandExecutor {
                                                     Back.location.put(player.getUniqueId(), player.getLocation());
                                                 }
                                             }
-                                            // Teleporting Player
-                                            player.teleport(loc);
-                                            String msg = Lang.fileConfig.getString("spawn-successful");
-                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                            if (loc.isWorldLoaded()){
+                                                // Teleporting Player
+                                                player.teleport(loc);
+                                                String msg = Lang.fileConfig.getString("spawn-successful");
+                                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                            }else{
+                                                String msg = Lang.fileConfig.getString("spawn-world-invalid");
+                                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                            }
                                         }
                                     }
                                 }, delay));
@@ -147,14 +163,20 @@ public class Spawn implements CommandExecutor {
                                         Back.location.put(target.getUniqueId(), target.getLocation());
                                     }
                                 }
-                                // Teleporting player to Location
-                                target.teleport(loc);
-                                // Sending the Sender and Target a message
-                                String msg = Lang.fileConfig.getString("spawn-teleport-target").replace("<target>", target.getName());
-                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                String msg2 = Lang.fileConfig.getString("spawn-teleport-target-success");
-                                target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                return true;
+                                if (loc.isWorldLoaded()){
+                                    // Teleporting player to Location
+                                    target.teleport(loc);
+                                    // Sending the Sender and Target a message
+                                    String msg = Lang.fileConfig.getString("spawn-teleport-target").replace("<target>", target.getName());
+                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    String msg2 = Lang.fileConfig.getString("spawn-teleport-target-success");
+                                    target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                                    return true;
+                                }else{
+                                    String msg = Lang.fileConfig.getString("spawn-world-invalid");
+                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    return true;
+                                }
                             } else {
                                 String msg = Lang.fileConfig.getString("target-offline");
                                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
@@ -198,14 +220,20 @@ public class Spawn implements CommandExecutor {
                                 Back.location.put(target.getUniqueId(), target.getLocation());
                             }
                         }
-                        // Teleporting player to Location
-                        target.teleport(loc);
-                        // Sending the Sender and Target a message
-                        String msg = Lang.fileConfig.getString("spawn-teleport-target").replace("<target>", target.getName());
-                        Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
-                        String msg2 = Lang.fileConfig.getString("spawn-teleport-target-success");
-                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                        return true;
+                        if (loc.isWorldLoaded()){
+                            // Teleporting player to Location
+                            target.teleport(loc);
+                            // Sending the Sender and Target a message
+                            String msg = Lang.fileConfig.getString("spawn-teleport-target").replace("<target>", target.getName());
+                            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
+                            String msg2 = Lang.fileConfig.getString("spawn-teleport-target-success");
+                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                            return true;
+                        }else{
+                            String msg = Lang.fileConfig.getString("spawn-world-invalid");
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            return true;
+                        }
                     } else {
                         // Sends Message if Spawn Doesn't Exist
                         String msg = Lang.fileConfig.getString("spawn-invalid");
