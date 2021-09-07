@@ -38,12 +38,6 @@ public class Lang {
                 fileConfig.addDefault("back-blacklisted-world", "Cannot use Back Command in a Blacklisted World");
                 fileConfig.addDefault("clear-success", "Inventory cleared");
                 fileConfig.addDefault("clear-target-success", "<target>(s) inventory has been cleared");
-                fileConfig.addDefault("home-deletion-success", "Home <home> has been successfully deleted");
-                fileConfig.addDefault("home-not-found", "Home <home> doesn't exist");
-                fileConfig.addDefault("spawn-deletion-success", "Spawn Deleted");
-                fileConfig.addDefault("spawn-not-found", "Spawn doesn't exist");
-                fileConfig.addDefault("warp-deletion-success", "Warp <warp> has been successfully deleted");
-                fileConfig.addDefault("warp-not-found", "Warp <warp> doesn't exist");
                 fileConfig.addDefault("enderchest-target-is-sender", "Do /ec to access your own Enderchest");
                 fileConfig.addDefault("enderchest-open-success", "Opened <target>(s) Enderchest");
                 fileConfig.addDefault("feed-sender-message", "You have fed <target>");
@@ -71,6 +65,8 @@ public class Lang {
                 fileConfig.addDefault("heal-self", "You have healed yourself");
                 fileConfig.addDefault("heal-target", "You have healed <target>");
                 fileConfig.addDefault("heal-target-message", "You have been healed by <sender>");
+                fileConfig.addDefault("home-deletion-success", "Home <home> has been successfully deleted");
+                fileConfig.addDefault("home-not-found", "Home <home> doesn't exist");
                 fileConfig.addDefault("home-set-success", "Successfully set home location");
                 fileConfig.addDefault("home-blacklisted-world", "You cannot set a Home in a Blacklisted World");
                 fileConfig.addDefault("home-world-invalid", "World isn't loaded!");
@@ -114,6 +110,9 @@ public class Lang {
                 fileConfig.addDefault("repair-all-items", "Repaired all item(s)");
                 fileConfig.addDefault("report-self", "You cannot report yourself");
                 fileConfig.addDefault("report-successful", "Report sent successfully");
+                fileConfig.addDefault("spawn-deletion-success", "Spawn Deleted");
+                fileConfig.addDefault("spawn-not-found", "Spawn doesn't exist");
+                fileConfig.addDefault("spawn-world-invalid", "World isn't loaded!");
                 fileConfig.addDefault("spawn-set-successful", "Successfully set spawn location in <world>");
                 fileConfig.addDefault("spawn-successful", "Successfully teleported to Spawn");
                 fileConfig.addDefault("spawn-wait-message", "Teleporting to Spawn in <time> Seconds");
@@ -121,6 +120,8 @@ public class Lang {
                 fileConfig.addDefault("spawn-teleport-target-success", "You have been teleported to Spawn");
                 fileConfig.addDefault("spawn-invalid", "Spawn hasn't been set");
                 fileConfig.addDefault("spawn-movement-cancel", "Teleportation to Spawn cancelled due to Movement");
+                fileConfig.addDefault("warp-deletion-success", "Warp <warp> has been successfully deleted");
+                fileConfig.addDefault("warp-not-found", "Warp <warp> doesn't exist");
                 fileConfig.addDefault("warp-set-successful", "Successfully set Warp location");
                 fileConfig.addDefault("warp-blacklisted-world", "You cannot set a Warp in a Blacklisted World");
                 fileConfig.addDefault("warp-invalid", "Warp doesn't exist");
