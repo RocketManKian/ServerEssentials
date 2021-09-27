@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 1.73.2
+version: 1.73.3
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -42,7 +42,7 @@ commands:
     aliases: [delhome]
   teleport:
     description: Teleport Function
-    usage: Incorrect format! Please use /teleport (User) (Target)
+    usage: Incorrect format! Please use /teleport (User) (Target) or /teleport <x> <y> <z>
     aliases: [tp]
   tphere:
     description: Teleport Here Function
@@ -52,10 +52,6 @@ commands:
     description: Teleport Function
     usage: Incorrect format! Please use /tpall
     aliases: [tpall]
-  teleportpos:
-    description: Teleport Position Function
-    usage: Incorrect format! Please use /tppos (x) (y) (z)
-    aliases: [tppos]
   tpa:
     description: Teleport Request
     usage: Incorrect format! Please use /tpa (name)

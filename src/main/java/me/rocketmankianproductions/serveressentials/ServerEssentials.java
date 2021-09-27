@@ -136,8 +136,6 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("tphere").setExecutor(new TeleportHere());
         // TeleportAll Command
         getCommand("teleportall").setExecutor(new TeleportAll());
-        // TeleportPos Command
-        getCommand("teleportpos").setExecutor(new TeleportPos());
         // Main Teleport Request Command
         getCommand("tpa").setExecutor(new TeleportRequest());
         // Teleport Accept Command
