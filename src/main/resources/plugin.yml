@@ -273,7 +273,6 @@ permissions:
       se.tpall: true
       se.info: true
       se.silenttp: true
-      se.tppos: true
       se.sethome.unlimited: true
       se.tpa: true
       se.tpaccept: true
@@ -383,9 +382,6 @@ permissions:
     default: false
   se.silenttp:
     description: "SilentTP Command"
-    default: false
-  se.tppos:
-    description: "Teleport Pos Command"
     default: false
   se.sethome.unlimited:
     description: "Unlimited Sethome Command"
