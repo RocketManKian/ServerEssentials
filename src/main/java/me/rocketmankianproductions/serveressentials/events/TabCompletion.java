@@ -15,11 +15,43 @@ public class TabCompletion implements TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        if (command.getName().equalsIgnoreCase("warp")) { // checking if my command is the one i'm after
 
+        // SE Commands
+        if (command.getName().equalsIgnoreCase("se")) { // checking if my command is the one i'm after
             List<String> autoCompletes = new ArrayList<>(); //create a new string list for tab completion
-
             if (args.length == 1) { //only interested in the first sub command, if you wanted to cover more deeper sub commands, you could have multiple if statements or a switch statement
+                Player player = (Player) sender;
+                if (player.hasPermission("se.reload")){
+                    autoCompletes.add("reload");
+                }
+                if (player.hasPermission("se.version")){
+                    autoCompletes.add("version");
+                }
+                if (player.hasPermission("se.silentjoin")){
+                    autoCompletes.add("silentjoin");
+                }
+                return autoCompletes; // then return the list
+            }
+        }
+        // Test Commands
+        if (command.getName().equalsIgnoreCase("test")) { // checking if my command is the one i'm after
+            List<String> autoCompletes = new ArrayList<>(); //create a new string list for tab completion
+            if (args.length == 1) { //only interested in the first sub command, if you wanted to cover more deeper sub commands, you could have multiple if statements or a switch statement
+                Player player = (Player) sender;
+                if (player.hasPermission("se.test")){
+                    autoCompletes.add("join");
+                    autoCompletes.add("leave");
+                    autoCompletes.add("welcome");
+                    autoCompletes.add("permission");
+                    autoCompletes.add("motd");
+                }
+                return autoCompletes; // then return the list
+            }
+        }
+        // Warp Commands
+        if (command.getName().equalsIgnoreCase("warp")) {
+            List<String> autoCompletes = new ArrayList<>();
+            if (args.length == 1) {
                 Player player = (Player) sender;
                 if (Setwarp.fileConfig.getStringList("Warp.") != null){
                     ConfigurationSection warps = Setwarp.fileConfig.getConfigurationSection("Warp.");
@@ -33,9 +65,7 @@ public class TabCompletion implements TabCompleter {
             }
         }
         if (command.getName().equalsIgnoreCase("deletewarp") || command.getName().equalsIgnoreCase("delwarp")) { // checking if my command is the one i'm after
-
             List<String> autoCompletes = new ArrayList<>(); //create a new string list for tab completion
-
             if (args.length == 1) { //only interested in the first sub command, if you wanted to cover more deeper sub commands, you could have multiple if statements or a switch statement
                 Player player = (Player) sender;
                 if (Setwarp.fileConfig.getStringList("Warp.") != null){
@@ -49,9 +79,9 @@ public class TabCompletion implements TabCompleter {
                 return autoCompletes; // then return the list
             }
         }
+        // Home Commands
         if (command.getName().equalsIgnoreCase("home")){
             List<String> autoCompletes = new ArrayList<>();
-
             if (args.length == 1) {
                 Player player = (Player) sender;
                 if (Sethome.fileConfig.getStringList("Home." + player.getUniqueId()) != null){
@@ -67,7 +97,6 @@ public class TabCompletion implements TabCompleter {
         }
         if (command.getName().equalsIgnoreCase("deletehome") || command.getName().equalsIgnoreCase("delhome")){
             List<String> autoCompletes = new ArrayList<>();
-
             if (args.length == 1) {
                 Player player = (Player) sender;
                 if (Sethome.fileConfig.getStringList("Home." + player.getUniqueId()) != null){
@@ -78,9 +107,9 @@ public class TabCompletion implements TabCompleter {
                         }
                     }
                 }
-                return autoCompletes; // then return the list
+                return autoCompletes;
             }
         }
-        return null; // this will return nothing if it wasn't the disguise command I have
+        return null;
     }
 }
