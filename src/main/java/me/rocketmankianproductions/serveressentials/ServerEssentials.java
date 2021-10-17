@@ -110,6 +110,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("rules").setExecutor(new Rules());
         // SE Command
         getCommand("se").setExecutor(new SE());
+        getCommand("se").setTabCompleter(new TabCompletion());
         // Discord Command
         getCommand("discord").setExecutor(new Discord());
         // Website Command
@@ -210,6 +211,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("vanish").setExecutor(new Vanish());
         // Test Command
         getCommand("test").setExecutor(new Test());
+        getCommand("test").setTabCompleter(new TabCompletion());
         // Clear Command
         getCommand("clear").setExecutor(new Clear());
         // God Command

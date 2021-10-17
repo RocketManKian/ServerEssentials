@@ -145,108 +145,109 @@ public class TeleportRequest implements CommandExecutor {
             }
         }
         if (command.getName().equalsIgnoreCase("tpahere")) {
-            if (!player.hasPermission("se.tpahere") || !player.hasPermission("se.all")) {
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.tpahere");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                return true;
-            }
-            if (args.length == 1) {
-                Player target = Bukkit.getPlayer(args[0]);
-                Boolean blacklistedworld = ServerEssentials.plugin.getConfig().getBoolean("enable-teleport-blacklist");
-                if (target != null) {
-                    if (target != player) {
-                        if (blacklistedworld){
-                            for (String worlds : ServerEssentials.plugin.getConfig().getStringList("teleport-blacklist")){
-                                if (player.getWorld().getName().equalsIgnoreCase(worlds)){
-                                    String msg = Lang.fileConfig.getString("teleport-here-blacklisted-world");
+            if (player.hasPermission("se.tpahere") || player.hasPermission("se.all")) {
+                if (args.length == 1) {
+                    Player target = Bukkit.getPlayer(args[0]);
+                    Boolean blacklistedworld = ServerEssentials.plugin.getConfig().getBoolean("enable-teleport-blacklist");
+                    if (target != null) {
+                        if (target != player) {
+                            if (blacklistedworld){
+                                for (String worlds : ServerEssentials.plugin.getConfig().getStringList("teleport-blacklist")){
+                                    if (player.getWorld().getName().equalsIgnoreCase(worlds)){
+                                        String msg = Lang.fileConfig.getString("teleport-here-blacklisted-world");
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                        return true;
+                                    }
+                                }
+                                if (TPToggle.fileConfig.getBoolean("tptoggle." + target.getName(), false) == false) {
+                                    tpahere.put(target.getUniqueId(), player.getUniqueId());
+                                    String msg = Lang.fileConfig.getString("teleport-here-request-sent").replace("<target>", target.getName());
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    String msg2 = Lang.fileConfig.getString("teleport-here-request-cancel-warning");
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                                    String msg3 = Lang.fileConfig.getString("teleport-here-request-target-receive").replace("<sender>", player.getName());
+                                    target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
+                                    TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-here-request-accept")));
+                                    message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Accept Teleport Request")));
+                                    message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaccept"));
+                                    target.spigot().sendMessage(message);
+                                    TextComponent message2 = new TextComponent(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-here-request-deny")));
+                                    message2.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.RED + "Deny Teleport Request")));
+                                    message2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpdeny"));
+                                    target.spigot().sendMessage(message2);
+                                    String msg4 = Lang.fileConfig.getString("teleport-here-request-timeout-warning").replace("<time>", String.valueOf(delay3));
+                                    target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
+                                    if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
+                                        cancelTimeout(target);
+                                    }
+                                    teleportcancel.put(target.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
+                                        public void run() {
+                                            if (tpahere.containsKey(target.getUniqueId())) {
+                                                String msg = Lang.fileConfig.getString("teleport-here-request-timeout");
+                                                target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                tpahere.remove(target.getUniqueId());
+                                            }
+                                        }
+                                    }, delay2));
+                                    return true;
+                                } else {
+                                    String msg = Lang.fileConfig.getString("teleport-disabled");
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    return true;
+                                }
+                            }else{
+                                if (TPToggle.fileConfig.getBoolean("tptoggle." + target.getName(), false) == false) {
+                                    tpahere.put(target.getUniqueId(), player.getUniqueId());
+                                    String msg = Lang.fileConfig.getString("teleport-here-request-sent").replace("<target>", target.getName());
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    String msg2 = Lang.fileConfig.getString("teleport-here-request-cancel-warning");
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                                    String msg3 = Lang.fileConfig.getString("teleport-here-request-target-receive").replace("<sender>", player.getName());
+                                    target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
+                                    TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-here-request-accept")));
+                                    message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Accept Teleport Request")));
+                                    message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaccept"));
+                                    target.spigot().sendMessage(message);
+                                    TextComponent message2 = new TextComponent(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-here-request-deny")));
+                                    message2.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.RED + "Deny Teleport Request")));
+                                    message2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpdeny"));
+                                    target.spigot().sendMessage(message2);
+                                    String msg4 = Lang.fileConfig.getString("teleport-here-request-timeout-warning").replace("<time>", String.valueOf(delay3));
+                                    target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
+                                    if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
+                                        cancelTimeout(target);
+                                    }
+                                    teleportcancel.put(target.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
+                                        public void run() {
+                                            if (tpahere.containsKey(target.getUniqueId())) {
+                                                String msg = Lang.fileConfig.getString("teleport-here-request-timeout");
+                                                target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                tpahere.remove(target.getUniqueId());
+                                            }
+                                        }
+                                    }, delay2));
+                                    return true;
+                                } else {
+                                    String msg = Lang.fileConfig.getString("teleport-disabled");
                                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                     return true;
                                 }
                             }
-                            if (TPToggle.fileConfig.getBoolean("tptoggle." + target.getName(), false) == false) {
-                                tpahere.put(target.getUniqueId(), player.getUniqueId());
-                                String msg = Lang.fileConfig.getString("teleport-here-request-sent").replace("<target>", target.getName());
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                String msg2 = Lang.fileConfig.getString("teleport-here-request-cancel-warning");
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                String msg3 = Lang.fileConfig.getString("teleport-here-request-target-receive").replace("<sender>", player.getName());
-                                target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
-                                TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-here-request-accept")));
-                                message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Accept Teleport Request")));
-                                message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaccept"));
-                                target.spigot().sendMessage(message);
-                                TextComponent message2 = new TextComponent(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-here-request-deny")));
-                                message2.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.RED + "Deny Teleport Request")));
-                                message2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpdeny"));
-                                target.spigot().sendMessage(message2);
-                                String msg4 = Lang.fileConfig.getString("teleport-here-request-timeout-warning").replace("<time>", String.valueOf(delay3));
-                                target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
-                                if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
-                                    cancelTimeout(target);
-                                }
-                                teleportcancel.put(target.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
-                                    public void run() {
-                                        if (tpahere.containsKey(target.getUniqueId())) {
-                                            String msg = Lang.fileConfig.getString("teleport-here-request-timeout");
-                                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                            tpahere.remove(target.getUniqueId());
-                                        }
-                                    }
-                                }, delay2));
-                                return true;
-                            } else {
-                                String msg = Lang.fileConfig.getString("teleport-disabled");
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                return true;
-                            }
-                        }else{
-                            if (TPToggle.fileConfig.getBoolean("tptoggle." + target.getName(), false) == false) {
-                                tpahere.put(target.getUniqueId(), player.getUniqueId());
-                                String msg = Lang.fileConfig.getString("teleport-here-request-sent").replace("<target>", target.getName());
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                String msg2 = Lang.fileConfig.getString("teleport-here-request-cancel-warning");
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                String msg3 = Lang.fileConfig.getString("teleport-here-request-target-receive").replace("<sender>", player.getName());
-                                target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
-                                TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-here-request-accept")));
-                                message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Accept Teleport Request")));
-                                message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaccept"));
-                                target.spigot().sendMessage(message);
-                                TextComponent message2 = new TextComponent(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-here-request-deny")));
-                                message2.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.RED + "Deny Teleport Request")));
-                                message2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpdeny"));
-                                target.spigot().sendMessage(message2);
-                                String msg4 = Lang.fileConfig.getString("teleport-here-request-timeout-warning").replace("<time>", String.valueOf(delay3));
-                                target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
-                                if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
-                                    cancelTimeout(target);
-                                }
-                                teleportcancel.put(target.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
-                                    public void run() {
-                                        if (tpahere.containsKey(target.getUniqueId())) {
-                                            String msg = Lang.fileConfig.getString("teleport-here-request-timeout");
-                                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                            tpahere.remove(target.getUniqueId());
-                                        }
-                                    }
-                                }, delay2));
-                                return true;
-                            } else {
-                                String msg = Lang.fileConfig.getString("teleport-disabled");
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                return true;
-                            }
+                        } else {
+                            String msg = Lang.fileConfig.getString("teleport-self");
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            return true;
                         }
                     } else {
-                        String msg = Lang.fileConfig.getString("teleport-self");
+                        String msg = Lang.fileConfig.getString("target-offline");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
-                } else {
-                    String msg = Lang.fileConfig.getString("target-offline");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                    return true;
                 }
+            }else{
+                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.tpahere");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                return true;
             }
         }
         if (command.getName().equalsIgnoreCase("tpacancel")) {
@@ -255,8 +256,11 @@ public class TeleportRequest implements CommandExecutor {
                     String msg = Lang.fileConfig.getString("teleport-cancel");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     if (teleportcancel.containsKey(player.getUniqueId()) && teleportcancel.get(player.getUniqueId()) != null){
-                        Bukkit.getScheduler().cancelTask(teleportcancel.get(getKey(tpa, player.getUniqueId())));
-                        Bukkit.getScheduler().cancelTask(teleportcancel.get(getKey(tpahere, player.getUniqueId())));
+                        if (teleportcancel.get(getKey(tpa, player.getUniqueId())) != null){
+                            Bukkit.getScheduler().cancelTask(teleportcancel.get(getKey(tpa, player.getUniqueId())));
+                        }else if (teleportcancel.get(getKey(tpahere, player.getUniqueId())) != null){
+                            Bukkit.getScheduler().cancelTask(teleportcancel.get(getKey(tpahere, player.getUniqueId())));
+                        }
                     }
                     tpa.remove(getKey(tpa, player.getUniqueId()));
                     tpahere.remove(getKey(tpahere, player.getUniqueId()));
