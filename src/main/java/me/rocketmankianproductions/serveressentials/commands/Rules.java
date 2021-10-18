@@ -67,6 +67,12 @@ public class Rules implements CommandExecutor {
                 for (String rule : fileConfig.getStringList(configpath)) {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', rule));
                 }
+                if (!fileConfig.getStringList("Tips").isEmpty()){
+                    player.sendMessage(ChatColor.GREEN + "Tips:");
+                    for (String rule : fileConfig.getStringList("Tips")) {
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', rule));
+                    }
+                }
             } else {
                 String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.rules");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
