@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 1.73.6
+version: 1.73.7
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]

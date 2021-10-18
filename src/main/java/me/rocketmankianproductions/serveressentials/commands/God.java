@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,50 +22,69 @@ public class God implements CommandExecutor, Listener {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        Player player = (Player) sender;
-        if (player.hasPermission("se.god") || player.hasPermission("se.all")) {
-            if (args.length == 0) {
-                if (god_toggle.contains(player.getName())) {
-                    String msg = Lang.fileConfig.getString("god-disabled");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                    god_toggle.remove(player.getName());
-                    return true;
-                } else if (!god_toggle.contains(player.getName())) {
-                    String msg = Lang.fileConfig.getString("god-enabled");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                    god_toggle.add(player.getName());
-                    return true;
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
+            if (player.hasPermission("se.god") || player.hasPermission("se.all")) {
+                if (args.length == 0) {
+                    if (god_toggle.contains(player.getName())) {
+                        String msg = Lang.fileConfig.getString("god-disabled");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        god_toggle.remove(player.getName());
+                        return true;
+                    } else if (!god_toggle.contains(player.getName())) {
+                        String msg = Lang.fileConfig.getString("god-enabled");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        god_toggle.add(player.getName());
+                        return true;
+                    }
+                } else if (args.length == 1) {
+                    Player target = Bukkit.getPlayer(args[0]);
+                    if (target == sender) {
+                        String msg = Lang.fileConfig.getString("god-target-is-sender");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        return true;
+                    } else if (target == null) {
+                        String msg = Lang.fileConfig.getString("player-offline");
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        return true;
+                    } else if (god_toggle.contains(target.getName())) {
+                        String msg = Lang.fileConfig.getString("god-disabled-target").replace("<target>", target.getName());
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        String msg2 = Lang.fileConfig.getString("god-disabled");
+                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                        god_toggle.remove(target.getName());
+                        return true;
+                    } else if (!god_toggle.contains(target.getName())) {
+                        String msg = Lang.fileConfig.getString("god-enabled-target").replace("<target>", target.getName());
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        String msg2 = Lang.fileConfig.getString("god-enabled");
+                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                        god_toggle.add(target.getName());
+                        return true;
+                    }
                 }
-            } else if (args.length == 1) {
-                Player target = Bukkit.getPlayer(args[0]);
-                if (target == sender) {
-                    String msg = Lang.fileConfig.getString("god-target-is-sender");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                    return true;
-                } else if (target == null) {
-                    String msg = Lang.fileConfig.getString("player-offline");
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                    return true;
-                }else if (god_toggle.contains(target.getName())){
-                    String msg = Lang.fileConfig.getString("god-disabled-target").replace("<target>", target.getName());
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                    String msg2 = Lang.fileConfig.getString("god-disabled");
-                    target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                    god_toggle.remove(target.getName());
-                    return true;
-                }else if (!god_toggle.contains(target.getName())){
-                    String msg = Lang.fileConfig.getString("god-enabled-target").replace("<target>", target.getName());
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                    String msg2 = Lang.fileConfig.getString("god-enabled");
-                    target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                    god_toggle.add(target.getName());
-                    return true;
-                }
+            } else {
+                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.god");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                return true;
             }
-        }else{
-            String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.god");
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-            return true;
+        } else if (sender instanceof ConsoleCommandSender) {
+            Player target = Bukkit.getPlayer(args[0]);
+            if (god_toggle.contains(target.getName())) {
+                String msg = Lang.fileConfig.getString("god-disabled-target").replace("<target>", target.getName());
+                Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
+                String msg2 = Lang.fileConfig.getString("god-disabled");
+                target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                god_toggle.remove(target.getName());
+                return true;
+            } else if (!god_toggle.contains(target.getName())) {
+                String msg = Lang.fileConfig.getString("god-enabled-target").replace("<target>", target.getName());
+                Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
+                String msg2 = Lang.fileConfig.getString("god-enabled");
+                target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                god_toggle.add(target.getName());
+                return true;
+            }
         }
         return false;
     }

@@ -125,7 +125,7 @@ public class Gamemode implements CommandExecutor {
                         targetPlayer.setGameMode(GameMode.CREATIVE);
                         String msg = Lang.fileConfig.getString("gamemode-creative-self");
                         targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                        String msg2 = Lang.fileConfig.getString("gamemode-creative-target");
+                        String msg2 = Lang.fileConfig.getString("gamemode-creative-target").replace("<target>", targetPlayer.getName());
                         Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg2));
                         return true;
                     }
@@ -135,7 +135,7 @@ public class Gamemode implements CommandExecutor {
                         targetPlayer.setGameMode(GameMode.SURVIVAL);
                         String msg = Lang.fileConfig.getString("gamemode-survival-self");
                         targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                        String msg2 = Lang.fileConfig.getString("gamemode-survival-target");
+                        String msg2 = Lang.fileConfig.getString("gamemode-survival-target").replace("<target>", targetPlayer.getName());
                         Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg2));
                         return true;
                     }
@@ -145,7 +145,7 @@ public class Gamemode implements CommandExecutor {
                         targetPlayer.setGameMode(GameMode.SPECTATOR);
                         String msg = Lang.fileConfig.getString("gamemode-spectator-self");
                         targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                        String msg2 = Lang.fileConfig.getString("gamemode-spectator-target");
+                        String msg2 = Lang.fileConfig.getString("gamemode-spectator-target").replace("<target>", targetPlayer.getName());
                         Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg2));
                         return true;
                     }
@@ -155,7 +155,7 @@ public class Gamemode implements CommandExecutor {
                         targetPlayer.setGameMode(GameMode.ADVENTURE);
                         String msg = Lang.fileConfig.getString("gamemode-adventure-self");
                         targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                        String msg2 = Lang.fileConfig.getString("gamemode-adventure-target");
+                        String msg2 = Lang.fileConfig.getString("gamemode-adventure-target").replace("<target>", targetPlayer.getName());
                         Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg2));
                         return true;
                     }
