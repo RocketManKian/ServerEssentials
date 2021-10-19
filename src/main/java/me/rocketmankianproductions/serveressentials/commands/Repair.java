@@ -21,7 +21,15 @@ public class Repair implements CommandExecutor {
                     if (!player.getItemInHand().getType().equals(Material.AIR)) {
                         ItemStack item = player.getItemInHand();
                         short durability = item.getDurability();
-                        if (durability == 0) {
+                        if (item.getType().isBlock()){
+                            String msg = Lang.fileConfig.getString("repair-invalid-item");
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            return true;
+                        }else if (item.getType().isEdible()){
+                            String msg = Lang.fileConfig.getString("repair-invalid-item");
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            return true;
+                        }else if (durability == 0) {
                             String msg = Lang.fileConfig.getString("repair-durability-max");
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             return true;
@@ -45,7 +53,12 @@ public class Repair implements CommandExecutor {
                 if (args[0].equalsIgnoreCase("all")) {
                     for (int i = 0; i <= 36; i++) {
                         try {
-                            player.getInventory().getItem(i).setDurability((short) 0);
+                            if (!player.getInventory().getItem(i).getType().isBlock() && !player.getInventory().getItem(i).getType().isEdible()) {
+                                short durability = player.getInventory().getItem(i).getDurability();
+                                if (durability > 0){
+                                    player.getInventory().getItem(i).setDurability((short) 0);
+                                }
+                            }
                         } catch (Exception e) {
                             //bleh
                         }
@@ -59,8 +72,6 @@ public class Repair implements CommandExecutor {
                         player.getInventory().getChestplate().setDurability((short) 0);
                     } else if (player.getInventory().getHelmet() != null) {
                         player.getInventory().getHelmet().setDurability((short) 0);
-                    } else {
-                        // Bleh
                     }
                     String msg = Lang.fileConfig.getString("repair-all-items");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
