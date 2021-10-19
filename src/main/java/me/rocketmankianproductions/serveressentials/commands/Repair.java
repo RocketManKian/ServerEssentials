@@ -66,11 +66,11 @@ public class Repair implements CommandExecutor {
                     player.getInventory().getItemInOffHand().setDurability((short) 0);
                     if (player.getInventory().getBoots() != null) {
                         player.getInventory().getBoots().setDurability((short) 0);
-                    } else if (player.getInventory().getLeggings() != null) {
+                    } if (player.getInventory().getLeggings() != null) {
                         player.getInventory().getLeggings().setDurability((short) 0);
-                    } else if (player.getInventory().getChestplate() != null) {
+                    } if (player.getInventory().getChestplate() != null) {
                         player.getInventory().getChestplate().setDurability((short) 0);
-                    } else if (player.getInventory().getHelmet() != null) {
+                    } if (player.getInventory().getHelmet() != null) {
                         player.getInventory().getHelmet().setDurability((short) 0);
                     }
                     String msg = Lang.fileConfig.getString("repair-all-items");
