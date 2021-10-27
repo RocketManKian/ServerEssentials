@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 1.73.9
+version: 1.74.0
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -146,6 +146,7 @@ commands:
   repair:
     description: Repair Command
     usage: Incorrect format! Please use /repair
+    aliases: [fix]
   sunrise:
     description: Sunrise Command
     usage: Incorrect format! Please use /sunrise
