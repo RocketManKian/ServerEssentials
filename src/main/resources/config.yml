@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 1.73.9
+# This config was generated for version 1.74.0
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -207,6 +207,8 @@ warp-save: true
 spawn-save: true
 # Enable or Disable Saving Location upon Death
 death-save: true
+# Enable or Disable Saving Location upon changing World
+world-save: true
 # Enable Blacklisted World Feature for the Back Command
 # Default: False
 enable-back-blacklist: false
