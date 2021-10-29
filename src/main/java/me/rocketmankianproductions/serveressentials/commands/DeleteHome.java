@@ -19,7 +19,7 @@ public class DeleteHome implements CommandExecutor {
             if (args.length == 1) {
                 String name = player.getUniqueId().toString();
                 // Averaging out the whether the file exists or not by checking for value in one of the default saving points
-                if (Sethome.file.exists() && Sethome.fileConfig.getString("Home." + name + "." + args[0]) != null) {
+                if (Sethome.file.exists() && Sethome.fileConfig.getString("Home." + name + "." + args[0]) != null && !Sethome.fileConfig.getString("Home." + name).isEmpty()) {
                     Sethome.fileConfig.set("Home." + name + "." + args[0], null);
                     try {
                         Sethome.fileConfig.save(Sethome.file);
@@ -30,7 +30,7 @@ public class DeleteHome implements CommandExecutor {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 } else {
-                    String msg = Lang.fileConfig.getString("home-deletion-success").replace("<home>", args[0]);
+                    String msg = Lang.fileConfig.getString("home-invalid").replace("<home>", args[0]);
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }

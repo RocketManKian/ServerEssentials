@@ -1,7 +1,10 @@
 package me.rocketmankianproductions.serveressentials.events;
 
+import github.scarsz.discordsrv.DiscordSRV;
+import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.commands.SilentJoin;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
@@ -42,5 +45,15 @@ public class PlayerLeaveListener implements Listener {
         int seconds = rest / 20;
         // Vanish
         ServerEssentials.getPlugin().invisible_list.remove(player);
+        if (player.hasPermission("se.staffchat")){
+            String channel = ServerEssentials.getPlugin().getConfig().getString("staff-chat-channel-name");
+            TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName(channel);
+            if (textChannel != null && ServerEssentials.isConnectedToDiscordSRV && ServerEssentials.plugin.getConfig().getBoolean("enable-discord-integration")){
+                textChannel.sendMessage("**" + player.getName() + "**" + " has left the game").queue();
+                Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', "&d(&5&lStaff&d) ") + ChatColor.LIGHT_PURPLE + player.getName() + ChatColor.GRAY + " has left the game", "se.staffchat");
+            }else{
+                Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', "&d(&5&lStaff&d) ") + ChatColor.LIGHT_PURPLE + player.getName() + ChatColor.GRAY + " has left the game", "se.staffchat");
+            }
+        }
     }
 }

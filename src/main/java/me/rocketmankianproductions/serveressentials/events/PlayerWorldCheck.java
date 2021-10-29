@@ -14,8 +14,6 @@ public class PlayerWorldCheck implements Listener {
 
     @EventHandler
     public void onPlayerWorldChange (PlayerTeleportEvent w){
-        System.out.println(w.getFrom().getWorld());
-        System.out.println(w.getTo().getWorld());
         if (w.getFrom().getWorld() != w.getTo().getWorld()){
             Player player = w.getPlayer();
             double x = w.getFrom().getX();
