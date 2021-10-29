@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 1.74.0
+# This config was generated for version 1.74.1
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -86,13 +86,17 @@ motd-message:
 ############################################################
 # Enable Discord Integration for the Report and Staff Chat Commands
 enable-discord-integration: false
+# Change the name of the Discord Channel where staff chat messages are sent.
+# This name will have to be entered into the DiscordSRV config.yml File.
+# ["staff-chat": "000000000000000000"] as an example.
+staff-chat-channel-name: staff-chat
 # Change the name of the Discord Channel where report notifications are sent.
 # This name will have to be entered into the DiscordSRV config.yml File.
-# ["report-logs": "000000000000000000"] as an example.
+# ["report-user": "000000000000000000"] as an example.
 report-user-channel-name: report-user
 # Change the name of the Discord Channel where report notifications are sent.
 # This name will have to be entered into the DiscordSRV config.yml File.
-# ["report-logs": "000000000000000000"] as an example.
+# ["report-bug": "000000000000000000"] as an example.
 report-bug-channel-name: report-bug
 # Adds a message that is pasted before the Report Command Embed Message is sent
 # Useful for pinging a group with all Staff Members inside when a Report is sent

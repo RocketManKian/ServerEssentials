@@ -172,7 +172,7 @@ public class Warp implements CommandExecutor {
                             return true;
                         }
                     } else {
-                        String msg = Lang.fileConfig.getString("warp-invalid");
+                        String msg = Lang.fileConfig.getString("warp-not-found").replace("<warp>", args[0]);
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
@@ -324,7 +324,7 @@ public class Warp implements CommandExecutor {
                         return true;
                     }
                 } else {
-                    String msg = Lang.fileConfig.getString("warp-invalid");
+                    String msg = Lang.fileConfig.getString("warp-not-found").replace("<warp>", args[0]);
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }

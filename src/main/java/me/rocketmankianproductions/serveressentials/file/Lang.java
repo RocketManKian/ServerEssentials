@@ -66,7 +66,6 @@ public class Lang {
                 fileConfig.addDefault("heal-target", "You have healed <target>");
                 fileConfig.addDefault("heal-target-message", "You have been healed by <sender>");
                 fileConfig.addDefault("home-deletion-success", "Home <home> has been successfully deleted");
-                fileConfig.addDefault("home-not-found", "Home <home> doesn't exist");
                 fileConfig.addDefault("home-set-success", "Successfully set home location");
                 fileConfig.addDefault("home-blacklisted-world", "You cannot set a Home in a Blacklisted World");
                 fileConfig.addDefault("home-world-invalid", "World isn't loaded!");
@@ -83,7 +82,6 @@ public class Lang {
                 fileConfig.addDefault("no-homes-set-target", "<target> hasn't set any Homes");
                 fileConfig.addDefault("home-gui-error", "GUI Size is too small, increase the value in Config!");
                 fileConfig.addDefault("home-teleport-target", "You have been teleported to <target>(s) home");
-                fileConfig.addDefault("home-deleted", "Home <home> has been successfully deleted");
                 fileConfig.addDefault("sendhome-target", "You have been teleported to your home");
                 fileConfig.addDefault("sendhome-player", "Teleported <target> to their home");
                 fileConfig.addDefault("home-movement-cancel", "Teleportation to Home cancelled due to Movement");
@@ -124,7 +122,6 @@ public class Lang {
                 fileConfig.addDefault("warp-not-found", "Warp <warp> doesn't exist");
                 fileConfig.addDefault("warp-set-successful", "Successfully set Warp location");
                 fileConfig.addDefault("warp-blacklisted-world", "You cannot set a Warp in a Blacklisted World");
-                fileConfig.addDefault("warp-invalid", "Warp doesn't exist");
                 fileConfig.addDefault("warp-world-invalid", "World isn't loaded!");
                 fileConfig.addDefault("warp-subtitle", "Warped to <warp>");
                 fileConfig.addDefault("warp-message", "Successfully warped to <warp>");
@@ -135,7 +132,6 @@ public class Lang {
                 fileConfig.addDefault("no-warps-set", "No Warps have been set");
                 fileConfig.addDefault("warp-gui-invalid", "GUI Size is too small, increase the value in Config");
                 fileConfig.addDefault("warp-file-error", "warp.yml file is empty or null");
-                fileConfig.addDefault("warp-deleted", "Warp <warp> has been successfully deleted");
                 fileConfig.addDefault("sendwarp-target", "Successfully warped to <warp>");
                 fileConfig.addDefault("sendwarp-player", "Successfully sent <target> to <warp>");
                 fileConfig.addDefault("warp-movement-cancel", "Warping cancelled due to Movement");

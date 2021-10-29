@@ -99,7 +99,7 @@ public class TabCompletion implements TabCompleter {
             List<String> autoCompletes = new ArrayList<>();
             if (args.length == 1) {
                 Player player = (Player) sender;
-                if (Sethome.fileConfig.getStringList("Home." + player.getUniqueId()) != null){
+                if (Sethome.fileConfig.getStringList("Home." + player.getUniqueId()) != null && !Sethome.fileConfig.getString("Home." + player.getUniqueId()).isEmpty()){
                     ConfigurationSection home = Sethome.fileConfig.getConfigurationSection("Home." + player.getUniqueId());
                     for (String playerhomes: home.getKeys(false)){
                         if (player.hasPermission("se.deletehome")){

@@ -20,18 +20,19 @@ public class PlayerChatEvent implements Listener {
     public void onChat(AsyncPlayerChatEvent c) {
         Player player = c.getPlayer();
         if (StaffChat.staffchat.contains(player)) {
-            String message = c.getMessage();
+            String scmessage = c.getMessage();
             if (ServerEssentials.isConnectedToDiscordSRV && ServerEssentials.getPlugin().getConfig().getBoolean("enable-discord-integration") == true) {
-                TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName("staff-chat");
+                String channel = ServerEssentials.getPlugin().getConfig().getString("staff-chat-channel-name");
+                TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName(channel);
                 if (textChannel != null) {
                     String player1 = player.getDisplayName();
                     player1 = ChatColor.stripColor(player1);
-                    textChannel.sendMessage("**" + player1 + "** » " + message).queue();
-                    Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', "&d(&5&lStaff&d) ") + ChatColor.LIGHT_PURPLE + player.getName() + ": " + ChatColor.GRAY + message, "se.staffchat");
+                    textChannel.sendMessage("**" + player1 + "** » " + scmessage).queue();
+                    Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', "&d(&5&lStaff&d) ") + ChatColor.LIGHT_PURPLE + player.getName() + ": " + ChatColor.GRAY + scmessage, "se.staffchat");
                     c.setCancelled(true);
                 }
             } else {
-                Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', "&d(&5&lStaff&d) ") + ChatColor.LIGHT_PURPLE + player.getName() + ": " + ChatColor.GRAY + message, "se.staffchat");
+                Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', "&d(&5&lStaff&d) ") + ChatColor.LIGHT_PURPLE + player.getName() + ": " + ChatColor.GRAY + scmessage, "se.staffchat");
                 c.setCancelled(true);
             }
         }

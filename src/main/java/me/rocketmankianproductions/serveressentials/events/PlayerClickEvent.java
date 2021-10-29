@@ -42,7 +42,7 @@ public class PlayerClickEvent implements Listener {
                         } catch (IOException i) {
                             i.printStackTrace();
                         }
-                        String msg = Lang.fileConfig.getString("warp-deleted").replace("<warp>", warp);
+                        String msg = Lang.fileConfig.getString("warp-deletion-success").replace("<warp>", warp);
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         player.closeInventory();
                     }
@@ -206,7 +206,7 @@ public class PlayerClickEvent implements Listener {
                             } catch (IOException i) {
                                 i.printStackTrace();
                             }
-                            String msg = Lang.fileConfig.getString("home-deleted").replace("<home>", home);
+                            String msg = Lang.fileConfig.getString("home-deletion-success").replace("<home>", home);
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             player.closeInventory();
                         } else {
@@ -216,7 +216,7 @@ public class PlayerClickEvent implements Listener {
                             } catch (IOException i) {
                                 i.printStackTrace();
                             }
-                            String msg = Lang.fileConfig.getString("home-deleted").replace("<home>", home);
+                            String msg = Lang.fileConfig.getString("home-deletion-success").replace("<home>", home);
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             player.closeInventory();
                         }

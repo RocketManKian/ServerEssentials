@@ -1,5 +1,7 @@
 package me.rocketmankianproductions.serveressentials.events;
 
+import github.scarsz.discordsrv.DiscordSRV;
+import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.UpdateChecker.Update;
@@ -86,6 +88,17 @@ public class PlayerJoinListener implements Listener {
             loc = new Location(Bukkit.getWorld(Setspawn.fileConfig.getString("Location.World")), Setspawn.fileConfig.getDouble("Location.X"), Setspawn.fileConfig.getDouble("Location.Y"), Setspawn.fileConfig.getDouble("Location.Z"), yaw, pitch);
             // Teleporting player to location
             player.teleport(loc);
+        }
+
+        if (player.hasPermission("se.staffchat")){
+            String channel = ServerEssentials.getPlugin().getConfig().getString("staff-chat-channel-name");
+            TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName(channel);
+            if (textChannel != null && ServerEssentials.isConnectedToDiscordSRV && ServerEssentials.plugin.getConfig().getBoolean("enable-discord-integration")){
+                textChannel.sendMessage("**" + player.getName() + "**" + " has joined the game").queue();
+                Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', "&d(&5&lStaff&d) ") + ChatColor.LIGHT_PURPLE + player.getName() + ChatColor.GRAY + " has joined the game", "se.staffchat");
+            }else{
+                Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', "&d(&5&lStaff&d) ") + ChatColor.LIGHT_PURPLE + player.getName() + ChatColor.GRAY + " has joined the game", "se.staffchat");
+            }
         }
 
         if (player.hasPermission("se.vanish")) {

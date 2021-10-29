@@ -39,7 +39,8 @@ public class StaffChat implements CommandExecutor {
                 }else if (args.length >= 1){
                     String myArgs = String.join(" ", args);
                     String playername = ChatColor.stripColor(player.getDisplayName());
-                    TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName("staff-chat");
+                    String channel = ServerEssentials.getPlugin().getConfig().getString("staff-chat-channel-name");
+                    TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName(channel);
                     if (textChannel != null && ServerEssentials.isConnectedToDiscordSRV && ServerEssentials.plugin.getConfig().getBoolean("enable-discord-integration")){
                         textChannel.sendMessage("**" + playername + "** » " + myArgs).queue();
                         Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', "&d(&5&lStaff&d) ") + ChatColor.LIGHT_PURPLE + player.getName() + ": " + ChatColor.GRAY + myArgs, "se.staffchat");
@@ -57,7 +58,8 @@ public class StaffChat implements CommandExecutor {
         }else if (sender instanceof ConsoleCommandSender){
             if (args.length >= 1){
                 String myArgs = String.join(" ", args);
-                TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName("staff-chat");
+                String channel = ServerEssentials.getPlugin().getConfig().getString("staff-chat-channel-name");
+                TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName(channel);
                 if (textChannel != null && ServerEssentials.isConnectedToDiscordSRV && ServerEssentials.plugin.getConfig().getBoolean("enable-discord-integration")){
                     textChannel.sendMessage("**" + "Console" + "** » " + myArgs).queue();
                     Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', "&d(&5&lStaff&d) ") + ChatColor.LIGHT_PURPLE + "Console" + ": " + ChatColor.GRAY + myArgs, "se.staffchat");
