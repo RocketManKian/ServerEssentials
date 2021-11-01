@@ -2,14 +2,11 @@ package me.rocketmankianproductions.serveressentials.tasks;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
-import me.rocketmankianproductions.serveressentials.commands.Message;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -30,7 +27,7 @@ public class Broadcast extends BukkitRunnable {
     public void run() {
         if (config.getBoolean("broadcast")) {
             Integer minplayers = ServerEssentials.getPlugin().getConfig().getInt("broadcast-min-players");
-            if (Bukkit.getOnlinePlayers().size() == minplayers){
+            if (Bukkit.getOnlinePlayers().size() >= minplayers){
                 String prefix = plugin.getConfig().getString("prefix");
                 List<String> messages = (plugin.getConfig().getStringList("broadcast-messages"));
                 if (ServerEssentials.isConnectedToPlaceholderAPI) {

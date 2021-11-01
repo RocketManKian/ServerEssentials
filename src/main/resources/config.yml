@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 1.74.1
+# This config was generated for version 1.74.2
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -46,6 +46,12 @@ spawn-on-death: false
 remove-effects-on-heal: false
 # Vanish On Join
 vanish-on-join: false
+# Enter a name in between the quotations to enable or leave empty to disable
+# This will be used to send a message in the 'staff-chat-channel-name' on Discord
+# By changing the message from "x joined the game" -> "x join the b Server" as an example
+# B = server-name
+# Useful for Bungeecord Servers and allowing the use of one Discord channel without confusion
+server-name: ""
 ############################################################
 # +------------------------------------------------------+ #
 # +              Server Essentials (Broadcast)           + #
