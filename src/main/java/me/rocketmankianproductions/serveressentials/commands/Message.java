@@ -4,10 +4,7 @@ import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -90,7 +87,7 @@ public class Message implements CommandExecutor {
                 messager.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                 return true;
             }
-        }else if (sender instanceof ConsoleCommandSender){
+        }else if (sender instanceof ConsoleCommandSender || sender instanceof BlockCommandSender){
             String sm = "";
             if (args.length <= 1) {
                 Bukkit.getLogger().info(ChatColor.RED + "Usage: msg <player> <message>");
