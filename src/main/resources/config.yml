@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 1.74.5
+# This config was generated for version 1.74.6
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -194,6 +194,9 @@ enable-teleport-blacklist: false
 # Blacklist Worlds where Player's cannot teleport to other Players
 teleport-blacklist:
   - world
+# Enable Teleporting in Blacklisted World if both players are in the world
+# Default: False
+enable-teleport-in-world: false
 # How long until Teleport Requests Timeout (in Seconds)
 teleport-cancel: 30
 # Enable or Disable the ability to stop Teleportation when the Player Moves
@@ -202,6 +205,8 @@ teleport-movement-cancel: true
 # How many Seconds the Player has to wait before they are teleported to someone
 # Set to '0' to Disable
 teleport-wait: 5
+# How long Players have to wait until they can use the Teleport Command again
+tp-cooldown: 30
 ############################################################
 # +------------------------------------------------------+ #
 # +              Server Essentials (Back)                + #
