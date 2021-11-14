@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 1.74.5
+version: 1.74.6
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -324,6 +324,7 @@ permissions:
       se.trash: true
       se.back: true
       se.back.bypass: true
+      se.teleport.bypass: true
   se.reload:
     description: "Gives access to the /se reload command."
     default: false
@@ -533,4 +534,7 @@ permissions:
     default: false
   se.back.bypass:
     description: "Back Bypass Permission"
+    default: false
+  se.teleport.bypass:
+    description: "Teleport Bypass Permission"
     default: false
