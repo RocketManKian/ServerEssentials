@@ -220,6 +220,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("hat").setExecutor(new Hat());
         // Send Home Command
         getCommand("sendhome").setExecutor(new SendHome());
+        getCommand("sendhome").setTabCompleter(new TabCompletion());
         // List Home Command
         getCommand("listhomes").setExecutor(new ListHomes());
         // TPA Cancel Command
@@ -230,6 +231,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("lore").setExecutor(new Lore());
         // Speed Command
         getCommand("speed").setExecutor(new Speed());
+        getCommand("speed").setTabCompleter(new TabCompletion());
         // Report Command
         getCommand("report").setExecutor(new Report());
         // Report Bug Command
@@ -238,6 +240,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("clearchat").setExecutor(new ClearChat());
         // Send Warp Command
         getCommand("sendwarp").setExecutor(new SendWarp());
+        getCommand("sendwarp").setTabCompleter(new TabCompletion());
         // Social Spy Command
         getCommand("socialspy").setExecutor(new SocialSpy());
         // Staff Chat Command
