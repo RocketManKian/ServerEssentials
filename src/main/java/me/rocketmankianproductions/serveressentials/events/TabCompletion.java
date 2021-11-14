@@ -70,9 +70,11 @@ public class TabCompletion implements TabCompleter {
                 Player player = (Player) sender;
                 if (Setwarp.fileConfig.getStringList("Warp.") != null){
                     ConfigurationSection warps = Setwarp.fileConfig.getConfigurationSection("Warp.");
-                    for (String warp: warps.getKeys(false)){
-                        if (player.hasPermission("se.warps." + warp)){
-                            autoCompletes.add(warp);
+                    if (warps != null){
+                        for (String warp: warps.getKeys(false)){
+                            if (player.hasPermission("se.warps." + warp)){
+                                autoCompletes.add(warp);
+                            }
                         }
                     }
                 }
@@ -86,9 +88,11 @@ public class TabCompletion implements TabCompleter {
                 Player player = (Player) sender;
                 if (Setwarp.fileConfig.getStringList("Warp.") != null){
                     ConfigurationSection warps = Setwarp.fileConfig.getConfigurationSection("Warp.");
-                    for (String warp: warps.getKeys(false)){
-                        if (player.hasPermission("se.warps." + warp) && player.hasPermission("se.sendwarp")){
-                            autoCompletes.add(warp);
+                    if (warps != null){
+                        for (String warp: warps.getKeys(false)){
+                            if (player.hasPermission("se.warps." + warp) && player.hasPermission("se.sendwarp")){
+                                autoCompletes.add(warp);
+                            }
                         }
                     }
                 }
@@ -101,9 +105,11 @@ public class TabCompletion implements TabCompleter {
                 Player player = (Player) sender;
                 if (Setwarp.fileConfig.getStringList("Warp.") != null){
                     ConfigurationSection warps = Setwarp.fileConfig.getConfigurationSection("Warp.");
-                    for (String warp: warps.getKeys(false)){
-                        if (player.hasPermission("se.deletewarp")){
-                            autoCompletes.add(warp);
+                    if (warps != null){
+                        for (String warp: warps.getKeys(false)){
+                            if (player.hasPermission("se.deletewarp")){
+                                autoCompletes.add(warp);
+                            }
                         }
                     }
                 }
@@ -156,9 +162,11 @@ public class TabCompletion implements TabCompleter {
                 Player player = (Player) sender;
                 if (Sethome.fileConfig.getStringList("Home." + player.getUniqueId()) != null && !Sethome.fileConfig.getString("Home." + player.getUniqueId()).isEmpty()){
                     ConfigurationSection home = Sethome.fileConfig.getConfigurationSection("Home." + player.getUniqueId());
-                    for (String playerhomes: home.getKeys(false)){
-                        if (player.hasPermission("se.deletehome")){
-                            autoCompletes.add(playerhomes);
+                    if (home != null){
+                        for (String playerhomes: home.getKeys(false)){
+                            if (player.hasPermission("se.deletehome")){
+                                autoCompletes.add(playerhomes);
+                            }
                         }
                     }
                 }
