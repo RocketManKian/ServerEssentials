@@ -314,6 +314,7 @@ permissions:
       se.rename: true
       se.lore: true
       se.speed: true
+      se.speed.others: true
       se.report: true
       se.reportnotification: true
       se.clearchat: true
@@ -501,6 +502,9 @@ permissions:
     default: false
   se.speed:
     description: "Speed Command"
+    default: false
+  se.speed.others:
+    description: "Speed Others Command"
     default: false
   se.report:
     description: "Report User and Report Bug Commands"

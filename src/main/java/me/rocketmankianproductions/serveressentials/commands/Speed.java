@@ -85,7 +85,7 @@ public class Speed implements CommandExecutor {
                         String msg = Lang.fileConfig.getString("speed-fly-success").replace("<speed>", String.valueOf((float)speed));
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
-                    }else if (args[0].equalsIgnoreCase("reset")){
+                    }else if (args[0].equalsIgnoreCase("reset") && player.hasPermission("se.speed.others")){
                         Player target = Bukkit.getPlayer(args[1]);
                         String targetname = target.getName();
                         target.setFlySpeed((float)0.1);
@@ -97,7 +97,7 @@ public class Speed implements CommandExecutor {
                         return true;
                     }
                 }else if (args.length == 3){
-                    if (args[0].equalsIgnoreCase("walk")){
+                    if (args[0].equalsIgnoreCase("walk") && player.hasPermission("se.speed.others")){
                         Player target = Bukkit.getPlayer(args[1]);
                         String targetname = target.getName();
                         int speed;
@@ -119,7 +119,7 @@ public class Speed implements CommandExecutor {
                         String msg2 = Lang.fileConfig.getString("speed-walk-success").replace("<speed>", String.valueOf((float)speed));
                         target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                         return true;
-                    }else if (args[0].equalsIgnoreCase("fly")){
+                    }else if (args[0].equalsIgnoreCase("fly") && player.hasPermission("se.speed.others")){
                         Player target = Bukkit.getPlayer(args[1]);
                         String targetname = target.getName();
                         int speed;
@@ -140,6 +140,10 @@ public class Speed implements CommandExecutor {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         String msg2 = Lang.fileConfig.getString("speed-fly-success").replace("<speed>", String.valueOf((float)speed));
                         target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                        return true;
+                    }else{
+                        String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.speed.others");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                         return true;
                     }
                 }
