@@ -1,6 +1,7 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.file.Lang;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -18,7 +19,7 @@ public class Hat implements CommandExecutor {
             if (args.length == 0) {
                 if (player.hasPermission("se.hat") || player.hasPermission("se.all")) {
                     if (!player.getItemInHand().getType().equals(Material.AIR)) {
-                        String msg = Lang.fileConfig.getString("hat-success");
+                        String msg = Lang.fileConfig.getString("hat-success").replace("<hat>", player.getItemInHand().getType().name());
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         hatCommand(player);
                         return true;
