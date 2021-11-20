@@ -140,9 +140,12 @@ public class Lang {
                 fileConfig.addDefault("socialspy-enabled", "SocialSpy has been Enabled");
                 fileConfig.addDefault("socialspy-disabled", "SocialSpy has been Disabled");
                 fileConfig.addDefault("speed-invalid-number", "Please provide a speed from 1-10");
-                fileConfig.addDefault("speed-fly-success", "Set flying speed to <speed>");
-                fileConfig.addDefault("speed-walk-success", "Set walking speed to <speed>");
-                fileConfig.addDefault("speed-reset-success", "Successfully reset Fly and Walk Speed");
+                fileConfig.addDefault("speed-fly-success", "Flying speed is now <speed>");
+                fileConfig.addDefault("speed-walk-success", "Walking speed is now <speed>");
+                fileConfig.addDefault("speed-reset-success", "Fly and Walk Speed is now reset");
+                fileConfig.addDefault("speed-fly-success-target", "Set flying speed to <speed> for <target>");
+                fileConfig.addDefault("speed-walk-success-target", "Set walking speed to <speed> for <target>");
+                fileConfig.addDefault("speed-reset-success-target", "Successfully reset Fly and Walk Speed for <target>");
                 fileConfig.addDefault("staffchat-enabled", "StaffChat has been Enabled");
                 fileConfig.addDefault("staffchat-disabled", "StaffChat has been Disabled");
                 fileConfig.addDefault("teleport-self", "You cannot teleport to yourself");
