@@ -27,7 +27,9 @@ public class Vanish implements CommandExecutor {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     }else if(!ServerEssentials.getPlugin().invisible_list.contains(player)){
                         for (Player people : Bukkit.getOnlinePlayers()){
-                            people.hidePlayer(ServerEssentials.getPlugin(), player);
+                            if (!people.hasPermission("se.vanish")){
+                                people.hidePlayer(ServerEssentials.getPlugin(), player);
+                            }
                         }
                         ServerEssentials.getPlugin().invisible_list.add(player);
                         String msg = Lang.fileConfig.getString("vanish-enabled");
@@ -54,7 +56,9 @@ public class Vanish implements CommandExecutor {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                     } else if (!ServerEssentials.getPlugin().invisible_list.contains(target)){
                         for (Player people : Bukkit.getOnlinePlayers()){
-                            people.hidePlayer(ServerEssentials.getPlugin(), target);
+                            if (!people.hasPermission("se.vanish")){
+                                people.hidePlayer(ServerEssentials.getPlugin(), target);
+                            }
                         }
                         ServerEssentials.getPlugin().invisible_list.add(target);
                         String msg = Lang.fileConfig.getString("vanish-enabled");
