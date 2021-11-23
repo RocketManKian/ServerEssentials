@@ -31,7 +31,6 @@ public class Convert implements CommandExecutor {
                             if (amount >= 9) {
                                 int blocks = amount / 9;
                                 int remainder = amount % blocks;
-                                player.sendMessage(String.valueOf(remainder));
                                 ItemStack item = new ItemStack(Material.NETHERITE_BLOCK);
                                 item.setAmount(blocks);
                                 ItemStack item2 = new ItemStack(Material.NETHERITE_INGOT);
@@ -51,7 +50,6 @@ public class Convert implements CommandExecutor {
                             if (amount >= 9) {
                                 int blocks = amount / 9;
                                 int remainder = amount % blocks;
-                                player.sendMessage(String.valueOf(remainder));
                                 ItemStack item = new ItemStack(Material.DIAMOND_BLOCK);
                                 item.setAmount(blocks);
                                 ItemStack item2 = new ItemStack(Material.DIAMOND);
@@ -71,7 +69,6 @@ public class Convert implements CommandExecutor {
                             if (amount >= 9) {
                                 int blocks = amount / 9;
                                 int remainder = amount % blocks;
-                                player.sendMessage(String.valueOf(remainder));
                                 ItemStack item = new ItemStack(Material.EMERALD_BLOCK);
                                 item.setAmount(blocks);
                                 ItemStack item2 = new ItemStack(Material.EMERALD);
@@ -91,7 +88,6 @@ public class Convert implements CommandExecutor {
                             if (amount >= 9) {
                                 int blocks = amount / 9;
                                 int remainder = amount % blocks;
-                                player.sendMessage(String.valueOf(remainder));
                                 ItemStack item = new ItemStack(Material.REDSTONE_BLOCK);
                                 item.setAmount(blocks);
                                 ItemStack item2 = new ItemStack(Material.REDSTONE);
@@ -111,7 +107,6 @@ public class Convert implements CommandExecutor {
                             if (amount >= 9) {
                                 int blocks = amount / 9;
                                 int remainder = amount % blocks;
-                                player.sendMessage(String.valueOf(remainder));
                                 ItemStack item = new ItemStack(Material.LAPIS_BLOCK);
                                 item.setAmount(blocks);
                                 ItemStack item2 = new ItemStack(Material.LAPIS_LAZULI);
@@ -131,7 +126,6 @@ public class Convert implements CommandExecutor {
                             if (amount >= 9) {
                                 int blocks = amount / 9;
                                 int remainder = amount % blocks;
-                                player.sendMessage(String.valueOf(remainder));
                                 ItemStack item = new ItemStack(Material.COAL_BLOCK);
                                 item.setAmount(blocks);
                                 ItemStack item2 = new ItemStack(Material.COAL);
@@ -151,7 +145,6 @@ public class Convert implements CommandExecutor {
                             if (amount >= 9) {
                                 int blocks = amount / 9;
                                 int remainder = amount % blocks;
-                                player.sendMessage(String.valueOf(remainder));
                                 ItemStack item = new ItemStack(Material.RAW_GOLD_BLOCK);
                                 item.setAmount(blocks);
                                 ItemStack item2 = new ItemStack(Material.RAW_GOLD);
@@ -171,7 +164,6 @@ public class Convert implements CommandExecutor {
                             if (amount >= 9) {
                                 int blocks = amount / 9;
                                 int remainder = amount % blocks;
-                                player.sendMessage(String.valueOf(remainder));
                                 ItemStack item = new ItemStack(Material.GOLD_BLOCK);
                                 item.setAmount(blocks);
                                 ItemStack item2 = new ItemStack(Material.GOLD_INGOT);
@@ -191,7 +183,6 @@ public class Convert implements CommandExecutor {
                             if (amount >= 9) {
                                 int blocks = amount / 9;
                                 int remainder = amount % blocks;
-                                player.sendMessage(String.valueOf(remainder));
                                 ItemStack item = new ItemStack(Material.RAW_IRON_BLOCK);
                                 item.setAmount(blocks);
                                 ItemStack item2 = new ItemStack(Material.RAW_IRON);
@@ -211,7 +202,6 @@ public class Convert implements CommandExecutor {
                             if (amount >= 9) {
                                 int blocks = amount / 9;
                                 int remainder = amount % blocks;
-                                player.sendMessage(String.valueOf(remainder));
                                 ItemStack item = new ItemStack(Material.IRON_BLOCK);
                                 item.setAmount(blocks);
                                 ItemStack item2 = new ItemStack(Material.IRON_INGOT);
@@ -231,7 +221,6 @@ public class Convert implements CommandExecutor {
                             if (amount >= 9) {
                                 int blocks = amount / 9;
                                 int remainder = amount % blocks;
-                                player.sendMessage(String.valueOf(remainder));
                                 ItemStack item = new ItemStack(Material.RAW_COPPER_BLOCK);
                                 item.setAmount(blocks);
                                 ItemStack item2 = new ItemStack(Material.RAW_COPPER);
@@ -251,7 +240,6 @@ public class Convert implements CommandExecutor {
                             if (amount >= 9) {
                                 int blocks = amount / 9;
                                 int remainder = amount % blocks;
-                                player.sendMessage(String.valueOf(remainder));
                                 ItemStack item = new ItemStack(Material.COPPER_BLOCK);
                                 item.setAmount(blocks);
                                 ItemStack item2 = new ItemStack(Material.COPPER_INGOT);
@@ -271,7 +259,6 @@ public class Convert implements CommandExecutor {
                             if (amount >= 4) {
                                 int blocks = amount / 4;
                                 int remainder = amount % blocks;
-                                player.sendMessage(String.valueOf(remainder));
                                 ItemStack item = new ItemStack(Material.CLAY);
                                 item.setAmount(blocks);
                                 ItemStack item2 = new ItemStack(Material.CLAY_BALL);
@@ -291,7 +278,6 @@ public class Convert implements CommandExecutor {
                             if (amount >= 9) {
                                 int blocks = amount / 9;
                                 int remainder = amount % blocks;
-                                player.sendMessage(String.valueOf(remainder));
                                 ItemStack item = new ItemStack(Material.HAY_BLOCK);
                                 item.setAmount(blocks);
                                 ItemStack item2 = new ItemStack(Material.WHEAT);
@@ -311,7 +297,6 @@ public class Convert implements CommandExecutor {
                             if (amount >= 9) {
                                 int blocks = amount / 9;
                                 int remainder = amount % blocks;
-                                player.sendMessage(String.valueOf(remainder));
                                 ItemStack item = new ItemStack(Material.BONE_BLOCK);
                                 item.setAmount(blocks);
                                 ItemStack item2 = new ItemStack(Material.BONE_MEAL);
@@ -331,7 +316,6 @@ public class Convert implements CommandExecutor {
                             if (amount >= 9) {
                                 int blocks = amount / 9;
                                 int remainder = amount % blocks;
-                                player.sendMessage(String.valueOf(remainder));
                                 ItemStack item = new ItemStack(Material.SLIME_BLOCK);
                                 item.setAmount(blocks);
                                 ItemStack item2 = new ItemStack(Material.SLIME_BALL);
@@ -351,7 +335,6 @@ public class Convert implements CommandExecutor {
                             if (amount >= 4) {
                                 int blocks = amount / 4;
                                 int remainder = amount % blocks;
-                                player.sendMessage(String.valueOf(remainder));
                                 ItemStack item = new ItemStack(Material.WHITE_WOOL);
                                 item.setAmount(blocks);
                                 ItemStack item2 = new ItemStack(Material.STRING);
@@ -371,7 +354,6 @@ public class Convert implements CommandExecutor {
                             if (amount >= 4) {
                                 int blocks = amount / 4;
                                 int remainder = amount % blocks;
-                                player.sendMessage(String.valueOf(remainder));
                                 ItemStack item = new ItemStack(Material.QUARTZ_BLOCK);
                                 item.setAmount(blocks);
                                 ItemStack item2 = new ItemStack(Material.QUARTZ);
@@ -391,7 +373,6 @@ public class Convert implements CommandExecutor {
                             if (amount >= 9) {
                                 int blocks = amount / 9;
                                 int remainder = amount % blocks;
-                                player.sendMessage(String.valueOf(remainder));
                                 ItemStack item = new ItemStack(Material.NETHER_WART_BLOCK);
                                 item.setAmount(blocks);
                                 ItemStack item2 = new ItemStack(Material.NETHER_WART);
@@ -411,7 +392,6 @@ public class Convert implements CommandExecutor {
                             if (amount >= 4) {
                                 int blocks = amount / 4;
                                 int remainder = amount % blocks;
-                                player.sendMessage(String.valueOf(remainder));
                                 ItemStack item = new ItemStack(Material.MAGMA_BLOCK);
                                 item.setAmount(blocks);
                                 ItemStack item2 = new ItemStack(Material.MAGMA_CREAM);
@@ -431,7 +411,6 @@ public class Convert implements CommandExecutor {
                             if (amount >= 9) {
                                 int blocks = amount / 9;
                                 int remainder = amount % blocks;
-                                player.sendMessage(String.valueOf(remainder));
                                 ItemStack item = new ItemStack(Material.DRIED_KELP_BLOCK);
                                 item.setAmount(blocks);
                                 ItemStack item2 = new ItemStack(Material.DRIED_KELP);
@@ -451,7 +430,6 @@ public class Convert implements CommandExecutor {
                             if (amount >= 4) {
                                 int blocks = amount / 4;
                                 int remainder = amount % blocks;
-                                player.sendMessage(String.valueOf(remainder));
                                 ItemStack item = new ItemStack(Material.NETHER_BRICKS);
                                 item.setAmount(blocks);
                                 ItemStack item2 = new ItemStack(Material.NETHER_BRICK);
@@ -471,7 +449,6 @@ public class Convert implements CommandExecutor {
                             if (amount >= 4) {
                                 int blocks = amount / 4;
                                 int remainder = amount % blocks;
-                                player.sendMessage(String.valueOf(remainder));
                                 ItemStack item = new ItemStack(Material.AMETHYST_BLOCK);
                                 item.setAmount(blocks);
                                 ItemStack item2 = new ItemStack(Material.AMETHYST_SHARD);
@@ -491,7 +468,6 @@ public class Convert implements CommandExecutor {
                             if (amount >= 4) {
                                 int blocks = amount / 4;
                                 int remainder = amount % blocks;
-                                player.sendMessage(String.valueOf(remainder));
                                 ItemStack item = new ItemStack(Material.PURPUR_BLOCK);
                                 item.setAmount(blocks);
                                 ItemStack item2 = new ItemStack(Material.POPPED_CHORUS_FRUIT);
@@ -511,7 +487,6 @@ public class Convert implements CommandExecutor {
                             if (amount >= 4) {
                                 int blocks = amount / 4;
                                 int remainder = amount % blocks;
-                                player.sendMessage(String.valueOf(remainder));
                                 ItemStack item = new ItemStack(Material.HONEYCOMB_BLOCK);
                                 item.setAmount(blocks);
                                 ItemStack item2 = new ItemStack(Material.HONEYCOMB);
@@ -531,7 +506,6 @@ public class Convert implements CommandExecutor {
                             if (amount >= 4) {
                                 int blocks = amount / 4;
                                 int remainder = amount % blocks;
-                                player.sendMessage(String.valueOf(remainder));
                                 ItemStack item = new ItemStack(Material.HONEY_BLOCK);
                                 item.setAmount(blocks);
                                 ItemStack item2 = new ItemStack(Material.HONEY_BOTTLE);
