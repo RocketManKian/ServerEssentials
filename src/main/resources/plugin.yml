@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 1.74.8
+version: 1.74.9
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -249,6 +249,9 @@ commands:
   back:
     description: Back Command
     usage: Incorrect format! Please use /back
+  convert:
+    description: Convert Command
+    usage: Incorrect format! Please use /convert
 permissions:
   se.all:
     description: "Gives access to all commands."
@@ -326,6 +329,7 @@ permissions:
       se.back: true
       se.back.bypass: true
       se.teleport.bypass: true
+      se.convert: true
   se.reload:
     description: "Gives access to the /se reload command."
     default: false
@@ -541,4 +545,7 @@ permissions:
     default: false
   se.teleport.bypass:
     description: "Teleport Bypass Permission"
+    default: false
+  se.convert:
+    description: "Convert Command Permission"
     default: false

@@ -200,6 +200,9 @@ public class Lang {
                 fileConfig.addDefault("vanish-disabled", "You are now visible to other players on the server");
                 fileConfig.addDefault("vanish-target-enabled", "<target> is now invisible");
                 fileConfig.addDefault("vanish-target-disabled", "<target> is now visible");
+                fileConfig.addDefault("convert-successful", "Successfully converted <amount> <item> into <total> <block>");
+                fileConfig.addDefault("convert-unsuccessful", "You do not have enough <item> to convert");
+                fileConfig.addDefault("convert-invalid", "You cannot convert <item>");
                 fileConfig.options().copyDefaults(true);
                 fileConfig.save(file);
                 LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "Lang.yml file created");
