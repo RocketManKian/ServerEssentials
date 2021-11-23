@@ -183,7 +183,7 @@ public class Home implements CommandExecutor {
                     Integer size = ServerEssentials.plugin.getConfig().getInt("home-gui-size");
                     Inventory inv = Bukkit.createInventory(player, size, ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("home-gui-name")));
                     if (inventorySection == null){
-                        String msg = Lang.fileConfig.getString("home-file-error").replace("<home>", args[0]);
+                        String msg = Lang.fileConfig.getString("home-file-error");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }else{

@@ -52,7 +52,7 @@ public class Vanish implements CommandExecutor {
                         ServerEssentials.getPlugin().invisible_list.remove(target);
                         String msg = Lang.fileConfig.getString("vanish-disabled");
                         target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                        String msg2 = Lang.fileConfig.getString("vanish-target-disabled");
+                        String msg2 = Lang.fileConfig.getString("vanish-target-disabled").replace("<target>", target.getName());
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                     } else if (!ServerEssentials.getPlugin().invisible_list.contains(target)){
                         for (Player people : Bukkit.getOnlinePlayers()){
