@@ -92,7 +92,8 @@ public class SE implements CommandExecutor {
                             + "\n/trash - Opens the Trash Chute GUI"
                             + "\n/report (user) - Report specified User to Admins"
                             + "\n/reportbug (bug) - Report specified Bug to Admins"
-                            + "\n/back - Teleports to Previous Location");
+                            + "\n/back - Teleports to Previous Location"
+                            + "\n/convert - Converts Items into Block Form");
                 } else {
                     String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.info");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
