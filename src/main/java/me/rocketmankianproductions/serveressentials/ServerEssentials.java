@@ -252,6 +252,8 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         // Convert Command
         getCommand("convert").setExecutor(new Convert());
         Convert.setItems();
+        // Book Command
+        //getCommand("book").setExecutor(new Book());
     }
 
     @Override
