@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 1.75.1
+# This config was generated for version 1.75.2
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -30,6 +30,10 @@ enable-first-time-join-message: true
 enable-join-message: true
 # Enable or Disable the Leave Message
 enable-leave-message: true
+# Enable or Disable the Staff Join Message
+enable-staff-join-message: true
+# Enable or Disable the Staff Leave Message
+enable-staff-leave-message: true
 # Change the First Time Join Message.
 first-time-join: "&aWelcome to the Server!"
 # Change the Join Symbol that is displayed before the player's name.
