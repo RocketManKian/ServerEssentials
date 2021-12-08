@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 1.75.2
+version: 1.75.3
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -226,9 +226,6 @@ commands:
   reportbug:
     description: Report Bug Command
     usage: Incorrect format! Please use /reportbug (bug)
-  gui:
-    description: GUI Command
-    usage: Incorrect format! Please use /gui
   clearchat:
     description: Clear Chat Command
     usage: Incorrect format! Please use /clearchat
@@ -330,6 +327,7 @@ permissions:
       se.back.bypass: true
       se.teleport.bypass: true
       se.convert: true
+      se.setwarp.block: true
   se.reload:
     description: "Gives access to the /se reload command."
     default: false
@@ -548,4 +546,7 @@ permissions:
     default: false
   se.convert:
     description: "Convert Command Permission"
+    default: false
+  se.setwarp.block:
+    description: "Setwarp Block Command Permission"
     default: false
