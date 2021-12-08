@@ -66,8 +66,8 @@ public class TabCompletion implements TabCompleter {
         // Warp Commands
         if (command.getName().equalsIgnoreCase("warp")) {
             List<String> autoCompletes = new ArrayList<>();
+            Player player = (Player) sender;
             if (args.length == 1) {
-                Player player = (Player) sender;
                 if (Setwarp.fileConfig.getStringList("Warp.") != null){
                     ConfigurationSection warps = Setwarp.fileConfig.getConfigurationSection("Warp.");
                     if (warps != null){
@@ -75,7 +75,18 @@ public class TabCompletion implements TabCompleter {
                             if (player.hasPermission("se.warps." + warp)){
                                 autoCompletes.add(warp);
                             }
+                            if (player.hasPermission("se.setwarp.block")){
+                                autoCompletes.add("setblock");
+                            }
                         }
+                    }
+                }
+                return autoCompletes; // then return the list
+            }else if (args.length == 2){
+                ConfigurationSection warps = Setwarp.fileConfig.getConfigurationSection("Warp.");
+                for (String warp: warps.getKeys(false)){
+                    if (player.hasPermission("se.setwarp.block")){
+                        autoCompletes.add(warp);
                     }
                 }
                 return autoCompletes; // then return the list

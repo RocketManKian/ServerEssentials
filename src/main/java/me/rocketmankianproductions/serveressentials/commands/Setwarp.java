@@ -4,9 +4,11 @@ import me.rocketmankianproductions.serveressentials.LoggerMessage;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -41,6 +43,21 @@ public class Setwarp implements CommandExecutor {
             }
         } else {
             fileConfig = YamlConfiguration.loadConfiguration(file);
+            ConfigurationSection inventorySection = Setwarp.fileConfig.getConfigurationSection("Warp.");
+            if (inventorySection != null){
+                for (String key : inventorySection.getKeys(false)) {
+                    if (fileConfig.getString("Warp." + key + ".Block") == null){
+                        Material material = Material.valueOf(ServerEssentials.plugin.getConfig().getString("warp-item"));
+                        fileConfig.set("Warp." + key + ".Block", String.valueOf(material));
+                        try {
+                            Setwarp.fileConfig.save(Setwarp.file);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Setwarp.reload();
+                    }
+                }
+            }
         }
     }
 
@@ -64,11 +81,13 @@ public class Setwarp implements CommandExecutor {
                                 return true;
                             }
                         }
+                        String warpitem = ServerEssentials.plugin.getConfig().getString("warp-item");
                         fileConfig.set("Warp." + args[0] + ".World", world);
                         fileConfig.set("Warp." + args[0] + ".X", player.getLocation().getX());
                         fileConfig.set("Warp." + args[0] + ".Y", player.getLocation().getY());
                         fileConfig.set("Warp." + args[0] + ".Z", player.getLocation().getZ());
                         fileConfig.set("Warp." + args[0] + ".Yaw", player.getLocation().getYaw());
+                        fileConfig.set("Warp." + args[0] + ".Block", warpitem);
                         try {
                             fileConfig.save(file);
                         } catch (IOException e) {
@@ -79,11 +98,13 @@ public class Setwarp implements CommandExecutor {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }else{
+                        String warpitem = ServerEssentials.plugin.getConfig().getString("warp-item");
                         fileConfig.set("Warp." + args[0] + ".World", world);
                         fileConfig.set("Warp." + args[0] + ".X", player.getLocation().getX());
                         fileConfig.set("Warp." + args[0] + ".Y", player.getLocation().getY());
                         fileConfig.set("Warp." + args[0] + ".Z", player.getLocation().getZ());
                         fileConfig.set("Warp." + args[0] + ".Yaw", player.getLocation().getYaw());
+                        fileConfig.set("Warp." + args[0] + ".Block", warpitem);
                         try {
                             fileConfig.save(file);
                         } catch (IOException e) {

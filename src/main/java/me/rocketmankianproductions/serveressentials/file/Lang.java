@@ -121,6 +121,8 @@ public class Lang {
                 fileConfig.addDefault("warp-deletion-success", "Warp <warp> has been successfully deleted");
                 fileConfig.addDefault("warp-not-found", "Warp <warp> doesn't exist");
                 fileConfig.addDefault("warp-set-successful", "Successfully set Warp location");
+                fileConfig.addDefault("warp-set-block-successful", "Successfully set <warp> Warp to <block>");
+                fileConfig.addDefault("warp-block-invalid", "You cannot set Warp Block as <item>");
                 fileConfig.addDefault("warp-blacklisted-world", "You cannot set a Warp in a Blacklisted World");
                 fileConfig.addDefault("warp-world-invalid", "World isn't loaded!");
                 fileConfig.addDefault("warp-subtitle", "Warped to <warp>");

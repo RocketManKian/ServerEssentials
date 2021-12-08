@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -191,13 +192,15 @@ public class Warp implements CommandExecutor {
                             }else{
                                 assert inventorySection2 != null;
                                 assert inventorySection != null;
-                                String warpitem = ServerEssentials.plugin.getConfig().getString("warp-item");
-                                ItemStack item = new ItemStack(Material.getMaterial(warpitem));
-                                ItemMeta meta = item.getItemMeta();
                                 if (!inventorySection.getKeys(true).isEmpty()){
                                     if (!(inventorySection.getKeys(false).size() > ServerEssentials.plugin.getConfig().getInt("warp-gui-size"))){
                                         try {
                                             for (String key : inventorySection.getKeys(false)) {
+                                                // Getting Block
+                                                String warpitem = Setwarp.fileConfig.getString("Warp." + key + ".Block");
+                                                ItemStack item = new ItemStack(Material.getMaterial(warpitem));
+                                                ItemMeta meta = item.getItemMeta();
+                                                // Other
                                                 String warpcolour = ServerEssentials.plugin.getConfig().getString("warp-name-colour");
                                                 meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', warpcolour + key));
                                                 List<String> loreList = new ArrayList<String>();
@@ -263,6 +266,38 @@ public class Warp implements CommandExecutor {
                         }
                     } else {
                         String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.warp");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                        return true;
+                    }
+                }else if (args.length == 2){
+                    if (player.hasPermission("se.setwarp.block")){
+                        if (args[0].equalsIgnoreCase("setblock")){
+                            if (Setwarp.fileConfig.getString("Warp." + args[1] + ".World") != null){
+                                Material material = Material.valueOf(player.getInventory().getItemInMainHand().getType().toString());
+                                if (player.getInventory().getItemInMainHand().getType() == Material.AIR){
+                                    String perm = Lang.fileConfig.getString("warp-block-invalid").replace("<item>", String.valueOf(material));
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                                    return true;
+                                }else{
+                                    Setwarp.fileConfig.set("Warp." + args[1] + ".Block", String.valueOf(material));
+                                    try {
+                                        Setwarp.fileConfig.save(Setwarp.file);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                    Setwarp.reload();
+                                    String block = Lang.fileConfig.getString("warp-set-block-successful").replace("<warp>", args[1]).replace("<block>", String.valueOf(material));
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', block));
+                                    return true;
+                                }
+                            }else{
+                                String msg = Lang.fileConfig.getString("warp-not-found").replace("<warp>", args[1]);
+                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                return true;
+                            }
+                        }
+                    }else{
+                        String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.setwarp.block");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                         return true;
                     }
