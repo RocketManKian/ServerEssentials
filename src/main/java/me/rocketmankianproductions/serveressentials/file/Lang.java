@@ -748,9 +748,6 @@ public class Lang {
                 if (fileConfig.getString("convert-invalid") == null){
                     fileConfig.set("convert-invalid", "You cannot convert <item>");
                 }
-                if (fileConfig.getString("tank-invalid") == null){
-                    fileConfig.set("tank-invalid", "You cannot convert tank");
-                }
                 fileConfig.options().copyDefaults(true);
                 fileConfig.save(file);
             } catch (IOException e) {
