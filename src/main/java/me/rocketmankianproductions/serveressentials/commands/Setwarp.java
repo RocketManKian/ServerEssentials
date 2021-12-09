@@ -50,11 +50,11 @@ public class Setwarp implements CommandExecutor {
                         Material material = Material.valueOf(ServerEssentials.plugin.getConfig().getString("warp-item"));
                         fileConfig.set("Warp." + key + ".Block", String.valueOf(material));
                         try {
-                            Setwarp.fileConfig.save(Setwarp.file);
+                            fileConfig.save(Setwarp.file);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        Setwarp.reload();
+                        reload();
                     }
                 }
             }
@@ -87,13 +87,15 @@ public class Setwarp implements CommandExecutor {
                         fileConfig.set("Warp." + args[0] + ".Y", player.getLocation().getY());
                         fileConfig.set("Warp." + args[0] + ".Z", player.getLocation().getZ());
                         fileConfig.set("Warp." + args[0] + ".Yaw", player.getLocation().getYaw());
-                        fileConfig.set("Warp." + args[0] + ".Block", warpitem);
+                        if (fileConfig.getString("Warp." + args[0] + ".Block") == null){
+                            fileConfig.set("Warp." + args[0] + ".Block", warpitem);
+                        }
                         try {
                             fileConfig.save(file);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        Setwarp.reload();
+                        reload();
                         String msg = Lang.fileConfig.getString("warp-set-successful");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
@@ -104,13 +106,15 @@ public class Setwarp implements CommandExecutor {
                         fileConfig.set("Warp." + args[0] + ".Y", player.getLocation().getY());
                         fileConfig.set("Warp." + args[0] + ".Z", player.getLocation().getZ());
                         fileConfig.set("Warp." + args[0] + ".Yaw", player.getLocation().getYaw());
-                        fileConfig.set("Warp." + args[0] + ".Block", warpitem);
+                        if (fileConfig.getString("Warp." + args[0] + ".Block") == null){
+                            fileConfig.set("Warp." + args[0] + ".Block", warpitem);
+                        }
                         try {
                             fileConfig.save(file);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        Setwarp.reload();
+                        reload();
                         String msg = Lang.fileConfig.getString("warp-set-successful");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
