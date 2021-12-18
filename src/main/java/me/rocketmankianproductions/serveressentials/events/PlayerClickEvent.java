@@ -6,12 +6,15 @@ import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -21,11 +24,12 @@ public class PlayerClickEvent implements Listener {
 
     private static HashMap<UUID, Integer> hometeleport = new HashMap<>();
     private static HashMap<UUID, Integer> warpteleport = new HashMap<>();
+    String home2 = null;
+    String warp2 = null;
 
     @EventHandler
     public void onClick(InventoryClickEvent e){
         Player player = (Player) e.getWhoClicked();
-        //InventoryView inv = e.getView();
         if (e.getView().getTitle().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("invsee-armor-gui")))){
             e.setCancelled(true);
         }else if (e.getView().getTitle().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("warp-gui-name")))){
@@ -35,17 +39,26 @@ public class PlayerClickEvent implements Listener {
                 String warp = item.getItemMeta().getDisplayName();
                 warp = ChatColor.stripColor(warp);
                 if (e.getClick()== ClickType.RIGHT) {
-                    if (player.hasPermission("se.deletewarp")) {
-                        Setwarp.fileConfig.set("Warp." + warp, null);
-                        try {
-                            Setwarp.fileConfig.save(Setwarp.file);
-                        } catch (IOException i) {
-                            i.printStackTrace();
-                        }
-                        String msg = Lang.fileConfig.getString("warp-deletion-success").replace("<warp>", warp);
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                        player.closeInventory();
+                    Inventory confirm = Bukkit.createInventory(player.getPlayer(), 27, "Delete Warp " + warp + "?");
+                    ItemStack confirmitem = new ItemStack(Material.LIME_STAINED_GLASS_PANE);
+                    ItemStack cancelitem = new ItemStack(Material.RED_STAINED_GLASS_PANE);
+                    ItemStack idleitem = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
+                    ItemMeta idleitemmeta = idleitem.getItemMeta();
+                    ItemMeta confirmitemmeta = confirmitem.getItemMeta();
+                    ItemMeta cancelitemmeta = cancelitem.getItemMeta();
+                    confirmitemmeta.setDisplayName(ChatColor.GREEN + "Yes");
+                    cancelitemmeta.setDisplayName(ChatColor.RED + "No");
+                    idleitemmeta.setDisplayName(ChatColor.DARK_GRAY + "");
+                    confirmitem.setItemMeta(confirmitemmeta);
+                    cancelitem.setItemMeta(cancelitemmeta);
+                    idleitem.setItemMeta(idleitemmeta);
+                    for (int counter = 0; counter <= 26; counter++) {
+                        confirm.setItem(counter, idleitem);
                     }
+                    confirm.setItem(11, confirmitem);
+                    confirm.setItem(15, cancelitem);
+                    player.openInventory(confirm);
+                    warp2 = warp;
                 }else if (e.getClick()==ClickType.LEFT) {
                     if (player.hasPermission("se.warps." + warp) || player.hasPermission("se.warps.all")) {
                         if (ServerEssentials.plugin.getConfig().getInt("warp-teleport") == 0){
@@ -190,37 +203,31 @@ public class PlayerClickEvent implements Listener {
             }
         }else if (e.getView().getTitle().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("home-gui-name")))) {
             e.setCancelled(true);
-            String name = player.getUniqueId().toString();
             ItemStack item = e.getCurrentItem();
             if (item != null) {
                 String home = item.getItemMeta().getDisplayName();
                 home = ChatColor.stripColor(home);
                 if (e.getClick() == ClickType.RIGHT) {
-                    if (player.hasPermission("se.deletehome")) {
-                        Player target = (Player) e.getInventory().getHolder();
-                        if (e.getInventory().getHolder().equals(target)) {
-                            UUID targetname = target.getUniqueId();
-                            Sethome.fileConfig.set("Home." + targetname + "." + home, null);
-                            try {
-                                Sethome.fileConfig.save(Sethome.file);
-                            } catch (IOException i) {
-                                i.printStackTrace();
-                            }
-                            String msg = Lang.fileConfig.getString("home-deletion-success").replace("<home>", home);
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                            player.closeInventory();
-                        } else {
-                            Sethome.fileConfig.set("Home." + name + "." + home, null);
-                            try {
-                                Sethome.fileConfig.save(Sethome.file);
-                            } catch (IOException i) {
-                                i.printStackTrace();
-                            }
-                            String msg = Lang.fileConfig.getString("home-deletion-success").replace("<home>", home);
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                            player.closeInventory();
-                        }
+                    Inventory confirm = Bukkit.createInventory(player.getPlayer(), 27, "Delete Home " + home + "?");
+                    ItemStack confirmitem = new ItemStack(Material.LIME_STAINED_GLASS_PANE);
+                    ItemStack cancelitem = new ItemStack(Material.RED_STAINED_GLASS_PANE);
+                    ItemStack idleitem = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
+                    ItemMeta idleitemmeta = idleitem.getItemMeta();
+                    ItemMeta confirmitemmeta = confirmitem.getItemMeta();
+                    ItemMeta cancelitemmeta = cancelitem.getItemMeta();
+                    confirmitemmeta.setDisplayName(ChatColor.GREEN + "Yes");
+                    cancelitemmeta.setDisplayName(ChatColor.RED + "No");
+                    idleitemmeta.setDisplayName(ChatColor.DARK_GRAY + "");
+                    confirmitem.setItemMeta(confirmitemmeta);
+                    cancelitem.setItemMeta(cancelitemmeta);
+                    idleitem.setItemMeta(idleitemmeta);
+                    for (int counter = 0; counter <= 26; counter++) {
+                        confirm.setItem(counter, idleitem);
                     }
+                    confirm.setItem(11, confirmitem);
+                    confirm.setItem(15, cancelitem);
+                    player.openInventory(confirm);
+                    home2 = home;
                 } else if (e.getClick() == ClickType.LEFT) {
                     if (ServerEssentials.plugin.getConfig().getInt("home-teleport") == 0) {
                         Location loc = getHomeLocation(home, player);
@@ -357,6 +364,70 @@ public class PlayerClickEvent implements Listener {
                         }
                     }
                 }
+            }
+        }
+        // Delete Home Confirm GUI
+        String home3 = home2;
+        if (e.getView().getTitle().equalsIgnoreCase("Delete Home " + home3 + "?")) {
+            if (e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR || e.getCurrentItem().getType() == Material.GRAY_STAINED_GLASS_PANE){
+                e.setCancelled(true);
+                return;
+            }
+            if (e.getCurrentItem().getType() == Material.LIME_STAINED_GLASS_PANE) {
+                e.setCancelled(true);
+                if (player.hasPermission("se.deletehome")) {
+                    Player target = (Player) e.getInventory().getHolder();
+                    if (e.getInventory().getHolder().equals(e.getWhoClicked())) {
+                        UUID targetname = target.getUniqueId();
+                        Sethome.fileConfig.set("Home." + targetname + "." + home3, null);
+                        try {
+                            Sethome.fileConfig.save(Sethome.file);
+                        } catch (IOException i) {
+                            i.printStackTrace();
+                        }
+                        String msg = Lang.fileConfig.getString("home-deletion-success").replace("<home>", home3);
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.closeInventory();
+                    } else {
+                        Sethome.fileConfig.set("Home." + target.getUniqueId() + "." + home3, null);
+                        try {
+                            Sethome.fileConfig.save(Sethome.file);
+                        } catch (IOException i) {
+                            i.printStackTrace();
+                        }
+                        String msg = Lang.fileConfig.getString("home-deletion-success").replace("<home>", home3);
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.closeInventory();
+                    }
+                }
+            } else if (e.getCurrentItem().getType() == Material.RED_STAINED_GLASS_PANE) {
+                e.setCancelled(true);
+                player.closeInventory();
+            }
+        }
+        // Delete Warp Confirm GUI
+        String warp3 = warp2;
+        if (e.getView().getTitle().equalsIgnoreCase("Delete Warp " + warp3 + "?")) {
+            if (e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR || e.getCurrentItem().getType() == Material.GRAY_STAINED_GLASS_PANE){
+                e.setCancelled(true);
+                return;
+            }
+            if (e.getCurrentItem().getType() == Material.LIME_STAINED_GLASS_PANE) {
+                e.setCancelled(true);
+                if (player.hasPermission("se.deletewarp")) {
+                    Setwarp.fileConfig.set("Warp." + warp3, null);
+                    try {
+                        Setwarp.fileConfig.save(Setwarp.file);
+                    } catch (IOException i) {
+                        i.printStackTrace();
+                    }
+                    String msg = Lang.fileConfig.getString("warp-deletion-success").replace("<warp>", warp3);
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.closeInventory();
+                }
+            } else if (e.getCurrentItem().getType() == Material.RED_STAINED_GLASS_PANE) {
+                e.setCancelled(true);
+                player.closeInventory();
             }
         }
     }
