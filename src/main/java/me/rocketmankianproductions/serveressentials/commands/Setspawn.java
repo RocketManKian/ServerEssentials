@@ -4,6 +4,7 @@ import me.rocketmankianproductions.serveressentials.LoggerMessage;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -74,7 +75,33 @@ public class Setspawn implements CommandExecutor {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                     return true;
                 }
-            } else {
+            } else if (args.length == 3){
+                if (player.hasPermission("se.setspawn") || player.hasPermission("se.all")) {
+                    String world = player.getWorld().getName();
+                    fileConfig.set("Location.World", world);
+                    try {
+                        double x = Double.parseDouble(args[0]);
+                        double y = Double.parseDouble(args[1]);
+                        double z = Double.parseDouble(args[2]);
+                        fileConfig.set("Location.X", x);
+                        fileConfig.set("Location.Y", y);
+                        fileConfig.set("Location.Z", z);
+                        fileConfig.set("Location.Yaw", player.getLocation().getYaw());
+                        fileConfig.set("Location.Pitch", player.getLocation().getPitch());
+                        try {
+                            fileConfig.save(file);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Setspawn.reload();
+                        String msg = Lang.fileConfig.getString("spawn-set-successful").replace("<world>", world);
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    } catch (NumberFormatException n){
+                        String msg = Lang.fileConfig.getString("teleport-pos-invalid");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    }
+                }
+            }else{
                 player.sendMessage(ChatColor.RED + "Use \"/setspawn\" to set spawn in current world.");
                 return true;
             }
