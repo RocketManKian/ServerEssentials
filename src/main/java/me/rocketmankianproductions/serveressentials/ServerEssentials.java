@@ -177,8 +177,10 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("kill").setExecutor(new Kill());
         // Message Command
         getCommand("msg").setExecutor(new Message());
+        getCommand("msg").setTabCompleter(new TabCompletion());
         // Reply Command
         getCommand("reply").setExecutor(new Reply());
+        getCommand("reply").setTabCompleter(new TabCompletion());
         // Reply Command
         getCommand("craft").setExecutor(new Craft());
         // Enderchest Command

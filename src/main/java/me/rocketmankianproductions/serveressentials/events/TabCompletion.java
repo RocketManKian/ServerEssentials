@@ -184,6 +184,25 @@ public class TabCompletion implements TabCompleter {
                 return autoCompletes;
             }
         }
+        if (command.getName().equalsIgnoreCase("message") || command.getName().equalsIgnoreCase("msg")){
+            List<String> autoCompletes = new ArrayList<>();
+            if (args.length == 1){
+                for (Player player : Bukkit.getOnlinePlayers()){
+                    autoCompletes.add(player.getName());
+                }
+            }
+            if (args.length == 2){
+                autoCompletes.add("<message>");
+            }
+            return autoCompletes;
+        }
+        if (command.getName().equalsIgnoreCase("reply") || command.getName().equalsIgnoreCase("r")){
+            List<String> autoCompletes = new ArrayList<>();
+            if (args.length == 1){
+                autoCompletes.add("<message>");
+            }
+            return autoCompletes;
+        }
         return null;
     }
 }
