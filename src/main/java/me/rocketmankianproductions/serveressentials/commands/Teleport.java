@@ -267,9 +267,24 @@ public class Teleport implements CommandExecutor {
                         }
                     }
                     try {
-                        double x = Double.parseDouble(args[0]);
-                        double y = Double.parseDouble(args[1]);
-                        double z = Double.parseDouble(args[2]);
+                        double x = 0;
+                        if (args[0].equalsIgnoreCase("~")){
+                            x = player.getLocation().getX();
+                        }else{
+                            x = Double.parseDouble(args[0]);
+                        }
+                        double y = 0;
+                        if (args[1].equalsIgnoreCase("~")){
+                            y = player.getLocation().getY();
+                        }else{
+                            y = Double.parseDouble(args[1]);
+                        }
+                        double z = 0;
+                        if (args[2].equalsIgnoreCase("~")){
+                            z = player.getLocation().getZ();
+                        }else{
+                            z = Double.parseDouble(args[2]);
+                        }
                         Location location = new Location(((Player) sender).getWorld(), x, y, z);
                         String msg = Lang.fileConfig.getString("teleport-pos-success");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
