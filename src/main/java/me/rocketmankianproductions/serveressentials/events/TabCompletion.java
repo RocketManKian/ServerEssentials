@@ -187,9 +187,7 @@ public class TabCompletion implements TabCompleter {
         if (command.getName().equalsIgnoreCase("message") || command.getName().equalsIgnoreCase("msg")){
             List<String> autoCompletes = new ArrayList<>();
             if (args.length == 1){
-                for (Player player : Bukkit.getOnlinePlayers()){
-                    autoCompletes.add(player.getName());
-                }
+                return null;
             }
             if (args.length == 2){
                 autoCompletes.add("<message>");
