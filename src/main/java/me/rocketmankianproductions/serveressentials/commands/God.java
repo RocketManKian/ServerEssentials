@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -94,6 +95,18 @@ public class God implements CommandExecutor, Listener {
         if (ent instanceof Player) {
             Player p = (Player) ent;
             if (god_toggle.contains(p.getName())) {
+                e.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onHunger(FoodLevelChangeEvent e) {
+        Entity ent = e.getEntity();
+        if (ent instanceof Player) {
+            Player p = (Player) ent;
+            if (god_toggle.contains(p.getName())) {
+                e.setFoodLevel(20);
                 e.setCancelled(true);
             }
         }
