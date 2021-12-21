@@ -96,10 +96,14 @@ public class Setspawn implements CommandExecutor {
                         Setspawn.reload();
                         String msg = Lang.fileConfig.getString("spawn-set-successful").replace("<world>", world);
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                    } catch (NumberFormatException n){
+                    } catch (NumberFormatException n) {
                         String msg = Lang.fileConfig.getString("teleport-pos-invalid");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     }
+                }else{
+                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.setspawn");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                    return true;
                 }
             }else{
                 player.sendMessage(ChatColor.RED + "Use \"/setspawn\" to set spawn in current world.");
