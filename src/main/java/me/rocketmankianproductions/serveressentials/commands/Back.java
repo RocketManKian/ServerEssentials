@@ -18,6 +18,7 @@ import java.util.UUID;
 public class Back implements CommandExecutor {
 
     public static HashMap<UUID, Location> location = new HashMap<UUID, Location>();
+    public static HashMap<UUID, Location> location2 = new HashMap<UUID, Location>();
     public static HashMap<UUID, Integer> backcancel = new HashMap<UUID, Integer>();
     public static HashMap<UUID, Boolean> backconfirm = new HashMap<UUID, Boolean>();
     int time;
@@ -28,13 +29,22 @@ public class Back implements CommandExecutor {
         if (sender instanceof Player){
             Player player = (Player) sender;
             if (player.hasPermission("se.back") || player.hasPermission("se.all")){
-                if (player.hasPermission("se.back.bypass")){
-                    if (location.containsKey(player.getUniqueId())){
+                if (player.hasPermission("se.back.bypass")) {
+                    if (location.containsKey(player.getUniqueId())) {
+                        location2.put(player.getUniqueId(), player.getLocation());
                         player.teleport(location.get(player.getUniqueId()));
+                        location.remove(player.getUniqueId());
                         String msg = Lang.fileConfig.getString("back-previous-location");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
-                    }else{
+                    }else if (location2.containsKey(player.getUniqueId())){
+                        location.put(player.getUniqueId(), player.getLocation());
+                        player.teleport(location2.get(player.getUniqueId()));
+                        location2.remove(player.getUniqueId());
+                        String msg = Lang.fileConfig.getString("back-previous-location");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        return true;
+                    } else{
                         String msg = Lang.fileConfig.getString("back-no-location");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
@@ -47,7 +57,9 @@ public class Back implements CommandExecutor {
                         Boolean blacklistedworld = ServerEssentials.plugin.getConfig().getBoolean("enable-back-blacklist");
                         if (player.hasPermission("se.back.bypass")) {
                             if (!backcancel.containsKey(player.getUniqueId())) {
+                                location2.put(player.getUniqueId(), player.getLocation());
                                 player.teleport(location.get(player.getUniqueId()));
+                                location.remove(player.getUniqueId());
                                 String msg = Lang.fileConfig.getString("back-previous-location");
                                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 backcancel.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
@@ -75,7 +87,9 @@ public class Back implements CommandExecutor {
                                 }
                             }
                             if (!backcancel.containsKey(player.getUniqueId())) {
+                                location2.put(player.getUniqueId(), player.getLocation());
                                 player.teleport(location.get(player.getUniqueId()));
+                                location.remove(player.getUniqueId());
                                 String msg = Lang.fileConfig.getString("back-previous-location");
                                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 backcancel.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
@@ -96,7 +110,87 @@ public class Back implements CommandExecutor {
                         }
                         if (!blacklistedworld){
                             if (!backcancel.containsKey(player.getUniqueId())) {
+                                location2.put(player.getUniqueId(), player.getLocation());
                                 player.teleport(location.get(player.getUniqueId()));
+                                location.remove(player.getUniqueId());
+                                String msg = Lang.fileConfig.getString("back-previous-location");
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                backcancel.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
+                                    public void run() {
+                                        backconfirm.put(player.getUniqueId(), true);
+                                        backcancel.remove(player.getUniqueId());
+                                    }
+                                }, delay2));
+                                setTimer(delay3);
+                                startTimer();
+                                return true;
+                            }
+                            if (backcancel.containsKey(player.getUniqueId()) && backcancel.get(player.getUniqueId()) != null) {
+                                String msg = Lang.fileConfig.getString("command-timeout").replace("<time>", String.valueOf(time));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                return true;
+                            }
+                        }
+                    } else if (location2.containsKey(player.getUniqueId())) {
+                        Boolean blacklistedworld = ServerEssentials.plugin.getConfig().getBoolean("enable-back-blacklist");
+                        if (player.hasPermission("se.back.bypass")) {
+                            if (!backcancel.containsKey(player.getUniqueId())) {
+                                location.put(player.getUniqueId(), player.getLocation());
+                                player.teleport(location2.get(player.getUniqueId()));
+                                location2.remove(player.getUniqueId());
+                                String msg = Lang.fileConfig.getString("back-previous-location");
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                backcancel.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
+                                    public void run() {
+                                        backconfirm.put(player.getUniqueId(), true);
+                                        backcancel.remove(player.getUniqueId());
+                                    }
+                                }, delay2));
+                                setTimer(delay3);
+                                startTimer();
+                                return true;
+                            }
+                            if (backcancel.containsKey(player.getUniqueId()) && backcancel.get(player.getUniqueId()) != null) {
+                                String msg = Lang.fileConfig.getString("command-timeout").replace("<time>", String.valueOf(time));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                return true;
+                            }
+                        }
+                        if (blacklistedworld) {
+                            for (String worlds : ServerEssentials.plugin.getConfig().getStringList("back-blacklist")) {
+                                if (player.getWorld().getName().equalsIgnoreCase(worlds)) {
+                                    String msg = Lang.fileConfig.getString("back-blacklisted-world");
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    return true;
+                                }
+                            }
+                            if (!backcancel.containsKey(player.getUniqueId())) {
+                                location.put(player.getUniqueId(), player.getLocation());
+                                player.teleport(location2.get(player.getUniqueId()));
+                                location2.remove(player.getUniqueId());
+                                String msg = Lang.fileConfig.getString("back-previous-location");
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                backcancel.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
+                                    public void run() {
+                                        backconfirm.put(player.getUniqueId(), true);
+                                        backcancel.remove(player.getUniqueId());
+                                    }
+                                }, delay2));
+                                setTimer(delay3);
+                                startTimer();
+                                return true;
+                            }
+                            if (backcancel.containsKey(player.getUniqueId()) && backcancel.get(player.getUniqueId()) != null) {
+                                String msg = Lang.fileConfig.getString("command-timeout").replace("<time>", String.valueOf(time));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                return true;
+                            }
+                        }
+                        if (!blacklistedworld){
+                            if (!backcancel.containsKey(player.getUniqueId())) {
+                                location.put(player.getUniqueId(), player.getLocation());
+                                player.teleport(location2.get(player.getUniqueId()));
+                                location2.remove(player.getUniqueId());
                                 String msg = Lang.fileConfig.getString("back-previous-location");
                                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 backcancel.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
