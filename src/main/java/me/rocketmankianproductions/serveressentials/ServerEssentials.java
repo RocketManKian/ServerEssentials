@@ -1,5 +1,7 @@
 package me.rocketmankianproductions.serveressentials;
 
+import com.google.common.io.ByteArrayDataInput;
+import com.google.common.io.ByteStreams;
 import github.scarsz.discordsrv.DiscordSRV;
 import me.rocketmankianproductions.serveressentials.Metrics.MetricsLite;
 import me.rocketmankianproductions.serveressentials.UpdateChecker.Update;
@@ -8,6 +10,7 @@ import me.rocketmankianproductions.serveressentials.events.*;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import me.rocketmankianproductions.serveressentials.tasks.Broadcast;
 import org.bukkit.Bukkit;
+import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -28,6 +31,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
     public static boolean hasUpdate;
     public static boolean isConnectedToPlaceholderAPI = false;
     public static boolean isConnectedToDiscordSRV = false;
+    public static boolean isBungeeCordEnabled = false;
 
     public ArrayList<Player> invisible_list = new ArrayList<>();
 
@@ -48,6 +52,8 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         Lang.setup();
         // Placeholder API
         registerPlaceholder();
+        // BungeeCord
+        registerBungeeCord();
         // DiscordSRV
         registerDiscordSRV();
         // Metrics
@@ -90,6 +96,8 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         // Disable Commands
         LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "Commands have been disabled.");
         // Disable Events
+        this.getServer().getMessenger().unregisterOutgoingPluginChannel(this);
+        this.getServer().getMessenger().unregisterIncomingPluginChannel(this);
         LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "Events have been disabled.");
         // End
         LoggerMessage.log(LoggerMessage.LogLevel.OUTLINE, "*********************");
@@ -291,6 +299,19 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         } else {
             LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "Placeholder API is not installed!");
             isConnectedToPlaceholderAPI = false;
+        }
+    }
+
+    public void registerBungeeCord() {
+        // PlaceholderAPI
+        if (ServerEssentials.plugin.getConfig().getBoolean("enable-bungee-integration") && !Bukkit.getServer().getOnlineMode()) {
+            //Bleh
+            LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "BungeeCord Support has been enabled.");
+            this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+            this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new StaffChat());
+            isBungeeCordEnabled = true;
+        } else {
+            isBungeeCordEnabled = false;
         }
     }
 
