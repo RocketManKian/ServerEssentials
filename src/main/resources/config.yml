@@ -56,10 +56,6 @@ vanish-on-join: false
 # B = server-name
 # Useful for Bungeecord Servers and allowing the use of one Discord channel without confusion
 server-name: ""
-# Enable or Disable Bungeecord Integration for the StaffChat Command
-# Please make sure you are on a Bungeecord Network before enabling this
-# PS: Restart your Server after toggling this option
-enable-bungee-integration: false
 ############################################################
 # +------------------------------------------------------+ #
 # +              Server Essentials (Broadcast)           + #
