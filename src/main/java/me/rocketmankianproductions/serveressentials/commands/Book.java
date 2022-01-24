@@ -1,6 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
-import org.bukkit.Bukkit;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,9 +19,7 @@ public class Book implements CommandExecutor {
         if (sender instanceof Player){
             Player player = (Player) sender;
             if (player.hasPermission("se.book")){
-                System.out.println("hi");
                 if (args.length == 3){
-                    System.out.println("hi2");
                     if (player.getInventory().getItemInMainHand().getType() == Material.WRITTEN_BOOK){
                         if (args[0].equalsIgnoreCase("unsign")){
                             // Written Book
@@ -33,8 +31,8 @@ public class Book implements CommandExecutor {
                             int amount = bookMeta.getPageCount();
                             for (int i = 1; i <= amount; i++){
                                 String page = bookMeta.getPage(i);
-                                bookMeta2.addPage(page);
-                                player.sendMessage(page);
+                                TextComponent message = new TextComponent(page);
+                                bookMeta2.addPage(String.valueOf(message));
                             }
                             book.setItemMeta(bookMeta2);
                             player.getInventory().getItemInMainHand().setType(Material.WRITABLE_BOOK);
@@ -45,7 +43,7 @@ public class Book implements CommandExecutor {
                     }
                 }
             }else{
-                player.sendMessage("no");
+                player.sendMessage("No Permission");
             }
         }
         return false;

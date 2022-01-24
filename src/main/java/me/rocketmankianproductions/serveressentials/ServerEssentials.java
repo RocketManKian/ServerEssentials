@@ -1,7 +1,5 @@
 package me.rocketmankianproductions.serveressentials;
 
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteStreams;
 import github.scarsz.discordsrv.DiscordSRV;
 import me.rocketmankianproductions.serveressentials.Metrics.MetricsLite;
 import me.rocketmankianproductions.serveressentials.UpdateChecker.Update;
@@ -10,7 +8,6 @@ import me.rocketmankianproductions.serveressentials.events.*;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import me.rocketmankianproductions.serveressentials.tasks.Broadcast;
 import org.bukkit.Bukkit;
-import org.bukkit.Server;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -53,7 +50,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         // Placeholder API
         registerPlaceholder();
         // BungeeCord
-        registerBungeeCord();
+        //registerBungeeCord();
         // DiscordSRV
         registerDiscordSRV();
         // Metrics
@@ -302,18 +299,18 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         }
     }
 
-    public void registerBungeeCord() {
-        // PlaceholderAPI
-        if (ServerEssentials.plugin.getConfig().getBoolean("enable-bungee-integration") && !Bukkit.getServer().getOnlineMode()) {
-            //Bleh
-            LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "BungeeCord Support has been enabled.");
-            this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-            this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new StaffChat());
-            isBungeeCordEnabled = true;
-        } else {
-            isBungeeCordEnabled = false;
-        }
-    }
+//    public void registerBungeeCord() {
+//        // PlaceholderAPI
+//        if (ServerEssentials.plugin.getConfig().getBoolean("enable-bungee-integration") && !Bukkit.getServer().getOnlineMode()) {
+//            //Bleh
+//            LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "BungeeCord Support has been enabled.");
+//            this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+//            this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new StaffChat());
+//            isBungeeCordEnabled = true;
+//        } else {
+//            isBungeeCordEnabled = false;
+//        }
+//    }
 
     public void registerDiscordSRV() {
         // PlaceholderAPI
