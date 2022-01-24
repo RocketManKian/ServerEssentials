@@ -170,7 +170,8 @@ public class ListHomes implements CommandExecutor {
                                     }
                                 }
                             }else{
-                                player.sendMessage("Incorrect format! Please use /home to view your homes");
+                                String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/listhomes (player)");
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 return true;
                             }
                         } else {
@@ -207,7 +208,8 @@ public class ListHomes implements CommandExecutor {
                                         }
                                     }
                                 }else{
-                                    player.sendMessage("Incorrect format! Please use /home to view your homes");
+                                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/listhomes (player)");
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                     return true;
                                 }
                             }else{
@@ -218,6 +220,10 @@ public class ListHomes implements CommandExecutor {
                             return true;
                         }
                     }
+                }else{
+                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/listhomes (player)");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    return true;
                 }
             }else{
                 String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.listhomes");

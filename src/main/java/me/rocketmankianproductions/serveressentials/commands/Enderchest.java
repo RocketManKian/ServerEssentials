@@ -45,6 +45,10 @@ public class Enderchest implements CommandExecutor {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                         return true;
                     }
+                }else{
+                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/enderchest");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    return true;
                 }
             }else {
                 String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.enderchest");
@@ -55,6 +59,5 @@ public class Enderchest implements CommandExecutor {
             sender.sendMessage(ChatColor.RED + "You are not a player");
             return true;
         }
-        return false;
     }
 }

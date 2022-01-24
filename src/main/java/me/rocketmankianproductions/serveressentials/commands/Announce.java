@@ -13,7 +13,6 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class Announce implements CommandExecutor {
-
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
 
@@ -37,7 +36,8 @@ public class Announce implements CommandExecutor {
                     }
                     return true;
                 } else {
-                    sender.sendMessage("Incorrect Format! Usage: /announce <Message>");
+                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/announce <message>");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }
             } else {

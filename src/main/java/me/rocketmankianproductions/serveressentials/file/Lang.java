@@ -32,6 +32,7 @@ public class Lang {
                 fileConfig.addDefault("player-offline", "Player does not exist!");
                 fileConfig.addDefault("target-offline", "Target is offline");
                 fileConfig.addDefault("invalid-player", "You are not a player");
+                fileConfig.addDefault("incorrect-format", "Incorrect format! Please use <command>");
                 fileConfig.addDefault("target-self", "You cannot target yourself.");
                 fileConfig.addDefault("back-previous-location", "Teleported to previous location");
                 fileConfig.addDefault("back-no-location", "You have no location to return to");
@@ -97,6 +98,10 @@ public class Lang {
                 fileConfig.addDefault("message-disabled", "That person has messaging disabled");
                 fileConfig.addDefault("message-toggle-enabled", "Incoming Messages have been Disabled");
                 fileConfig.addDefault("message-toggle-disabled", "Incoming Messages have been Enabled");
+                fileConfig.addDefault("message-sender", "&eme &6>> &f<target> &7: <message>");
+                fileConfig.addDefault("message-recipient", "&f<sender> &6>> &eme &7: <message>");
+                fileConfig.addDefault("reply-sender", "&eme &6>> &f<target> &7: <message>");
+                fileConfig.addDefault("reply-recipient", "&f<sender> &6>> &eme &7: <message>");
                 fileConfig.addDefault("reply-no-message", "There is no message to reply to");
                 fileConfig.addDefault("playtime-self", "You have played for <days> Days <hours> Hours <minutes> Minutes <seconds> Seconds");
                 fileConfig.addDefault("playtime-target", "<target> has played for <days> Days <hours> Hours <minutes> Minutes <seconds> Seconds");
@@ -108,6 +113,15 @@ public class Lang {
                 fileConfig.addDefault("repair-all-items", "Repaired all item(s)");
                 fileConfig.addDefault("report-self", "You cannot report yourself");
                 fileConfig.addDefault("report-successful", "Report sent successfully");
+                fileConfig.addDefault("report-user-line-one", "&b--------- &cNEW REPORT &b---------");
+                fileConfig.addDefault("report-user-line-two", "&cReporter &7>> &f<player>");
+                fileConfig.addDefault("report-user-line-three", "&cReported User &7>> &f<target>");
+                fileConfig.addDefault("report-user-line-four", "&cReason &7>> &f<message>");
+                fileConfig.addDefault("report-user-line-five", "&b-----------------------------");
+                fileConfig.addDefault("report-bug-line-one", "&b--------- &cBUG REPORT &b---------");
+                fileConfig.addDefault("report-bug-line-two", "&cReporter &7>> &f<player>");
+                fileConfig.addDefault("report-bug-line-three", "&cBug &7>> &f<message>");
+                fileConfig.addDefault("report-bug-line-four", "&b-----------------------------");
                 fileConfig.addDefault("spawn-deletion-success", "Spawn Deleted");
                 fileConfig.addDefault("spawn-not-found", "Spawn doesn't exist");
                 fileConfig.addDefault("spawn-world-invalid", "World isn't loaded!");
@@ -141,6 +155,7 @@ public class Lang {
                 fileConfig.addDefault("silentjoin-disabled", "SilentJoin has been Disabled");
                 fileConfig.addDefault("socialspy-enabled", "SocialSpy has been Enabled");
                 fileConfig.addDefault("socialspy-disabled", "SocialSpy has been Disabled");
+                fileConfig.addDefault("socialspy-message", "&c[SocialSpy] &f<sender> &6>> &f<target> &7: <message>");
                 fileConfig.addDefault("speed-invalid-number", "Please provide a speed from 1-10");
                 fileConfig.addDefault("speed-fly-success", "Flying speed is now <speed>");
                 fileConfig.addDefault("speed-walk-success", "Walking speed is now <speed>");
@@ -150,6 +165,7 @@ public class Lang {
                 fileConfig.addDefault("speed-reset-success-target", "Successfully reset Fly and Walk Speed for <target>");
                 fileConfig.addDefault("staffchat-enabled", "StaffChat has been Enabled");
                 fileConfig.addDefault("staffchat-disabled", "StaffChat has been Disabled");
+                fileConfig.addDefault("staffchat-message", "&d(&5&lStaff&d) <player>: &7<message>");
                 fileConfig.addDefault("teleport-self", "You cannot teleport to yourself");
                 fileConfig.addDefault("teleport-success", "Teleported to <target>");
                 fileConfig.addDefault("teleport-target-success", "<sender> has teleported to you");
@@ -228,6 +244,9 @@ public class Lang {
                 }
                 if (fileConfig.getString("invalid-player") == null){
                     fileConfig.set("invalid-player", "You are not a player");
+                }
+                if (fileConfig.getString("incorrect-format") == null){
+                    fileConfig.addDefault("incorrect-format", "Incorrect format! Please use <command>");
                 }
                 if (fileConfig.getString("target-self") == null){
                     fileConfig.set("target-self", "You cannot target yourself.");
@@ -427,6 +446,18 @@ public class Lang {
                 if (fileConfig.getString("reply-no-message") == null){
                     fileConfig.set("reply-no-message", "There is no message to reply to");
                 }
+                if (fileConfig.getString("message-sender") == null){
+                    fileConfig.addDefault("message-sender", "&eme &6>> &f<target> &7: <message>");
+                }
+                if (fileConfig.getString("message-recipient") == null){
+                    fileConfig.addDefault("message-recipient", "&f<sender> &6>> &eme &7: <message>");
+                }
+                if (fileConfig.getString("reply-sender") == null){
+                    fileConfig.addDefault("reply-sender", "&eme &6>> &f<target> &7: <message>");
+                }
+                if (fileConfig.getString("reply-recipient") == null){
+                    fileConfig.addDefault("reply-recipient", "&f<sender> &6>> &eme &7: <message>");
+                }
                 if (fileConfig.getString("playtime-self") == null){
                     fileConfig.set("playtime-self", "You have played for <days> Days <hours> Hours <minutes> Minutes <seconds> Seconds");
                 }
@@ -456,6 +487,33 @@ public class Lang {
                 }
                 if (fileConfig.getString("report-successful") == null){
                     fileConfig.set("report-successful", "Report sent successfully");
+                }
+                if (fileConfig.getString("report-user-line-one") == null){
+                    fileConfig.addDefault("report-user-line-one", "&b--------- &cNEW REPORT &b---------");
+                }
+                if (fileConfig.getString("report-user-line-two") == null){
+                    fileConfig.addDefault("report-user-line-two", "&cReporter &7>> &f<player>");
+                }
+                if (fileConfig.getString("report-user-line-three") == null){
+                    fileConfig.addDefault("report-user-line-three", "&cReported User &7>> &f<target>");
+                }
+                if (fileConfig.getString("report-user-line-four") == null){
+                    fileConfig.addDefault("report-user-line-four", "&cReason &7>> &f<message>");
+                }
+                if (fileConfig.getString("report-user-line-five") == null){
+                    fileConfig.addDefault("report-user-line-five", "&b-----------------------------");
+                }
+                if (fileConfig.getString("report-bug-line-one") == null){
+                    fileConfig.addDefault("report-bug-line-one", "&b--------- &cBUG REPORT &b---------");
+                }
+                if (fileConfig.getString("report-bug-line-two") == null){
+                    fileConfig.addDefault("report-bug-line-two", "&cReporter &7>> &f<player>");
+                }
+                if (fileConfig.getString("report-bug-line-three") == null){
+                    fileConfig.addDefault("report-bug-line-three", "&cBug &7>> &f<message>");
+                }
+                if (fileConfig.getString("report-bug-line-four") == null){
+                    fileConfig.addDefault("report-bug-line-four", "&b-----------------------------");
                 }
                 if (fileConfig.getString("spawn-deletion-success") == null){
                     fileConfig.set("spawn-deletion-success", "Spawn Deleted");
@@ -556,6 +614,9 @@ public class Lang {
                 if (fileConfig.getString("socialspy-disabled") == null){
                     fileConfig.set("socialspy-disabled", "SocialSpy has been Disabled");
                 }
+                if (fileConfig.getString("socialspy-message") == null){
+                    fileConfig.set("socialspy-message", "&c[SocialSpy] &f<sender> &6>> &f<target> &7: <message>");
+                }
                 if (fileConfig.getString("speed-invalid-number") == null){
                     fileConfig.set("speed-invalid-number", "Please provide a speed from 1-10");
                 }
@@ -582,6 +643,9 @@ public class Lang {
                 }
                 if (fileConfig.getString("staffchat-disabled") == null){
                     fileConfig.set("staffchat-disabled", "StaffChat has been Disabled");
+                }
+                if (fileConfig.getString("staffchat-message") == null){
+                    fileConfig.set("staffchat-message", "&d(&5&lStaff&d) <player>: &7<message>");
                 }
                 if (fileConfig.getString("teleport-self") == null){
                     fileConfig.set("teleport-self", "You cannot teleport to yourself");

@@ -48,6 +48,10 @@ public class Fly implements CommandExecutor {
                         targetPlayer.setAllowFlight(true);
                         return true;
                     }
+                }else{
+                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/fly (player)");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    return true;
                 }
             }else{
                 String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.fly");
@@ -59,6 +63,5 @@ public class Fly implements CommandExecutor {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
             return true;
         }
-        return false;
     }
 }

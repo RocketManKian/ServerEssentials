@@ -1,5 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
+import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -39,36 +40,39 @@ public class Message implements CommandExecutor {
                             String arg = (args[i] + " ");
                             sm = (sm + arg);
                         }
+                        String msgsender = Lang.fileConfig.getString("message-sender").replace("<target>", targetname).replace("<message>", sm);
+                        String msgrecipient = Lang.fileConfig.getString("message-recipient").replace("<sender>", sendername).replace("<message>", sm);
+                        String msgsocialspy = Lang.fileConfig.getString("socialspy-message").replace("<sender>", sendername).replace("<target>", targetname).replace("<message>", sm);
                         // Check if the Sender doesn't have the se.socialspy permission
                         if (!sender.hasPermission("se.socialspy")) {
                             // Loop to check through all Online Players and get all players who are included within the HashMap
                             for (Player admin : Bukkit.getOnlinePlayers()) {
                                 if (SocialSpy.socialspy.contains(admin)) {
                                     if (admin.getUniqueId().equals(sender)){
-                                        sender.sendMessage(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + targetname + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
-                                        recipient.sendMessage(sendername + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msgsender));
+                                        recipient.sendMessage(ChatColor.translateAlternateColorCodes('&', msgrecipient));
                                         return true;
                                     }else{
-                                        admin.sendMessage(ChatColor.RED + "[SocialSpy] " + ChatColor.WHITE + sendername + ChatColor.GOLD + " >> " + ChatColor.WHITE + targetname + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msgsocialspy));
                                         return true;
                                     }
                                 }
                             }
-                            sender.sendMessage(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + targetname + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
-                            recipient.sendMessage(sendername + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msgsender));
+                            recipient.sendMessage(ChatColor.translateAlternateColorCodes('&', msgrecipient));
                             return true;
                         } else {
-                            sender.sendMessage(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + targetname + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
-                            recipient.sendMessage(sendername + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msgsender));
+                            recipient.sendMessage(ChatColor.translateAlternateColorCodes('&', msgrecipient));
                             // Loop to check through all Online Players and get all players who are included within the HashMap
                             for (Player admin : Bukkit.getOnlinePlayers()) {
                                 if (SocialSpy.socialspy.contains(admin)) {
                                     if (admin.getUniqueId().equals(sender)){
-                                        sender.sendMessage(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + targetname + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
-                                        recipient.sendMessage(sendername + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msgsender));
+                                        recipient.sendMessage(ChatColor.translateAlternateColorCodes('&', msgrecipient));
                                         return true;
                                     }else{
-                                        admin.sendMessage(ChatColor.RED + "[SocialSpy] " + ChatColor.WHITE + sendername + ChatColor.GOLD + " >> " + ChatColor.WHITE + targetname + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msgsocialspy));
                                         return true;
                                     }
                                 }
@@ -80,6 +84,10 @@ public class Message implements CommandExecutor {
                         messager.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
+                }else{
+                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/msg (player) <message>");
+                    messager.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    return true;
                 }
             } else {
                 String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.message");

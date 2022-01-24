@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 public class TeleportHere implements CommandExecutor {
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         Player player = (Player) sender;
@@ -23,7 +24,7 @@ public class TeleportHere implements CommandExecutor {
                 } else if (target != sender) {
                     try {
                         String target2 = target.getName();
-                        if (sender.hasPermission("se.silenttp") || player.hasPermission("se.all")) {
+                        if (sender.hasPermission("se.silenttp")) {
                             String msg = Lang.fileConfig.getString("teleport-target-success").replace("<sender>", target2);
                             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         } else if (!sender.hasPermission("se.silenttp")) {
@@ -39,6 +40,10 @@ public class TeleportHere implements CommandExecutor {
                     }
                     return true;
                 }
+            }else{
+                String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/tphere (player)");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                return true;
             }
         }else{
             String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.teleport");

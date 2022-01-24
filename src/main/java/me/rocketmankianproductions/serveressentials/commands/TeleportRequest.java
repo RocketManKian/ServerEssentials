@@ -217,6 +217,10 @@ public class TeleportRequest implements CommandExecutor {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
+                }else{
+                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/tpa (player)");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    return true;
                 }
             }else{
                 String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.tpa");
@@ -399,6 +403,10 @@ public class TeleportRequest implements CommandExecutor {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
+                }else{
+                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/tpahere (player)");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    return true;
                 }
             }else{
                 String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.tpahere");

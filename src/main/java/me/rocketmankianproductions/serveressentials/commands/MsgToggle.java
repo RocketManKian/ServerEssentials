@@ -82,7 +82,8 @@ public class MsgToggle {
                             return true;
                         }
                     } else {
-                        sender.sendMessage(ChatColor.RED + "Incorrect format! Please use /msgtoggle");
+                        String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/msgtoggle");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
                 } else {

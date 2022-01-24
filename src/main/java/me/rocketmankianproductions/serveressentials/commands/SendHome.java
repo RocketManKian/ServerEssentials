@@ -56,6 +56,10 @@ public class SendHome implements CommandExecutor {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
+                }else{
+                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/sendhome (player) (home)");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    return true;
                 }
             }else{
                 String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.sendhome");

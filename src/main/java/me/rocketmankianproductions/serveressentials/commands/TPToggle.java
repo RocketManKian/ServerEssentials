@@ -78,7 +78,8 @@ public class TPToggle {
                             return true;
                         }
                     } else {
-                        sender.sendMessage(ChatColor.RED + "Incorrect format! Please use /tptoggle");
+                        String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/tptoggle");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
                 } else {

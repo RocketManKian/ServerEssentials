@@ -166,6 +166,10 @@ public class Warp implements CommandExecutor {
                                         return true;
                                     }
                                 }
+                            }else{
+                                String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/warp (warp)");
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                return true;
                             }
                         } else {
                             String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.warps." + args[0]);
@@ -295,12 +299,20 @@ public class Warp implements CommandExecutor {
                                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 return true;
                             }
+                        }else{
+                            String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/warp setblock (warp)");
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            return true;
                         }
                     }else{
                         String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.setwarp.block");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                         return true;
                     }
+                }else{
+                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/warp (warp)");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    return true;
                 }
             } else {
                 String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.warp");

@@ -67,7 +67,9 @@ public class Vanish implements CommandExecutor {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                     }
                 }else{
-                    return false;
+                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/vanish");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    return true;
                 }
             }else{
                 String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.vanish");

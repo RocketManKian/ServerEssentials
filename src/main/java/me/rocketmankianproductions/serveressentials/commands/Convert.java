@@ -932,7 +932,15 @@ public class Convert implements CommandExecutor {
                                 }
                             }
                         }
+                    }else{
+                        String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/convert all");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        return true;
                     }
+                }else{
+                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/convert");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    return true;
                 }
             }else{
                 String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.convert");

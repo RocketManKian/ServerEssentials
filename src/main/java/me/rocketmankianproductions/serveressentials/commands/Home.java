@@ -164,6 +164,10 @@ public class Home implements CommandExecutor {
                                 return true;
                             }
                         }
+                    }else{
+                        String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/home (home)");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        return true;
                     }
                 } else {
                     String msg = Lang.fileConfig.getString("home-invalid").replace("<home>", args[0]);
@@ -310,7 +314,8 @@ public class Home implements CommandExecutor {
                                 }
                             }
                         } else {
-                            player.sendMessage("Incorrect format! Please use /home (name) to teleport to your home");
+                            String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/home (home)");
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             return true;
                         }
                     } else {
@@ -360,7 +365,8 @@ public class Home implements CommandExecutor {
                                     }
                                 }
                             } else {
-                                player.sendMessage("Incorrect format! Please use /home (name) to teleport to your home");
+                                String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/home (home)");
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 return true;
                             }
                         }else{
@@ -375,6 +381,10 @@ public class Home implements CommandExecutor {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                 return true;
             }
+        }else{
+            String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/home (home)");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+            return true;
         }
         return false;
     }

@@ -71,12 +71,15 @@ public class Playtime implements CommandExecutor {
                 String msg = Lang.fileConfig.getString("playtime-self").replace("<days>", String.valueOf(days)).replace("<hours>", String.valueOf(hours)).replace("<minutes>", String.valueOf(minutes)).replace("<seconds>", String.valueOf(seconds));
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                 return true;
+            }else{
+                String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/playtime (player)");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                return true;
             }
         } else {
             String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.playtime");
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
             return true;
         }
-        return false;
     }
 }

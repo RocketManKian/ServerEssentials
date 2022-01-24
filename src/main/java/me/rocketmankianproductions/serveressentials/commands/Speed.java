@@ -146,6 +146,10 @@ public class Speed implements CommandExecutor {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                         return true;
                     }
+                }else{
+                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/speed (fly/walk) <speed>");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    return true;
                 }
             }else{
                 String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.speed");

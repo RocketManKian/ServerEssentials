@@ -34,12 +34,15 @@ public class DeleteHome implements CommandExecutor {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }
+            }else{
+                String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/deletehome (home)");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                return true;
             }
         } else {
             String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.deletehome");
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
             return true;
         }
-        return false;
     }
 }

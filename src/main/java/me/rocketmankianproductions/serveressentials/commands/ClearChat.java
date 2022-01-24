@@ -23,6 +23,10 @@ public class ClearChat implements CommandExecutor {
                     Bukkit.broadcastMessage(ChatColor.RED + " The chat has been cleared by a staff member.");
                     Bukkit.broadcastMessage(ChatColor.GOLD + "|-------------------+====+-------------------|");
                     return true;
+                }else{
+                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/clearchat");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    return true;
                 }
             }else{
                 String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.clearchat");

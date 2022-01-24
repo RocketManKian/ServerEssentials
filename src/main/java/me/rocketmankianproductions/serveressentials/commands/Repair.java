@@ -76,13 +76,20 @@ public class Repair implements CommandExecutor {
                     String msg = Lang.fileConfig.getString("repair-all-items");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
+                }else{
+                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/repair all");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    return true;
                 }
+            }else{
+                String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/repair");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                return true;
             }
         } else {
             String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.repair");
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
             return true;
         }
-        return false;
     }
 }

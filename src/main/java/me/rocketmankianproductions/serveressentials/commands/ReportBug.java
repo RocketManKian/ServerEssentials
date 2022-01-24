@@ -35,6 +35,10 @@ public class ReportBug implements CommandExecutor {
                         builder.append(args[i] + (args.length > (i + 1) ? " " : ""));
                     }
                     String messages = builder.toString(); // your message from all args after "startArg - 1"
+                    String msg1 = Lang.fileConfig.getString("report-bug-line-one");
+                    String msg2 = Lang.fileConfig.getString("report-bug-line-two").replace("<player>", player.getName());
+                    String msg3 = Lang.fileConfig.getString("report-bug-line-three").replace("<message>", messages);
+                    String msg4 = Lang.fileConfig.getString("report-bug-line-four");
                     if (ServerEssentials.isConnectedToDiscordSRV && ServerEssentials.getPlugin().getConfig().getBoolean("enable-discord-integration") == true) {
                         String channelname = ServerEssentials.getPlugin().getConfig().getString("report-bug-channel-name");
                         TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName(channelname);
@@ -56,10 +60,10 @@ public class ReportBug implements CommandExecutor {
                             }
                             for (Player admin : Bukkit.getOnlinePlayers()) {
                                 if (admin.hasPermission("se.reportnotification")) {
-                                    admin.sendMessage(ChatColor.AQUA + "--------- " + ChatColor.RED + "BUG REPORT " + ChatColor.AQUA + "---------");
-                                    admin.sendMessage(ChatColor.RED + "Reporter" + ChatColor.GRAY + " » " + ChatColor.WHITE + player.getName());
-                                    admin.sendMessage(ChatColor.RED + "Bug" + ChatColor.GRAY + " » " + ChatColor.WHITE + messages);
-                                    admin.sendMessage(ChatColor.AQUA + "-----------------------------");
+                                    admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg1));
+                                    admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                                    admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
+                                    admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
                                 }
                             }
                             return true;
@@ -76,10 +80,10 @@ public class ReportBug implements CommandExecutor {
                             }
                             for (Player admin : Bukkit.getOnlinePlayers()) {
                                 if (admin.hasPermission("se.reportnotification")) {
-                                    admin.sendMessage(ChatColor.AQUA + "--------- " + ChatColor.RED + "BUG REPORT " + ChatColor.AQUA + "---------");
-                                    admin.sendMessage(ChatColor.RED + "Reporter" + ChatColor.GRAY + " » " + ChatColor.WHITE + player.getName());
-                                    admin.sendMessage(ChatColor.RED + "Bug" + ChatColor.GRAY + " » " + ChatColor.WHITE + messages);
-                                    admin.sendMessage(ChatColor.AQUA + "-----------------------------");
+                                    admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg1));
+                                    admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                                    admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
+                                    admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
                                 }
                             }
                             return true;
@@ -87,14 +91,18 @@ public class ReportBug implements CommandExecutor {
                     } else {
                         for (Player admin : Bukkit.getOnlinePlayers()) {
                             if (admin.hasPermission("se.reportnotification")) {
-                                admin.sendMessage(ChatColor.AQUA + "--------- " + ChatColor.RED + "BUG REPORT " + ChatColor.AQUA + "---------");
-                                admin.sendMessage(ChatColor.RED + "Reporter" + ChatColor.GRAY + " » " + ChatColor.WHITE + player.getName());
-                                admin.sendMessage(ChatColor.RED + "Bug" + ChatColor.GRAY + " » " + ChatColor.WHITE + messages);
-                                admin.sendMessage(ChatColor.AQUA + "-----------------------------");
+                                admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg1));
+                                admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                                admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
+                                admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
                             }
                         }
                         return true;
                     }
+                }else{
+                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/reportbug <bug>");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    return true;
                 }
             }else{
                 String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.report");

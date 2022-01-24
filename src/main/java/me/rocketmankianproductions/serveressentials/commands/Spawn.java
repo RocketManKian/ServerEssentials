@@ -187,6 +187,10 @@ public class Spawn implements CommandExecutor {
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                             return true;
                         }
+                    }else{
+                        String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/spawn");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        return true;
                     }
                 } else {
                     // Sends Message if Spawn Doesn't Exist

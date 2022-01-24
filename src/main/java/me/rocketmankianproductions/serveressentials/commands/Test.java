@@ -70,6 +70,10 @@ public class Test implements CommandExecutor {
                     } else {
                         return false;
                     }
+                }else{
+                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/test (motd/welcome/join/leave)");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    return true;
                 }
             } else {
                 String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.test");
