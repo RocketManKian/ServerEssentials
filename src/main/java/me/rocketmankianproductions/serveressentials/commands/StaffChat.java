@@ -40,13 +40,19 @@ public class StaffChat implements CommandExecutor {
                     String myArgs = String.join(" ", args);
                     String playername = ChatColor.stripColor(player.getDisplayName());
                     String channel = ServerEssentials.getPlugin().getConfig().getString("staff-chat-channel-name");
-                    TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName(channel);
-                    if (textChannel != null && ServerEssentials.isConnectedToDiscordSRV && ServerEssentials.plugin.getConfig().getBoolean("enable-discord-integration")){
-                        textChannel.sendMessage("**" + playername + "** » " + myArgs).queue();
-                        Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', "&d(&5&lStaff&d) ") + ChatColor.LIGHT_PURPLE + player.getName() + ": " + ChatColor.GRAY + myArgs, "se.staffchat");
-                        return true;
+                    String msg = Lang.fileConfig.getString("staffchat-message").replace("<player>", player.getName()).replace("<message>", myArgs);
+                    if (ServerEssentials.isConnectedToDiscordSRV && ServerEssentials.plugin.getConfig().getBoolean("enable-discord-integration")){
+                        TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName(channel);
+                        if (textChannel != null){
+                            textChannel.sendMessage("**" + playername + "** » " + myArgs).queue();
+                            Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', msg), "se.staffchat");
+                            return true;
+                        }else{
+                            Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', msg), "se.staffchat");
+                            return true;
+                        }
                     }else{
-                        Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', "&d(&5&lStaff&d) ") + ChatColor.LIGHT_PURPLE + player.getName() + ": " + ChatColor.GRAY + myArgs, "se.staffchat");
+                        Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', msg), "se.staffchat");
                         return true;
                     }
                 }

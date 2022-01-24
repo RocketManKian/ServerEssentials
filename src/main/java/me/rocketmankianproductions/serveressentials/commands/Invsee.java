@@ -70,6 +70,10 @@ public class Invsee implements CommandExecutor, Listener {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                     return true;
                 }
+            }else{
+                String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/invsee (player)");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                return true;
             }
         }
         return false;

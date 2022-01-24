@@ -130,7 +130,9 @@ public class Sethome implements CommandExecutor {
                     return true;
                 }
             } else {
-                player.sendMessage(ChatColor.RED + "Use \"/sethome (name)\" to set your home.");
+                String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/sethome (name)");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                return true;
             }
         }
         return false;

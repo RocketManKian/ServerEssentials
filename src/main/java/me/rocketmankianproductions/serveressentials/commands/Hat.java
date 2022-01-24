@@ -33,6 +33,10 @@ public class Hat implements CommandExecutor {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                     return true;
                 }
+            }else{
+                String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/hat");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                return true;
             }
         }
         return false;

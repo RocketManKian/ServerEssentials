@@ -106,7 +106,8 @@ public class Setspawn implements CommandExecutor {
                     return true;
                 }
             }else{
-                player.sendMessage(ChatColor.RED + "Use \"/setspawn\" to set spawn in current world.");
+                String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/setspawn");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                 return true;
             }
         }

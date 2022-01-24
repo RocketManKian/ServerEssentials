@@ -28,6 +28,10 @@ public class TeleportAll implements CommandExecutor {
                     int players = numOfPlayer - 1;
                     String msg = Lang.fileConfig.getString("teleport-all-message").replace("<amount>", String.valueOf(players));
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                }else{
+                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/tpall");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    return true;
                 }
             } else {
                 String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.tpall");

@@ -40,6 +40,10 @@ public class TeleportHere implements CommandExecutor {
                     }
                     return true;
                 }
+            }else{
+                String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/tphere (player)");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                return true;
             }
         }else{
             String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.teleport");

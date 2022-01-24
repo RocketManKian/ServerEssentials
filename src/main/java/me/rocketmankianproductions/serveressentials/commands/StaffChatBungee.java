@@ -4,9 +4,6 @@ import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
-import net.luckperms.api.LuckPermsProvider;
-import net.luckperms.api.model.user.User;
-import net.luckperms.api.model.user.UserManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -21,7 +18,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 
 public class StaffChatBungee implements CommandExecutor, PluginMessageListener {
 
@@ -126,11 +122,11 @@ public class StaffChatBungee implements CommandExecutor, PluginMessageListener {
                 String[] playerList = in.readUTF().split(", ");
                 for (String playername : playerList) {
                     OfflinePlayer player1 = Bukkit.getOfflinePlayer(playername);
-                    User player2 = giveMeADamnUser(player1.getUniqueId());
+                    //User player2 = giveMeADamnUser(player1.getUniqueId());
                     Bukkit.getLogger().info(String.valueOf(player1.getName()));
-                    if (hasPermission(player2, permission)) {
+                    //if (hasPermission(player2, permission)) {
 
-                    }
+                   // }
                 }
             }
             if (subchannel.equals("GetServer")) {
@@ -149,14 +145,14 @@ public class StaffChatBungee implements CommandExecutor, PluginMessageListener {
         }
     }
 
-    public User giveMeADamnUser(UUID uniqueId) {
-        UserManager userManager = LuckPermsProvider.get().getUserManager();
-        CompletableFuture<User> userFuture = userManager.loadUser(uniqueId);
-
-        return userFuture.join(); // ouch! (block until the User is loaded)
-    }
-
-    public boolean hasPermission(User user, String permission) {
-        return user.getCachedData().getPermissionData().checkPermission(permission).asBoolean();
-    }
+//    public User giveMeADamnUser(UUID uniqueId) {
+//        UserManager userManager = LuckPermsProvider.get().getUserManager();
+//        CompletableFuture<User> userFuture = userManager.loadUser(uniqueId);
+//
+//        return userFuture.join(); // ouch! (block until the User is loaded)
+//    }
+//
+//    public boolean hasPermission(User user, String permission) {
+//        return user.getCachedData().getPermissionData().checkPermission(permission).asBoolean();
+//    }
 }

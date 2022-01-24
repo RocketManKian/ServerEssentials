@@ -21,7 +21,6 @@ commands:
     description: Rules Command
   hurt:
     description: Hurt the Player
-    usage: Incorrect format! Please use /hurt (player) (amount)
   playtime:
     description: Shows Playtime
   setspawn:
@@ -35,92 +34,67 @@ commands:
     description: Sets Your Home
   home:
     description: Teleports you to home
-    usage: Incorrect format! Please use /home (name)
   deletehome:
     description: Deletes your home
-    usage: Incorrect format! Please use /deletehome (name)
     aliases: [delhome]
   teleport:
     description: Teleport Function
-    usage: Incorrect format! Please use /teleport (User) (Target) or /teleport <x> <y> <z>
     aliases: [tp]
   tphere:
     description: Teleport Here Function
-    usage: Incorrect format! Please use /tphere (User)
     aliases: [teleporthere]
   teleportall:
     description: Teleport Function
-    usage: Incorrect format! Please use /tpall
     aliases: [tpall]
   tpa:
     description: Teleport Request
-    usage: Incorrect format! Please use /tpa (name)
   tpahere:
     description: Teleport Here Request
-    usage: Incorrect format! Please use /tpahere (name)
   tpaccept:
     description: Teleport Accept
-    usage: Incorrect format! Please use /tpaccept
   tpdeny:
     description: Teleport Deny
-    usage: Incorrect format! Please use /tpdeny
   tptoggle:
     description: TPToggle Command
   heal:
     description: Heal
-    usage: Incorrect format! Please use /heal (name)
   feed:
     description: Feed
-    usage: Incorrect format! Please use /feed (name)
   announce:
     description: Announce
-    usage: Incorrect format! Please use /announce <Message>
     aliases: [bc,broadcast]
   invsee:
     description: Invsee Command
-    usage: Incorrect format! Please use /invsee <player>
   gamemode:
     description: Gamemode Command
-    usage: Incorrect format! Please use /gamemode <mode>
     aliases: [gm]
   creative:
     description: Creative Command
-    usage: Incorrect format! Please use /gamemode <mode>
     aliases: [c, 1]
   survival:
     description: Survival Command
-    usage: Incorrect format! Please use /gamemode <mode>
     aliases: [s, 0]
   adventure:
     description: Adventure Command
-    usage: Incorrect format! Please use /gamemode <mode>
     aliases: [a, 2]
   spectator:
     description: Spectator Command
-    usage: Incorrect format! Please use /gamemode <mode>
     aliases: [3]
   gmc:
     description: Creative Command
-    usage: Incorrect format! Please use /gmc
   gms:
     description: Survival Command
-    usage: Incorrect format! Please use /gms
   gmsp:
     description: Spectator Command
-    usage: Incorrect format! Please use /gmsp
   gma:
     description: Adventure Command
-    usage: Incorrect format! Please use /gma
   fly:
     description: Fly Command
-    usage: Incorrect format! Please use /fly
   kill:
     description: Kill Command
-    usage: Incorrect format! Please use /kill
   msg:
     description: Message Command
     aliases: [message]
-    usage: Incorrect Format! Please use /msg <player> <message>
   msgtoggle:
     description: Message Toggle Command
   reply:
@@ -128,127 +102,89 @@ commands:
     aliases: [r]
   craft:
     description: Craft Command
-    usage: Incorrect format! Please use /craft
   enderchest:
     description: Enderchest Command
-    usage: Incorrect format! Please use /enderchest
     aliases: [ec]
   setwarp:
     description: Setwarp Command
-    usage: Incorrect format! Please use /setwarp (name)
   warp:
     description: Setwarp Command
-    usage: Incorrect format! Please use /warp (name)
   deletewarp:
     description: Deletewarp Command
-    usage: Incorrect format! Please use /deletewarp (name)
     aliases: [delwarp]
   repair:
     description: Repair Command
-    usage: Incorrect format! Please use /repair
     aliases: [fix]
   sunrise:
     description: Sunrise Command
-    usage: Incorrect format! Please use /sunrise
     aliases: [dawn]
   day:
     description: Day Command
-    usage: Incorrect format! Please use /day
   sunset:
     description: Sunset Command
-    usage: Incorrect format! Please use /sunset
     aliases: [dusk]
   midnight:
     description: Midnight Command
-    usage: Incorrect format! Please use /midnight
   sun:
     description: Clear Weather Command
-    usage: Incorrect format! Please use /sun
   thunder:
     description: Storm Command
-    usage: Incorrect format! Please use /thunder
   storm:
     description: Storm Command
-    usage: Incorrect format! Please use /storm
   vanish:
     description: Vanish Command
-    usage: Incorrect format! Please use /vanish
     aliases: [v]
   test:
     description: Test Command
-    usage: Incorrect format! Please use /test
   test motd:
     description: Test Motd Command
-    usage: Incorrect format! Please use /test motd
   test join:
     description: Test Join Command
-    usage: Incorrect format! Please use /test join
   test leave:
     description: Test Leave Command
-    usage: Incorrect format! Please use /test leave
   test welcome:
     description: Test Welcome Command
-    usage: Incorrect format! Please use /test welcome
   test permission:
     description: Test Permission Command
-    usage: Incorrect format! Please use /test permission
   clear:
     description: Clear Command
-    usage: Incorrect format! Please use /clear
   god:
     description: God Command
-    usage: Incorrect format! Please use /god
     aliases: [godmode]
   hat:
     description: Hat Command
-    usage: Incorrect format! Please use /hat
   sendhome:
     description: Send Home Command
-    usage: Incorrect format! Please use /sendhome (player) (home name)
   listhomes:
     description: List Home Command
-    usage: Incorrect format! Please use /listhomes (player)
   tpacancel:
     description: TPA Cancel Command
-    usage: Incorrect format! Please use /tpacancel
   rename:
     description: Rename Command
-    usage: Incorrect format! Please use /rename (name)
   lore:
     description: Lore Command
-    usage: Incorrect format! Please use /lore (text)
   speed:
     description: Speed Command
-    usage: Incorrect format! Please use /speed (value)
   report:
     description: Report Command
-    usage: Incorrect format! Please use /report (user) (reason)
   reportbug:
     description: Report Bug Command
-    usage: Incorrect format! Please use /reportbug (bug)
   clearchat:
     description: Clear Chat Command
-    usage: Incorrect format! Please use /clearchat
     aliases: [cc]
   sendwarp:
     description: Send Warp Command
-    usage: Incorrect format! Please use /clearchat
   socialspy:
     description: Social Spy Command
-    usage: Incorrect format! Please use /socialspy
   staffchat:
     description: Staff Chat Command
-    usage: Incorrect format! Please use /staffchat
     aliases: [sc, ac, adminchat]
   trash:
     description: Trash Command
-    usage: Incorrect format! Please use /trash
   back:
     description: Back Command
-    usage: Incorrect format! Please use /back
   convert:
     description: Convert Command
-    usage: Incorrect format! Please use /convert
 permissions:
   se.all:
     description: "Gives access to all commands."

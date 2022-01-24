@@ -36,7 +36,8 @@ public class Announce implements CommandExecutor {
                     }
                     return true;
                 } else {
-                    sender.sendMessage("Incorrect Format! Usage: /announce <Message>");
+                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/announce <message>");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }
             } else {

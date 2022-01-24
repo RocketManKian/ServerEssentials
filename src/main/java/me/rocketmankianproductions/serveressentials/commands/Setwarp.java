@@ -124,11 +124,14 @@ public class Setwarp implements CommandExecutor {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                     return true;
                 }
+            }else{
+                String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/setwarp (name)");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                return true;
             }
         } else {
             player.sendMessage(ChatColor.RED + "Use \"/setwarp (name)\" to create a new warp.");
             return true;
         }
-        return false;
     }
 }

@@ -49,6 +49,11 @@ public class Report implements CommandExecutor {
                             builder.append(args[i] + (args.length > (i + 1) ? " " : ""));
                         }
                         String messages = builder.toString(); // your message from all args after "startArg - 1"
+                        String msg1 = Lang.fileConfig.getString("report-user-line-one");
+                        String msg2 = Lang.fileConfig.getString("report-user-line-two").replace("<player>", player.getName());
+                        String msg3 = Lang.fileConfig.getString("report-user-line-three").replace("<target>", target.getName());
+                        String msg4 = Lang.fileConfig.getString("report-user-line-four").replace("<message>", messages);
+                        String msg5 = Lang.fileConfig.getString("report-user-line-five");
                         if (ServerEssentials.isConnectedToDiscordSRV && ServerEssentials.getPlugin().getConfig().getBoolean("enable-discord-integration") == true) {
                             String channelname = ServerEssentials.getPlugin().getConfig().getString("report-user-channel-name");
                             TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName(channelname);
@@ -71,14 +76,14 @@ public class Report implements CommandExecutor {
                                 }
                                 for (Player admin : Bukkit.getOnlinePlayers()) {
                                     if (admin.hasPermission("se.reportnotification")) {
-                                        admin.sendMessage(ChatColor.AQUA + "--------- " + ChatColor.RED + "NEW REPORT " + ChatColor.AQUA + "---------");
-                                        admin.sendMessage(ChatColor.RED + "Reporter" + ChatColor.GRAY + " » " + ChatColor.WHITE + player.getName());
-                                        TextComponent message = new TextComponent(ChatColor.RED + "Reported User" + ChatColor.GRAY + " » " + ChatColor.WHITE + target.getName());
+                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg1));
+                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                                        TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', msg3));
                                         message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Teleport To " + target.getName())));
                                         message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + target.getName()));
                                         admin.spigot().sendMessage(message);
-                                        admin.sendMessage(ChatColor.RED + "Reason" + ChatColor.GRAY + " » " + ChatColor.WHITE + messages);
-                                        admin.sendMessage(ChatColor.AQUA + "-----------------------------");
+                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
+                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg5));
                                     }
                                 }
                                 return true;
@@ -96,14 +101,14 @@ public class Report implements CommandExecutor {
                                 }
                                 for (Player admin : Bukkit.getOnlinePlayers()) {
                                     if (admin.hasPermission("se.reportnotification")) {
-                                        admin.sendMessage(ChatColor.AQUA + "--------- " + ChatColor.RED + "NEW REPORT " + ChatColor.AQUA + "---------");
-                                        admin.sendMessage(ChatColor.RED + "Reporter" + ChatColor.GRAY + " » " + ChatColor.WHITE + player.getName());
-                                        TextComponent message = new TextComponent(ChatColor.RED + "Reported User" + ChatColor.GRAY + " » " + ChatColor.WHITE + target.getName());
+                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg1));
+                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                                        TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', msg3));
                                         message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Teleport To " + target.getName())));
                                         message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + target.getName()));
                                         admin.spigot().sendMessage(message);
-                                        admin.sendMessage(ChatColor.RED + "Reason" + ChatColor.GRAY + " » " + ChatColor.WHITE + messages);
-                                        admin.sendMessage(ChatColor.AQUA + "-----------------------------");
+                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
+                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg5));
                                     }
                                 }
                                 return true;
@@ -111,19 +116,23 @@ public class Report implements CommandExecutor {
                         } else {
                             for (Player admin : Bukkit.getOnlinePlayers()) {
                                 if (admin.hasPermission("se.reportnotification")) {
-                                    admin.sendMessage(ChatColor.AQUA + "--------- " + ChatColor.RED + "NEW REPORT " + ChatColor.AQUA + "---------");
-                                    admin.sendMessage(ChatColor.RED + "Reporter" + ChatColor.GRAY + " » " + ChatColor.WHITE + player.getName());
-                                    TextComponent message = new TextComponent(ChatColor.RED + "Reported User" + ChatColor.GRAY + " » " + ChatColor.WHITE + target.getName());
+                                    admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg1));
+                                    admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                                    TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', msg3));
                                     message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Teleport To " + target.getName())));
                                     message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + target.getName()));
                                     admin.spigot().sendMessage(message);
-                                    admin.sendMessage(ChatColor.RED + "Reason" + ChatColor.GRAY + " » " + ChatColor.WHITE + messages);
-                                    admin.sendMessage(ChatColor.AQUA + "-----------------------------");
+                                    admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
+                                    admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg5));
                                 }
                             }
                             return true;
                         }
                     }
+                }else{
+                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/report (player) <reason>");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    return true;
                 }
             }else{
                 String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.report");

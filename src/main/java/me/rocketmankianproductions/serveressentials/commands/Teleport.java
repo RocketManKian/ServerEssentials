@@ -19,9 +19,8 @@ public class Teleport implements CommandExecutor {
             if (player.hasPermission("se.teleport") || player.hasPermission("se.all")) {
                 // Checking if the player has the correct permission
                 if (args.length == 0) {
-                    player.sendMessage(ChatColor.RED + "You need to enter some arguments." + ChatColor.YELLOW
-                            + "\nTo teleport yourself: /teleport <otherplayer>" + ChatColor.YELLOW
-                            + "\nTo teleport others: /teleport <player> <otherplayer>");
+                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/teleport (player)");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 } else if (args.length == 1) {
                     Player target = Bukkit.getPlayer(args[0]);
@@ -327,7 +326,15 @@ public class Teleport implements CommandExecutor {
                             }
                         }
                         return true;
+                    }else{
+                        String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/teleport <x> <y> <z>");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        return true;
                     }
+                }else{
+                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/teleport <x> <y> <z>");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    return true;
                 }
             } else {
                 String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.teleport");

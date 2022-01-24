@@ -4,6 +4,7 @@ import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.commands.StaffChat;
+import me.rocketmankianproductions.serveressentials.commands.StaffChatBungee;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -29,17 +30,17 @@ public class ChatEventBungee implements Listener {
                         String player1 = player.getDisplayName();
                         player1 = ChatColor.stripColor(player1);
                         textChannel.sendMessage("**" + player1 + "** » " + scmessage).queue();
-                        StaffChat.msg = scmessage;
-                        StaffChat.getServer();
+                        StaffChatBungee.msg = scmessage;
+                        StaffChatBungee.getServer();
                         c.setCancelled(true);
                     } else {
-                        StaffChat.msg = scmessage;
-                        StaffChat.getServer();
+                        StaffChatBungee.msg = scmessage;
+                        StaffChatBungee.getServer();
                         c.setCancelled(true);
                     }
                 } else {
-                    StaffChat.msg = scmessage;
-                    StaffChat.getServer();
+                    StaffChatBungee.msg = scmessage;
+                    StaffChatBungee.getServer();
                     c.setCancelled(true);
                 }
             } else {

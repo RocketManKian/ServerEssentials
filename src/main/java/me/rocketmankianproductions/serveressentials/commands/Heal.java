@@ -76,7 +76,8 @@ public class Heal implements CommandExecutor {
                         }
                     }
                 } else if (args.length > 1) {
-                    player.sendMessage(ChatColor.RED + "Incorrect format! Use /heal (name)");
+                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/heal (player)");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }
             } else {

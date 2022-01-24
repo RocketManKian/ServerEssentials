@@ -18,8 +18,8 @@ public class SE implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
+            Player player = (Player) sender;
             if (args.length == 0) {
-                Player player = (Player) sender;
                 if (player.hasPermission("se.info") || player.hasPermission("se.all")) {
                     player.sendMessage(ChatColor.GREEN + "---------------------------"
                             + "\nServer Essentials Commands"
@@ -94,13 +94,13 @@ public class SE implements CommandExecutor {
                             + "\n/reportbug (bug) - Report specified Bug to Admins"
                             + "\n/back - Teleports to Previous Location"
                             + "\n/convert - Converts Items into Block Form");
+                    return true;
                 } else {
                     String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.info");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                     return true;
                 }
-            }
-            if (args.length == 1){
+            }else if (args.length == 1){
                 if (args[0].equals("reload")) {
                     new Reload(plugin).run(sender, Arrays.copyOfRange(args, 1, args.length));
                 }
@@ -110,8 +110,12 @@ public class SE implements CommandExecutor {
                 if (args[0].equals("silentjoin")) {
                     new SilentJoin(plugin).run(sender, Arrays.copyOfRange(args, 1, args.length));
                 }
+                return true;
+            }else{
+                String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/se");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                return true;
             }
-            return true;
         } else if (args.length == 1 && sender instanceof ConsoleCommandSender) {
             if (sender instanceof ConsoleCommandSender) {
                 if (args[0].equals("reload")) {
