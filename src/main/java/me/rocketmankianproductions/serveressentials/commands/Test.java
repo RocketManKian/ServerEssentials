@@ -3,6 +3,7 @@ package me.rocketmankianproductions.serveressentials.commands;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,9 +14,8 @@ import org.jetbrains.annotations.NotNull;
 public class Test implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        Player player = (Player) sender;
-
         if (sender instanceof Player) {
+            Player player = (Player) sender;
             if (player.hasPermission("se.test") || player.hasPermission("se.all")) {
                 if (args.length == 1) {
                     if (args[0].equalsIgnoreCase("join")) {
@@ -80,7 +80,10 @@ public class Test implements CommandExecutor {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                 return true;
             }
+        }else{
+            String console = Lang.fileConfig.getString("console-invalid");
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            return true;
         }
-        return false;
     }
 }

@@ -1,6 +1,7 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.file.Lang;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -42,7 +43,10 @@ public class Rename implements CommandExecutor {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                 return true;
             }
+        }else{
+            String console = Lang.fileConfig.getString("console-invalid");
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            return true;
         }
-        return false;
     }
 }

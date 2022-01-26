@@ -43,8 +43,8 @@ public class TeleportRequest implements CommandExecutor {
         int delay5 = (int) (delay4 * 20);
         int delay6 = delay5 / 20;
         if (!(sender instanceof Player)) {
-            String msg = Lang.fileConfig.getString("invalid-player");
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+            String console = Lang.fileConfig.getString("console-invalid");
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
             return true;
         }
         Player player = (Player) sender;

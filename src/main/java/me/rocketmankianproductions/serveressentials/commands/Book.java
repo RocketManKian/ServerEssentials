@@ -1,6 +1,9 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import net.md_5.bungee.api.chat.TextComponent;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -45,6 +48,10 @@ public class Book implements CommandExecutor {
             }else{
                 player.sendMessage("No Permission");
             }
+        }else{
+            String console = Lang.fileConfig.getString("console-invalid");
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            return true;
         }
         return false;
     }

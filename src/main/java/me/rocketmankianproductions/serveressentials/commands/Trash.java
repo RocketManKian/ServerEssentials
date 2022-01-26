@@ -24,7 +24,10 @@ public class Trash implements CommandExecutor {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                 return true;
             }
+        }else{
+            String console = Lang.fileConfig.getString("console-invalid");
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            return true;
         }
-        return false;
     }
 }

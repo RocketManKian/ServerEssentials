@@ -3,6 +3,7 @@ package me.rocketmankianproductions.serveressentials.commands;
 import me.rocketmankianproductions.serveressentials.LoggerMessage;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -55,10 +56,10 @@ public class MsgToggle {
     }
 
     public boolean run(CommandSender sender, @NotNull String[] args, Command command) {
-        Player player = (Player) sender;
-        if (command.getName().equalsIgnoreCase("msgtoggle")) {
-            if (player.hasPermission("se.msgtoggle") || player.hasPermission("se.all")) {
-                if ((sender instanceof Player)) {
+        if (sender instanceof Player){
+            Player player = (Player) sender;
+            if (command.getName().equalsIgnoreCase("msgtoggle")) {
+                if (player.hasPermission("se.msgtoggle") || player.hasPermission("se.all")) {
                     if (args.length == 0) {
                         if (fileConfig.getBoolean("msgtoggle." + player.getName(), false) == false) {
                             fileConfig.set("msgtoggle." + player.getName(), true);
@@ -87,16 +88,15 @@ public class MsgToggle {
                         return true;
                     }
                 } else {
-                    String msg = Lang.fileConfig.getString("invalid-player");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.msgtoggle");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                     return true;
                 }
-            } else {
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.msgtoggle");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                return true;
             }
+        }else{
+            String console = Lang.fileConfig.getString("console-invalid");
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
         }
-        return true;
+        return false;
     }
 }

@@ -3,6 +3,7 @@ package me.rocketmankianproductions.serveressentials.commands;
 import me.rocketmankianproductions.serveressentials.LoggerMessage;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -67,8 +68,8 @@ public class Setwarp implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        Player player = (Player) sender;
         if (sender instanceof Player) {
+            Player player = (Player) sender;
             if (args.length == 1) {
                 Boolean blacklistenabled = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-blacklist");
                 String world = player.getWorld().getName();
@@ -130,7 +131,8 @@ public class Setwarp implements CommandExecutor {
                 return true;
             }
         } else {
-            player.sendMessage(ChatColor.RED + "Use \"/setwarp (name)\" to create a new warp.");
+            String console = Lang.fileConfig.getString("console-invalid");
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
             return true;
         }
     }

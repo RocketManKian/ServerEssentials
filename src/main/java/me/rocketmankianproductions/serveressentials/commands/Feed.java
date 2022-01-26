@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 public class Feed implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-
         if (sender instanceof Player) {
             Player player = (Player) sender;
             Player target;

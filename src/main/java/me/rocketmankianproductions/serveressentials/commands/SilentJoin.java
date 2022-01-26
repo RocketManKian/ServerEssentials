@@ -3,6 +3,7 @@ package me.rocketmankianproductions.serveressentials.commands;
 import me.rocketmankianproductions.serveressentials.LoggerMessage;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -44,25 +45,30 @@ public class SilentJoin {
     }
 
     public void run(CommandSender sender, String[] args) {
-        Player player = (Player) sender;
-        if (player.hasPermission("se.silentjoin") || player.hasPermission("se.all")) {
-            if (fileConfig.getBoolean("silent." + player.getName(), false) == false) {
-                fileConfig.set("silent." + player.getName(), true);
-                String msg = Lang.fileConfig.getString("silentjoin-enabled");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+        if (sender instanceof Player){
+            Player player = (Player) sender;
+            if (player.hasPermission("se.silentjoin") || player.hasPermission("se.all")) {
+                if (fileConfig.getBoolean("silent." + player.getName(), false) == false) {
+                    fileConfig.set("silent." + player.getName(), true);
+                    String msg = Lang.fileConfig.getString("silentjoin-enabled");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                } else {
+                    fileConfig.set("silent." + player.getName(), false);
+                    String msg = Lang.fileConfig.getString("silentjoin-disabled");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                }
+                try {
+                    fileConfig.save(file);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else {
-                fileConfig.set("silent." + player.getName(), false);
-                String msg = Lang.fileConfig.getString("silentjoin-disabled");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.silentjoin");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
             }
-            try {
-                fileConfig.save(file);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.silentjoin");
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+        }else{
+            String console = Lang.fileConfig.getString("console-invalid");
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
         }
     }
     public static void reload() {

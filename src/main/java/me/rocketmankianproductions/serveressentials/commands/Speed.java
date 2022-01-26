@@ -12,8 +12,8 @@ import org.jetbrains.annotations.NotNull;
 public class Speed implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        Player player = (Player) sender;
         if (sender instanceof Player){
+            Player player = (Player) sender;
             if (player.hasPermission("se.speed") || player.hasPermission("se.all")){
                 if (args.length == 1){
                     if (args[0].equalsIgnoreCase("reset")){
@@ -156,6 +156,10 @@ public class Speed implements CommandExecutor {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                 return true;
             }
+        }else{
+            String console = Lang.fileConfig.getString("console-invalid");
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            return true;
         }
         return false;
     }
