@@ -24,302 +24,251 @@ public class Home implements CommandExecutor {
     public static ArrayList<UUID> cancel = new ArrayList<>();
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        int delay = ServerEssentials.plugin.getConfig().getInt("home-teleport");
-        Player player = (Player) sender;
-        String name = player.getUniqueId().toString();
-
-        if (args.length == 1) {
-            // Checking if the player has the correct permission
-            if (player.hasPermission("se.home") || player.hasPermission("se.all")) {
-                // Check if the File Exists and if Location.World has data
-                if (Sethome.file.exists() && Sethome.fileConfig.getString("Home." + name + "." + args[0] + ".World") != null) {
-                    Location loc = getLocation(args, player);
-                    if (args.length == 1) {
-                        if (ServerEssentials.plugin.getConfig().getInt("home-teleport") == 0) {
-                            if (ServerEssentials.plugin.getConfig().getBoolean("home-save")){
-                                if (Back.location.containsKey(player.getUniqueId())){
-                                    Back.location.remove(player.getUniqueId());
-                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                }else{
-                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                }
-                            }else if (player.hasPermission("se.back.bypass")){
-                                if (Back.location.containsKey(player.getUniqueId())){
-                                    Back.location.remove(player.getUniqueId());
-                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                }else{
-                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                }
-                            }
-                            if (loc.isWorldLoaded()){
-                                player.teleport(loc);
-                                Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
-                                if (subtitle) {
-                                    String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", args[0]);
-                                    player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
-                                    return true;
-                                } else {
-                                    String msg = Lang.fileConfig.getString("home-message").replace("<home>", args[0]);
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                    return true;
-                                }
-                            }else{
-                                String msg = Lang.fileConfig.getString("home-world-invalid");
-                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                            }
-                        }else{
-                            if (ServerEssentials.plugin.getConfig().getBoolean("home-movement-cancel")){
-                                cancel.add(player.getUniqueId());
-                                String msg = Lang.fileConfig.getString("home-wait-message").replace("<home>", args[0]).replace("<time>", String.valueOf(delay));
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                delay = delay * 20;
-                                if (hometeleport.containsKey(player.getUniqueId()) && hometeleport.get(player.getUniqueId()) != null) {
-                                    Bukkit.getScheduler().cancelTask(hometeleport.get(player.getUniqueId()));
-                                }
-                                hometeleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
-                                    public void run() {
-                                        if (cancel.contains(player.getUniqueId())){
-                                            if (hometeleport.containsKey(player.getUniqueId())) {
-                                                if (ServerEssentials.plugin.getConfig().getBoolean("home-save")) {
-                                                    if (Back.location.containsKey(player.getUniqueId())) {
-                                                        Back.location.remove(player.getUniqueId());
-                                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                                    } else {
-                                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                                    }
-                                                } else if (player.hasPermission("se.back.bypass")) {
-                                                    if (Back.location.containsKey(player.getUniqueId())) {
-                                                        Back.location.remove(player.getUniqueId());
-                                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                                    } else {
-                                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                                    }
-                                                }
-                                                if (loc.isWorldLoaded()){
-                                                    // Teleporting Player
-                                                    player.teleport(loc);
-                                                    Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
-                                                    if (subtitle) {
-                                                        String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", args[0]);
-                                                        player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
-                                                    } else {
-                                                        String msg = Lang.fileConfig.getString("home-message").replace("<home>", args[0]);
-                                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                    }
-                                                }else{
-                                                    String msg = Lang.fileConfig.getString("home-world-invalid");
-                                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                }
-                                                cancel.remove(player.getUniqueId());
-                                            }
-                                        }
+        if (sender instanceof Player){
+            int delay = ServerEssentials.plugin.getConfig().getInt("home-teleport");
+            Player player = (Player) sender;
+            String name = player.getUniqueId().toString();
+            if (args.length == 1) {
+                // Checking if the player has the correct permission
+                if (player.hasPermission("se.home") || player.hasPermission("se.all")) {
+                    // Check if the File Exists and if Location.World has data
+                    if (Sethome.file.exists() && Sethome.fileConfig.getString("Home." + name + "." + args[0] + ".World") != null) {
+                        Location loc = getLocation(args, player);
+                        if (args.length == 1) {
+                            if (ServerEssentials.plugin.getConfig().getInt("home-teleport") == 0) {
+                                if (ServerEssentials.plugin.getConfig().getBoolean("home-save")){
+                                    if (Back.location.containsKey(player.getUniqueId())){
+                                        Back.location.remove(player.getUniqueId());
+                                        Back.location.put(player.getUniqueId(), player.getLocation());
+                                    }else{
+                                        Back.location.put(player.getUniqueId(), player.getLocation());
                                     }
-                                }, delay));
-                                return true;
-                            }else{
-                                String msg = Lang.fileConfig.getString("home-wait-message").replace("<home>", args[0]).replace("<time>", String.valueOf(delay));
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                delay = delay * 20;
-                                if (hometeleport.containsKey(player.getUniqueId()) && hometeleport.get(player.getUniqueId()) != null) {
-                                    Bukkit.getScheduler().cancelTask(hometeleport.get(player.getUniqueId()));
+                                }else if (player.hasPermission("se.back.bypass")){
+                                    if (Back.location.containsKey(player.getUniqueId())){
+                                        Back.location.remove(player.getUniqueId());
+                                        Back.location.put(player.getUniqueId(), player.getLocation());
+                                    }else{
+                                        Back.location.put(player.getUniqueId(), player.getLocation());
+                                    }
                                 }
-                                hometeleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
-                                    public void run() {
-                                        if (cancel.contains(player.getUniqueId())){
-                                            if (hometeleport.containsKey(player.getUniqueId())) {
-                                                if (ServerEssentials.plugin.getConfig().getBoolean("home-save")) {
-                                                    if (Back.location.containsKey(player.getUniqueId())) {
-                                                        Back.location.remove(player.getUniqueId());
-                                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                                    } else {
-                                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                                    }
-                                                } else if (player.hasPermission("se.back.bypass")) {
-                                                    if (Back.location.containsKey(player.getUniqueId())) {
-                                                        Back.location.remove(player.getUniqueId());
-                                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                                    } else {
-                                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                                    }
-                                                }
-                                                if (loc.isWorldLoaded()){
-                                                    // Teleporting Player
-                                                    player.teleport(loc);
-                                                    Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
-                                                    if (subtitle) {
-                                                        String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", args[0]);
-                                                        player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
-                                                    } else {
-                                                        String msg = Lang.fileConfig.getString("home-message").replace("<home>", args[0]);
-                                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                    }
-                                                }else{
-                                                    String msg = Lang.fileConfig.getString("home-world-invalid");
-                                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                }
-                                            }
-                                        }
-                                    }
-                                }, delay));
-                                return true;
-                            }
-                        }
-                    }else{
-                        String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/home (home)");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                        return true;
-                    }
-                } else {
-                    String msg = Lang.fileConfig.getString("home-invalid").replace("<home>", args[0]);
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                    return true;
-                }
-            } else {
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.home");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                return true;
-            }
-        } else if (args.length == 0) {
-            if (player.hasPermission("se.home") || player.hasPermission("se.all")){
-                if (ServerEssentials.plugin.getConfig().getBoolean("enable-home-gui")){
-                    int index = 0;
-                    ConfigurationSection inventorySection = Sethome.fileConfig.getConfigurationSection("Home." + name);
-                    Integer size = ServerEssentials.plugin.getConfig().getInt("home-gui-size");
-                    Inventory inv = Bukkit.createInventory(player, size, ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("home-gui-name")));
-                    if (inventorySection == null){
-                        String msg = Lang.fileConfig.getString("home-file-error");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                        return true;
-                    }else{
-                        assert inventorySection != null;
-                        String homeitem = ServerEssentials.plugin.getConfig().getString("home-item");
-                        ItemStack item = new ItemStack(Material.getMaterial(homeitem));
-                        ItemMeta meta = item.getItemMeta();
-                        if (!inventorySection.getKeys(true).isEmpty()){
-                            if (!(inventorySection.getKeys(false).size() > ServerEssentials.plugin.getConfig().getInt("home-gui-size"))){
-                                try {
-                                    for (String key : inventorySection.getKeys(false)) {
-                                        String homecolour = ServerEssentials.plugin.getConfig().getString("home-name-colour");
-                                        meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', homecolour + key));
-                                        List<String> loreList = new ArrayList<String>();
-                                        String msg = Lang.fileConfig.getString("home-gui-left-click").replace("<home>", key);
-                                        loreList.add(ChatColor.translateAlternateColorCodes('&', msg));
-                                        if (player.hasPermission("se.deletehome")){
-                                            String msg2 = Lang.fileConfig.getString("home-gui-right-click").replace("<home>", key);
-                                            loreList.add(ChatColor.translateAlternateColorCodes('&', msg2));
-                                        }
-                                        meta.setLore(loreList);
-                                        item.setItemMeta(meta);
-                                        inv.setItem(index, item);
-                                        index ++;
-                                    }
-                                } catch (NullPointerException e) {
-                                    String msg = Lang.fileConfig.getString("no-homes-set");
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                }
-                                player.openInventory(inv);
-                                return true;
-                            }else{
-                                String msg = Lang.fileConfig.getString("home-gui-error");
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                return true;
-                            }
-                        }else{
-                            String msg = Lang.fileConfig.getString("no-homes-set");
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                            return true;
-                        }
-                    }
-                }else{
-                    ConfigurationSection inventorySection = Sethome.fileConfig.getConfigurationSection("Home." + name);
-                    if (inventorySection == null) {
-                        String msg = Lang.fileConfig.getString("home-file-error");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                        return true;
-                    } else if (!inventorySection.getKeys(true).isEmpty()){
-                        assert inventorySection != null;
-                        player.sendMessage(ChatColor.GREEN + "---------------------------"
-                                + "\nHome(s) List"
-                                + "\n---------------------------");
-                        try {
-                            for (String key : inventorySection.getKeys(false)) {
-                                player.sendMessage(ChatColor.GOLD + key);
-                            }
-                        } catch (NullPointerException e) {
-                            //Bleh
-                        }
-                        return true;
-                    }else{
-                        assert inventorySection != null;
-                        player.sendMessage(ChatColor.GREEN + "---------------------------"
-                                + "\nHome(s) List"
-                                + "\n---------------------------");
-                        String msg = Lang.fileConfig.getString("no-homes-set");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                        return true;
-                    }
-                }
-            } else {
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.home");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                return true;
-            }
-        }else if (args.length == 2){
-            OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
-            if (player.hasPermission("se.home.others") || player.hasPermission("se.all")) {
-                if (args.length == 2) {
-                    if (target != null && target.isOnline()) {
-                        String targetname = target.getUniqueId().toString();
-                        if (target != player) {
-                            if (args[0].equalsIgnoreCase(target.getName())) {
-                                // Check if the File Exists and if Location.World has data
-                                if (Sethome.file.exists() && Sethome.fileConfig.getString("Home." + targetname + "." + args[1] + ".World") != null) {
-                                    // Gathering Location
-                                    float yaw = Sethome.fileConfig.getInt("Home." + targetname + "." + args[1] + ".Yaw");
-                                    Location loc = new Location(Bukkit.getWorld(Sethome.fileConfig.getString("Home." + targetname + "." + args[1] + ".World")),
-                                            Sethome.fileConfig.getDouble("Home." + targetname + "." + args[1] + ".X"),
-                                            Sethome.fileConfig.getDouble("Home." + targetname + "." + args[1] + ".Y"),
-                                            Sethome.fileConfig.getDouble("Home." + targetname + "." + args[1] + ".Z"),
-                                            yaw, 0);
-                                    if (ServerEssentials.plugin.getConfig().getBoolean("home-save")) {
-                                        if (Back.location.containsKey(player.getUniqueId())) {
-                                            Back.location.remove(player.getUniqueId());
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        } else {
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        }
-                                    } else if (player.hasPermission("se.back.bypass")) {
-                                        if (Back.location.containsKey(player.getUniqueId())) {
-                                            Back.location.remove(player.getUniqueId());
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        } else {
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        }
-                                    }
-                                    if (loc.isWorldLoaded()) {
-                                        // Teleporting To Target's Home
-                                        player.teleport(loc);
-                                        String msg = Lang.fileConfig.getString("home-teleport-target").replace("<target>", target.getName());
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                if (loc.isWorldLoaded()){
+                                    player.teleport(loc);
+                                    Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
+                                    if (subtitle) {
+                                        String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", args[0]);
+                                        player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
                                         return true;
                                     } else {
-                                        String msg = Lang.fileConfig.getString("home-world-invalid");
-                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                        String msg = Lang.fileConfig.getString("home-message").replace("<home>", args[0]);
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                         return true;
                                     }
-                                } else {
-                                    String msg = Lang.fileConfig.getString("home-invalid");
+                                }else{
+                                    String msg = Lang.fileConfig.getString("home-world-invalid");
+                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                }
+                            }else{
+                                if (ServerEssentials.plugin.getConfig().getBoolean("home-movement-cancel")){
+                                    cancel.add(player.getUniqueId());
+                                    String msg = Lang.fileConfig.getString("home-wait-message").replace("<home>", args[0]).replace("<time>", String.valueOf(delay));
                                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    delay = delay * 20;
+                                    if (hometeleport.containsKey(player.getUniqueId()) && hometeleport.get(player.getUniqueId()) != null) {
+                                        Bukkit.getScheduler().cancelTask(hometeleport.get(player.getUniqueId()));
+                                    }
+                                    hometeleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                                        public void run() {
+                                            if (cancel.contains(player.getUniqueId())){
+                                                if (hometeleport.containsKey(player.getUniqueId())) {
+                                                    if (ServerEssentials.plugin.getConfig().getBoolean("home-save")) {
+                                                        if (Back.location.containsKey(player.getUniqueId())) {
+                                                            Back.location.remove(player.getUniqueId());
+                                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                                        } else {
+                                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                                        }
+                                                    } else if (player.hasPermission("se.back.bypass")) {
+                                                        if (Back.location.containsKey(player.getUniqueId())) {
+                                                            Back.location.remove(player.getUniqueId());
+                                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                                        } else {
+                                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                                        }
+                                                    }
+                                                    if (loc.isWorldLoaded()){
+                                                        // Teleporting Player
+                                                        player.teleport(loc);
+                                                        Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
+                                                        if (subtitle) {
+                                                            String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", args[0]);
+                                                            player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
+                                                        } else {
+                                                            String msg = Lang.fileConfig.getString("home-message").replace("<home>", args[0]);
+                                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                        }
+                                                    }else{
+                                                        String msg = Lang.fileConfig.getString("home-world-invalid");
+                                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                    }
+                                                    cancel.remove(player.getUniqueId());
+                                                }
+                                            }
+                                        }
+                                    }, delay));
+                                    return true;
+                                }else{
+                                    String msg = Lang.fileConfig.getString("home-wait-message").replace("<home>", args[0]).replace("<time>", String.valueOf(delay));
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    delay = delay * 20;
+                                    if (hometeleport.containsKey(player.getUniqueId()) && hometeleport.get(player.getUniqueId()) != null) {
+                                        Bukkit.getScheduler().cancelTask(hometeleport.get(player.getUniqueId()));
+                                    }
+                                    hometeleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                                        public void run() {
+                                            if (cancel.contains(player.getUniqueId())){
+                                                if (hometeleport.containsKey(player.getUniqueId())) {
+                                                    if (ServerEssentials.plugin.getConfig().getBoolean("home-save")) {
+                                                        if (Back.location.containsKey(player.getUniqueId())) {
+                                                            Back.location.remove(player.getUniqueId());
+                                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                                        } else {
+                                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                                        }
+                                                    } else if (player.hasPermission("se.back.bypass")) {
+                                                        if (Back.location.containsKey(player.getUniqueId())) {
+                                                            Back.location.remove(player.getUniqueId());
+                                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                                        } else {
+                                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                                        }
+                                                    }
+                                                    if (loc.isWorldLoaded()){
+                                                        // Teleporting Player
+                                                        player.teleport(loc);
+                                                        Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
+                                                        if (subtitle) {
+                                                            String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", args[0]);
+                                                            player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
+                                                        } else {
+                                                            String msg = Lang.fileConfig.getString("home-message").replace("<home>", args[0]);
+                                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                        }
+                                                    }else{
+                                                        String msg = Lang.fileConfig.getString("home-world-invalid");
+                                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }, delay));
                                     return true;
                                 }
                             }
-                        } else {
+                        }else{
                             String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/home (home)");
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             return true;
                         }
                     } else {
-                        if (target.hasPlayedBefore()){
+                        String msg = Lang.fileConfig.getString("home-invalid").replace("<home>", args[0]);
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        return true;
+                    }
+                } else {
+                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.home");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                    return true;
+                }
+            } else if (args.length == 0) {
+                if (player.hasPermission("se.home") || player.hasPermission("se.all")){
+                    if (ServerEssentials.plugin.getConfig().getBoolean("enable-home-gui")){
+                        int index = 0;
+                        ConfigurationSection inventorySection = Sethome.fileConfig.getConfigurationSection("Home." + name);
+                        Integer size = ServerEssentials.plugin.getConfig().getInt("home-gui-size");
+                        Inventory inv = Bukkit.createInventory(player, size, ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("home-gui-name")));
+                        if (inventorySection == null){
+                            String msg = Lang.fileConfig.getString("home-file-error");
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            return true;
+                        }else{
+                            assert inventorySection != null;
+                            String homeitem = ServerEssentials.plugin.getConfig().getString("home-item");
+                            ItemStack item = new ItemStack(Material.getMaterial(homeitem));
+                            ItemMeta meta = item.getItemMeta();
+                            if (!inventorySection.getKeys(true).isEmpty()){
+                                if (!(inventorySection.getKeys(false).size() > ServerEssentials.plugin.getConfig().getInt("home-gui-size"))){
+                                    try {
+                                        for (String key : inventorySection.getKeys(false)) {
+                                            String homecolour = ServerEssentials.plugin.getConfig().getString("home-name-colour");
+                                            meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', homecolour + key));
+                                            List<String> loreList = new ArrayList<String>();
+                                            String msg = Lang.fileConfig.getString("home-gui-left-click").replace("<home>", key);
+                                            loreList.add(ChatColor.translateAlternateColorCodes('&', msg));
+                                            if (player.hasPermission("se.deletehome")){
+                                                String msg2 = Lang.fileConfig.getString("home-gui-right-click").replace("<home>", key);
+                                                loreList.add(ChatColor.translateAlternateColorCodes('&', msg2));
+                                            }
+                                            meta.setLore(loreList);
+                                            item.setItemMeta(meta);
+                                            inv.setItem(index, item);
+                                            index ++;
+                                        }
+                                    } catch (NullPointerException e) {
+                                        String msg = Lang.fileConfig.getString("no-homes-set");
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    }
+                                    player.openInventory(inv);
+                                    return true;
+                                }else{
+                                    String msg = Lang.fileConfig.getString("home-gui-error");
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    return true;
+                                }
+                            }else{
+                                String msg = Lang.fileConfig.getString("no-homes-set");
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                return true;
+                            }
+                        }
+                    }else{
+                        ConfigurationSection inventorySection = Sethome.fileConfig.getConfigurationSection("Home." + name);
+                        if (inventorySection == null) {
+                            String msg = Lang.fileConfig.getString("home-file-error");
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            return true;
+                        } else if (!inventorySection.getKeys(true).isEmpty()){
+                            assert inventorySection != null;
+                            player.sendMessage(ChatColor.GREEN + "---------------------------"
+                                    + "\nHome(s) List"
+                                    + "\n---------------------------");
+                            try {
+                                for (String key : inventorySection.getKeys(false)) {
+                                    player.sendMessage(ChatColor.GOLD + key);
+                                }
+                            } catch (NullPointerException e) {
+                                //Bleh
+                            }
+                            return true;
+                        }else{
+                            assert inventorySection != null;
+                            player.sendMessage(ChatColor.GREEN + "---------------------------"
+                                    + "\nHome(s) List"
+                                    + "\n---------------------------");
+                            String msg = Lang.fileConfig.getString("no-homes-set");
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            return true;
+                        }
+                    }
+                } else {
+                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.home");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                    return true;
+                }
+            }else if (args.length == 2){
+                OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
+                if (player.hasPermission("se.home.others") || player.hasPermission("se.all")) {
+                    if (args.length == 2) {
+                        if (target != null && target.isOnline()) {
                             String targetname = target.getUniqueId().toString();
                             if (target != player) {
                                 if (args[0].equalsIgnoreCase(target.getName())) {
@@ -369,21 +318,77 @@ public class Home implements CommandExecutor {
                                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 return true;
                             }
-                        }else{
-                            String msg = Lang.fileConfig.getString("player-offline");
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                            return true;
+                        } else {
+                            if (target.hasPlayedBefore()){
+                                String targetname = target.getUniqueId().toString();
+                                if (target != player) {
+                                    if (args[0].equalsIgnoreCase(target.getName())) {
+                                        // Check if the File Exists and if Location.World has data
+                                        if (Sethome.file.exists() && Sethome.fileConfig.getString("Home." + targetname + "." + args[1] + ".World") != null) {
+                                            // Gathering Location
+                                            float yaw = Sethome.fileConfig.getInt("Home." + targetname + "." + args[1] + ".Yaw");
+                                            Location loc = new Location(Bukkit.getWorld(Sethome.fileConfig.getString("Home." + targetname + "." + args[1] + ".World")),
+                                                    Sethome.fileConfig.getDouble("Home." + targetname + "." + args[1] + ".X"),
+                                                    Sethome.fileConfig.getDouble("Home." + targetname + "." + args[1] + ".Y"),
+                                                    Sethome.fileConfig.getDouble("Home." + targetname + "." + args[1] + ".Z"),
+                                                    yaw, 0);
+                                            if (ServerEssentials.plugin.getConfig().getBoolean("home-save")) {
+                                                if (Back.location.containsKey(player.getUniqueId())) {
+                                                    Back.location.remove(player.getUniqueId());
+                                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                                } else {
+                                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                                }
+                                            } else if (player.hasPermission("se.back.bypass")) {
+                                                if (Back.location.containsKey(player.getUniqueId())) {
+                                                    Back.location.remove(player.getUniqueId());
+                                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                                } else {
+                                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                                }
+                                            }
+                                            if (loc.isWorldLoaded()) {
+                                                // Teleporting To Target's Home
+                                                player.teleport(loc);
+                                                String msg = Lang.fileConfig.getString("home-teleport-target").replace("<target>", target.getName());
+                                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                return true;
+                                            } else {
+                                                String msg = Lang.fileConfig.getString("home-world-invalid");
+                                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                return true;
+                                            }
+                                        } else {
+                                            String msg = Lang.fileConfig.getString("home-invalid");
+                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                            return true;
+                                        }
+                                    }
+                                } else {
+                                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/home (home)");
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    return true;
+                                }
+                            }else{
+                                String msg = Lang.fileConfig.getString("player-offline");
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                return true;
+                            }
                         }
                     }
+                }else{
+                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.home.others");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                    return true;
                 }
             }else{
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.home.others");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/home (home)");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                 return true;
             }
         }else{
-            String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/home (home)");
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+            String console = Lang.fileConfig.getString("console-invalid");
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
             return true;
         }
         return false;

@@ -11,7 +11,6 @@ import org.bukkit.potion.PotionEffect;
 public class Heal implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
-
         if (sender instanceof Player) {
             Player target;
             Player player = (Player) sender;

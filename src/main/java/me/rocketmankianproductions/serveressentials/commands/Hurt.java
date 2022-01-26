@@ -11,10 +11,9 @@ import org.bukkit.entity.Player;
 public class Hurt implements CommandExecutor {
 
     @Override
-    public boolean onCommand(CommandSender Sender, Command command, String commandLabel, String[] args) {
-        if (Sender instanceof Player) {
-            Player player = (Player) Sender;
-
+    public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args) {
+        if (sender instanceof Player) {
+            Player player = (Player) sender;
             if (commandLabel.equalsIgnoreCase("hurt")) {
                 // Checking if the player has the se.hurt permission
                 if (player.hasPermission("se.hurt") || player.hasPermission("se.all")) {
@@ -43,6 +42,10 @@ public class Hurt implements CommandExecutor {
                     return true;
                 }
             }
+        }else{
+            String console = Lang.fileConfig.getString("console-invalid");
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            return true;
         }
         return false;
     }

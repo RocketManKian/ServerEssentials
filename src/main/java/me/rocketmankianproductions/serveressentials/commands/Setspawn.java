@@ -3,6 +3,7 @@ package me.rocketmankianproductions.serveressentials.commands;
 import me.rocketmankianproductions.serveressentials.LoggerMessage;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -51,8 +52,8 @@ public class Setspawn implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        Player player = (Player) sender;
         if (sender instanceof Player) {
+            Player player = (Player) sender;
             if (args.length == 0) {
                 if (player.hasPermission("se.setspawn") || player.hasPermission("se.all")) {
                     String world = player.getWorld().getName();
@@ -110,6 +111,10 @@ public class Setspawn implements CommandExecutor {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                 return true;
             }
+        }else{
+            String console = Lang.fileConfig.getString("console-invalid");
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            return true;
         }
         return false;
     }

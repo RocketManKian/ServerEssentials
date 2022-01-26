@@ -3,6 +3,7 @@ package me.rocketmankianproductions.serveressentials.commands;
 import me.rocketmankianproductions.serveressentials.LoggerMessage;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -51,47 +52,53 @@ public class TPToggle {
     }
 
     public boolean run(CommandSender sender, @NotNull String[] args, Command command) {
-        Player player = (Player) sender;
-        if (command.getName().equalsIgnoreCase("tptoggle")) {
-            if (player.hasPermission("se.tptoggle") || player.hasPermission("se.all")) {
-                if ((sender instanceof Player)) {
-                    if (args.length == 0) {
-                        if (fileConfig.getBoolean("tptoggle." + player.getName(), false) == false) {
-                            fileConfig.set("tptoggle." + player.getName(), true);
-                            try {
-                                fileConfig.save(file);
-                            } catch (IOException e) {
-                                e.printStackTrace();
+        if (sender instanceof Player){
+            Player player = (Player) sender;
+            if (command.getName().equalsIgnoreCase("tptoggle")) {
+                if (player.hasPermission("se.tptoggle") || player.hasPermission("se.all")) {
+                    if ((sender instanceof Player)) {
+                        if (args.length == 0) {
+                            if (fileConfig.getBoolean("tptoggle." + player.getName(), false) == false) {
+                                fileConfig.set("tptoggle." + player.getName(), true);
+                                try {
+                                    fileConfig.save(file);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                String msg = Lang.fileConfig.getString("teleport-toggle-enabled");
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                return true;
+                            } else {
+                                fileConfig.set("tptoggle." + player.getName(), false);
+                                try {
+                                    fileConfig.save(file);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                String msg = Lang.fileConfig.getString("teleport-toggle-disabled");
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                return true;
                             }
-                            String msg = Lang.fileConfig.getString("teleport-toggle-enabled");
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                            return true;
                         } else {
-                            fileConfig.set("tptoggle." + player.getName(), false);
-                            try {
-                                fileConfig.save(file);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            String msg = Lang.fileConfig.getString("teleport-toggle-disabled");
+                            String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/tptoggle");
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             return true;
                         }
                     } else {
-                        String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/tptoggle");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        String msg = Lang.fileConfig.getString("invalid-player");
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
                 } else {
-                    String msg = Lang.fileConfig.getString("invalid-player");
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.tptoggle");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                     return true;
                 }
-            } else {
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.tptoggle");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                return true;
             }
+        }else{
+            String console = Lang.fileConfig.getString("console-invalid");
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            return true;
         }
         return true;
     }

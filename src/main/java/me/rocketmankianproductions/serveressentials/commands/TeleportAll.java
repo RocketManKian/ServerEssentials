@@ -12,7 +12,6 @@ import org.jetbrains.annotations.NotNull;
 public class TeleportAll implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (player.hasPermission("se.tpall") || player.hasPermission("se.all")) {
@@ -38,6 +37,10 @@ public class TeleportAll implements CommandExecutor {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                 return true;
             }
+        }else{
+            String console = Lang.fileConfig.getString("console-invalid");
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            return true;
         }
         return true;
     }

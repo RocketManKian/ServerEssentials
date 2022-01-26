@@ -13,7 +13,6 @@ public class Vanish implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-
         if (sender instanceof Player){
             Player player = (Player) sender;
             if (player.hasPermission("se.vanish") || player.hasPermission("se.all")){
@@ -76,6 +75,10 @@ public class Vanish implements CommandExecutor {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                 return true;
             }
+        }else{
+            String console = Lang.fileConfig.getString("console-invalid");
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            return true;
         }
         return true;
     }

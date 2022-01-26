@@ -14,7 +14,6 @@ public class Enderchest implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-
         if (sender instanceof Player){
             Player player = (Player) sender;
             if (player.hasPermission("se.enderchest") || player.hasPermission("se.all")) {
@@ -56,7 +55,8 @@ public class Enderchest implements CommandExecutor {
                 return true;
             }
         }else{
-            sender.sendMessage(ChatColor.RED + "You are not a player");
+            String console = Lang.fileConfig.getString("console-invalid");
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
             return true;
         }
     }

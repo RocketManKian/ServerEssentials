@@ -95,36 +95,64 @@ public class TabCompletion implements TabCompleter {
         // Send Warp Commands
         if (command.getName().equalsIgnoreCase("sendwarp")) {
             List<String> autoCompletes = new ArrayList<>();
-            if (args.length == 2) {
-                Player player = (Player) sender;
-                if (Setwarp.fileConfig.getStringList("Warp.") != null){
-                    ConfigurationSection warps = Setwarp.fileConfig.getConfigurationSection("Warp.");
-                    if (warps != null){
-                        for (String warp: warps.getKeys(false)){
-                            if (player.hasPermission("se.warps." + warp) && player.hasPermission("se.sendwarp")){
+            if (sender instanceof Player){
+                if (args.length == 2) {
+                    Player player = (Player) sender;
+                    if (Setwarp.fileConfig.getStringList("Warp.") != null){
+                        ConfigurationSection warps = Setwarp.fileConfig.getConfigurationSection("Warp.");
+                        if (warps != null){
+                            for (String warp: warps.getKeys(false)){
+                                if (player.hasPermission("se.warps." + warp) && player.hasPermission("se.sendwarp")){
+                                    autoCompletes.add(warp);
+                                }
+                            }
+                        }
+                    }
+                    return autoCompletes; // then return the list
+                }
+            }else{
+                if (args.length == 2) {
+                    if (Setwarp.fileConfig.getStringList("Warp.") != null){
+                        ConfigurationSection warps = Setwarp.fileConfig.getConfigurationSection("Warp.");
+                        if (warps != null){
+                            for (String warp: warps.getKeys(false)){
                                 autoCompletes.add(warp);
                             }
                         }
                     }
+                    return autoCompletes; // then return the list
                 }
-                return autoCompletes; // then return the list
             }
         }
         if (command.getName().equalsIgnoreCase("deletewarp") || command.getName().equalsIgnoreCase("delwarp")) { // checking if my command is the one i'm after
             List<String> autoCompletes = new ArrayList<>(); //create a new string list for tab completion
-            if (args.length == 1) { //only interested in the first sub command, if you wanted to cover more deeper sub commands, you could have multiple if statements or a switch statement
-                Player player = (Player) sender;
-                if (Setwarp.fileConfig.getStringList("Warp.") != null){
-                    ConfigurationSection warps = Setwarp.fileConfig.getConfigurationSection("Warp.");
-                    if (warps != null){
-                        for (String warp: warps.getKeys(false)){
-                            if (player.hasPermission("se.deletewarp")){
+            if (sender instanceof Player){
+                if (args.length == 1) { //only interested in the first sub command, if you wanted to cover more deeper sub commands, you could have multiple if statements or a switch statement
+                    Player player = (Player) sender;
+                    if (Setwarp.fileConfig.getStringList("Warp.") != null){
+                        ConfigurationSection warps = Setwarp.fileConfig.getConfigurationSection("Warp.");
+                        if (warps != null){
+                            for (String warp: warps.getKeys(false)){
+                                if (player.hasPermission("se.deletewarp")){
+                                    autoCompletes.add(warp);
+                                }
+                            }
+                        }
+                    }
+                    return autoCompletes; // then return the list
+                }
+            }else{
+                if (args.length == 1) { //only interested in the first sub command, if you wanted to cover more deeper sub commands, you could have multiple if statements or a switch statement
+                    if (Setwarp.fileConfig.getStringList("Warp.") != null){
+                        ConfigurationSection warps = Setwarp.fileConfig.getConfigurationSection("Warp.");
+                        if (warps != null){
+                            for (String warp: warps.getKeys(false)){
                                 autoCompletes.add(warp);
                             }
                         }
                     }
+                    return autoCompletes; // then return the list
                 }
-                return autoCompletes; // then return the list
             }
         }
         // Home Commands
@@ -148,23 +176,41 @@ public class TabCompletion implements TabCompleter {
         // Send Home Command
         if (command.getName().equalsIgnoreCase("sendhome")){
             List<String> autoCompletes = new ArrayList<>();
-            if (args.length == 2) {
-                Player player = (Player) sender;
-                Player target = Bukkit.getPlayer(args[1]);
-                UUID target2 = target.getUniqueId();
-                if (Sethome.fileConfig.getStringList("Home." + target2) != null){
-                    ConfigurationSection home = Sethome.fileConfig.getConfigurationSection("Home." + target2);
-                    if (home != null){
-                        for (String playerhomes: home.getKeys(false)){
-                            if (playerhomes != null){
-                                if (player.hasPermission("se.sendhome")){
+            if (sender instanceof Player){
+                if (args.length == 2) {
+                    Player player = (Player) sender;
+                    Player target = Bukkit.getPlayer(args[1]);
+                    UUID target2 = target.getUniqueId();
+                    if (Sethome.fileConfig.getStringList("Home." + target2) != null){
+                        ConfigurationSection home = Sethome.fileConfig.getConfigurationSection("Home." + target2);
+                        if (home != null){
+                            for (String playerhomes: home.getKeys(false)){
+                                if (playerhomes != null){
+                                    if (player.hasPermission("se.sendhome")){
+                                        autoCompletes.add(playerhomes);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    return autoCompletes; // then return the list
+                }
+            }else{
+                if (args.length == 2) {
+                    Player target = Bukkit.getPlayer(args[1]);
+                    UUID target2 = target.getUniqueId();
+                    if (Sethome.fileConfig.getStringList("Home." + target2) != null){
+                        ConfigurationSection home = Sethome.fileConfig.getConfigurationSection("Home." + target2);
+                        if (home != null){
+                            for (String playerhomes: home.getKeys(false)){
+                                if (playerhomes != null){
                                     autoCompletes.add(playerhomes);
                                 }
                             }
                         }
                     }
+                    return autoCompletes; // then return the list
                 }
-                return autoCompletes; // then return the list
             }
         }
         if (command.getName().equalsIgnoreCase("deletehome") || command.getName().equalsIgnoreCase("delhome")){

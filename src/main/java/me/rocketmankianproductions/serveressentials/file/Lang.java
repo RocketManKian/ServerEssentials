@@ -31,6 +31,7 @@ public class Lang {
                 fileConfig.addDefault("command-timeout", "You cannot use this command for another <time> Seconds");
                 fileConfig.addDefault("player-offline", "Player does not exist!");
                 fileConfig.addDefault("target-offline", "Target is offline");
+                fileConfig.addDefault("console-invalid", "You cannot execute this command in Console");
                 fileConfig.addDefault("invalid-player", "You are not a player");
                 fileConfig.addDefault("incorrect-format", "Incorrect format! Please use &6<command>");
                 fileConfig.addDefault("target-self", "You cannot target yourself.");
@@ -245,6 +246,9 @@ public class Lang {
                 }
                 if (fileConfig.getString("target-offline") == null){
                     fileConfig.set("target-offline", "Target is offline");
+                }
+                if (fileConfig.getString("console-invalid") == null){
+                    fileConfig.addDefault("console-invalid", "You cannot execute this command in Console");
                 }
                 if (fileConfig.getString("invalid-player") == null){
                     fileConfig.set("invalid-player", "You are not a player");

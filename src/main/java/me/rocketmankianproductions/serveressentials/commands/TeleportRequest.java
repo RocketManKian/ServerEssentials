@@ -2,6 +2,10 @@ package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
@@ -39,8 +43,8 @@ public class TeleportRequest implements CommandExecutor {
         int delay5 = (int) (delay4 * 20);
         int delay6 = delay5 / 20;
         if (!(sender instanceof Player)) {
-            String msg = Lang.fileConfig.getString("invalid-player");
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+            String console = Lang.fileConfig.getString("console-invalid");
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
             return true;
         }
         Player player = (Player) sender;
@@ -73,8 +77,14 @@ public class TeleportRequest implements CommandExecutor {
                                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                                             String msg3 = Lang.fileConfig.getString("teleport-request-target-receive").replace("<sender>", player.getName());
                                             target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
-                                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-request-accept")));
-                                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-request-deny")));
+                                            TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-request-accept")));
+                                            message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Accept Teleport Request")));
+                                            message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaccept"));
+                                            target.spigot().sendMessage(message);
+                                            TextComponent message2 = new TextComponent(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-request-deny")));
+                                            message2.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.RED + "Deny Teleport Request")));
+                                            message2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpdeny"));
+                                            target.spigot().sendMessage(message2);
                                             String msg4 = Lang.fileConfig.getString("teleport-request-timeout-warning").replace("<time>", String.valueOf(delay3));
                                             target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
                                             if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
@@ -125,8 +135,14 @@ public class TeleportRequest implements CommandExecutor {
                                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                                             String msg3 = Lang.fileConfig.getString("teleport-request-target-receive").replace("<sender>", player.getName());
                                             target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
-                                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-request-accept")));
-                                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-request-deny")));
+                                            TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-request-accept")));
+                                            message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Accept Teleport Request")));
+                                            message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaccept"));
+                                            target.spigot().sendMessage(message);
+                                            TextComponent message2 = new TextComponent(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-request-deny")));
+                                            message2.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.RED + "Deny Teleport Request")));
+                                            message2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpdeny"));
+                                            target.spigot().sendMessage(message2);
                                             String msg4 = Lang.fileConfig.getString("teleport-request-timeout-warning").replace("<time>", String.valueOf(delay3));
                                             target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
                                             if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
@@ -171,8 +187,14 @@ public class TeleportRequest implements CommandExecutor {
                                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                                         String msg3 = Lang.fileConfig.getString("teleport-request-target-receive").replace("<sender>", player.getName());
                                         target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
-                                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-request-accept")));
-                                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-request-deny")));
+                                        TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-request-accept")));
+                                        message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Accept Teleport Request")));
+                                        message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaccept"));
+                                        target.spigot().sendMessage(message);
+                                        TextComponent message2 = new TextComponent(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-request-deny")));
+                                        message2.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.RED + "Deny Teleport Request")));
+                                        message2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpdeny"));
+                                        target.spigot().sendMessage(message2);
                                         String msg4 = Lang.fileConfig.getString("teleport-request-timeout-warning").replace("<time>", String.valueOf(delay3));
                                         target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
                                         if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
@@ -258,8 +280,14 @@ public class TeleportRequest implements CommandExecutor {
                                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                                             String msg3 = Lang.fileConfig.getString("teleport-here-request-target-receive").replace("<sender>", player.getName());
                                             target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
-                                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-here-request-accept")));
-                                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-here-request-deny")));
+                                            TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-here-request-accept")));
+                                            message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Accept Teleport Request")));
+                                            message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaccept"));
+                                            target.spigot().sendMessage(message);
+                                            TextComponent message2 = new TextComponent(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-here-request-deny")));
+                                            message2.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.RED + "Deny Teleport Request")));
+                                            message2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpdeny"));
+                                            target.spigot().sendMessage(message2);
                                             String msg4 = Lang.fileConfig.getString("teleport-here-request-timeout-warning").replace("<time>", String.valueOf(delay3));
                                             target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
                                             if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
@@ -311,8 +339,14 @@ public class TeleportRequest implements CommandExecutor {
                                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                                             String msg3 = Lang.fileConfig.getString("teleport-here-request-target-receive").replace("<sender>", player.getName());
                                             target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
-                                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-here-request-accept")));
-                                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-here-request-deny")));
+                                            TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-here-request-accept")));
+                                            message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Accept Teleport Request")));
+                                            message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaccept"));
+                                            target.spigot().sendMessage(message);
+                                            TextComponent message2 = new TextComponent(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-here-request-deny")));
+                                            message2.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.RED + "Deny Teleport Request")));
+                                            message2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpdeny"));
+                                            target.spigot().sendMessage(message2);
                                             String msg4 = Lang.fileConfig.getString("teleport-here-request-timeout-warning").replace("<time>", String.valueOf(delay3));
                                             target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
                                             if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
@@ -357,8 +391,14 @@ public class TeleportRequest implements CommandExecutor {
                                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                                         String msg3 = Lang.fileConfig.getString("teleport-here-request-target-receive").replace("<sender>", player.getName());
                                         target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
-                                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-here-request-accept")));
-                                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-here-request-deny")));
+                                        TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-here-request-accept")));
+                                        message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Accept Teleport Request")));
+                                        message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaccept"));
+                                        target.spigot().sendMessage(message);
+                                        TextComponent message2 = new TextComponent(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-here-request-deny")));
+                                        message2.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.RED + "Deny Teleport Request")));
+                                        message2.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpdeny"));
+                                        target.spigot().sendMessage(message2);
                                         String msg4 = Lang.fileConfig.getString("teleport-here-request-timeout-warning").replace("<time>", String.valueOf(delay3));
                                         target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
                                         if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {

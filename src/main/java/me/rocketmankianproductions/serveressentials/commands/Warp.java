@@ -320,62 +320,9 @@ public class Warp implements CommandExecutor {
                 return true;
             }
         }else if (sender instanceof ConsoleCommandSender || sender instanceof BlockCommandSender) {
-            if (args.length == 2) {
-                if (Setwarp.file.exists() && Setwarp.fileConfig.getString("Warp." + args[1] + ".World") != null) {
-                    Player target = Bukkit.getServer().getPlayer(args[0]);
-                    if (target != null) {
-                        if (target != sender) {
-                            Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
-                            // Gathering Location
-                            float yaw = Setwarp.fileConfig.getInt("Warp." + args[1] + ".Yaw");
-                            Location loc = new Location(Bukkit.getWorld(Setwarp.fileConfig.getString("Warp." + args[1] + ".World")),
-                                    Setwarp.fileConfig.getDouble("Warp." + args[1] + ".X"),
-                                    Setwarp.fileConfig.getDouble("Warp." + args[1] + ".Y"),
-                                    Setwarp.fileConfig.getDouble("Warp." + args[1] + ".Z"),
-                                    yaw, 0);
-                            if (ServerEssentials.plugin.getConfig().getBoolean("warp-save")){
-                                if (Back.location.containsKey(target.getUniqueId())){
-                                    Back.location.remove(target.getUniqueId());
-                                    Back.location.put(target.getUniqueId(), target.getLocation());
-                                }else{
-                                    Back.location.put(target.getUniqueId(), target.getLocation());
-                                }
-                            }else if (target.hasPermission("se.back.bypass")){
-                                if (Back.location.containsKey(target.getUniqueId())){
-                                    Back.location.remove(target.getUniqueId());
-                                    Back.location.put(target.getUniqueId(), target.getLocation());
-                                }else{
-                                    Back.location.put(target.getUniqueId(), target.getLocation());
-                                }
-                            }
-                            if (loc.isWorldLoaded()){
-                                // Teleporting Target
-                                target.teleport(loc);
-                                if (subtitle){
-                                    String msg = Lang.fileConfig.getString("warp-subtitle").replace("<warp>", args[1]);
-                                    target.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
-                                    return true;
-                                }else{
-                                    String msg = Lang.fileConfig.getString("warp-message").replace("<warp>", args[1]);
-                                    target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                    return true;
-                                }
-                            }else{
-                                String msg = Lang.fileConfig.getString("warp-world-invalid");
-                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                            }
-                        }
-                    } else {
-                        String msg = Lang.fileConfig.getString("target-offline");
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                        return true;
-                    }
-                } else {
-                    String msg = Lang.fileConfig.getString("warp-not-found").replace("<warp>", args[0]);
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                    return true;
-                }
-            }
+            String console = Lang.fileConfig.getString("console-invalid");
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            return true;
         }
         return false;
     }

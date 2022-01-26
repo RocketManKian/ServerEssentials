@@ -13,11 +13,9 @@ import org.jetbrains.annotations.NotNull;
 public class SendHome implements CommandExecutor {
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-
-        Location loc;
-        Player player = (Player) sender;
-
         if (sender instanceof Player){
+            Location loc;
+            Player player = (Player) sender;
             if (player.hasPermission("se.sendhome") || player.hasPermission("se.all")){
                 if (args.length == 2){
                     Player target = Bukkit.getPlayer(args[0]);
@@ -66,6 +64,10 @@ public class SendHome implements CommandExecutor {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                 return true;
             }
+        }else{
+            String console = Lang.fileConfig.getString("console-invalid");
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            return true;
         }
         return false;
     }
