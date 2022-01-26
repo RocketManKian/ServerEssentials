@@ -39,15 +39,18 @@ public class PlayerClickEvent implements Listener {
                 String warp = item.getItemMeta().getDisplayName();
                 warp = ChatColor.stripColor(warp);
                 if (e.getClick()== ClickType.RIGHT) {
-                    Inventory confirm = Bukkit.createInventory(player.getPlayer(), 27, "Delete Warp " + warp + "?");
+                    String deletewarpguiname = Lang.fileConfig.getString("delete-warp-gui-name").replace("<warp>", warp);
+                    Inventory confirm = Bukkit.createInventory(player.getPlayer(), 27, ChatColor.translateAlternateColorCodes('&', deletewarpguiname));
                     ItemStack confirmitem = new ItemStack(Material.LIME_STAINED_GLASS_PANE);
                     ItemStack cancelitem = new ItemStack(Material.RED_STAINED_GLASS_PANE);
                     ItemStack idleitem = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
                     ItemMeta idleitemmeta = idleitem.getItemMeta();
                     ItemMeta confirmitemmeta = confirmitem.getItemMeta();
                     ItemMeta cancelitemmeta = cancelitem.getItemMeta();
-                    confirmitemmeta.setDisplayName(ChatColor.GREEN + "Yes");
-                    cancelitemmeta.setDisplayName(ChatColor.RED + "No");
+                    String confirmname = Lang.fileConfig.getString("gui-confirm-name");
+                    String cancelname = Lang.fileConfig.getString("gui-deny-name");
+                    confirmitemmeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', confirmname));
+                    cancelitemmeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', cancelname));
                     idleitemmeta.setDisplayName(ChatColor.DARK_GRAY + "");
                     confirmitem.setItemMeta(confirmitemmeta);
                     cancelitem.setItemMeta(cancelitemmeta);
@@ -208,15 +211,18 @@ public class PlayerClickEvent implements Listener {
                 String home = item.getItemMeta().getDisplayName();
                 home = ChatColor.stripColor(home);
                 if (e.getClick() == ClickType.RIGHT) {
-                    Inventory confirm = Bukkit.createInventory(player.getPlayer(), 27, "Delete Home " + home + "?");
+                    String deletehomeguiname = Lang.fileConfig.getString("delete-home-gui-name").replace("<home>", home);
+                    Inventory confirm = Bukkit.createInventory(player.getPlayer(), 27, ChatColor.translateAlternateColorCodes('&', deletehomeguiname));
                     ItemStack confirmitem = new ItemStack(Material.LIME_STAINED_GLASS_PANE);
                     ItemStack cancelitem = new ItemStack(Material.RED_STAINED_GLASS_PANE);
                     ItemStack idleitem = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
                     ItemMeta idleitemmeta = idleitem.getItemMeta();
                     ItemMeta confirmitemmeta = confirmitem.getItemMeta();
                     ItemMeta cancelitemmeta = cancelitem.getItemMeta();
-                    confirmitemmeta.setDisplayName(ChatColor.GREEN + "Yes");
-                    cancelitemmeta.setDisplayName(ChatColor.RED + "No");
+                    String confirmname = Lang.fileConfig.getString("gui-confirm-name");
+                    String cancelname = Lang.fileConfig.getString("gui-deny-name");
+                    confirmitemmeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', confirmname));
+                    cancelitemmeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', cancelname));
                     idleitemmeta.setDisplayName(ChatColor.DARK_GRAY + "");
                     confirmitem.setItemMeta(confirmitemmeta);
                     cancelitem.setItemMeta(cancelitemmeta);
@@ -368,7 +374,8 @@ public class PlayerClickEvent implements Listener {
         }
         // Delete Home Confirm GUI
         String home3 = home2;
-        if (e.getView().getTitle().equalsIgnoreCase("Delete Home " + home3 + "?")) {
+        String deletehomeguiname = Lang.fileConfig.getString("delete-home-gui-name").replace("<home>", home3);
+        if (e.getView().getTitle().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', deletehomeguiname))) {
             if (e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR || e.getCurrentItem().getType() == Material.GRAY_STAINED_GLASS_PANE){
                 e.setCancelled(true);
                 return;
@@ -407,7 +414,8 @@ public class PlayerClickEvent implements Listener {
         }
         // Delete Warp Confirm GUI
         String warp3 = warp2;
-        if (e.getView().getTitle().equalsIgnoreCase("Delete Warp " + warp3 + "?")) {
+        String deletewarpguiname = Lang.fileConfig.getString("delete-warp-gui-name").replace("<warp>", warp3);
+        if (e.getView().getTitle().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', deletewarpguiname))) {
             if (e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR || e.getCurrentItem().getType() == Material.GRAY_STAINED_GLASS_PANE){
                 e.setCancelled(true);
                 return;

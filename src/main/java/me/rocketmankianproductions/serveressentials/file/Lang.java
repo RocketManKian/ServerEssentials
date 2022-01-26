@@ -32,8 +32,10 @@ public class Lang {
                 fileConfig.addDefault("player-offline", "Player does not exist!");
                 fileConfig.addDefault("target-offline", "Target is offline");
                 fileConfig.addDefault("invalid-player", "You are not a player");
-                fileConfig.addDefault("incorrect-format", "Incorrect format! Please use <command>");
+                fileConfig.addDefault("incorrect-format", "Incorrect format! Please use &6<command>");
                 fileConfig.addDefault("target-self", "You cannot target yourself.");
+                fileConfig.addDefault("gui-confirm-name", "&aYes");
+                fileConfig.addDefault("gui-deny-name", "&cNo");
                 fileConfig.addDefault("back-previous-location", "Teleported to previous location");
                 fileConfig.addDefault("back-no-location", "You have no location to return to");
                 fileConfig.addDefault("back-blacklisted-world", "Cannot use Back Command in a Blacklisted World");
@@ -76,6 +78,7 @@ public class Lang {
                 fileConfig.addDefault("home-wait-message", "Teleporting to <home> in <time> Seconds");
                 fileConfig.addDefault("home-invalid", "Home <home> doesn't exist!");
                 fileConfig.addDefault("home-gui-name", "Home GUI");
+                fileConfig.addDefault("delete-home-gui-name", "Delete Home &6<home>?");
                 fileConfig.addDefault("home-file-error", "home.yml file is empty or null");
                 fileConfig.addDefault("home-gui-left-click", "Click to teleport to <home>");
                 fileConfig.addDefault("home-gui-right-click", "Right Click to Delete Home");
@@ -143,6 +146,7 @@ public class Lang {
                 fileConfig.addDefault("warp-message", "Successfully warped to <warp>");
                 fileConfig.addDefault("warp-wait-message", "Warping to <warp> in <time> Seconds");
                 fileConfig.addDefault("warp-gui-name", "Warp GUI");
+                fileConfig.addDefault("delete-warp-gui-name", "Delete Warp &6<warp>?");
                 fileConfig.addDefault("warp-gui-left-click", "Click to teleport to <warp>");
                 fileConfig.addDefault("warp-gui-right-click", "Right click to Delete Warp");
                 fileConfig.addDefault("warp-gui-invalid", "GUI Size is too small, increase the value in Config");
@@ -246,10 +250,16 @@ public class Lang {
                     fileConfig.set("invalid-player", "You are not a player");
                 }
                 if (fileConfig.getString("incorrect-format") == null){
-                    fileConfig.addDefault("incorrect-format", "Incorrect format! Please use <command>");
+                    fileConfig.addDefault("incorrect-format", "Incorrect format! Please use &6<command>");
                 }
                 if (fileConfig.getString("target-self") == null){
                     fileConfig.set("target-self", "You cannot target yourself.");
+                }
+                if (fileConfig.getString("gui-confirm-name") == null){
+                    fileConfig.addDefault("gui-confirm-name", "&aYes");
+                }
+                if (fileConfig.getString("gui-deny-name") == null){
+                    fileConfig.addDefault("gui-deny-name", "&cNo");
                 }
                 if (fileConfig.getString("back-previous-location") == null){
                     fileConfig.set("back-previous-location", "Teleported to previous location");
@@ -376,6 +386,9 @@ public class Lang {
                 }
                 if (fileConfig.getString("home-gui-name") == null){
                     fileConfig.set("home-gui-name", "Home GUI");
+                }
+                if (fileConfig.getString("delete-home-gui-name") == null){
+                    fileConfig.addDefault("delete-home-gui-name", "Delete Home &6<home>?");
                 }
                 if (fileConfig.getString("home-file-error") == null){
                     fileConfig.set("home-file-error", "home.yml file is empty or null");
@@ -577,6 +590,9 @@ public class Lang {
                 }
                 if (fileConfig.getString("warp-gui-name") == null){
                     fileConfig.set("warp-gui-name", "Warp GUI");
+                }
+                if (fileConfig.getString("delete-warp-gui-name") == null){
+                    fileConfig.addDefault("delete-warp-gui-name", "Delete Warp &6<warp>?");
                 }
                 if (fileConfig.getString("warp-gui-left-click") == null){
                     fileConfig.set("warp-gui-left-click", "Click to teleport to <warp>");
