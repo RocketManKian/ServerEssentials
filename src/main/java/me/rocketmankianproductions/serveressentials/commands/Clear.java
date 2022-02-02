@@ -27,7 +27,8 @@ public class Clear implements CommandExecutor {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }else if (sender == target){
-                        String msg = Lang.fileConfig.getString("target-self");
+                        player.getInventory().clear();
+                        String msg = Lang.fileConfig.getString("clear-success");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }else{
