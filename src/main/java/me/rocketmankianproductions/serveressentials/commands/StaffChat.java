@@ -40,7 +40,7 @@ public class StaffChat implements CommandExecutor {
                     String myArgs = String.join(" ", args);
                     String playername = ChatColor.stripColor(player.getDisplayName());
                     String channel = ServerEssentials.getPlugin().getConfig().getString("staff-chat-channel-name");
-                    String msg = Lang.fileConfig.getString("staffchat-message").replace("<player>", player.getName()).replace("<message>", myArgs);
+                    String msg = Lang.fileConfig.getString("staffchat-message").replace("<player>", player.getName()).replace("<message>", ChatColor.GRAY + myArgs);
                     if (ServerEssentials.isConnectedToDiscordSRV && ServerEssentials.plugin.getConfig().getBoolean("enable-discord-integration")){
                         TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName(channel);
                         if (textChannel != null){
