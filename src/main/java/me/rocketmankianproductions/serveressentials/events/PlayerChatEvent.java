@@ -15,14 +15,12 @@ import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class PlayerChatEvent implements Listener {
 
-    String chatcolour = ServerEssentials.getPlugin().getConfig().getString("chat-colour");
-
     @EventHandler (priority = EventPriority.HIGHEST)
     public void onChat(AsyncPlayerChatEvent c) {
         Player player = c.getPlayer();
         if (StaffChat.staffchat.contains(player)) {
-            String scmessage = c.getMessage();
-            String msg = Lang.fileConfig.getString("staffchat-message").replace("<player>", player.getName()).replace("<message>", scmessage);
+            String scmessage = ChatColor.stripColor(c.getMessage());
+            String msg = Lang.fileConfig.getString("staffchat-message").replace("<player>", player.getName()).replace("<message>", ChatColor.GRAY + scmessage);
             if (ServerEssentials.isConnectedToDiscordSRV && ServerEssentials.getPlugin().getConfig().getBoolean("enable-discord-integration") == true) {
                 String channel = ServerEssentials.getPlugin().getConfig().getString("staff-chat-channel-name");
                 TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName(channel);
@@ -39,24 +37,6 @@ public class PlayerChatEvent implements Listener {
             } else {
                 Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', msg), "se.staffchat");
                 c.setCancelled(true);
-            }
-        }
-        if (ServerEssentials.plugin.getConfig().getBoolean("chat-features")){
-            if (ServerEssentials.plugin.getConfig().getString("chat-colour").length() == 2) {
-                String message = c.getMessage();
-                message = ChatColor.translateAlternateColorCodes('&', chatcolour + message);
-                String playername = player.getDisplayName();
-                c.setFormat("<" + playername + "> " + message );
-            }
-            if (ServerEssentials.plugin.getConfig().getString("chat-format").length() != 0){
-                String message = c.getMessage();
-                String format = ServerEssentials.getPlugin().getConfig().getString("chat-format");
-                format = format.replace("%playername%", player.getDisplayName());
-                if (ServerEssentials.plugin.getConfig().getString("chat-colour").length() == 2) {
-                    message = ChatColor.translateAlternateColorCodes('&', chatcolour + message);
-                    c.setFormat(format + message);
-                }
-                c.setFormat(format + message);
             }
         }
     }

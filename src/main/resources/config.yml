@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 1.76.5
+# This config was generated for version 1.76.6
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -236,17 +236,3 @@ back-blacklist:
   - world
 # How long Players have to wait until they can use the Back Command again
 back-cooldown: 30
-############################################################
-# +------------------------------------------------------+ #
-# +              Server Essentials (Chat)                + #
-# +------------------------------------------------------+ #
-############################################################
-# Enable or Disable the Chat Formatting and Colouring Features
-# Default: true
-chat-features: true
-# Change the Chat Colour for Every Player
-# Please Use Minecraft Colour Codes as Seen Below
-chat-colour: "&7"
-# Change the Chat Format
-# %playername% - Player Display Name
-chat-format: "<%playername%> "
