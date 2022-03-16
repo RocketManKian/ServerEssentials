@@ -59,12 +59,12 @@ public class PlayerJoinListener implements Listener {
             }
         } else if (!player.hasPlayedBefore()) {
             if (ServerEssentials.getPlugin().getConfig().getBoolean("enable-first-time-join-message")) {
-                String wm = ServerEssentials.getPlugin().getConfig().getString("first-time-join");
+                String msg = Lang.fileConfig.getString("first-time-join").replace("<player>", player.getName());
                 if (ServerEssentials.isConnectedToPlaceholderAPI) {
-                    String placeholder = PlaceholderAPI.setPlaceholders(player, wm);
+                    String placeholder = PlaceholderAPI.setPlaceholders(player, msg);
                     pj.setJoinMessage(ChatColor.translateAlternateColorCodes('&', placeholder));
                 } else {
-                    pj.setJoinMessage(ChatColor.translateAlternateColorCodes('&', wm));
+                    pj.setJoinMessage(ChatColor.translateAlternateColorCodes('&', msg));
                 }
             } else {
                 // Default Message
