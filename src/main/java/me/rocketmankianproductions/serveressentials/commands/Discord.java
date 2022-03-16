@@ -19,7 +19,7 @@ public class Discord implements CommandExecutor {
             Player player = (Player) sender;
             if (player.hasPermission("se.discord") || player.hasPermission("se.all")) {
                 String prefix = ServerEssentials.getPlugin().getConfig().getString("prefix");
-                String discord = ServerEssentials.getPlugin().getConfig().getString("discord-command");
+                String discord = Lang.fileConfig.getString("discord-command");
                 if (ServerEssentials.isConnectedToPlaceholderAPI) {
                     String placeholder = PlaceholderAPI.setPlaceholders(player, discord);
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + " " + ChatColor.WHITE + placeholder));

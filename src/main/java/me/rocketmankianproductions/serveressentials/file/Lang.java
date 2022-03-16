@@ -35,6 +35,9 @@ public class Lang {
                 fileConfig.addDefault("invalid-player", "You are not a player");
                 fileConfig.addDefault("incorrect-format", "Incorrect format! Please use &6<command>");
                 fileConfig.addDefault("target-self", "You cannot target yourself.");
+                fileConfig.addDefault("first-time-join", "Welcome <player> to the Server!");
+                fileConfig.addDefault("website-command", "Website Command");
+                fileConfig.addDefault("discord-command", "Discord Command");
                 fileConfig.addDefault("gui-confirm-name", "&aYes");
                 fileConfig.addDefault("gui-deny-name", "&cNo");
                 fileConfig.addDefault("back-previous-location", "Teleported to previous location");
@@ -258,6 +261,15 @@ public class Lang {
                 }
                 if (fileConfig.getString("target-self") == null){
                     fileConfig.set("target-self", "You cannot target yourself.");
+                }
+                if (fileConfig.getString("first-time-join") == null){
+                    fileConfig.set("first-time-join", "Welcome <player> to the Server!");
+                }
+                if (fileConfig.getString("website-command") == null){
+                    fileConfig.set("website-command", "Website Command");
+                }
+                if (fileConfig.getString("discord-command") == null){
+                    fileConfig.set("discord-command", "Discord Command");
                 }
                 if (fileConfig.getString("gui-confirm-name") == null){
                     fileConfig.addDefault("gui-confirm-name", "&aYes");

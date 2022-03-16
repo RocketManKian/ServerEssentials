@@ -18,7 +18,7 @@ public class Website implements CommandExecutor {
             Player player = (Player) sender;
             if (player.hasPermission("se.website") || player.hasPermission("se.all")) {
                 String prefix = ServerEssentials.getPlugin().getConfig().getString("prefix");
-                String website = ServerEssentials.getPlugin().getConfig().getString("website-command");
+                String website = Lang.fileConfig.getString("website-command");
                 if (ServerEssentials.isConnectedToPlaceholderAPI) {
                     String placeholder = PlaceholderAPI.setPlaceholders(player, website);
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + " " + ChatColor.WHITE + placeholder));

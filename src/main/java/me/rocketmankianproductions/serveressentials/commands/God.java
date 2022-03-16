@@ -75,7 +75,11 @@ public class God implements CommandExecutor, Listener {
             }
         } else if (sender instanceof ConsoleCommandSender) {
             Player target = Bukkit.getPlayer(args[0]);
-            if (god_toggle.contains(target.getName())) {
+            if (target == null) {
+                String msg = Lang.fileConfig.getString("player-offline");
+                Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
+                return true;
+            } else if (god_toggle.contains(target.getName())) {
                 String msg = Lang.fileConfig.getString("god-disabled-target").replace("<target>", target.getName());
                 Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
                 String msg2 = Lang.fileConfig.getString("god-disabled");
