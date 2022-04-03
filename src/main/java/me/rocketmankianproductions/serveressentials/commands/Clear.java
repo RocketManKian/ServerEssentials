@@ -43,8 +43,8 @@ public class Clear implements CommandExecutor {
                     return true;
                 }
             }else{
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.clear");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                String noperm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.clear");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', noperm));
                 return true;
             }
         }else{
