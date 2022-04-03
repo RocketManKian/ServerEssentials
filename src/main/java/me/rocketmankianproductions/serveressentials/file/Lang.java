@@ -101,6 +101,7 @@ public class Lang {
                 fileConfig.addDefault("kill-target", "You just killed <target>");
                 fileConfig.addDefault("lore-invalid-item", "Please hold a valid item to set the lore");
                 fileConfig.addDefault("lore-successful", "Successfully set item lore as <lore>");
+                fileConfig.addDefault("lore-reset-successful", "Successfully reset item lore");
                 fileConfig.addDefault("message-self", "You cannot message yourself");
                 fileConfig.addDefault("message-disabled", "That person has messaging disabled");
                 fileConfig.addDefault("message-toggle-enabled", "Incoming Messages have been Disabled");
@@ -114,6 +115,7 @@ public class Lang {
                 fileConfig.addDefault("playtime-target", "<target> has played for <days> Days <hours> Hours <minutes> Minutes <seconds> Seconds");
                 fileConfig.addDefault("rename-invalid-item", "Please hold a valid item to rename");
                 fileConfig.addDefault("rename-successful", "Successfully set item name as <name>");
+                fileConfig.addDefault("rename-reset-successful", "Successfully reset item name");
                 fileConfig.addDefault("repair-durability-max", "Durability is max");
                 fileConfig.addDefault("repair-successful", "<item> has been repaired");
                 fileConfig.addDefault("repair-invalid-item", "You cannot repair that item");
@@ -460,6 +462,9 @@ public class Lang {
                 if (fileConfig.getString("lore-successful") == null){
                     fileConfig.set("lore-successful", "Successfully set item lore as <lore>");
                 }
+                if (fileConfig.getString("lore-reset-successful") == null){
+                    fileConfig.set("lore-reset-successful", "Successfully reset item lore");
+                }
                 if (fileConfig.getString("message-self") == null){
                     fileConfig.set("message-self", "You cannot message yourself");
                 }
@@ -498,6 +503,9 @@ public class Lang {
                 }
                 if (fileConfig.getString("rename-successful") == null){
                     fileConfig.set("rename-successful", "Successfully set item name as <name>");
+                }
+                if (fileConfig.getString("rename-reset-successful") == null){
+                    fileConfig.set("rename-reset-successful", "Successfully reset item name");
                 }
                 if (fileConfig.getString("repair-durability-max") == null){
                     fileConfig.set("repair-durability-max", "Durability is max");

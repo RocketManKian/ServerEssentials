@@ -1,6 +1,7 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.file.Lang;
+import org.apache.commons.lang.ArrayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -18,7 +19,7 @@ public class Rename implements CommandExecutor {
         if (sender instanceof Player){
             Player player = (Player) sender;
             if (player.hasPermission("se.rename") || player.hasPermission("se.all")){
-                if (args.length >= 1) {
+                if (args[0].equalsIgnoreCase("set")){
                     ItemStack hand = player.getItemInHand();
                     if (hand.getType().equals(Material.AIR)) {
                         String msg = Lang.fileConfig.getString("rename-invalid-item");
@@ -26,15 +27,29 @@ public class Rename implements CommandExecutor {
                         return true;
                     } else {
                         ItemMeta im = hand.getItemMeta();
-                        String myArgs = String.join(" ", args);
+                        String myArgs = String.join(" ", (CharSequence[]) ArrayUtils.remove(args, 0));
                         im.setDisplayName(ChatColor.translateAlternateColorCodes('&', myArgs));
                         hand.setItemMeta(im);
                         String msg = Lang.fileConfig.getString("rename-successful").replace("<name>", myArgs);
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
+                }else if (args[0].equalsIgnoreCase("reset") && args.length == 1){
+                    ItemStack hand = player.getItemInHand();
+                    if (hand.getType().equals(Material.AIR)) {
+                        String msg = Lang.fileConfig.getString("rename-invalid-item");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        return true;
+                    } else {
+                        ItemMeta im = hand.getItemMeta();
+                        im.setDisplayName(null);
+                        hand.setItemMeta(im);
+                        String msg = Lang.fileConfig.getString("rename-reset-successful");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        return true;
+                    }
                 }else{
-                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/rename (name)");
+                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/rename <set/reset>");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }

@@ -46,7 +46,7 @@ public class PlayerJoinListener implements Listener {
             if (ServerEssentials.getPlugin().getConfig().getBoolean("enable-join-message")) {
                 if (SilentJoin.fileConfig.getBoolean("silent." + player.getName(), false) == false) {
                     String jm = ServerEssentials.getPlugin().getConfig().getString("join-symbol");
-                    pj.setJoinMessage(ChatColor.translateAlternateColorCodes('&', jm + " " + player.getDisplayName()));
+                    pj.setJoinMessage(ChatColor.translateAlternateColorCodes('&', jm + " " + player.getName()));
                 } else {
                     pj.setJoinMessage("");
                 }
