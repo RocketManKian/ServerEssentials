@@ -100,6 +100,7 @@ public class Lang {
                 fileConfig.addDefault("kill-self", "You just killed yourself");
                 fileConfig.addDefault("kill-target", "You just killed <target>");
                 fileConfig.addDefault("lore-invalid-item", "Please hold a valid item to set the lore");
+                fileConfig.addDefault("lore-reset-invalid-item", "Please hold a valid item to reset the lore");
                 fileConfig.addDefault("lore-successful", "Successfully set item lore as <lore>");
                 fileConfig.addDefault("lore-reset-successful", "Successfully reset item lore");
                 fileConfig.addDefault("message-self", "You cannot message yourself");
@@ -114,6 +115,7 @@ public class Lang {
                 fileConfig.addDefault("playtime-self", "You have played for <days> Days <hours> Hours <minutes> Minutes <seconds> Seconds");
                 fileConfig.addDefault("playtime-target", "<target> has played for <days> Days <hours> Hours <minutes> Minutes <seconds> Seconds");
                 fileConfig.addDefault("rename-invalid-item", "Please hold a valid item to rename");
+                fileConfig.addDefault("rename-reset-invalid-item", "Please hold a valid item to clear the name");
                 fileConfig.addDefault("rename-successful", "Successfully set item name as <name>");
                 fileConfig.addDefault("rename-reset-successful", "Successfully reset item name");
                 fileConfig.addDefault("repair-durability-max", "Durability is max");
@@ -459,6 +461,9 @@ public class Lang {
                 if (fileConfig.getString("lore-invalid-item") == null){
                     fileConfig.set("lore-invalid-item", "Please hold a valid item to set the lore");
                 }
+                if (fileConfig.getString("lore-reset-invalid-item") == null){
+                    fileConfig.set("lore-reset-invalid-item", "Please hold a valid item to reset the lore");
+                }
                 if (fileConfig.getString("lore-successful") == null){
                     fileConfig.set("lore-successful", "Successfully set item lore as <lore>");
                 }
@@ -500,6 +505,9 @@ public class Lang {
                 }
                 if (fileConfig.getString("rename-invalid-item") == null){
                     fileConfig.set("rename-invalid-item", "Please hold a valid item to rename");
+                }
+                if (fileConfig.getString("rename-reset-invalid-item") == null){
+                    fileConfig.set("rename-reset-invalid-item", "Please hold a valid item to clear the name");
                 }
                 if (fileConfig.getString("rename-successful") == null){
                     fileConfig.set("rename-successful", "Successfully set item name as <name>");
