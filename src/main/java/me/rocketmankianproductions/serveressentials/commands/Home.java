@@ -304,7 +304,6 @@ public class Home implements CommandExecutor {
                                                 }
                                             }
                                             if (loc.isWorldLoaded()) {
-                                                Bukkit.broadcastMessage("hi");
                                                 // Teleporting Player
                                                 player.teleport(loc);
                                                 Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
