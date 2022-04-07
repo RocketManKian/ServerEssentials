@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 1.77.0
+# This config was generated for version 1.77.1
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -138,16 +138,16 @@ enable-warp-subtitle: false
 # How many Seconds the Player has to wait before they are teleported to a Warp
 # Set to '0' to Disable
 warp-teleport: 5
+# Enable or Disable the ability to stop Warping when the Player Moves
+# Only works if 'warp-teleport' is higher than 0
+# Default: true
+warp-movement-cancel: true
 # Enable Blacklisted World Feature for Warps
 # Default: False
 enable-warp-blacklist: false
 # Blacklist Worlds where Player's cannot create Warps
 warp-blacklist:
   - world
-# Enable or Disable the ability to stop Warping when the Player Moves
-# Only works if 'warp-teleport' is higher than 0
-# Default: true
-warp-movement-cancel: true
 ############################################################
 # +------------------------------------------------------+ #
 # +              Server Essentials (Home)                + #
@@ -170,16 +170,16 @@ default-home-count: 3
 # How many Seconds the Player has to wait before they are teleported to Home
 # Set to '0' to Disable
 home-teleport: 5
+# Enable or Disable the ability to stop Teleportation when the Player Moves
+# Only works if 'home-teleport' is higher than 0
+# Default: true
+home-movement-cancel: true
 # Enable Blacklisted World Feature for Homes
 enable-home-blacklist: false
 # Blacklist Worlds where Player's cannot set homes
 # Default: False
 home-blacklist:
   - world
-# Enable or Disable the ability to stop Teleportation when the Player Moves
-# Only works if 'home-teleport' is higher than 0
-# Default: true
-home-movement-cancel: true
 ############################################################
 # +------------------------------------------------------+ #
 # +              Server Essentials (Teleport)            + #
@@ -195,12 +195,13 @@ teleport-blacklist:
 enable-teleport-in-world: false
 # How long until Teleport Requests Timeout (in Seconds)
 teleport-cancel: 30
-# Enable or Disable the ability to stop Teleportation when the Player Moves
-# Default: true
-teleport-movement-cancel: true
 # How many Seconds the Player has to wait before they are teleported to someone
 # Set to '0' to Disable
 teleport-wait: 5
+# Enable or Disable the ability to stop Teleportation when the Player Moves
+# Only works if 'teleport-wait' is higher than 0
+# Default: true
+teleport-movement-cancel: true
 # How long Players have to wait until they can use the Teleport Command again
 tp-cooldown: 30
 ############################################################
