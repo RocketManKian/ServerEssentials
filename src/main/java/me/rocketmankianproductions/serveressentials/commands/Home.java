@@ -125,38 +125,36 @@ public class Home implements CommandExecutor {
                                     }
                                     hometeleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
                                         public void run() {
-                                            if (cancel.contains(player.getUniqueId())){
-                                                if (hometeleport.containsKey(player.getUniqueId())) {
-                                                    if (ServerEssentials.plugin.getConfig().getBoolean("home-save")) {
-                                                        if (Back.location.containsKey(player.getUniqueId())) {
-                                                            Back.location.remove(player.getUniqueId());
-                                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                                        } else {
-                                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                                        }
-                                                    } else if (player.hasPermission("se.back.bypass")) {
-                                                        if (Back.location.containsKey(player.getUniqueId())) {
-                                                            Back.location.remove(player.getUniqueId());
-                                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                                        } else {
-                                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                                        }
+                                            if (hometeleport.containsKey(player.getUniqueId())) {
+                                                if (ServerEssentials.plugin.getConfig().getBoolean("home-save")) {
+                                                    if (Back.location.containsKey(player.getUniqueId())) {
+                                                        Back.location.remove(player.getUniqueId());
+                                                        Back.location.put(player.getUniqueId(), player.getLocation());
+                                                    } else {
+                                                        Back.location.put(player.getUniqueId(), player.getLocation());
                                                     }
-                                                    if (loc.isWorldLoaded()){
-                                                        // Teleporting Player
-                                                        player.teleport(loc);
-                                                        Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
-                                                        if (subtitle) {
-                                                            String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", args[0]);
-                                                            player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
-                                                        } else {
-                                                            String msg = Lang.fileConfig.getString("home-message").replace("<home>", args[0]);
-                                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                        }
-                                                    }else{
-                                                        String msg = Lang.fileConfig.getString("home-world-invalid");
-                                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                } else if (player.hasPermission("se.back.bypass")) {
+                                                    if (Back.location.containsKey(player.getUniqueId())) {
+                                                        Back.location.remove(player.getUniqueId());
+                                                        Back.location.put(player.getUniqueId(), player.getLocation());
+                                                    } else {
+                                                        Back.location.put(player.getUniqueId(), player.getLocation());
                                                     }
+                                                }
+                                                if (loc.isWorldLoaded()) {
+                                                    // Teleporting Player
+                                                    player.teleport(loc);
+                                                    Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
+                                                    if (subtitle) {
+                                                        String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", args[0]);
+                                                        player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
+                                                    } else {
+                                                        String msg = Lang.fileConfig.getString("home-message").replace("<home>", args[0]);
+                                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                    }
+                                                } else {
+                                                    String msg = Lang.fileConfig.getString("home-world-invalid");
+                                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                                 }
                                             }
                                         }
