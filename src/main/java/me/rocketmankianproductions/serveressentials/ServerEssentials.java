@@ -238,6 +238,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("report").setExecutor(new Report());
         // Report Bug Command
         getCommand("reportbug").setExecutor(new ReportBug());
+        getCommand("reportbug").setTabCompleter(new TabCompletion());
         // Clear Chat Command
         getCommand("clearchat").setExecutor(new ClearChat());
         // Send Warp Command

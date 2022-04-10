@@ -249,6 +249,13 @@ public class TabCompletion implements TabCompleter {
             }
             return autoCompletes;
         }
+        if (command.getName().equalsIgnoreCase("reportbug")){
+            List<String> autoCompletes = new ArrayList<>();
+            if (args.length == 1){
+                autoCompletes.add("<bug>");
+            }
+            return autoCompletes;
+        }
         return null;
     }
 }
