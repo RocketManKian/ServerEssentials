@@ -61,6 +61,13 @@ public class TabCompletion implements TabCompleter {
                     autoCompletes.add("reset");
                 }
                 return autoCompletes; // then return the list
+            }else if (args.length == 2){
+                Player player = (Player) sender;
+                if (player.hasPermission("se.speed")){
+                    autoCompletes.add("walk");
+                    autoCompletes.add("fly");
+                }
+                return autoCompletes; // then return the list
             }
         }
         // Warp Commands

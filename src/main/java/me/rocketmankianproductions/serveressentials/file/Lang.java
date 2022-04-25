@@ -172,6 +172,8 @@ public class Lang {
                 fileConfig.addDefault("speed-fly-success", "Flying speed is now <speed>");
                 fileConfig.addDefault("speed-walk-success", "Walking speed is now <speed>");
                 fileConfig.addDefault("speed-reset-success", "Fly and Walk Speed is now reset");
+                fileConfig.addDefault("speed-reset-fly-success", "Fly Speed is now reset");
+                fileConfig.addDefault("speed-reset-walk-success", "Walk Speed is now reset");
                 fileConfig.addDefault("speed-fly-success-target", "Set flying speed to <speed> for <target>");
                 fileConfig.addDefault("speed-walk-success-target", "Set walking speed to <speed> for <target>");
                 fileConfig.addDefault("speed-reset-success-target", "Successfully reset Fly and Walk Speed for <target>");
@@ -676,6 +678,12 @@ public class Lang {
                 }
                 if (fileConfig.getString("speed-reset-success") == null){
                     fileConfig.set("speed-reset-success", "Fly and Walk Speed is now reset");
+                }
+                if (fileConfig.getString("speed-reset-fly-success") == null){
+                    fileConfig.set("speed-reset-fly-success", "Fly Speed is now reset");
+                }
+                if (fileConfig.getString("speed-reset-walk-success") == null){
+                    fileConfig.set("speed-reset-walk-success", "Walk Speed is now reset");
                 }
                 if (fileConfig.getString("speed-fly-success-target") == null){
                     fileConfig.set("speed-fly-success-target", "Set flying speed to <speed> for <target>");
