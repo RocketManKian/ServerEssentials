@@ -53,8 +53,6 @@ public class PlayerJoinListener implements Listener {
             } else {
                 if (SilentJoin.fileConfig.getBoolean("silent." + player.getName(), true) == true) {
                     pj.setJoinMessage("");
-                } else {
-                    // Default Join Message
                 }
             }
         } else if (!player.hasPlayedBefore()) {
@@ -66,8 +64,6 @@ public class PlayerJoinListener implements Listener {
                 } else {
                     pj.setJoinMessage(ChatColor.translateAlternateColorCodes('&', msg));
                 }
-            } else {
-                // Default Message
             }
         }
         if (!player.hasPlayedBefore() && ServerEssentials.getPlugin().getConfig().getBoolean("spawn-on-first-join") && Setspawn.fileConfig.getString("Location.World") != null){

@@ -8,6 +8,7 @@ import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -26,12 +27,8 @@ public class Report implements CommandExecutor {
             Player player = (Player) sender;
             if (player.hasPermission("se.report") || player.hasPermission("se.all")){
                 if (args.length >= 2) {
-                    Player target = Bukkit.getPlayer(args[0]);
-                    if (target == null) {
-                        String msg = Lang.fileConfig.getString("target-offline");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                        return true;
-                    } else if (target == sender) {
+                    OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
+                    if (target == sender) {
                         String msg = Lang.fileConfig.getString("report-self");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
