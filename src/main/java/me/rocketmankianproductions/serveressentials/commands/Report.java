@@ -12,6 +12,7 @@ import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -30,12 +31,8 @@ public class Report implements CommandExecutor {
             Player player = (Player) sender;
             if (player.hasPermission("se.report") || player.hasPermission("se.all")){
                 if (args.length >= 2) {
-                    Player target = Bukkit.getPlayer(args[0]);
-                    if (target == null) {
-                        String msg = Lang.fileConfig.getString("target-offline");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                        return true;
-                    } else if (target == sender) {
+                    OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
+                    if (target == sender) {
                         String msg = Lang.fileConfig.getString("report-self");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
@@ -74,16 +71,28 @@ public class Report implements CommandExecutor {
                                 } else {
                                     LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "Channel called " + channelname + " could not be found in the DiscordSRV configuration");
                                 }
-                                for (Player admin : Bukkit.getOnlinePlayers()) {
-                                    if (admin.hasPermission("se.reportnotification")) {
-                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg1));
-                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                        TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', msg3));
-                                        message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Teleport To " + target.getName())));
-                                        message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + target.getName()));
-                                        admin.spigot().sendMessage(message);
-                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
-                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg5));
+                                if (!target.isOnline()){
+                                    for (Player admin : Bukkit.getOnlinePlayers()) {
+                                        if (admin.hasPermission("se.reportnotification")) {
+                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg1));
+                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
+                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
+                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg5));
+                                        }
+                                    }
+                                }else{
+                                    for (Player admin : Bukkit.getOnlinePlayers()) {
+                                        if (admin.hasPermission("se.reportnotification")) {
+                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg1));
+                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                                            TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', msg3));
+                                            message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Teleport To " + target.getName())));
+                                            message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + target.getName()));
+                                            admin.spigot().sendMessage(message);
+                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
+                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg5));
+                                        }
                                     }
                                 }
                                 return true;
@@ -99,6 +108,44 @@ public class Report implements CommandExecutor {
                                 } else {
                                     LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "Channel called " + channelname + " could not be found in the DiscordSRV configuration");
                                 }
+                                if (!target.isOnline()){
+                                    for (Player admin : Bukkit.getOnlinePlayers()) {
+                                        if (admin.hasPermission("se.reportnotification")) {
+                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg1));
+                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
+                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
+                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg5));
+                                        }
+                                    }
+                                }else{
+                                    for (Player admin : Bukkit.getOnlinePlayers()) {
+                                        if (admin.hasPermission("se.reportnotification")) {
+                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg1));
+                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                                            TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', msg3));
+                                            message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Teleport To " + target.getName())));
+                                            message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + target.getName()));
+                                            admin.spigot().sendMessage(message);
+                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
+                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg5));
+                                        }
+                                    }
+                                }
+                                return true;
+                            }
+                        } else {
+                            if (!target.isOnline()){
+                                for (Player admin : Bukkit.getOnlinePlayers()) {
+                                    if (admin.hasPermission("se.reportnotification")) {
+                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg1));
+                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
+                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
+                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg5));
+                                    }
+                                }
+                            }else{
                                 for (Player admin : Bukkit.getOnlinePlayers()) {
                                     if (admin.hasPermission("se.reportnotification")) {
                                         admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg1));
@@ -110,20 +157,6 @@ public class Report implements CommandExecutor {
                                         admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
                                         admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg5));
                                     }
-                                }
-                                return true;
-                            }
-                        } else {
-                            for (Player admin : Bukkit.getOnlinePlayers()) {
-                                if (admin.hasPermission("se.reportnotification")) {
-                                    admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg1));
-                                    admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                    TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', msg3));
-                                    message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Teleport To " + target.getName())));
-                                    message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + target.getName()));
-                                    admin.spigot().sendMessage(message);
-                                    admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
-                                    admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg5));
                                 }
                             }
                             return true;
