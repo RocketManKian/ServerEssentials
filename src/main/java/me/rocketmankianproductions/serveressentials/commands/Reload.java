@@ -40,8 +40,6 @@ public class Reload {
                 ServerEssentials.broadcastLoop.cancel();
                 Long delay = ServerEssentials.getPlugin().getConfig().getLong("broadcast-delay");
                 ServerEssentials.broadcastLoop = new Broadcast(ServerEssentials.plugin).runTaskTimer(ServerEssentials.plugin, delay, delay);
-                //HandlerList.unregisterAll((Plugin) plugin);
-                //ServerEssentials.plugin.registerEvents();
             } else {
                 String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.reload");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
