@@ -47,7 +47,7 @@ public class Test implements CommandExecutor {
                             }
                             return true;
                         } else {
-                            player.sendMessage(ChatColor.RED + "The 'first-time-join' config value is empty.");
+                            player.sendMessage(ChatColor.RED + "The 'first-time-join' lang value is empty.");
                             return true;
                         }
                     } else if (args[0].equalsIgnoreCase("motd")) {
@@ -78,7 +78,7 @@ public class Test implements CommandExecutor {
                             }
                             return true;
                         } else {
-                            player.sendMessage(ChatColor.RED + "The 'first-time-join' config value is empty.");
+                            player.sendMessage(ChatColor.RED + "The 'no-permission-message' lang value is empty.");
                             return true;
                         }
                     }
