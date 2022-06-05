@@ -37,17 +37,17 @@ public class Test implements CommandExecutor {
                             return true;
                         }
                     } else if (args[0].equalsIgnoreCase("welcome")) {
-                        if (!(ServerEssentials.getPlugin().getConfig().getString("first-time-join").length() == 0)) {
-                            String wm = ServerEssentials.getPlugin().getConfig().getString("first-time-join");
-                            String placeholder = PlaceholderAPI.setPlaceholders(player, wm);
+                        if (!(Lang.fileConfig.getString("first-time-join").length() == 0)) {
+                            String wm = Lang.fileConfig.getString("first-time-join");
                             if (ServerEssentials.isConnectedToPlaceholderAPI) {
+                                String placeholder = PlaceholderAPI.setPlaceholders(player, wm);
                                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', placeholder));
                             } else {
                                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', wm));
                             }
                             return true;
                         } else {
-                            player.sendMessage(ChatColor.RED + "The 'first-time-join' config value is empty.");
+                            player.sendMessage(ChatColor.RED + "The 'first-time-join' lang value is empty.");
                             return true;
                         }
                     } else if (args[0].equalsIgnoreCase("motd")) {
@@ -67,10 +67,22 @@ public class Test implements CommandExecutor {
                             player.sendMessage(ChatColor.RED + "The 'motd-message' config value is empty.");
                             return true;
                         }
-                    } else {
-                        return false;
+                    } else if (args[0].equalsIgnoreCase("permission")) {
+                        if (!(Lang.fileConfig.getString("no-permission-message").length() == 0)) {
+                            String wm = Lang.fileConfig.getString("no-permission-message");
+                            if (ServerEssentials.isConnectedToPlaceholderAPI) {
+                                String placeholder = PlaceholderAPI.setPlaceholders(player, wm);
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', placeholder));
+                            } else {
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', wm));
+                            }
+                            return true;
+                        } else {
+                            player.sendMessage(ChatColor.RED + "The 'no-permission-message' lang value is empty.");
+                            return true;
+                        }
                     }
-                }else{
+                } else {
                     String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/test (motd/welcome/join/leave)");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
@@ -80,10 +92,11 @@ public class Test implements CommandExecutor {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                 return true;
             }
-        }else{
+        } else {
             String console = Lang.fileConfig.getString("console-invalid");
             Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
             return true;
         }
+        return false;
     }
 }
