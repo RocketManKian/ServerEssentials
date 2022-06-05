@@ -28,6 +28,7 @@ public class Lang {
                 LoggerMessage.log(LoggerMessage.LogLevel.INFO, "Lang.yml file doesn't exist, creating now...");
                 fileConfig = YamlConfiguration.loadConfiguration(file);
                 fileConfig.addDefault("no-permission-message", "You do not have the required permission (<permission>) to run this command.");
+                fileConfig.addDefault("plugins-command", "Hah! Nice try...");
                 fileConfig.addDefault("command-timeout", "You cannot use this command for another <time> Seconds");
                 fileConfig.addDefault("player-offline", "Player does not exist!");
                 fileConfig.addDefault("target-offline", "Target is offline");
@@ -246,6 +247,9 @@ public class Lang {
                 fileConfig = YamlConfiguration.loadConfiguration(file);
                 if (fileConfig.getString("no-permission-message") == null){
                     fileConfig.set("no-permission-message", "You do not have the required permission (<permission>) to run this command.");
+                }
+                if (fileConfig.getString("plugins-command") == null){
+                    fileConfig.set("plugins-command", "Hah! Nice try...");
                 }
                 if (fileConfig.getString("command-timeout") == null){
                     fileConfig.set("command-timeout", "You cannot use this command for another <time> Seconds");

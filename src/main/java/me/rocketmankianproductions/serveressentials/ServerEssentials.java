@@ -279,6 +279,8 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(new PlayerDeathEvent(), this);
         getServer().getPluginManager().registerEvents(new PlayerMoveEvent(), this);
         getServer().getPluginManager().registerEvents(new PlayerWorldCheck(), this);
+        // Plugins Command
+        getServer().getPluginManager().registerEvents(new Plugins(), this);
         // God Command
         getServer().getPluginManager().registerEvents(new God(), this);
     }
