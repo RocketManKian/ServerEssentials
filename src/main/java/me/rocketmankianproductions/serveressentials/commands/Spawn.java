@@ -1,5 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
+import com.google.common.collect.Sets;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
@@ -28,164 +29,369 @@ public class Spawn implements CommandExecutor {
             Player player = (Player) sender;
             // Checking if the player has the correct permission
             if (player.hasPermission("se.spawn") || player.hasPermission("se.all")) {
-                // Check if the File Exists and if Location.World has data
-                if (Setspawn.file.exists() && Setspawn.fileConfig.getString("Location.World") != null) {
-                    Location loc = getLocation();
+                // Check if the File Exists
+                if (Setspawn.file.exists()) {
                     if (args.length == 0) {
-                        if (ServerEssentials.plugin.getConfig().getInt("spawn-teleport") == 0){
-                            if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")){
-                                if (Back.location.containsKey(player.getUniqueId())){
-                                    Back.location.remove(player.getUniqueId());
-                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                }else{
-                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                        if (command.getName().equalsIgnoreCase("tutorial")){
+                            if (Setspawn.fileConfig.getString("Newbies.Location.World") != null){
+                                Location loc = getNewbiesLocation();
+                                if (ServerEssentials.plugin.getConfig().getInt("spawn-teleport") == 0){
+                                    if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")){
+                                        if (Back.location.containsKey(player.getUniqueId())){
+                                            Back.location.remove(player.getUniqueId());
+                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                        }else{
+                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                        }
+                                    }else if (player.hasPermission("se.back.bypass")){
+                                        if (Back.location.containsKey(player.getUniqueId())){
+                                            Back.location.remove(player.getUniqueId());
+                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                        }else{
+                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                        }
+                                    }
+                                    if (loc.isWorldLoaded()){
+                                        // Teleporting Player
+                                        player.teleport(loc);
+                                        String msg = Lang.fileConfig.getString("newbies-spawn-successful");
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                        return true;
+                                    }else{
+                                        String msg = Lang.fileConfig.getString("spawn-world-invalid");
+                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                        return true;
+                                    }
+                                }else {
+                                    if (ServerEssentials.plugin.getConfig().getBoolean("spawn-movement-cancel")) {
+                                        cancel.add(player.getUniqueId());
+                                        String msg = Lang.fileConfig.getString("newbies-spawn-wait-message").replace("<time>", String.valueOf(delay));
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                        delay = delay * 20;
+                                        if (spawnteleport.containsKey(player.getUniqueId()) && spawnteleport.get(player.getUniqueId()) != null) {
+                                            Bukkit.getScheduler().cancelTask(spawnteleport.get(player.getUniqueId()));
+                                        }
+                                        spawnteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                                            public void run() {
+                                                if (cancel.contains(player.getUniqueId())) {
+                                                    if (spawnteleport.containsKey(player.getUniqueId())) {
+                                                        if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")) {
+                                                            if (Back.location.containsKey(player.getUniqueId())) {
+                                                                Back.location.remove(player.getUniqueId());
+                                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                                                            } else {
+                                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                                                            }
+                                                        } else if (player.hasPermission("se.back.bypass")) {
+                                                            if (Back.location.containsKey(player.getUniqueId())) {
+                                                                Back.location.remove(player.getUniqueId());
+                                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                                                            } else {
+                                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                                                            }
+                                                        }
+                                                        if (loc.isWorldLoaded()) {
+                                                            // Teleporting Player
+                                                            player.teleport(loc);
+                                                            String msg = Lang.fileConfig.getString("newbies-spawn-successful");
+                                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                            cancel.remove(player.getUniqueId());
+                                                        } else {
+                                                            String msg = Lang.fileConfig.getString("spawn-world-invalid");
+                                                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                        }
+                                                        spawnteleport.remove(player.getUniqueId());
+                                                    }
+                                                }
+                                            }
+                                        }, delay));
+                                        return true;
+                                    } else {
+                                        String msg = Lang.fileConfig.getString("newbies-spawn-wait-message").replace("<time>", String.valueOf(delay));
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                        delay = delay * 20;
+                                        if (spawnteleport.containsKey(player.getUniqueId()) && spawnteleport.get(player.getUniqueId()) != null) {
+                                            Bukkit.getScheduler().cancelTask(spawnteleport.get(player.getUniqueId()));
+                                        }
+                                        spawnteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                                            public void run() {
+                                                if (spawnteleport.containsKey(player.getUniqueId())) {
+                                                    if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")) {
+                                                        if (Back.location.containsKey(player.getUniqueId())) {
+                                                            Back.location.remove(player.getUniqueId());
+                                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                                        } else {
+                                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                                        }
+                                                    } else if (player.hasPermission("se.back.bypass")) {
+                                                        if (Back.location.containsKey(player.getUniqueId())) {
+                                                            Back.location.remove(player.getUniqueId());
+                                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                                        } else {
+                                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                                        }
+                                                    }
+                                                    if (loc.isWorldLoaded()) {
+                                                        // Teleporting Player
+                                                        player.teleport(loc);
+                                                        String msg = Lang.fileConfig.getString("newbies-spawn-successful");
+                                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                    } else {
+                                                        String msg = Lang.fileConfig.getString("spawn-world-invalid");
+                                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                    }
+                                                }
+                                            }
+                                        }, delay));
+                                        return true;
+                                    }
                                 }
-                            }else if (player.hasPermission("se.back.bypass")){
-                                if (Back.location.containsKey(player.getUniqueId())){
-                                    Back.location.remove(player.getUniqueId());
-                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                }else{
-                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                }
-                            }
-                            if (loc.isWorldLoaded()){
-                                // Teleporting Player
-                                player.teleport(loc);
-                                String msg = Lang.fileConfig.getString("spawn-successful");
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                return true;
                             }else{
-                                String msg = Lang.fileConfig.getString("spawn-world-invalid");
+                                // Sends Message if Newbies Spawn Doesn't Exist
+                                String msg = Lang.fileConfig.getString("newbies-spawn-invalid");
                                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                return true;
                             }
-                        }else{
-                            if (ServerEssentials.plugin.getConfig().getBoolean("spawn-movement-cancel")){
-                                cancel.add(player.getUniqueId());
-                                String msg = Lang.fileConfig.getString("spawn-wait-message").replace("<time>", String.valueOf(delay));
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                delay = delay * 20;
-                                if (spawnteleport.containsKey(player.getUniqueId()) && spawnteleport.get(player.getUniqueId()) != null) {
-                                    Bukkit.getScheduler().cancelTask(spawnteleport.get(player.getUniqueId()));
-                                }
-                                spawnteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
-                                    public void run() {
-                                        if (cancel.contains(player.getUniqueId())){
-                                            if (spawnteleport.containsKey(player.getUniqueId())) {
-                                                if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")){
-                                                    if (Back.location.containsKey(player.getUniqueId())){
-                                                        Back.location.remove(player.getUniqueId());
-                                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                                    }else{
-                                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                                    }
-                                                }else if (player.hasPermission("se.back.bypass")){
-                                                    if (Back.location.containsKey(player.getUniqueId())){
-                                                        Back.location.remove(player.getUniqueId());
-                                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                                    }else{
-                                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                                    }
-                                                }
-                                                if (loc.isWorldLoaded()){
-                                                    // Teleporting Player
-                                                    player.teleport(loc);
-                                                    String msg = Lang.fileConfig.getString("spawn-successful");
-                                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                    cancel.remove(player.getUniqueId());
-                                                }else{
-                                                    String msg = Lang.fileConfig.getString("spawn-world-invalid");
-                                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                }
-                                                spawnteleport.remove(player.getUniqueId());
-                                            }
+                        }else if (command.getName().equalsIgnoreCase("spawn")) {
+                            if (Setspawn.fileConfig.getString("Location.World") != null) {
+                                Location loc = getLocation();
+                                if (ServerEssentials.plugin.getConfig().getInt("spawn-teleport") == 0) {
+                                    if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")) {
+                                        if (Back.location.containsKey(player.getUniqueId())) {
+                                            Back.location.remove(player.getUniqueId());
+                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                        } else {
+                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                        }
+                                    } else if (player.hasPermission("se.back.bypass")) {
+                                        if (Back.location.containsKey(player.getUniqueId())) {
+                                            Back.location.remove(player.getUniqueId());
+                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                        } else {
+                                            Back.location.put(player.getUniqueId(), player.getLocation());
                                         }
                                     }
-                                }, delay));
-                                return true;
+                                    if (loc.isWorldLoaded()) {
+                                        // Teleporting Player
+                                        player.teleport(loc);
+                                        String msg = Lang.fileConfig.getString("spawn-successful");
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                        return true;
+                                    } else {
+                                        String msg = Lang.fileConfig.getString("spawn-world-invalid");
+                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                        return true;
+                                    }
+                                } else {
+                                    if (ServerEssentials.plugin.getConfig().getBoolean("spawn-movement-cancel")) {
+                                        cancel.add(player.getUniqueId());
+                                        String msg = Lang.fileConfig.getString("spawn-wait-message").replace("<time>", String.valueOf(delay));
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                        delay = delay * 20;
+                                        if (spawnteleport.containsKey(player.getUniqueId()) && spawnteleport.get(player.getUniqueId()) != null) {
+                                            Bukkit.getScheduler().cancelTask(spawnteleport.get(player.getUniqueId()));
+                                        }
+                                        spawnteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                                            public void run() {
+                                                if (cancel.contains(player.getUniqueId())) {
+                                                    if (spawnteleport.containsKey(player.getUniqueId())) {
+                                                        if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")) {
+                                                            if (Back.location.containsKey(player.getUniqueId())) {
+                                                                Back.location.remove(player.getUniqueId());
+                                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                                                            } else {
+                                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                                                            }
+                                                        } else if (player.hasPermission("se.back.bypass")) {
+                                                            if (Back.location.containsKey(player.getUniqueId())) {
+                                                                Back.location.remove(player.getUniqueId());
+                                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                                                            } else {
+                                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                                                            }
+                                                        }
+                                                        if (loc.isWorldLoaded()) {
+                                                            // Teleporting Player
+                                                            player.teleport(loc);
+                                                            String msg = Lang.fileConfig.getString("spawn-successful");
+                                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                            cancel.remove(player.getUniqueId());
+                                                        } else {
+                                                            String msg = Lang.fileConfig.getString("spawn-world-invalid");
+                                                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                        }
+                                                        spawnteleport.remove(player.getUniqueId());
+                                                    }
+                                                }
+                                            }
+                                        }, delay));
+                                        return true;
+                                    } else {
+                                        String msg = Lang.fileConfig.getString("spawn-wait-message").replace("<time>", String.valueOf(delay));
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                        delay = delay * 20;
+                                        if (spawnteleport.containsKey(player.getUniqueId()) && spawnteleport.get(player.getUniqueId()) != null) {
+                                            Bukkit.getScheduler().cancelTask(spawnteleport.get(player.getUniqueId()));
+                                        }
+                                        spawnteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                                            public void run() {
+                                                if (spawnteleport.containsKey(player.getUniqueId())) {
+                                                    if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")) {
+                                                        if (Back.location.containsKey(player.getUniqueId())) {
+                                                            Back.location.remove(player.getUniqueId());
+                                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                                        } else {
+                                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                                        }
+                                                    } else if (player.hasPermission("se.back.bypass")) {
+                                                        if (Back.location.containsKey(player.getUniqueId())) {
+                                                            Back.location.remove(player.getUniqueId());
+                                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                                        } else {
+                                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                                        }
+                                                    }
+                                                    if (loc.isWorldLoaded()) {
+                                                        // Teleporting Player
+                                                        player.teleport(loc);
+                                                        String msg = Lang.fileConfig.getString("spawn-successful");
+                                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                    } else {
+                                                        String msg = Lang.fileConfig.getString("spawn-world-invalid");
+                                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                    }
+                                                }
+                                            }
+                                        }, delay));
+                                        return true;
+                                    }
+                                }
                             }else{
-                                String msg = Lang.fileConfig.getString("spawn-wait-message").replace("<time>", String.valueOf(delay));
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                delay = delay * 20;
-                                if (spawnteleport.containsKey(player.getUniqueId()) && spawnteleport.get(player.getUniqueId()) != null) {
-                                    Bukkit.getScheduler().cancelTask(spawnteleport.get(player.getUniqueId()));
-                                }
-                                spawnteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
-                                    public void run() {
-                                        if (spawnteleport.containsKey(player.getUniqueId())) {
-                                            if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")){
-                                                if (Back.location.containsKey(player.getUniqueId())){
-                                                    Back.location.remove(player.getUniqueId());
-                                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                                }else{
-                                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                                }
-                                            }else if (player.hasPermission("se.back.bypass")){
-                                                if (Back.location.containsKey(player.getUniqueId())){
-                                                    Back.location.remove(player.getUniqueId());
-                                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                                }else{
-                                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                                }
-                                            }
-                                            if (loc.isWorldLoaded()){
-                                                // Teleporting Player
-                                                player.teleport(loc);
-                                                String msg = Lang.fileConfig.getString("spawn-successful");
-                                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                            }else{
-                                                String msg = Lang.fileConfig.getString("spawn-world-invalid");
-                                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                            }
-                                        }
-                                    }
-                                }, delay));
-                                return true;
+                                // Sends Message if Spawn Doesn't Exist
+                                String msg = Lang.fileConfig.getString("spawn-invalid");
+                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             }
                         }
-                    } else if (args.length >= 1) {
-                        if (player.hasPermission("se.spawn.others") || player.hasPermission("se.all")) {
-                            Player target = Bukkit.getPlayerExact(args[0]);
-                            // Checking if the player exists
-                            if (target != null) {
-                                if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")) {
-                                    if (Back.location.containsKey(target.getUniqueId())) {
-                                        Back.location.remove(target.getUniqueId());
-                                        Back.location.put(target.getUniqueId(), target.getLocation());
-                                    } else {
-                                        Back.location.put(target.getUniqueId(), target.getLocation());
+                    } else if (args.length == 1) {
+                        // Teleport to Newbies Spawn
+                        if (args[0].equalsIgnoreCase("newbies")) {
+                            if (Setspawn.fileConfig.getString("Newbies.Location.World") != null){
+                                Location loc = getNewbiesLocation();
+                                if (ServerEssentials.plugin.getConfig().getInt("spawn-teleport") == 0){
+                                    if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")){
+                                        if (Back.location.containsKey(player.getUniqueId())){
+                                            Back.location.remove(player.getUniqueId());
+                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                        }else{
+                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                        }
+                                    }else if (player.hasPermission("se.back.bypass")){
+                                        if (Back.location.containsKey(player.getUniqueId())){
+                                            Back.location.remove(player.getUniqueId());
+                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                        }else{
+                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                        }
                                     }
-                                } else if (target.hasPermission("se.back.bypass")) {
-                                    if (Back.location.containsKey(target.getUniqueId())) {
-                                        Back.location.remove(target.getUniqueId());
-                                        Back.location.put(target.getUniqueId(), target.getLocation());
+                                    if (loc.isWorldLoaded()){
+                                        // Teleporting Player
+                                        player.teleport(loc);
+                                        String msg = Lang.fileConfig.getString("newbies-spawn-successful");
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                        return true;
+                                    }else{
+                                        String msg = Lang.fileConfig.getString("spawn-world-invalid");
+                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                        return true;
+                                    }
+                                }else {
+                                    if (ServerEssentials.plugin.getConfig().getBoolean("spawn-movement-cancel")) {
+                                        cancel.add(player.getUniqueId());
+                                        String msg = Lang.fileConfig.getString("newbies-spawn-wait-message").replace("<time>", String.valueOf(delay));
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                        delay = delay * 20;
+                                        if (spawnteleport.containsKey(player.getUniqueId()) && spawnteleport.get(player.getUniqueId()) != null) {
+                                            Bukkit.getScheduler().cancelTask(spawnteleport.get(player.getUniqueId()));
+                                        }
+                                        spawnteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                                            public void run() {
+                                                if (cancel.contains(player.getUniqueId())) {
+                                                    if (spawnteleport.containsKey(player.getUniqueId())) {
+                                                        if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")) {
+                                                            if (Back.location.containsKey(player.getUniqueId())) {
+                                                                Back.location.remove(player.getUniqueId());
+                                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                                                            } else {
+                                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                                                            }
+                                                        } else if (player.hasPermission("se.back.bypass")) {
+                                                            if (Back.location.containsKey(player.getUniqueId())) {
+                                                                Back.location.remove(player.getUniqueId());
+                                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                                                            } else {
+                                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                                                            }
+                                                        }
+                                                        if (loc.isWorldLoaded()) {
+                                                            // Teleporting Player
+                                                            player.teleport(loc);
+                                                            String msg = Lang.fileConfig.getString("newbies-spawn-successful");
+                                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                            cancel.remove(player.getUniqueId());
+                                                        } else {
+                                                            String msg = Lang.fileConfig.getString("spawn-world-invalid");
+                                                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                        }
+                                                        spawnteleport.remove(player.getUniqueId());
+                                                    }
+                                                }
+                                            }
+                                        }, delay));
+                                        return true;
                                     } else {
-                                        Back.location.put(target.getUniqueId(), target.getLocation());
+                                        String msg = Lang.fileConfig.getString("newbies-spawn-wait-message").replace("<time>", String.valueOf(delay));
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                        delay = delay * 20;
+                                        if (spawnteleport.containsKey(player.getUniqueId()) && spawnteleport.get(player.getUniqueId()) != null) {
+                                            Bukkit.getScheduler().cancelTask(spawnteleport.get(player.getUniqueId()));
+                                        }
+                                        spawnteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                                            public void run() {
+                                                if (spawnteleport.containsKey(player.getUniqueId())) {
+                                                    if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")) {
+                                                        if (Back.location.containsKey(player.getUniqueId())) {
+                                                            Back.location.remove(player.getUniqueId());
+                                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                                        } else {
+                                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                                        }
+                                                    } else if (player.hasPermission("se.back.bypass")) {
+                                                        if (Back.location.containsKey(player.getUniqueId())) {
+                                                            Back.location.remove(player.getUniqueId());
+                                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                                        } else {
+                                                            Back.location.put(player.getUniqueId(), player.getLocation());
+                                                        }
+                                                    }
+                                                    if (loc.isWorldLoaded()) {
+                                                        // Teleporting Player
+                                                        player.teleport(loc);
+                                                        String msg = Lang.fileConfig.getString("newbies-spawn-successful");
+                                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                    } else {
+                                                        String msg = Lang.fileConfig.getString("spawn-world-invalid");
+                                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                    }
+                                                }
+                                            }
+                                        }, delay));
+                                        return true;
                                     }
                                 }
-                                if (loc.isWorldLoaded()){
-                                    // Teleporting player to Location
-                                    target.teleport(loc);
-                                    // Sending the Sender and Target a message
-                                    String msg = Lang.fileConfig.getString("spawn-teleport-target").replace("<target>", target.getName());
-                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                    String msg2 = Lang.fileConfig.getString("spawn-teleport-target-success");
-                                    target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                    return true;
-                                }else{
-                                    String msg = Lang.fileConfig.getString("spawn-world-invalid");
-                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                    return true;
-                                }
-                            } else {
-                                String msg = Lang.fileConfig.getString("target-offline");
+                            }else{
+                                // Sends Message if Newbies Spawn Doesn't Exist
+                                String msg = Lang.fileConfig.getString("newbies-spawn-invalid");
                                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                return true;
                             }
-                        }else{
-                            String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.spawn.others");
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                            return true;
                         }
                     }else{
                         String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/spawn");
@@ -257,6 +463,13 @@ public class Spawn implements CommandExecutor {
         float yaw = Setspawn.fileConfig.getInt("Location.Yaw");
         float pitch = Setspawn.fileConfig.getInt("Location.Pitch");
         Location loc = new Location(Bukkit.getWorld(Setspawn.fileConfig.getString("Location.World")), Setspawn.fileConfig.getDouble("Location.X"), Setspawn.fileConfig.getDouble("Location.Y"), Setspawn.fileConfig.getDouble("Location.Z"), yaw, pitch);
+        return loc;
+    }
+    public static Location getNewbiesLocation() {
+        // Gathering Location
+        float yaw = Setspawn.fileConfig.getInt("Newbies.Location.Yaw");
+        float pitch = Setspawn.fileConfig.getInt("Newbies.Location.Pitch");
+        Location loc = new Location(Bukkit.getWorld(Setspawn.fileConfig.getString("Newbies.Location.World")), Setspawn.fileConfig.getDouble("Newbies.Location.X"), Setspawn.fileConfig.getDouble("Newbies.Location.Y"), Setspawn.fileConfig.getDouble("Newbies.Location.Z"), yaw, pitch);
         return loc;
     }
 }

@@ -70,6 +70,30 @@ public class TabCompletion implements TabCompleter {
                 return autoCompletes; // then return the list
             }
         }
+        // Spawn Command
+        if (command.getName().equalsIgnoreCase("spawn")){
+            List<String> autoCompletes = new ArrayList<>();
+            if (args.length == 1){
+                autoCompletes.add("newbies");
+            }
+            return autoCompletes;
+        }
+        // Set Spawn Command
+        if (command.getName().equalsIgnoreCase("setspawn")){
+            List<String> autoCompletes = new ArrayList<>();
+            if (args.length == 1){
+                autoCompletes.add("newbies");
+            }
+            return autoCompletes;
+        }
+        // Delete Spawn Command
+        if (command.getName().equalsIgnoreCase("deletespawn")){
+            List<String> autoCompletes = new ArrayList<>();
+            if (args.length == 1){
+                autoCompletes.add("newbies");
+            }
+            return autoCompletes;
+        }
         // Warp Commands
         if (command.getName().equalsIgnoreCase("warp")) {
             List<String> autoCompletes = new ArrayList<>();

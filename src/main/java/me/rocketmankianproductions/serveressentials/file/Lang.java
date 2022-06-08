@@ -134,14 +134,21 @@ public class Lang {
                 fileConfig.addDefault("report-bug-line-two", "&cReporter &7>> &f<player>");
                 fileConfig.addDefault("report-bug-line-three", "&cBug &7>> &f<message>");
                 fileConfig.addDefault("report-bug-line-four", "&b-----------------------------");
+                fileConfig.addDefault("newbies-spawn-deletion-success", "Newbie Spawn Deleted");
                 fileConfig.addDefault("spawn-deletion-success", "Spawn Deleted");
                 fileConfig.addDefault("spawn-not-found", "Spawn doesn't exist");
                 fileConfig.addDefault("spawn-world-invalid", "World isn't loaded!");
+                fileConfig.addDefault("newbies-spawn-set-successful", "Successfully set newbie spawn location in <world>");
                 fileConfig.addDefault("spawn-set-successful", "Successfully set spawn location in <world>");
+                fileConfig.addDefault("newbies-spawn-successful", "Successfully teleported to Newbies Spawn");
                 fileConfig.addDefault("spawn-successful", "Successfully teleported to Spawn");
+                fileConfig.addDefault("newbies-spawn-wait-message", "Teleporting to Newbies Spawn in <time> Seconds");
                 fileConfig.addDefault("spawn-wait-message", "Teleporting to Spawn in <time> Seconds");
+                fileConfig.addDefault("newbies-spawn-teleport-target", "You have teleported <target> to Newbies Spawn");
+                fileConfig.addDefault("newbies-spawn-teleport-target-success", "You have been teleported to Newbies Spawn");
                 fileConfig.addDefault("spawn-teleport-target", "You have teleported <target> to Spawn");
                 fileConfig.addDefault("spawn-teleport-target-success", "You have been teleported to Spawn");
+                fileConfig.addDefault("newbies-spawn-invalid", "Newbies Spawn hasn't been set");
                 fileConfig.addDefault("spawn-invalid", "Spawn hasn't been set");
                 fileConfig.addDefault("spawn-movement-cancel", "Teleportation to Spawn cancelled due to Movement");
                 fileConfig.addDefault("warp-deletion-success", "Warp <warp> has been successfully deleted");
@@ -566,6 +573,9 @@ public class Lang {
                 if (fileConfig.getString("report-bug-line-four") == null){
                     fileConfig.addDefault("report-bug-line-four", "&b-----------------------------");
                 }
+                if (fileConfig.getString("newbies-spawn-deletion-success") == null){
+                    fileConfig.set("newbies-spawn-deletion-success", "Newbie Spawn Deleted");
+                }
                 if (fileConfig.getString("spawn-deletion-success") == null){
                     fileConfig.set("spawn-deletion-success", "Spawn Deleted");
                 }
@@ -575,20 +585,38 @@ public class Lang {
                 if (fileConfig.getString("spawn-world-invalid") == null){
                     fileConfig.set("spawn-world-invalid", "World isn't loaded!");
                 }
+                if (fileConfig.getString("newbies-spawn-set-successful") == null){
+                    fileConfig.set("newbies-spawn-set-successful", "Successfully set newbie spawn location in <world>");
+                }
                 if (fileConfig.getString("spawn-set-successful") == null){
                     fileConfig.set("spawn-set-successful", "Successfully set spawn location in <world>");
+                }
+                if (fileConfig.getString("newbies-spawn-successful") == null){
+                    fileConfig.set("newbies-spawn-successful", "Successfully teleported to Newbies Spawn");
                 }
                 if (fileConfig.getString("spawn-successful") == null){
                     fileConfig.set("spawn-successful", "Successfully teleported to Spawn");
                 }
+                if (fileConfig.getString("newbies-spawn-wait-message") == null){
+                    fileConfig.set("newbies-spawn-wait-message", "Teleporting to Newbies Spawn in <time> Seconds");
+                }
                 if (fileConfig.getString("spawn-wait-message") == null){
                     fileConfig.set("spawn-wait-message", "Teleporting to Spawn in <time> Seconds");
+                }
+                if (fileConfig.getString("newbies-spawn-teleport-target") == null){
+                    fileConfig.set("newbies-spawn-teleport-target", "You have teleported <target> to Newbies Spawn");
+                }
+                if (fileConfig.getString("newbies-spawn-teleport-target-success") == null){
+                    fileConfig.set("newbies-spawn-teleport-target-success", "You have been teleported to Newbies Spawn");
                 }
                 if (fileConfig.getString("spawn-teleport-target") == null){
                     fileConfig.set("spawn-teleport-target", "You have teleported <target> to Spawn");
                 }
                 if (fileConfig.getString("spawn-teleport-target-success") == null){
                     fileConfig.set("spawn-teleport-target-success", "You have been teleported to Spawn");
+                }
+                if (fileConfig.getString("newbies-spawn-invalid") == null){
+                    fileConfig.set("newbies-spawn-invalid", "Newbies Spawn hasn't been set");
                 }
                 if (fileConfig.getString("spawn-invalid") == null){
                     fileConfig.set("spawn-invalid", "Spawn hasn't been set");

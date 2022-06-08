@@ -66,12 +66,21 @@ public class PlayerJoinListener implements Listener {
                 }
             }
         }
-        if (!player.hasPlayedBefore() && ServerEssentials.getPlugin().getConfig().getBoolean("spawn-on-first-join") && Setspawn.fileConfig.getString("Location.World") != null){
-            // Gathering Location
-            float yaw = Setspawn.fileConfig.getInt("Location.Yaw");
-            float pitch = Setspawn.fileConfig.getInt("Location.Pitch");
-            // Combining location data
-            loc = new Location(Bukkit.getWorld(Setspawn.fileConfig.getString("Location.World")), Setspawn.fileConfig.getDouble("Location.X"), Setspawn.fileConfig.getDouble("Location.Y"), Setspawn.fileConfig.getDouble("Location.Z"), yaw, pitch);
+        if (!player.hasPlayedBefore() && ServerEssentials.getPlugin().getConfig().getBoolean("spawn-on-first-join")){
+            // Prioritise the Newbie Spawn
+            if (Setspawn.fileConfig.getString("Newbies.Location.World")!= null){
+                // Gathering Location
+                float yaw = Setspawn.fileConfig.getInt("Newbies.Location.Yaw");
+                float pitch = Setspawn.fileConfig.getInt("Newbies.Location.Pitch");
+                // Combining location data
+                loc = new Location(Bukkit.getWorld(Setspawn.fileConfig.getString("Newbies.Location.World")), Setspawn.fileConfig.getDouble("Newbies.Location.X"), Setspawn.fileConfig.getDouble("Newbies.Location.Y"), Setspawn.fileConfig.getDouble("Newbies.Location.Z"), yaw, pitch);
+            }else if (Setspawn.fileConfig.getString("Location.World") != null){
+                // Gathering Location
+                float yaw = Setspawn.fileConfig.getInt("Location.Yaw");
+                float pitch = Setspawn.fileConfig.getInt("Location.Pitch");
+                // Combining location data
+                loc = new Location(Bukkit.getWorld(Setspawn.fileConfig.getString("Location.World")), Setspawn.fileConfig.getDouble("Location.X"), Setspawn.fileConfig.getDouble("Location.Y"), Setspawn.fileConfig.getDouble("Location.Z"), yaw, pitch);
+            }
             // Teleporting player to location
             player.teleport(loc);
         }
