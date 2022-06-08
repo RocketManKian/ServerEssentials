@@ -76,6 +76,28 @@ public class Setspawn implements CommandExecutor {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                     return true;
                 }
+            } else if (args.length == 1 && args[0].equalsIgnoreCase("newbies")){
+                if (player.hasPermission("se.setspawn") || player.hasPermission("se.all")) {
+                    String world = player.getWorld().getName();
+                    fileConfig.set("Newbies.Location.World", world);
+                    fileConfig.set("Newbies.Location.X", player.getLocation().getX());
+                    fileConfig.set("Newbies.Location.Y", player.getLocation().getY());
+                    fileConfig.set("Newbies.Location.Z", player.getLocation().getZ());
+                    fileConfig.set("Newbies.Location.Yaw", player.getLocation().getYaw());
+                    fileConfig.set("Newbies.Location.Pitch", player.getLocation().getPitch());
+                    try {
+                        fileConfig.save(file);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Setspawn.reload();
+                    String msg = Lang.fileConfig.getString("newbie-spawn-set-successful").replace("<world>", world);
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                } else {
+                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.setspawn");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                    return true;
+                }
             } else if (args.length == 3){
                 if (player.hasPermission("se.setspawn") || player.hasPermission("se.all")) {
                     String world = player.getWorld().getName();
@@ -96,6 +118,36 @@ public class Setspawn implements CommandExecutor {
                         }
                         Setspawn.reload();
                         String msg = Lang.fileConfig.getString("spawn-set-successful").replace("<world>", world);
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    } catch (NumberFormatException n) {
+                        String msg = Lang.fileConfig.getString("teleport-pos-invalid");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    }
+                }else{
+                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.setspawn");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                    return true;
+                }
+            } else if (args.length == 4 && args[0].equalsIgnoreCase("newbies")){
+                if (player.hasPermission("se.setspawn") || player.hasPermission("se.all")) {
+                    String world = player.getWorld().getName();
+                    fileConfig.set("Newbies.Location.World", world);
+                    try {
+                        double x = Double.parseDouble(args[0]);
+                        double y = Double.parseDouble(args[1]);
+                        double z = Double.parseDouble(args[2]);
+                        fileConfig.set("Newbies.Location.X", x);
+                        fileConfig.set("Newbies.Location.Y", y);
+                        fileConfig.set("Newbies.Location.Z", z);
+                        fileConfig.set("Newbies.Location.Yaw", player.getLocation().getYaw());
+                        fileConfig.set("Newbies.Location.Pitch", player.getLocation().getPitch());
+                        try {
+                            fileConfig.save(file);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        Setspawn.reload();
+                        String msg = Lang.fileConfig.getString("newbies-spawn-set-successful").replace("<world>", world);
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     } catch (NumberFormatException n) {
                         String msg = Lang.fileConfig.getString("teleport-pos-invalid");

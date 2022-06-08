@@ -119,10 +119,16 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("playtime").setExecutor(new Playtime());
         // SetSpawn Command
         getCommand("setspawn").setExecutor(new Setspawn());
+        getCommand("setspawn").setTabCompleter(new TabCompletion());
         // Spawn Command
         getCommand("spawn").setExecutor(new Spawn());
+        getCommand("spawn").setTabCompleter(new TabCompletion());
+        getCommand("tutorial").setExecutor(new Spawn());
+        // Sendspawn Command
+        getCommand("sendspawn").setExecutor(new SendSpawn());
         // Deletespawn Command
         getCommand("deletespawn").setExecutor(new DeleteSpawn());
+        getCommand("deletespawn").setTabCompleter(new TabCompletion());
         // Sethome Command
         getCommand("sethome").setExecutor(new Sethome());
         // Home Command
