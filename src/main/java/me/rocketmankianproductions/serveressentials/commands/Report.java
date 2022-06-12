@@ -63,7 +63,7 @@ public class Report implements CommandExecutor {
                                         .addField("Reason » ", messages, false);
                                 // null if the channel isn't specified in the config.yml
                                 if (textChannel != null) {
-                                    textChannel.sendMessage(report.build()).queue();
+                                    textChannel.sendMessageEmbeds(report.build()).queue();
                                 } else {
                                     LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "Channel called " + channelname + " could not be found in the DiscordSRV configuration");
                                 }
@@ -85,7 +85,7 @@ public class Report implements CommandExecutor {
                                         .addField("Reason » ", messages, false);
                                 // null if the channel isn't specified in the config.yml
                                 if (textChannel != null) {
-                                    textChannel.sendMessage(report.build()).queue();
+                                    textChannel.sendMessageEmbeds(report.build()).queue();
                                 } else {
                                     LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "Channel called " + channelname + " could not be found in the DiscordSRV configuration");
                                 }
