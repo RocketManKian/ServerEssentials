@@ -44,10 +44,7 @@ remove-effects-on-heal: false
 # Vanish On Join
 vanish-on-join: false
 # Enter a name in between the quotations to enable or leave empty to disable
-# This will be used to send a message in the 'staff-chat-channel-name' on Discord
-# By changing the message from "x joined the game" -> "x join the b Server" as an example
-# B = server-name
-# Useful for Bungeecord Servers and allowing the use of one Discord channel without confusion
+# This will be used to send a message in the 'staff-chat-channel-name', 'report-user-channel-name' and 'report-bug-channel-name' on Discord
 server-name: ""
 # How long Players have to wait until they can use the Repair Command again
 # Set to 0 to Disable

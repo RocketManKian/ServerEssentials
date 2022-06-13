@@ -27,6 +27,7 @@ public class ReportBug implements CommandExecutor {
             if (player.hasPermission("se.report") || player.hasPermission("se.all")){
                 if (args.length >= 1) {
                     String msg = Lang.fileConfig.getString("report-successful");
+                    String server = ServerEssentials.getPlugin().getConfig().getString("server-name");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     StringBuilder builder = new StringBuilder();
                     int startArg = 0;
@@ -52,6 +53,9 @@ public class ReportBug implements CommandExecutor {
                                     .setColor(Color.RED)
                                     .addField("Reporter » ", player.getName(), true)
                                     .addField("Bug » ", messages, false);
+                            if (!server.isEmpty()){
+                                report.addField("Server » ", server, false);
+                            }
                             // null if the channel isn't specified in the config.yml
                             if (textChannel != null) {
                                 textChannel.sendMessageEmbeds(report.build()).queue();
@@ -72,6 +76,9 @@ public class ReportBug implements CommandExecutor {
                                     .setColor(Color.RED)
                                     .addField("Reporter » ", player.getName(), true)
                                     .addField("Bug » ", messages, false);
+                            if (!server.isEmpty()){
+                                report.addField("Server » ", server, false);
+                            }
                             // null if the channel isn't specified in the config.yml
                             if (textChannel != null) {
                                 textChannel.sendMessageEmbeds(report.build()).queue();
@@ -80,10 +87,12 @@ public class ReportBug implements CommandExecutor {
                             }
                             for (Player admin : Bukkit.getOnlinePlayers()) {
                                 if (admin.hasPermission("se.reportnotification")) {
-                                    admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg1));
-                                    admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                    admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
-                                    admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
+                                    if (admin.hasPermission("se.reportnotification")) {
+                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg1));
+                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
+                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
+                                    }
                                 }
                             }
                             return true;
@@ -91,10 +100,12 @@ public class ReportBug implements CommandExecutor {
                     } else {
                         for (Player admin : Bukkit.getOnlinePlayers()) {
                             if (admin.hasPermission("se.reportnotification")) {
-                                admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg1));
-                                admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
-                                admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
+                                if (admin.hasPermission("se.reportnotification")) {
+                                    admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg1));
+                                    admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                                    admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
+                                    admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
+                                }
                             }
                         }
                         return true;
