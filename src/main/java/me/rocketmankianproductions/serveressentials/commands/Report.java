@@ -38,6 +38,7 @@ public class Report implements CommandExecutor {
                         return true;
                     } else {
                         String msg = Lang.fileConfig.getString("report-successful");
+                        String server = ServerEssentials.getPlugin().getConfig().getString("server-name");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         StringBuilder builder = new StringBuilder();
                         int startArg = 1;
@@ -65,6 +66,9 @@ public class Report implements CommandExecutor {
                                         .addField("Reporter » ", player.getName(), true)
                                         .addField("Reported User » ", target.getName(), true)
                                         .addField("Reason » ", messages, false);
+                                if (!server.isEmpty()){
+                                    report.addField("Server » ", server, true);
+                                }
                                 // null if the channel isn't specified in the config.yml
                                 if (textChannel != null) {
                                     textChannel.sendMessageEmbeds(report.build()).queue();
@@ -102,6 +106,9 @@ public class Report implements CommandExecutor {
                                         .addField("Reporter » ", player.getName(), true)
                                         .addField("Reported User » ", target.getName(), true)
                                         .addField("Reason » ", messages, false);
+                                if (!server.isEmpty()){
+                                    report.addField("Server » ", server, true);
+                                }
                                 // null if the channel isn't specified in the config.yml
                                 if (textChannel != null) {
                                     textChannel.sendMessageEmbeds(report.build()).queue();
