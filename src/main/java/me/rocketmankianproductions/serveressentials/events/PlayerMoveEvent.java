@@ -20,28 +20,28 @@ public class PlayerMoveEvent implements Listener {
     public void onMove(org.bukkit.event.player.PlayerMoveEvent m){
         Player player = m.getPlayer();
         if (Home.cancel.contains(player.getUniqueId())){
-            if (m.getFrom().getX() != m.getTo().getX() || m.getFrom().getZ() != m.getTo().getZ() || m.getFrom().getY() != m.getTo().getY()) {
+            if (m.getFrom().getBlockX() != m.getTo().getBlockX() || m.getFrom().getBlockZ() != m.getTo().getBlockZ() || m.getFrom().getBlockY() != m.getTo().getBlockY()) {
                 Home.cancel.remove(player.getUniqueId());
                 String msg = Lang.fileConfig.getString("home-movement-cancel");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
             }
         }
         if (Warp.cancel.contains(player.getUniqueId())){
-            if (m.getFrom().getX() != m.getTo().getX() || m.getFrom().getZ() != m.getTo().getZ() || m.getFrom().getY() != m.getTo().getY()) {
+            if (m.getFrom().getBlockX() != m.getTo().getBlockX() || m.getFrom().getBlockZ() != m.getTo().getBlockZ() || m.getFrom().getBlockY() != m.getTo().getBlockY()) {
                 Warp.cancel.remove(player.getUniqueId());
                 String msg = Lang.fileConfig.getString("warp-movement-cancel");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
             }
         }
         if (Spawn.cancel.contains(player.getUniqueId())){
-            if (m.getFrom().getX() != m.getTo().getX() || m.getFrom().getZ() != m.getTo().getZ() || m.getFrom().getY() != m.getTo().getY()) {
+            if (m.getFrom().getBlockX() != m.getTo().getBlockX() || m.getFrom().getBlockZ() != m.getTo().getBlockZ() || m.getFrom().getBlockY() != m.getTo().getBlockY()) {
                 Spawn.cancel.remove(player.getUniqueId());
                 String msg = Lang.fileConfig.getString("spawn-movement-cancel");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
             }
         }
         if (TeleportRequest.cancel.contains(player.getUniqueId()) || TeleportRequest.cancel.contains(Bukkit.getPlayer(TeleportRequest.tpa.get(player.getUniqueId())))){
-            if (m.getFrom().getX() != m.getTo().getX() || m.getFrom().getZ() != m.getTo().getZ() || m.getFrom().getY() != m.getTo().getY()) {
+            if (m.getFrom().getBlockX() != m.getTo().getBlockX() || m.getFrom().getBlockZ() != m.getTo().getBlockZ() || m.getFrom().getBlockY() != m.getTo().getBlockY()) {
                 UUID player2u = getKey(TeleportRequest.tpa, player.getUniqueId());
                 Player player2 = Bukkit.getPlayer(getKey(TeleportRequest.tpa, player.getUniqueId()));
                 Player player3 = Bukkit.getPlayer(getKey(TeleportRequest.tpahere, player.getUniqueId()));
