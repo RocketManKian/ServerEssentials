@@ -3,6 +3,7 @@ package me.rocketmankianproductions.serveressentials.events;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import me.clip.placeholderapi.PlaceholderAPI;
+import me.rocketmankianproductions.serveressentials.LoggerMessage;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.UpdateChecker.Update;
 import me.rocketmankianproductions.serveressentials.commands.*;
@@ -69,20 +70,32 @@ public class PlayerJoinListener implements Listener {
         if (!player.hasPlayedBefore() && ServerEssentials.getPlugin().getConfig().getBoolean("spawn-on-first-join")){
             // Prioritise the Newbie Spawn
             if (Setspawn.fileConfig.getString("Newbies.Location.World")!= null){
-                // Gathering Location
-                float yaw = Setspawn.fileConfig.getInt("Newbies.Location.Yaw");
-                float pitch = Setspawn.fileConfig.getInt("Newbies.Location.Pitch");
-                // Combining location data
-                loc = new Location(Bukkit.getWorld(Setspawn.fileConfig.getString("Newbies.Location.World")), Setspawn.fileConfig.getDouble("Newbies.Location.X"), Setspawn.fileConfig.getDouble("Newbies.Location.Y"), Setspawn.fileConfig.getDouble("Newbies.Location.Z"), yaw, pitch);
+                if (Bukkit.getWorld(Setspawn.fileConfig.getString("Newbies.Location.World")) != null){
+                    // Gathering Location
+                    float yaw = Setspawn.fileConfig.getInt("Newbies.Location.Yaw");
+                    float pitch = Setspawn.fileConfig.getInt("Newbies.Location.Pitch");
+                    // Combining location data
+                    loc = new Location(Bukkit.getWorld(Setspawn.fileConfig.getString("Newbies.Location.World")), Setspawn.fileConfig.getDouble("Newbies.Location.X"), Setspawn.fileConfig.getDouble("Newbies.Location.Y"), Setspawn.fileConfig.getDouble("Newbies.Location.Z"), yaw, pitch);
+                    // Teleporting player to location
+                    player.teleport(loc);
+                }else{
+                    LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "Spawn World isn't loaded");
+                }
             }else if (Setspawn.fileConfig.getString("Location.World") != null){
-                // Gathering Location
-                float yaw = Setspawn.fileConfig.getInt("Location.Yaw");
-                float pitch = Setspawn.fileConfig.getInt("Location.Pitch");
-                // Combining location data
-                loc = new Location(Bukkit.getWorld(Setspawn.fileConfig.getString("Location.World")), Setspawn.fileConfig.getDouble("Location.X"), Setspawn.fileConfig.getDouble("Location.Y"), Setspawn.fileConfig.getDouble("Location.Z"), yaw, pitch);
+                if (Bukkit.getWorld(Setspawn.fileConfig.getString("Location.World")) != null){
+                    // Gathering Location
+                    float yaw = Setspawn.fileConfig.getInt("Location.Yaw");
+                    float pitch = Setspawn.fileConfig.getInt("Location.Pitch");
+                    // Combining location data
+                    loc = new Location(Bukkit.getWorld(Setspawn.fileConfig.getString("Location.World")), Setspawn.fileConfig.getDouble("Location.X"), Setspawn.fileConfig.getDouble("Location.Y"), Setspawn.fileConfig.getDouble("Location.Z"), yaw, pitch);
+                    // Teleporting player to location
+                    player.teleport(loc);
+                }else{
+                    LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "Spawn World isn't loaded");
+                }
+            }else{
+                LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "World Spawn isn't set");
             }
-            // Teleporting player to location
-            player.teleport(loc);
         }
         // Handles spawn-on-join
         if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-on-join") && Setspawn.fileConfig.getString("Location.World") != null) {
