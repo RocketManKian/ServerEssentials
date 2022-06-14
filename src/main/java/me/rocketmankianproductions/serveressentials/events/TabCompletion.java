@@ -3,6 +3,7 @@ package me.rocketmankianproductions.serveressentials.events;
 import me.rocketmankianproductions.serveressentials.commands.Sethome;
 import me.rocketmankianproductions.serveressentials.commands.Setwarp;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -195,13 +196,32 @@ public class TabCompletion implements TabCompleter {
                     ConfigurationSection home = Sethome.fileConfig.getConfigurationSection("Home." + player.getUniqueId());
                     if (home != null){
                         for (String playerhomes: home.getKeys(false)){
-                            if (player.hasPermission("se.home")){
+                            if (player.hasPermission("se.home") && !playerhomes.isEmpty()){
                                 autoCompletes.add(playerhomes);
+                                return autoCompletes;
+                            }else{
+                                return null;
                             }
                         }
                     }
                 }
-                return autoCompletes; // then return the list
+            }
+            if (args.length == 2){
+                Player player = (Player) sender;
+                OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
+                if (Sethome.fileConfig.getStringList("Home." + target.getUniqueId()) != null){
+                    ConfigurationSection home = Sethome.fileConfig.getConfigurationSection("Home." + target.getUniqueId());
+                    if (home != null){
+                        for (String playerhomes: home.getKeys(false)){
+                            if (player.hasPermission("se.home") && !playerhomes.isEmpty()){
+                                autoCompletes.add(playerhomes);
+                                return autoCompletes;
+                            }else{
+                                return null;
+                            }
+                        }
+                    }
+                }
             }
         }
         // Send Home Command
@@ -253,14 +273,34 @@ public class TabCompletion implements TabCompleter {
                         ConfigurationSection home = Sethome.fileConfig.getConfigurationSection("Home." + player.getUniqueId());
                         if (home != null){
                             for (String playerhomes: home.getKeys(false)){
-                                if (player.hasPermission("se.deletehome")){
+                                if (player.hasPermission("se.deletehome") && !playerhomes.isEmpty()){
                                     autoCompletes.add(playerhomes);
+                                    return autoCompletes;
+                                }else{
+                                    return null;
                                 }
                             }
                         }
                     }
                 }
-                return autoCompletes;
+            }else if (args.length == 2){
+                Player player = (Player) sender;
+                OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
+                if (Sethome.fileConfig.getString("Home." + target.getUniqueId()) != null){
+                    if (!Sethome.fileConfig.getString("Home." + target.getUniqueId()).isEmpty()){
+                        ConfigurationSection home = Sethome.fileConfig.getConfigurationSection("Home." + target.getUniqueId());
+                        if (home != null){
+                            for (String playerhomes: home.getKeys(false)){
+                                if (player.hasPermission("se.deletehome") && !playerhomes.isEmpty()){
+                                    autoCompletes.add(playerhomes);
+                                    return autoCompletes;
+                                }else{
+                                    return null;
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
         if (command.getName().equalsIgnoreCase("message") || command.getName().equalsIgnoreCase("msg")){

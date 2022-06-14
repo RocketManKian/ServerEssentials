@@ -3,6 +3,7 @@ package me.rocketmankianproductions.serveressentials.commands;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -34,6 +35,30 @@ public class DeleteHome implements CommandExecutor {
                     } else {
                         String msg = Lang.fileConfig.getString("home-invalid").replace("<home>", args[0]);
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        return true;
+                    }
+                }else if (args.length == 2){
+                    if (player.hasPermission("se.deletehome.others")){
+                        OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
+                        // Averaging out the whether the file exists or not by checking for value in one of the default saving points
+                        if (Sethome.file.exists() && Sethome.fileConfig.getString("Home." + target.getUniqueId() + "." + args[1]) != null && !Sethome.fileConfig.getString("Home." + target.getUniqueId()).isEmpty()) {
+                            Sethome.fileConfig.set("Home." + target.getUniqueId() + "." + args[1], null);
+                            try {
+                                Sethome.fileConfig.save(Sethome.file);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            String msg = Lang.fileConfig.getString("target-home-deletion-success").replace("<target>", args[0]);
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            return true;
+                        } else {
+                            String msg = Lang.fileConfig.getString("home-invalid").replace("<home>", args[1]);
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            return true;
+                        }
+                    }else{
+                        String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.deletehome.others");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                         return true;
                     }
                 }else{

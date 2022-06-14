@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 1.78.3
+version: 1.78.4
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -208,16 +208,20 @@ permissions:
       se.alert: true
       se.silentjoin: true
       se.sethome: true
-      se.home: true
-      se.deletehome: true
-      se.teleport: true
-      se.tpall: true
-      se.info: true
-      se.silenttp: true
       se.sethome.unlimited: true
+      se.home: true
+      se.home.others: true
+      se.listhomes: true
+      se.sendhome: true
+      se.deletehome: true
+      se.deletehome.others: true
       se.tpa: true
       se.tpaccept: true
       se.tpdeny: true
+      se.teleport: true
+      se.tpall: true
+      se.silenttp: true
+      se.info: true
       se.heal: true
       se.feed: true
       se.announce: true
@@ -238,7 +242,9 @@ permissions:
       se.enderchest: true
       se.enderchest.others: true
       se.setwarp: true
+      se.setwarp.block: true
       se.warp: true
+      se.sendwarp: true
       se.deletewarp: true
       se.repair: true
       se.time: true
@@ -247,9 +253,6 @@ permissions:
       se.clear: true
       se.god: true
       se.hat: true
-      se.home.others: true
-      se.sendhome: true
-      se.listhomes: true
       se.tpacancel: true
       se.rename: true
       se.lore: true
@@ -259,7 +262,6 @@ permissions:
       se.reportnotification: true
       se.clearchat: true
       se.warps.all: true
-      se.sendwarp: true
       se.socialspy: true
       se.staffchat: true
       se.trash: true
@@ -267,7 +269,6 @@ permissions:
       se.back.bypass: true
       se.teleport.bypass: true
       se.convert: true
-      se.setwarp.block: true
   se.reload:
     description: "Gives access to the /se reload command."
     default: false
@@ -315,6 +316,9 @@ permissions:
     default: false
   se.deletehome:
     description: "Deletes Home"
+    default: false
+  se.deletehome.others:
+    description: "Deletes Other Player's Homes"
     default: false
   se.teleport:
     description: "Teleport Command"
