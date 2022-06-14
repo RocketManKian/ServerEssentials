@@ -369,7 +369,7 @@ public class PlayerClickEvent implements Listener {
                     }
                 }
             }
-        }else if (e.getView().getTitle().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("target-home-gui-name").replace("<target>", ListHomes.target.getName())))) {
+        }else if (ListHomes.target != null && e.getView().getTitle().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("target-home-gui-name").replace("<target>", ListHomes.target.getName())))) {
             e.setCancelled(true);
             ItemStack item = e.getCurrentItem();
             if (item != null) {
