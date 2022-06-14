@@ -74,6 +74,7 @@ public class Lang {
                 fileConfig.addDefault("heal-target", "You have healed <target>");
                 fileConfig.addDefault("heal-target-message", "You have been healed by <sender>");
                 fileConfig.addDefault("home-deletion-success", "Home <home> has been successfully deleted");
+                fileConfig.addDefault("target-home-deletion-success", "<target>(s) Home has been successfully deleted");
                 fileConfig.addDefault("home-set-success", "Successfully set home location");
                 fileConfig.addDefault("home-blacklisted-world", "You cannot set a Home in a Blacklisted World");
                 fileConfig.addDefault("home-world-invalid", "World isn't loaded!");
@@ -81,17 +82,21 @@ public class Lang {
                 fileConfig.addDefault("home-subtitle", "Successfully teleported to <home>");
                 fileConfig.addDefault("home-message", "Successfully teleported to <home>");
                 fileConfig.addDefault("home-wait-message", "Teleporting to <home> in <time> Seconds");
+                fileConfig.addDefault("target-home-wait-message", "Teleporting to <target>(s) Home in <time> Seconds");
                 fileConfig.addDefault("home-invalid", "Home <home> doesn't exist!");
-                fileConfig.addDefault("home-gui-name", "Home GUI");
-                fileConfig.addDefault("delete-home-gui-name", "Delete Home &6<home>?");
                 fileConfig.addDefault("home-file-error", "home.yml file is empty or null");
+                fileConfig.addDefault("home-gui-name", "Home GUI");
+                fileConfig.addDefault("target-home-gui-name", "<target>(s) Home List");
+                fileConfig.addDefault("delete-home-gui-name", "Delete Home &6<home>?");
+                fileConfig.addDefault("target-delete-home-gui-name", "Delete <target>(s) Home &6<home>?");
                 fileConfig.addDefault("home-gui-left-click", "Click to teleport to <home>");
                 fileConfig.addDefault("home-gui-right-click", "Right Click to Delete Home");
                 fileConfig.addDefault("no-homes-set", "No Homes have been set");
                 fileConfig.addDefault("no-homes-set-target", "<target> hasn't set any Homes");
                 fileConfig.addDefault("home-gui-error", "GUI Size is too small, increase the value in Config!");
-                fileConfig.addDefault("home-teleport-target", "You have been teleported to <target>(s) home");
+                fileConfig.addDefault("home-teleport-target", "You have teleported to <target>(s) home");
                 fileConfig.addDefault("home-movement-cancel", "Teleportation to Home cancelled due to Movement");
+                fileConfig.addDefault("listhomes-self", "To check your Homes, type /home");
                 fileConfig.addDefault("sendhome-target", "You have been teleported to your home");
                 fileConfig.addDefault("sendhome-player", "Teleported <target> to their home");
                 fileConfig.addDefault("hurt-target", "<target> was hurt for <damage> damage points");
@@ -393,6 +398,9 @@ public class Lang {
                 if (fileConfig.getString("home-deletion-success") == null){
                     fileConfig.set("home-deletion-success", "Home <home> has been successfully deleted");
                 }
+                if (fileConfig.getString("target-home-deletion-success") == null){
+                    fileConfig.set("target-home-deletion-success", "<target>(s) Home has been successfully deleted");
+                }
                 if (fileConfig.getString("home-set-success") == null){
                     fileConfig.set("home-set-success", "Successfully set home location");
                 }
@@ -414,17 +422,26 @@ public class Lang {
                 if (fileConfig.getString("home-wait-message") == null){
                     fileConfig.set("home-wait-message", "Teleporting to <home> in <time> Seconds");
                 }
-                if (fileConfig.getString("home-invalid") == null){
+                if (fileConfig.getString("target-home-wait-message") == null){
+                    fileConfig.set("target-home-wait-message", "Teleporting to <target>(s) Home in <time> Seconds");
+                }
+                if (fileConfig.getString("home-invalid") == null) {
                     fileConfig.set("home-invalid", "Home <home> doesn't exist!");
+                }
+                if (fileConfig.getString("home-file-error") == null){
+                    fileConfig.set("home-file-error", "home.yml file is empty or null");
                 }
                 if (fileConfig.getString("home-gui-name") == null){
                     fileConfig.set("home-gui-name", "Home GUI");
                 }
-                if (fileConfig.getString("delete-home-gui-name") == null){
-                    fileConfig.addDefault("delete-home-gui-name", "Delete Home &6<home>?");
+                if (fileConfig.getString("target-home-gui-name") == null){
+                    fileConfig.set("target-home-gui-name", "<target>(s) Home List");
                 }
-                if (fileConfig.getString("home-file-error") == null){
-                    fileConfig.set("home-file-error", "home.yml file is empty or null");
+                if (fileConfig.getString("delete-home-gui-name") == null){
+                    fileConfig.set("delete-home-gui-name", "Delete Home &6<home>?");
+                }
+                if (fileConfig.getString("target-delete-home-gui-name") == null){
+                    fileConfig.set("target-delete-home-gui-name", "Delete <target>(s) Home &6<home>?");
                 }
                 if (fileConfig.getString("home-gui-left-click") == null){
                     fileConfig.set("home-gui-left-click", "Click to teleport to <home>");
@@ -442,10 +459,13 @@ public class Lang {
                     fileConfig.set("home-gui-error", "GUI Size is too small, increase the value in Config!");
                 }
                 if (fileConfig.getString("home-teleport-target") == null){
-                    fileConfig.set("home-teleport-target", "You have been teleported to <target>(s) home");
+                    fileConfig.set("home-teleport-target", "You have teleported to <target>(s) home");
                 }
                 if (fileConfig.getString("home-movement-cancel") == null){
                     fileConfig.set("home-movement-cancel", "Teleportation to Home cancelled due to Movement");
+                }
+                if (fileConfig.getString("listhomes-self") == null){
+                    fileConfig.set("listhomes-self", "To check your Homes, type /home");
                 }
                 if (fileConfig.getString("sendhome-target") == null){
                     fileConfig.set("sendhome-target", "You have been teleported to your home");

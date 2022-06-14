@@ -3,10 +3,7 @@ package me.rocketmankianproductions.serveressentials.events;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.commands.*;
 import me.rocketmankianproductions.serveressentials.file.Lang;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,6 +22,7 @@ public class PlayerClickEvent implements Listener {
     private static HashMap<UUID, Integer> hometeleport = new HashMap<>();
     private static HashMap<UUID, Integer> warpteleport = new HashMap<>();
     String home2 = null;
+    String targethome2 = null;
     String warp2 = null;
 
     @EventHandler
@@ -371,6 +369,173 @@ public class PlayerClickEvent implements Listener {
                     }
                 }
             }
+        }else if (e.getView().getTitle().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("target-home-gui-name").replace("<target>", ListHomes.target.getName())))) {
+            e.setCancelled(true);
+            ItemStack item = e.getCurrentItem();
+            if (item != null) {
+                String home = item.getItemMeta().getDisplayName();
+                home = ChatColor.stripColor(home);
+                if (e.getClick() == ClickType.RIGHT) {
+                    String deletehomeguiname = Lang.fileConfig.getString("target-delete-home-gui-name").replace("<target>", ListHomes.target.getName()).replace("<home>", home);
+                    Inventory confirm = Bukkit.createInventory(player.getPlayer(), 27, ChatColor.translateAlternateColorCodes('&', deletehomeguiname));
+                    ItemStack confirmitem = new ItemStack(Material.LIME_STAINED_GLASS_PANE);
+                    ItemStack cancelitem = new ItemStack(Material.RED_STAINED_GLASS_PANE);
+                    ItemStack idleitem = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
+                    ItemMeta idleitemmeta = idleitem.getItemMeta();
+                    ItemMeta confirmitemmeta = confirmitem.getItemMeta();
+                    ItemMeta cancelitemmeta = cancelitem.getItemMeta();
+                    String confirmname = Lang.fileConfig.getString("gui-confirm-name");
+                    String cancelname = Lang.fileConfig.getString("gui-deny-name");
+                    confirmitemmeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', confirmname));
+                    cancelitemmeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', cancelname));
+                    idleitemmeta.setDisplayName(ChatColor.DARK_GRAY + "");
+                    confirmitem.setItemMeta(confirmitemmeta);
+                    cancelitem.setItemMeta(cancelitemmeta);
+                    idleitem.setItemMeta(idleitemmeta);
+                    for (int counter = 0; counter <= 26; counter++) {
+                        confirm.setItem(counter, idleitem);
+                    }
+                    confirm.setItem(11, confirmitem);
+                    confirm.setItem(15, cancelitem);
+                    player.openInventory(confirm);
+                    targethome2 = home;
+                } else if (e.getClick() == ClickType.LEFT) {
+                    if (ServerEssentials.plugin.getConfig().getInt("home-teleport") == 0) {
+                        Location loc = getHomeLocation(home, ListHomes.target);
+                        if (ServerEssentials.plugin.getConfig().getBoolean("home-save")){
+                            if (Back.location.containsKey(player.getUniqueId())){
+                                Back.location.remove(player.getUniqueId());
+                                Back.location.put(player.getUniqueId(), player.getLocation());
+                            }else{
+                                Back.location.put(player.getUniqueId(), player.getLocation());
+                            }
+                        }else if (player.hasPermission("se.back.bypass")){
+                            if (Back.location.containsKey(player.getUniqueId())){
+                                Back.location.remove(player.getUniqueId());
+                                Back.location.put(player.getUniqueId(), player.getLocation());
+                            }else{
+                                Back.location.put(player.getUniqueId(), player.getLocation());
+                            }
+                        }
+                        if (loc.isWorldLoaded()){
+                            // Teleporting Player
+                            player.teleport(loc);
+                            Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
+                            if (subtitle) {
+                                String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", home);
+                                player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
+                            } else {
+                                String msg = Lang.fileConfig.getString("home-message").replace("<home>", home);
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            }
+                        }else{
+                            String msg = Lang.fileConfig.getString("home-world-invalid");
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        }
+                        player.closeInventory();
+                    } else {
+                        if (ServerEssentials.plugin.getConfig().getBoolean("home-movement-cancel")){
+                            Home.cancel.add(player.getUniqueId());
+                            int seconds = ServerEssentials.plugin.getConfig().getInt("home-teleport");
+                            String msg = Lang.fileConfig.getString("target-home-wait-message").replace("<target>", ListHomes.target.getName()).replace("<time>", String.valueOf(seconds));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            seconds = seconds * 20;
+                            Location loc = getHomeLocation(home, ListHomes.target);
+                            if (hometeleport.containsKey(player.getUniqueId()) && hometeleport.get(player.getUniqueId()) != null) {
+                                Bukkit.getScheduler().cancelTask(hometeleport.get(player.getUniqueId()));
+                            }
+                            String finalHome = home;
+                            hometeleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                                public void run() {
+                                    if (Home.cancel.contains(player.getUniqueId())){
+                                        if (hometeleport.containsKey(player.getUniqueId())) {
+                                            if (ServerEssentials.plugin.getConfig().getBoolean("home-save")){
+                                                if (Back.location.containsKey(player.getUniqueId())){
+                                                    Back.location.remove(player.getUniqueId());
+                                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                                }else{
+                                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                                }
+                                            }else if (player.hasPermission("se.back.bypass")){
+                                                if (Back.location.containsKey(player.getUniqueId())){
+                                                    Back.location.remove(player.getUniqueId());
+                                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                                }else{
+                                                    Back.location.put(player.getUniqueId(), player.getLocation());
+                                                }
+                                            }
+                                            if (loc.isWorldLoaded()){
+                                                // Teleporting Player
+                                                player.teleport(loc);
+                                                Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
+                                                if (subtitle) {
+                                                    String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", finalHome);
+                                                    player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
+                                                } else {
+                                                    String msg = Lang.fileConfig.getString("home-message").replace("<home>", finalHome);
+                                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                }
+                                            }else{
+                                                String msg = Lang.fileConfig.getString("home-world-invalid");
+                                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                            }
+                                            Home.cancel.remove(player.getUniqueId());
+                                        }
+                                    }
+                                }
+                            }, seconds));
+                            player.closeInventory();
+                        }else{
+                            int seconds = ServerEssentials.plugin.getConfig().getInt("home-teleport");
+                            String msg = Lang.fileConfig.getString("target-home-wait-message").replace("<target>", ListHomes.target.getName()).replace("<time>", String.valueOf(seconds));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            seconds = seconds * 20;
+                            Location loc = getHomeLocation(home, ListHomes.target);
+                            if (hometeleport.containsKey(player.getUniqueId()) && hometeleport.get(player.getUniqueId()) != null) {
+                                Bukkit.getScheduler().cancelTask(hometeleport.get(player.getUniqueId()));
+                            }
+                            String finalHome = home;
+                            hometeleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                                public void run() {
+                                    if (hometeleport.containsKey(player.getUniqueId())) {
+                                        if (ServerEssentials.plugin.getConfig().getBoolean("home-save")){
+                                            if (Back.location.containsKey(player.getUniqueId())){
+                                                Back.location.remove(player.getUniqueId());
+                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                                            }else{
+                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                                            }
+                                        }else if (player.hasPermission("se.back.bypass")){
+                                            if (Back.location.containsKey(player.getUniqueId())){
+                                                Back.location.remove(player.getUniqueId());
+                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                                            }else{
+                                                Back.location.put(player.getUniqueId(), player.getLocation());
+                                            }
+                                        }
+                                        if (loc.isWorldLoaded()){
+                                            // Teleporting Player
+                                            player.teleport(loc);
+                                            Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
+                                            if (subtitle) {
+                                                String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", finalHome);
+                                                player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
+                                            } else {
+                                                String msg = Lang.fileConfig.getString("home-message").replace("<home>", finalHome);
+                                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                            }
+                                        }else{
+                                            String msg = Lang.fileConfig.getString("home-world-invalid");
+                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                        }
+                                    }
+                                }
+                            }, seconds));
+                            player.closeInventory();
+                        }
+                    }
+                }
+            }
         }
         // Delete Home Confirm GUI
         String home3 = home2;
@@ -384,28 +549,55 @@ public class PlayerClickEvent implements Listener {
                     e.setCancelled(true);
                     if (player.hasPermission("se.deletehome")) {
                         Player target = (Player) e.getInventory().getHolder();
-                        if (e.getInventory().getHolder().equals(e.getWhoClicked())) {
-                            UUID targetname = target.getUniqueId();
-                            Sethome.fileConfig.set("Home." + targetname + "." + home3, null);
-                            try {
-                                Sethome.fileConfig.save(Sethome.file);
-                            } catch (IOException i) {
-                                i.printStackTrace();
-                            }
-                            String msg = Lang.fileConfig.getString("home-deletion-success").replace("<home>", home3);
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                            player.closeInventory();
-                        } else {
-                            Sethome.fileConfig.set("Home." + target.getUniqueId() + "." + home3, null);
-                            try {
-                                Sethome.fileConfig.save(Sethome.file);
-                            } catch (IOException i) {
-                                i.printStackTrace();
-                            }
-                            String msg = Lang.fileConfig.getString("home-deletion-success").replace("<home>", home3);
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                            player.closeInventory();
+                        UUID targetname = target.getUniqueId();
+                        Sethome.fileConfig.set("Home." + targetname + "." + home3, null);
+                        try {
+                            Sethome.fileConfig.save(Sethome.file);
+                        } catch (IOException i) {
+                            i.printStackTrace();
                         }
+                        String msg = Lang.fileConfig.getString("home-deletion-success").replace("<home>", home3);
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.closeInventory();
+                    }else{
+                        e.setCancelled(true);
+                        player.closeInventory();
+                        String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.deletehome");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
+                    }
+                } else if (e.getCurrentItem().getType() == Material.RED_STAINED_GLASS_PANE) {
+                    e.setCancelled(true);
+                    player.closeInventory();
+                }
+            }
+        }
+        // Delete Target Home Confirm GUI
+        String targethome3 = targethome2;
+        if (targethome3 != null){
+            if (e.getView().getTitle().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("target-delete-home-gui-name").replace("<target>", ListHomes.target.getName()).replace("<home>", targethome3)))) {
+                if (e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR || e.getCurrentItem().getType() == Material.GRAY_STAINED_GLASS_PANE){
+                    e.setCancelled(true);
+                    return;
+                }
+                if (e.getCurrentItem().getType() == Material.LIME_STAINED_GLASS_PANE) {
+                    e.setCancelled(true);
+                    if (player.hasPermission("se.deletehome.others")) {
+                        OfflinePlayer target = ListHomes.target;
+                        UUID targetname = target.getUniqueId();
+                        Sethome.fileConfig.set("Home." + targetname + "." + targethome3, null);
+                        try {
+                            Sethome.fileConfig.save(Sethome.file);
+                        } catch (IOException i) {
+                            i.printStackTrace();
+                        }
+                        String msg = Lang.fileConfig.getString("target-home-deletion-success").replace("<target>", target.getName());
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.closeInventory();
+                    }else{
+                        e.setCancelled(true);
+                        player.closeInventory();
+                        String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.deletehome.others");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                     }
                 } else if (e.getCurrentItem().getType() == Material.RED_STAINED_GLASS_PANE) {
                     e.setCancelled(true);
@@ -433,6 +625,11 @@ public class PlayerClickEvent implements Listener {
                         String msg = Lang.fileConfig.getString("warp-deletion-success").replace("<warp>", warp3);
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         player.closeInventory();
+                    }else{
+                        e.setCancelled(true);
+                        player.closeInventory();
+                        String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.deletewarp");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                     }
                 } else if (e.getCurrentItem().getType() == Material.RED_STAINED_GLASS_PANE) {
                     e.setCancelled(true);
@@ -441,7 +638,7 @@ public class PlayerClickEvent implements Listener {
             }
         }
     }
-    public static Location getWarpLocation(String warp, Player player){
+    public static Location getWarpLocation(String warp, OfflinePlayer player){
         // Gathering Location
         float yaw = Setwarp.fileConfig.getInt("Warp." + warp + ".Yaw");
         float pitch = Sethome.fileConfig.getInt("Home." + player.getName() + ".Pitch");
@@ -452,7 +649,7 @@ public class PlayerClickEvent implements Listener {
                 yaw, pitch);
         return loc;
     }
-    public static Location getHomeLocation(String home, Player player){
+    public static Location getHomeLocation(String home, OfflinePlayer player){
         UUID name = player.getUniqueId();
         // Gathering Location
         float yaw = Sethome.fileConfig.getInt("Home." + name + "." + home + ".Yaw");

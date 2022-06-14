@@ -6,10 +6,6 @@ import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import me.rocketmankianproductions.serveressentials.LoggerMessage;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -90,10 +86,7 @@ public class Report implements CommandExecutor {
                                         if (admin.hasPermission("se.reportnotification")) {
                                             admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg1));
                                             admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                            TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', msg3));
-                                            message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Teleport To " + target.getName())));
-                                            message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + target.getName()));
-                                            admin.spigot().sendMessage(message);
+                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
                                             admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
                                             admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg5));
                                         }
@@ -130,10 +123,7 @@ public class Report implements CommandExecutor {
                                         if (admin.hasPermission("se.reportnotification")) {
                                             admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg1));
                                             admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                            TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', msg3));
-                                            message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Teleport To " + target.getName())));
-                                            message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + target.getName()));
-                                            admin.spigot().sendMessage(message);
+                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
                                             admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
                                             admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg5));
                                         }
@@ -157,10 +147,7 @@ public class Report implements CommandExecutor {
                                     if (admin.hasPermission("se.reportnotification")) {
                                         admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg1));
                                         admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                        TextComponent message = new TextComponent(ChatColor.translateAlternateColorCodes('&', msg3));
-                                        message.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.GREEN + "Teleport To " + target.getName())));
-                                        message.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tp " + target.getName()));
-                                        admin.spigot().sendMessage(message);
+                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
                                         admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
                                         admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg5));
                                     }
