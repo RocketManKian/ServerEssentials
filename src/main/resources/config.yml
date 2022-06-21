@@ -18,6 +18,9 @@
 ############################################################
 # Changes the prefix that appears at the start of every message and command.
 prefix: "[Server Essentials]"
+# Enable or Disable the Update Checker Messages that appear in-game
+# Default: true
+update-checker: true
 # Enable or Disable the Join Message
 enable-join-message: true
 # Enable or Disable the Leave Message
