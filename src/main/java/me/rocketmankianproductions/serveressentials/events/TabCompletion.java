@@ -198,11 +198,11 @@ public class TabCompletion implements TabCompleter {
                         for (String playerhomes: home.getKeys(false)){
                             if (player.hasPermission("se.home") && !playerhomes.isEmpty()){
                                 autoCompletes.add(playerhomes);
-                                return autoCompletes;
                             }else{
                                 return null;
                             }
                         }
+                        return autoCompletes;
                     }
                 }
             }
@@ -215,11 +215,11 @@ public class TabCompletion implements TabCompleter {
                         for (String playerhomes: home.getKeys(false)){
                             if (player.hasPermission("se.home") && !playerhomes.isEmpty()){
                                 autoCompletes.add(playerhomes);
-                                return autoCompletes;
                             }else{
                                 return null;
                             }
                         }
+                        return autoCompletes;
                     }
                 }
             }
@@ -275,11 +275,11 @@ public class TabCompletion implements TabCompleter {
                             for (String playerhomes: home.getKeys(false)){
                                 if (player.hasPermission("se.deletehome") && !playerhomes.isEmpty()){
                                     autoCompletes.add(playerhomes);
-                                    return autoCompletes;
                                 }else{
                                     return null;
                                 }
                             }
+                            return autoCompletes;
                         }
                     }
                 }
@@ -293,11 +293,11 @@ public class TabCompletion implements TabCompleter {
                             for (String playerhomes: home.getKeys(false)){
                                 if (player.hasPermission("se.deletehome") && !playerhomes.isEmpty()){
                                     autoCompletes.add(playerhomes);
-                                    return autoCompletes;
                                 }else{
                                     return null;
                                 }
                             }
+                            return autoCompletes;
                         }
                     }
                 }
