@@ -24,11 +24,14 @@ public class PlayerJoinListener implements Listener {
     void onPlayerJoin(PlayerJoinEvent pj) {
         Player player = pj.getPlayer();
 
-        // Checking if the player is op and if the plugin has an update
-        if ((player.isOp() || player.hasPermission("se.alert")) && ServerEssentials.getPlugin().hasUpdate()) {
-            new Update(ServerEssentials.getPlugin(), 86675).getLatestVersion(version -> {
-                player.sendMessage(ChatColor.RED + "Server Essentials Has An Update." + ChatColor.GREEN + "\nNew Version: " + version);
-            });
+        // Check to see if Update Checker is enabled in Config
+        if (ServerEssentials.getPlugin().getConfig().getBoolean("update-checker")){
+            // Checking if the player is op and if the plugin has an update
+            if ((player.isOp() || player.hasPermission("se.alert")) && ServerEssentials.getPlugin().hasUpdate()) {
+                new Update(ServerEssentials.getPlugin(), 86675).getLatestVersion(version -> {
+                    player.sendMessage(ChatColor.RED + "Server Essentials Has An Update." + ChatColor.GREEN + "\nNew Version: " + version);
+                });
+            }
         }
 
         // Sets default value if player has the permission.
