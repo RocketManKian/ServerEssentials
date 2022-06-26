@@ -20,7 +20,8 @@ public class SE implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (args.length == 0) {
-                if (player.hasPermission("se.info") || player.hasPermission("se.all")) {
+                boolean hasPerm = ServerEssentials.permissionChecker(player, "se.info");
+                if (hasPerm) {
                     player.sendMessage(ChatColor.GREEN + "---------------------------"
                             + "\nServer Essentials Commands"
                             + "\n---------------------------"
@@ -94,10 +95,6 @@ public class SE implements CommandExecutor {
                             + "\n/reportbug (bug) - Report specified Bug to Admins"
                             + "\n/back - Teleports to Previous Location"
                             + "\n/convert - Converts Items into Block Form");
-                    return true;
-                } else {
-                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.info");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                     return true;
                 }
             }else if (args.length == 1){

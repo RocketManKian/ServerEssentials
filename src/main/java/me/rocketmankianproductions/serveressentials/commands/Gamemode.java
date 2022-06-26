@@ -1,5 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
+import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -37,7 +38,8 @@ public class Gamemode implements CommandExecutor {
                     return true;
                 }
             }else if ((command.getName().equalsIgnoreCase("gmc"))){
-                if (player.hasPermission("se.gamemode.creative") || player.hasPermission("se.all")) {
+                boolean hasPerm = ServerEssentials.permissionChecker(player, "se.gamemode.creative");
+                if (hasPerm) {
                     if (args.length == 1) {
                         Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
                         targetPlayer.setGameMode(GameMode.CREATIVE);
@@ -56,13 +58,10 @@ public class Gamemode implements CommandExecutor {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
-                } else {
-                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.gamemode.creative");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                    return true;
                 }
             }else if ((command.getName().equalsIgnoreCase("gms"))){
-                if (player.hasPermission("se.gamemode.survival") || player.hasPermission("se.all")) {
+                boolean hasPerm = ServerEssentials.permissionChecker(player, "se.gamemode.survival");
+                if (hasPerm) {
                     if (args.length == 1) {
                         Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
                         targetPlayer.setGameMode(GameMode.SURVIVAL);
@@ -81,13 +80,10 @@ public class Gamemode implements CommandExecutor {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
-                } else {
-                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.gamemode.survival");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                    return true;
                 }
             }else if ((command.getName().equalsIgnoreCase("gmsp"))){
-                if (player.hasPermission("se.gamemode.spectator") || player.hasPermission("se.all")) {
+                boolean hasPerm = ServerEssentials.permissionChecker(player, "se.gamemode.spectator");
+                if (hasPerm) {
                     if (args.length == 1) {
                         Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
                         targetPlayer.setGameMode(GameMode.SPECTATOR);
@@ -106,13 +102,10 @@ public class Gamemode implements CommandExecutor {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
-                } else {
-                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.gamemode.spectator");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                    return true;
                 }
             }else if ((command.getName().equalsIgnoreCase("gma"))){
-                if (player.hasPermission("se.gamemode.adventure") || player.hasPermission("se.all")) {
+                boolean hasPerm = ServerEssentials.permissionChecker(player, "se.gamemode.adventure");
+                if (hasPerm) {
                     if (args.length == 1) {
                         Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
                         targetPlayer.setGameMode(GameMode.ADVENTURE);
@@ -131,10 +124,6 @@ public class Gamemode implements CommandExecutor {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
-                } else {
-                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.gamemode.adventure");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                    return true;
                 }
             }
         }else if (sender instanceof ConsoleCommandSender) {
@@ -261,7 +250,8 @@ public class Gamemode implements CommandExecutor {
         return false;
     }
     public void gmc(String[] args, Player player) {
-        if (player.hasPermission("se.gamemode.creative") || player.hasPermission("se.all")) {
+        boolean hasPerm = ServerEssentials.permissionChecker(player, "se.gamemode.creative");
+        if (hasPerm) {
             if (args.length == 2) {
                 Player targetPlayer = Bukkit.getServer().getPlayer(args[1]);
                 if (targetPlayer != null){
@@ -282,13 +272,11 @@ public class Gamemode implements CommandExecutor {
                 String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gamemode creative (player)");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
             }
-        } else {
-            String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.gamemode.creative");
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
         }
     }
     public void gms(String[] args, Player player) {
-        if (player.hasPermission("se.gamemode.survival") || player.hasPermission("se.all")) {
+        boolean hasPerm = ServerEssentials.permissionChecker(player, "se.gamemode.survival");
+        if (hasPerm) {
             if (args.length == 2) {
                 Player targetPlayer = Bukkit.getServer().getPlayer(args[1]);
                 if (targetPlayer != null){
@@ -309,13 +297,11 @@ public class Gamemode implements CommandExecutor {
                 String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gamemode survival (player)");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
             }
-        } else {
-            String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.gamemode.survival");
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
         }
     }
     public void gmsp(String[] args, Player player) {
-        if (player.hasPermission("se.gamemode.spectator") || player.hasPermission("se.all")) {
+        boolean hasPerm = ServerEssentials.permissionChecker(player, "se.gamemode.spectator");
+        if (hasPerm) {
             if (args.length == 2) {
                 Player targetPlayer = Bukkit.getServer().getPlayer(args[1]);
                 if (targetPlayer != null){
@@ -336,13 +322,11 @@ public class Gamemode implements CommandExecutor {
                 String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gamemode spectator (player)");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
             }
-        } else {
-            String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.gamemode.spectator");
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
         }
     }
     public void gma(String[] args, Player player) {
-        if (player.hasPermission("se.gamemode.adventure") || player.hasPermission("se.all")) {
+        boolean hasPerm = ServerEssentials.permissionChecker(player, "se.gamemode.adventure");
+        if (hasPerm) {
             if (args.length == 2) {
                 Player targetPlayer = Bukkit.getServer().getPlayer(args[1]);
                 if (targetPlayer != null){
@@ -363,9 +347,6 @@ public class Gamemode implements CommandExecutor {
                 String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gamemode adventure (player)");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
             }
-        } else {
-            String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.gamemode.adventure");
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
         }
     }
 }

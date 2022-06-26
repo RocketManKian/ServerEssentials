@@ -1,5 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
+import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,7 +17,8 @@ public class Craft implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            if (player.hasPermission("se.craft") || player.hasPermission("se.all")){
+            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.craft");
+            if (hasPerm) {
                 if (args.length == 0) {
                     if (sender instanceof Player) {
                         player.playSound(((Player) sender).getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 3.0F, 2.0F);
@@ -32,15 +34,12 @@ public class Craft implements CommandExecutor {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }
-            }else{
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.craft");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                return true;
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");
             Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
             return true;
         }
+        return false;
     }
 }

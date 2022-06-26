@@ -15,7 +15,8 @@ public class Vanish implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            if (player.hasPermission("se.vanish") || player.hasPermission("se.all")){
+            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.vanish");
+            if (hasPerm) {
                 if (args.length == 0){
                     if (ServerEssentials.getPlugin().invisible_list.contains(player)){
                         for (Player people : Bukkit.getOnlinePlayers()){
@@ -70,10 +71,6 @@ public class Vanish implements CommandExecutor {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }
-            }else{
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.vanish");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                return true;
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");

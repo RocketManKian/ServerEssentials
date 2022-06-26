@@ -1,5 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
+import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,7 +17,8 @@ public class SendHome implements CommandExecutor {
         if (sender instanceof Player){
             Location loc;
             Player player = (Player) sender;
-            if (player.hasPermission("se.sendhome") || player.hasPermission("se.all")){
+            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.sendhome");
+            if (hasPerm) {
                 if (args.length == 2){
                     Player target = Bukkit.getPlayer(args[0]);
                     if (target != null) {
@@ -59,10 +61,6 @@ public class SendHome implements CommandExecutor {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }
-            }else{
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.sendhome");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                return true;
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");

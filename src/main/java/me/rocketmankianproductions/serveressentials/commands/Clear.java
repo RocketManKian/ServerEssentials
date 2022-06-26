@@ -1,5 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
+import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -14,43 +15,41 @@ public class Clear implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            if (player.hasPermission("se.clear") || player.hasPermission("se.all")){
-                if (args.length == 0){
+            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.clear");
+            if (hasPerm) {
+                if (args.length == 0) {
                     player.getInventory().clear();
                     String msg = Lang.fileConfig.getString("clear-success");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
-                }else if (args.length == 1){
+                } else if (args.length == 1) {
                     Player target = Bukkit.getPlayer(args[0]);
-                    if (target == null){
+                    if (target == null) {
                         String msg = Lang.fileConfig.getString("player-offline");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
-                    }else if (sender == target){
+                    } else if (sender == target) {
                         player.getInventory().clear();
                         String msg = Lang.fileConfig.getString("clear-success");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
-                    }else{
+                    } else {
                         target.getInventory().clear();
                         String msg = Lang.fileConfig.getString("clear-target-success").replace("<target>", target.getName());
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
-                }else{
+                } else {
                     String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/clear (player)");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }
-            }else{
-                String noperm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.clear");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', noperm));
-                return true;
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");
             Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
             return true;
         }
+        return false;
     }
 }

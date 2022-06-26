@@ -16,7 +16,8 @@ public class Website implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            if (player.hasPermission("se.website") || player.hasPermission("se.all")) {
+            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.website");
+            if (hasPerm) {
                 String prefix = ServerEssentials.getPlugin().getConfig().getString("prefix");
                 String website = Lang.fileConfig.getString("website-command");
                 if (ServerEssentials.isConnectedToPlaceholderAPI) {
@@ -25,10 +26,6 @@ public class Website implements CommandExecutor {
                 }else{
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + " " + ChatColor.WHITE + website));
                 }
-            } else {
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.website");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                return true;
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");

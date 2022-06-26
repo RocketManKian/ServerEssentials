@@ -1,5 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
+import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -19,7 +20,8 @@ public class SocialSpy implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (player.hasPermission("se.socialspy") || player.hasPermission("se.all")) {
+            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.socialspy");
+            if (hasPerm) {
                 // Check if Player isn't already included in ArrayList
                 if (!socialspy.contains(player)) {
                     String msg = Lang.fileConfig.getString("socialspy-enabled");
@@ -32,15 +34,12 @@ public class SocialSpy implements CommandExecutor {
                     socialspy.remove(player);
                     return true;
                 }
-            } else {
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.socialspy");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                return true;
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");
             Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
             return true;
         }
+        return false;
     }
 }

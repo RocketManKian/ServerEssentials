@@ -28,8 +28,10 @@ public class Back implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            if (player.hasPermission("se.back") || player.hasPermission("se.all")){
-                if (player.hasPermission("se.back.bypass")) {
+            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.back");
+            if (hasPerm){
+                boolean hasPerm2 = ServerEssentials.permissionChecker(player, "se.back.bypass");
+                if (hasPerm2){
                     if (location.containsKey(player.getUniqueId())) {
                         location2.put(player.getUniqueId(), player.getLocation());
                         player.teleport(location.get(player.getUniqueId()));
@@ -49,13 +51,13 @@ public class Back implements CommandExecutor {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
-                }else{
+                } else{
                     Long delay = ServerEssentials.getPlugin().getConfig().getLong("back-cooldown");
                     int delay2 = (int) (delay * 20);
                     int delay3 = delay2 / 20;
                     if (location.containsKey(player.getUniqueId())) {
                         Boolean blacklistedworld = ServerEssentials.plugin.getConfig().getBoolean("enable-back-blacklist");
-                        if (player.hasPermission("se.back.bypass")) {
+                        if (hasPerm2){
                             if (!backcancel.containsKey(player.getUniqueId())) {
                                 location2.put(player.getUniqueId(), player.getLocation());
                                 player.teleport(location.get(player.getUniqueId()));
@@ -133,7 +135,7 @@ public class Back implements CommandExecutor {
                         }
                     } else if (location2.containsKey(player.getUniqueId())) {
                         Boolean blacklistedworld = ServerEssentials.plugin.getConfig().getBoolean("enable-back-blacklist");
-                        if (player.hasPermission("se.back.bypass")) {
+                        if (hasPerm2){
                             if (!backcancel.containsKey(player.getUniqueId())) {
                                 location.put(player.getUniqueId(), player.getLocation());
                                 player.teleport(location2.get(player.getUniqueId()));
@@ -215,10 +217,6 @@ public class Back implements CommandExecutor {
                         return true;
                     }
                 }
-            }else{
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.back");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                return true;
             }
         }
         return false;

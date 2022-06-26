@@ -1,5 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
+import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,7 +17,8 @@ public class Hurt implements CommandExecutor {
             Player player = (Player) sender;
             if (commandLabel.equalsIgnoreCase("hurt")) {
                 // Checking if the player has the se.hurt permission
-                if (player.hasPermission("se.hurt") || player.hasPermission("se.all")) {
+                boolean hasPerm = ServerEssentials.permissionChecker(player, "se.hurt");
+                if (hasPerm) {
                     // Checking if the player exists
                     if (args.length >= 2) {
                         try {
@@ -36,10 +38,6 @@ public class Hurt implements CommandExecutor {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
-                } else {
-                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.hurt");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                    return true;
                 }
             }
         }else{

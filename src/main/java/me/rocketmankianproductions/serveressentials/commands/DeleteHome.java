@@ -1,5 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
+import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -18,7 +19,8 @@ public class DeleteHome implements CommandExecutor {
         if (sender instanceof Player){
             Player player = (Player) sender;
             // Checking if the player has the se.deletehome permission
-            if (player.hasPermission("se.deletehome") || player.hasPermission("se.all")) {
+            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.deletehome");
+            if (hasPerm) {
                 if (args.length == 1) {
                     String name = player.getUniqueId().toString();
                     // Averaging out the whether the file exists or not by checking for value in one of the default saving points
@@ -38,7 +40,8 @@ public class DeleteHome implements CommandExecutor {
                         return true;
                     }
                 }else if (args.length == 2){
-                    if (player.hasPermission("se.deletehome.others")){
+                    boolean hasPerm2 = ServerEssentials.permissionChecker(player, "se.deletehome.others");
+                    if (hasPerm2) {
                         OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
                         // Averaging out the whether the file exists or not by checking for value in one of the default saving points
                         if (Sethome.file.exists() && Sethome.fileConfig.getString("Home." + target.getUniqueId() + "." + args[1]) != null && !Sethome.fileConfig.getString("Home." + target.getUniqueId()).isEmpty()) {
@@ -56,25 +59,18 @@ public class DeleteHome implements CommandExecutor {
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             return true;
                         }
-                    }else{
-                        String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.deletehome.others");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                        return true;
                     }
                 }else{
                     String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/deletehome (home)");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }
-            } else {
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.deletehome");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                return true;
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");
             Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
             return true;
         }
+        return false;
     }
 }

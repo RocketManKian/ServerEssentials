@@ -59,10 +59,9 @@ public class Rules implements CommandExecutor {
                 ServerEssentials.plugin.getLogger().warning(filepath + " not loaded, abort!");
                 return false;
             }
-
-            //print rules to the player
             Player player = (Player) sender;
-            if (player.hasPermission("se.rules") || player.hasPermission("se.all")) {
+            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.rules");
+            if (hasPerm) {
                 player.sendMessage(ChatColor.GREEN + "Server Rules:");
                 for (String rule : fileConfig.getStringList(configpath)) {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', rule));
@@ -73,10 +72,6 @@ public class Rules implements CommandExecutor {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', rule));
                     }
                 }
-            } else {
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.rules");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                return true;
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");

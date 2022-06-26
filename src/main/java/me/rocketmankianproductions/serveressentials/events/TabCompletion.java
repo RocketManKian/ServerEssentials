@@ -1,6 +1,7 @@
 package me.rocketmankianproductions.serveressentials.events;
 
 import me.rocketmankianproductions.serveressentials.commands.Sethome;
+import me.rocketmankianproductions.serveressentials.commands.Setspawn;
 import me.rocketmankianproductions.serveressentials.commands.Setwarp;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -75,7 +76,9 @@ public class TabCompletion implements TabCompleter {
         if (command.getName().equalsIgnoreCase("spawn")){
             List<String> autoCompletes = new ArrayList<>();
             if (args.length == 1){
-                autoCompletes.add("newbies");
+                if (Setspawn.fileConfig.getString("Newbies") != null){
+                    autoCompletes.add("newbies");
+                }
             }
             return autoCompletes;
         }

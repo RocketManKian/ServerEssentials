@@ -73,7 +73,8 @@ public class Setwarp implements CommandExecutor {
             if (args.length == 1) {
                 Boolean blacklistenabled = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-blacklist");
                 String world = player.getWorld().getName();
-                if (player.hasPermission("se.setwarp") || player.hasPermission("se.all")) {
+                boolean hasPerm = ServerEssentials.permissionChecker(player, "se.setwarp");
+                if (hasPerm) {
                     if (blacklistenabled){
                         for (String worlds : ServerEssentials.plugin.getConfig().getStringList("warp-blacklist")){
                             if (player.getWorld().getName().equalsIgnoreCase(worlds)){
@@ -120,10 +121,6 @@ public class Setwarp implements CommandExecutor {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
-                } else {
-                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.setwarp");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                    return true;
                 }
             }else{
                 String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/setwarp (name)");
@@ -135,5 +132,6 @@ public class Setwarp implements CommandExecutor {
             Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
             return true;
         }
+        return false;
     }
 }

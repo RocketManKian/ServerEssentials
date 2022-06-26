@@ -57,7 +57,8 @@ public class Sethome implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (args.length == 1) {
-                if (player.hasPermission("se.sethome") || player.hasPermission("se.all")) {
+                boolean hasPerm = ServerEssentials.permissionChecker(player, "se.sethome");
+                if (hasPerm) {
                     String world = player.getWorld().getName();
                     String name = player.getUniqueId().toString();
                     int maxHomesConfig = ServerEssentials.plugin.getConfig().getInt("default-home-count");
@@ -135,10 +136,6 @@ public class Sethome implements CommandExecutor {
                             return true;
                         }
                     }
-                } else {
-                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.sethome");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                    return true;
                 }
             } else {
                 String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/sethome (name)");

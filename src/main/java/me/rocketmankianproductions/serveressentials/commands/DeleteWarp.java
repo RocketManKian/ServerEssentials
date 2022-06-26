@@ -1,5 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
+import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -18,7 +19,8 @@ public class DeleteWarp implements CommandExecutor {
         if (sender instanceof Player){
             Player player = (Player) sender;
             // Checking if the player has the se.deletewarp permission
-            if (player.hasPermission("se.deletewarp") || player.hasPermission("se.all")) {
+            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.deletewarp");
+            if (hasPerm) {
                 if (args.length == 1) {
                     // Averaging out the whether the file exists or not by checking for value in one of the default saving points
                     if (Setwarp.file.exists() && Setwarp.fileConfig.getString("Warp." + args[0]) != null) {
@@ -54,15 +56,12 @@ public class DeleteWarp implements CommandExecutor {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }
-            } else {
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.deletewarp");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                return true;
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");
             Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
             return true;
         }
+        return false;
     }
 }

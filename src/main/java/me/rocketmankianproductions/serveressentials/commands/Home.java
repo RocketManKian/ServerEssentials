@@ -27,30 +27,19 @@ public class Home implements CommandExecutor {
         if (sender instanceof Player) {
             int delay = ServerEssentials.plugin.getConfig().getInt("home-teleport");
             Player player = (Player) sender;
+            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.home");
+            boolean hasPerm2 = ServerEssentials.permissionChecker(player, "se.back.bypass");
+            boolean hasPerm3 = ServerEssentials.permissionChecker(player, "se.home.others");
             String name = player.getUniqueId().toString();
             if (args.length == 1) {
                 // Checking if the player has the correct permission
-                if (player.hasPermission("se.home") || player.hasPermission("se.all")) {
+                if (hasPerm) {
                     // Check if the File Exists and if Location.World has data
                     if (Sethome.file.exists() && Sethome.fileConfig.getString("Home." + name + "." + args[0] + ".World") != null) {
                         Location loc = getLocation(args, player);
                         if (args.length == 1) {
                             if (ServerEssentials.plugin.getConfig().getInt("home-teleport") == 0) {
-                                if (ServerEssentials.plugin.getConfig().getBoolean("home-save")) {
-                                    if (Back.location.containsKey(player.getUniqueId())) {
-                                        Back.location.remove(player.getUniqueId());
-                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                    } else {
-                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                    }
-                                } else if (player.hasPermission("se.back.bypass")) {
-                                    if (Back.location.containsKey(player.getUniqueId())) {
-                                        Back.location.remove(player.getUniqueId());
-                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                    } else {
-                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                    }
-                                }
+                                homeSave(player, hasPerm2);
                                 if (loc.isWorldLoaded()) {
                                     player.teleport(loc);
                                     Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
@@ -80,21 +69,7 @@ public class Home implements CommandExecutor {
                                         public void run() {
                                             if (cancel.contains(player.getUniqueId())) {
                                                 if (hometeleport.containsKey(player.getUniqueId())) {
-                                                    if (ServerEssentials.plugin.getConfig().getBoolean("home-save")) {
-                                                        if (Back.location.containsKey(player.getUniqueId())) {
-                                                            Back.location.remove(player.getUniqueId());
-                                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                                        } else {
-                                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                                        }
-                                                    } else if (player.hasPermission("se.back.bypass")) {
-                                                        if (Back.location.containsKey(player.getUniqueId())) {
-                                                            Back.location.remove(player.getUniqueId());
-                                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                                        } else {
-                                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                                        }
-                                                    }
+                                                    homeSave(player, hasPerm2);
                                                     if (loc.isWorldLoaded()) {
                                                         // Teleporting Player
                                                         player.teleport(loc);
@@ -126,21 +101,7 @@ public class Home implements CommandExecutor {
                                     hometeleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
                                         public void run() {
                                             if (hometeleport.containsKey(player.getUniqueId())) {
-                                                if (ServerEssentials.plugin.getConfig().getBoolean("home-save")) {
-                                                    if (Back.location.containsKey(player.getUniqueId())) {
-                                                        Back.location.remove(player.getUniqueId());
-                                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                                    } else {
-                                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                                    }
-                                                } else if (player.hasPermission("se.back.bypass")) {
-                                                    if (Back.location.containsKey(player.getUniqueId())) {
-                                                        Back.location.remove(player.getUniqueId());
-                                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                                    } else {
-                                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                                    }
-                                                }
+                                                homeSave(player, hasPerm2);
                                                 if (loc.isWorldLoaded()) {
                                                     // Teleporting Player
                                                     player.teleport(loc);
@@ -172,13 +133,9 @@ public class Home implements CommandExecutor {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
-                } else {
-                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.home");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                    return true;
                 }
             } else if (args.length == 0) {
-                if (player.hasPermission("se.home") || player.hasPermission("se.all")) {
+                if (hasPerm) {
                     ConfigurationSection inventorySection = Sethome.fileConfig.getConfigurationSection("Home." + name);
                     if (inventorySection != null) {
                         // If Player only has 1 Home Set
@@ -195,21 +152,7 @@ public class Home implements CommandExecutor {
                                     Sethome.fileConfig.getDouble("Home." + name + "." + home + ".Z"),
                                     yaw, 0);
                             if (ServerEssentials.plugin.getConfig().getInt("home-teleport") == 0) {
-                                if (ServerEssentials.plugin.getConfig().getBoolean("home-save")) {
-                                    if (Back.location.containsKey(player.getUniqueId())) {
-                                        Back.location.remove(player.getUniqueId());
-                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                    } else {
-                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                    }
-                                } else if (player.hasPermission("se.back.bypass")) {
-                                    if (Back.location.containsKey(player.getUniqueId())) {
-                                        Back.location.remove(player.getUniqueId());
-                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                    } else {
-                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                    }
-                                }
+                                homeSave(player, hasPerm2);
                                 if (loc.isWorldLoaded()) {
                                     player.teleport(loc);
                                     Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
@@ -240,21 +183,7 @@ public class Home implements CommandExecutor {
                                         public void run() {
                                             if (cancel.contains(player.getUniqueId())) {
                                                 if (hometeleport.containsKey(player.getUniqueId())) {
-                                                    if (ServerEssentials.plugin.getConfig().getBoolean("home-save")) {
-                                                        if (Back.location.containsKey(player.getUniqueId())) {
-                                                            Back.location.remove(player.getUniqueId());
-                                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                                        } else {
-                                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                                        }
-                                                    } else if (player.hasPermission("se.back.bypass")) {
-                                                        if (Back.location.containsKey(player.getUniqueId())) {
-                                                            Back.location.remove(player.getUniqueId());
-                                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                                        } else {
-                                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                                        }
-                                                    }
+                                                    homeSave(player, hasPerm2);
                                                     if (loc.isWorldLoaded()) {
                                                         // Teleporting Player
                                                         player.teleport(loc);
@@ -287,21 +216,7 @@ public class Home implements CommandExecutor {
                                     hometeleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
                                         public void run() {
                                             if (hometeleport.containsKey(player.getUniqueId())) {
-                                                if (ServerEssentials.plugin.getConfig().getBoolean("home-save")) {
-                                                    if (Back.location.containsKey(player.getUniqueId())) {
-                                                        Back.location.remove(player.getUniqueId());
-                                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                                    } else {
-                                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                                    }
-                                                } else if (player.hasPermission("se.back.bypass")) {
-                                                    if (Back.location.containsKey(player.getUniqueId())) {
-                                                        Back.location.remove(player.getUniqueId());
-                                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                                    } else {
-                                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                                    }
-                                                }
+                                                homeSave(player, hasPerm2);
                                                 if (loc.isWorldLoaded()) {
                                                     // Teleporting Player
                                                     player.teleport(loc);
@@ -346,7 +261,7 @@ public class Home implements CommandExecutor {
                                                     List<String> loreList = new ArrayList<String>();
                                                     String msg = Lang.fileConfig.getString("home-gui-left-click").replace("<home>", key);
                                                     loreList.add(ChatColor.translateAlternateColorCodes('&', msg));
-                                                    if (player.hasPermission("se.deletehome")) {
+                                                    if (ServerEssentials.permissionChecker(player, "se.deletehome")) {
                                                         String msg2 = Lang.fileConfig.getString("home-gui-right-click").replace("<home>", key);
                                                         loreList.add(ChatColor.translateAlternateColorCodes('&', msg2));
                                                     }
@@ -406,14 +321,10 @@ public class Home implements CommandExecutor {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
-                } else {
-                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.home");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                    return true;
                 }
             } else if (args.length == 2) {
                 OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
-                if (player.hasPermission("se.home.others") || player.hasPermission("se.all")) {
+                if (hasPerm3) {
                     if (args.length == 2) {
                         if (target.hasPlayedBefore()) {
                             String targetname = target.getUniqueId().toString();
@@ -429,21 +340,7 @@ public class Home implements CommandExecutor {
                                                     Sethome.fileConfig.getDouble("Home." + targetname + "." + args[1] + ".Y"),
                                                     Sethome.fileConfig.getDouble("Home." + targetname + "." + args[1] + ".Z"),
                                                     yaw, 0);
-                                            if (ServerEssentials.plugin.getConfig().getBoolean("home-save")) {
-                                                if (Back.location.containsKey(player.getUniqueId())) {
-                                                    Back.location.remove(player.getUniqueId());
-                                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                                } else {
-                                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                                }
-                                            } else if (player.hasPermission("se.back.bypass")) {
-                                                if (Back.location.containsKey(player.getUniqueId())) {
-                                                    Back.location.remove(player.getUniqueId());
-                                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                                } else {
-                                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                                }
-                                            }
+                                            homeSave(player, hasPerm2);
                                             if (loc.isWorldLoaded()) {
                                                 // Teleporting To Target's Home
                                                 player.teleport(loc);
@@ -469,21 +366,7 @@ public class Home implements CommandExecutor {
                                                     public void run() {
                                                         if (cancel.contains(player.getUniqueId())) {
                                                             if (hometeleport.containsKey(player.getUniqueId())) {
-                                                                if (ServerEssentials.plugin.getConfig().getBoolean("home-save")) {
-                                                                    if (Back.location.containsKey(player.getUniqueId())) {
-                                                                        Back.location.remove(player.getUniqueId());
-                                                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                                                    } else {
-                                                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                                                    }
-                                                                } else if (player.hasPermission("se.back.bypass")) {
-                                                                    if (Back.location.containsKey(player.getUniqueId())) {
-                                                                        Back.location.remove(player.getUniqueId());
-                                                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                                                    } else {
-                                                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                                                    }
-                                                                }
+                                                                homeSave(player, hasPerm2);
                                                                 // Gathering Location
                                                                 float yaw = Sethome.fileConfig.getInt("Home." + targetname + "." + args[1] + ".Yaw");
                                                                 Location loc = new Location(Bukkit.getWorld(Sethome.fileConfig.getString("Home." + targetname + "." + args[1] + ".World")),
@@ -516,21 +399,7 @@ public class Home implements CommandExecutor {
                                                 hometeleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
                                                     public void run() {
                                                         if (hometeleport.containsKey(player.getUniqueId())) {
-                                                            if (ServerEssentials.plugin.getConfig().getBoolean("home-save")) {
-                                                                if (Back.location.containsKey(player.getUniqueId())) {
-                                                                    Back.location.remove(player.getUniqueId());
-                                                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                                                } else {
-                                                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                                                }
-                                                            } else if (player.hasPermission("se.back.bypass")) {
-                                                                if (Back.location.containsKey(player.getUniqueId())) {
-                                                                    Back.location.remove(player.getUniqueId());
-                                                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                                                } else {
-                                                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                                                }
-                                                            }
+                                                            homeSave(player, hasPerm2);
                                                             // Gathering Location
                                                             float yaw = Sethome.fileConfig.getInt("Home." + targetname + "." + args[1] + ".Yaw");
                                                             Location loc = new Location(Bukkit.getWorld(Sethome.fileConfig.getString("Home." + targetname + "." + args[1] + ".World")),
@@ -597,5 +466,23 @@ public class Home implements CommandExecutor {
                 Sethome.fileConfig.getDouble("Home." + name + "." + args[0] + ".Z"),
                 yaw, 0);
         return loc;
+    }
+
+    public static void homeSave(Player player, boolean hasPerm2){
+        if (ServerEssentials.plugin.getConfig().getBoolean("home-save")) {
+            if (Back.location.containsKey(player.getUniqueId())) {
+                Back.location.remove(player.getUniqueId());
+                Back.location.put(player.getUniqueId(), player.getLocation());
+            } else {
+                Back.location.put(player.getUniqueId(), player.getLocation());
+            }
+        } else if (hasPerm2) {
+            if (Back.location.containsKey(player.getUniqueId())) {
+                Back.location.remove(player.getUniqueId());
+                Back.location.put(player.getUniqueId(), player.getLocation());
+            } else {
+                Back.location.put(player.getUniqueId(), player.getLocation());
+            }
+        }
     }
 }

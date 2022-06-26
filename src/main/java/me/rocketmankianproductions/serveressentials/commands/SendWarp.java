@@ -1,5 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
+import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,14 +17,16 @@ public class SendWarp implements CommandExecutor {
         if (sender instanceof Player) {
             Location loc;
             Player player = (Player) sender;
-            if (player.hasPermission("se.sendwarp") || player.hasPermission("se.all")) {
+            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.sendwarp");
+            if (hasPerm) {
                 if (args.length == 2) {
                     if (Setwarp.file.exists() && Setwarp.fileConfig.getString("Warp." + args[1] + ".World") != null) {
                         Player target = Bukkit.getServer().getPlayer(args[0]);
                         if (target != null) {
                             if (target != player) {
                                 // Check if the File Exists and if Location.World has data
-                                if (player.hasPermission("se.warps." + args[1]) || player.hasPermission("se.warps.all")) {
+                                boolean hasPerm2 = ServerEssentials.permissionChecker(player, "se.warps." + args[1]);
+                                if (hasPerm2) {
                                     // Gathering Location
                                     float yaw = Setwarp.fileConfig.getInt("Warp." + args[1] + ".Yaw");
                                     float pitch = Sethome.fileConfig.getInt("Warp." + args[1] + ".Pitch");
@@ -38,10 +41,6 @@ public class SendWarp implements CommandExecutor {
                                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                     String msg2 = Lang.fileConfig.getString("sendwarp-target").replace("<warp>", args[1]);
                                     target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                    return true;
-                                } else {
-                                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.warps." + args[1]);
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                                     return true;
                                 }
                             }
@@ -60,10 +59,6 @@ public class SendWarp implements CommandExecutor {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }
-            } else {
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.sendwarp");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                return true;
             }
         }else{
             Location loc;

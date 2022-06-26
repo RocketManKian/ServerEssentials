@@ -1,5 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
+import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -19,7 +20,8 @@ public class Invsee implements CommandExecutor, Listener {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (args.length == 1) {
-                if (player.hasPermission("se.invsee") || player.hasPermission("se.all")) {
+                boolean hasPerm = ServerEssentials.permissionChecker(player, "se.invsee");
+                if (hasPerm) {
                     Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
                     if (targetPlayer == sender) {
                         String msg = Lang.fileConfig.getString("invsee-target-is-sender");
@@ -33,13 +35,10 @@ public class Invsee implements CommandExecutor, Listener {
                         player.openInventory(targetPlayer.getInventory());
                         return true;
                     }
-                } else {
-                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.invsee");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                    return true;
                 }
             } else if (args.length == 2) {
-                if (player.hasPermission("se.invsee.others") || player.hasPermission("se.all")) {
+                boolean hasPerm = ServerEssentials.permissionChecker(player, "se.invsee.others");
+                if (hasPerm) {
                     Inventory myInventory = Bukkit.createInventory(player, 9, ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("invsee-armor-gui")));
                     Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
                     if (targetPlayer == sender) {
@@ -63,10 +62,6 @@ public class Invsee implements CommandExecutor, Listener {
                         player.openInventory(myInventory);
                         return true;
                     }
-                } else {
-                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.invsee.others");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                    return true;
                 }
             }else{
                 String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/invsee (player)");

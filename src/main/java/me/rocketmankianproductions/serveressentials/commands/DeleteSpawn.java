@@ -1,5 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
+import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -17,7 +18,8 @@ public class DeleteSpawn implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             // Checking if the player has the se.deletespawn permission
-            if (player.hasPermission("se.deletespawn") || player.hasPermission("se.all")) {
+            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.deletespawn");
+            if (hasPerm) {
                 // Averaging out the whether the file exists or not by checking for value in one of the default saving points
                 if (args.length == 0) {
                     if (Setspawn.file.exists() && Setspawn.fileConfig.getString("Location.World") != null) {
@@ -57,10 +59,6 @@ public class DeleteSpawn implements CommandExecutor {
                         return true;
                     }
                 }
-            } else {
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.deletespawn");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                return true;
             }
         } else {
             String console = Lang.fileConfig.getString("console-invalid");
