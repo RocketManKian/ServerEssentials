@@ -26,7 +26,8 @@ public class ListHomes implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            if (player.hasPermission("se.listhomes") || player.hasPermission("se.all")){
+            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.listhomes");
+            if (hasPerm) {
                 if (args.length == 1) {
                     target = Bukkit.getOfflinePlayer(args[0]);
                     if (ServerEssentials.plugin.getConfig().getBoolean("enable-home-gui")){
@@ -55,7 +56,7 @@ public class ListHomes implements CommandExecutor {
                                                     List<String> loreList = new ArrayList<String>();
                                                     String msg = Lang.fileConfig.getString("home-gui-left-click").replace("<home>", key);
                                                     loreList.add(ChatColor.translateAlternateColorCodes('&', msg));
-                                                    if (player.hasPermission("se.deletehome.others") || player.hasPermission("se.all")) {
+                                                    if (ServerEssentials.permissionChecker(player, "se.deletehome.others")) {
                                                         String msg2 = Lang.fileConfig.getString("home-gui-right-click");
                                                         loreList.add(ChatColor.translateAlternateColorCodes('&', msg2));
                                                     }
@@ -140,10 +141,6 @@ public class ListHomes implements CommandExecutor {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }
-            }else{
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.listhomes");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                return true;
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");

@@ -1,5 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
+import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -13,7 +14,8 @@ public class Message implements CommandExecutor {
         if (sender instanceof Player){
             Player messager = (Player) sender;
             // Check if the Sender has the se.message permission
-            if (messager.hasPermission("se.message") || messager.hasPermission("se.all")) {
+            boolean hasPerm = ServerEssentials.permissionChecker(messager, "se.message");
+            if (hasPerm) {
                 String sm = "";
                 if (args.length >= 2) {
                     //recipient == target
@@ -41,7 +43,8 @@ public class Message implements CommandExecutor {
                         String msgrecipient = Lang.fileConfig.getString("message-recipient").replace("<sender>", sendername).replace("<message>", sm);
                         String msgsocialspy = Lang.fileConfig.getString("socialspy-message").replace("<sender>", sendername).replace("<target>", targetname).replace("<message>", sm);
                         // Check if the Sender doesn't have the se.socialspy permission
-                        if (!sender.hasPermission("se.socialspy")) {
+                        boolean hasPerm2 = ServerEssentials.permissionChecker(messager, "se.socialspy");
+                        if (!hasPerm2) {
                             // Loop to check through all Online Players and get all players who are included within the HashMap
                             for (Player admin : Bukkit.getOnlinePlayers()) {
                                 if (SocialSpy.socialspy.contains(admin)) {
@@ -86,10 +89,6 @@ public class Message implements CommandExecutor {
                     messager.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }
-            } else {
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.message");
-                messager.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                return true;
             }
         }else if (sender instanceof ConsoleCommandSender || sender instanceof BlockCommandSender){
             String sm = "";

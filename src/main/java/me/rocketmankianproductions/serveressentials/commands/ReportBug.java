@@ -24,7 +24,8 @@ public class ReportBug implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            if (player.hasPermission("se.report") || player.hasPermission("se.all")){
+            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.reportbug");
+            if (hasPerm) {
                 if (args.length >= 1) {
                     String msg = Lang.fileConfig.getString("report-successful");
                     String server = ServerEssentials.getPlugin().getConfig().getString("server-name");
@@ -115,15 +116,12 @@ public class ReportBug implements CommandExecutor {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }
-            }else{
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.report");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                return true;
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");
             Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
             return true;
         }
+        return false;
     }
 }

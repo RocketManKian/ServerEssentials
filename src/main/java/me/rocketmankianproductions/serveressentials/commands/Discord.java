@@ -17,7 +17,8 @@ public class Discord implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (player.hasPermission("se.discord") || player.hasPermission("se.all")) {
+            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.discord");
+            if (hasPerm) {
                 String prefix = ServerEssentials.getPlugin().getConfig().getString("prefix");
                 String discord = Lang.fileConfig.getString("discord-command");
                 if (ServerEssentials.isConnectedToPlaceholderAPI) {
@@ -26,11 +27,6 @@ public class Discord implements CommandExecutor {
                 } else {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + " " + ChatColor.WHITE + discord));
                 }
-            } else {
-                // If it doesn't succeed with either then it'll send the player a required permission message
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.discord");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                return true;
             }
         } else {
             String console = Lang.fileConfig.getString("console-invalid");

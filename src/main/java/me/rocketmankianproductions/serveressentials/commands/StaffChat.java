@@ -23,7 +23,8 @@ public class StaffChat implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            if (player.hasPermission("se.staffchat") || player.hasPermission("se.all")){
+            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.staffchat");
+            if (hasPerm) {
                 if (args.length == 0) {
                     if (!staffchat.contains(player)){
                         String msg = Lang.fileConfig.getString("staffchat-enabled");
@@ -56,10 +57,6 @@ public class StaffChat implements CommandExecutor {
                         return true;
                     }
                 }
-            }else{
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.staffchat");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                return true;
             }
         }else if (sender instanceof ConsoleCommandSender){
             if (args.length >= 1){

@@ -47,7 +47,8 @@ public class SilentJoin {
     public void run(CommandSender sender, String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            if (player.hasPermission("se.silentjoin") || player.hasPermission("se.all")) {
+            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.silentjoin");
+            if (hasPerm) {
                 if (fileConfig.getBoolean("silent." + player.getName(), false) == false) {
                     fileConfig.set("silent." + player.getName(), true);
                     String msg = Lang.fileConfig.getString("silentjoin-enabled");
@@ -62,9 +63,6 @@ public class SilentJoin {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            } else {
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.silentjoin");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");

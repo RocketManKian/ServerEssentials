@@ -24,7 +24,8 @@ public class Reload {
     public void run(CommandSender sender, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (player.hasPermission("se.reload") || player.hasPermission("se.all")) {
+            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.reload");
+            if (hasPerm) {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.GREEN + "Server Essentials has been reloaded!"));
                 // Reloading YML files
                 ServerEssentials.getPlugin().reloadConfig();
@@ -40,9 +41,6 @@ public class Reload {
                 ServerEssentials.broadcastLoop.cancel();
                 Long delay = ServerEssentials.getPlugin().getConfig().getLong("broadcast-delay");
                 ServerEssentials.broadcastLoop = new Broadcast(ServerEssentials.plugin).runTaskTimer(ServerEssentials.plugin, delay, delay);
-            } else {
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.reload");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
             }
         } else if (sender instanceof ConsoleCommandSender) {
             Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', ChatColor.GREEN + "Server Essentials has been reloaded!"));

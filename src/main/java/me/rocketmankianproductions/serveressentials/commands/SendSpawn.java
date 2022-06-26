@@ -17,7 +17,8 @@ public class SendSpawn implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            if (player.hasPermission("se.spawn.others") || player.hasPermission("se.all")) {
+            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.spawn.others");
+            if (hasPerm) {
                 if (args.length == 1){
                     if (Setspawn.fileConfig.getString("Location.World") != null) {
                         Location loc = getLocation();
@@ -111,10 +112,6 @@ public class SendSpawn implements CommandExecutor {
                         }
                     }
                 }
-            } else {
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.spawn.others");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                return true;
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");

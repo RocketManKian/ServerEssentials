@@ -26,7 +26,8 @@ public class Heal implements CommandExecutor {
         if (sender instanceof Player) {
             Player target;
             Player player = (Player) sender;
-            if (player.hasPermission("se.heal") || player.hasPermission("se.all")) {
+            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.heal");
+            if (hasPerm) {
                 if (args.length <= 1) {
                     // Check to see if Player has command cooldown active
                     if (!healcancel.containsKey(player.getUniqueId())) {
@@ -116,10 +117,6 @@ public class Heal implements CommandExecutor {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }
-            } else {
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.heal");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                return true;
             }
         }else if (sender instanceof ConsoleCommandSender){
             if (args.length == 1){

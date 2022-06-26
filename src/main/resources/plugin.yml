@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 1.78.9
+version: 1.79.0
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -259,7 +259,8 @@ permissions:
       se.lore: true
       se.speed: true
       se.speed.others: true
-      se.report: true
+      se.reportuser: true
+      se.reportbug: true
       se.reportnotification: true
       se.clearchat: true
       se.warps.all: true
@@ -270,6 +271,7 @@ permissions:
       se.back.bypass: true
       se.teleport.bypass: true
       se.convert: true
+      se.nick: true
   se.reload:
     description: "Gives access to the /se reload command."
     default: false
@@ -456,8 +458,11 @@ permissions:
   se.speed.others:
     description: "Speed Others Command"
     default: false
-  se.report:
-    description: "Report User and Report Bug Commands"
+  se.reportbug:
+    description: "Report Bug Command"
+    default: false
+  se.reportuser:
+    description: "Report User Command"
     default: false
   se.reportnotification:
     description: "Report Notification"

@@ -8,6 +8,7 @@ import me.rocketmankianproductions.serveressentials.events.*;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import me.rocketmankianproductions.serveressentials.tasks.Broadcast;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -261,8 +262,6 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         // Convert Command
         getCommand("convert").setExecutor(new Convert());
         Convert.setItems();
-        // Book Command
-        //getCommand("book").setExecutor(new Book());
     }
 
     @Override
@@ -328,6 +327,18 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
                 hasUpdate = true;
             }
         });
+    }
+
+    public static boolean permissionChecker(Player player, String perm) {
+        boolean hasPerm;
+        if (player.hasPermission(perm) || player.hasPermission("se.all")){
+            hasPerm = true;
+        }else{
+            String permmsg = Lang.fileConfig.getString("no-permission-message").replace("<permission>", perm);
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', permmsg));
+            hasPerm = false;
+        }
+        return hasPerm;
     }
 
     public static ServerEssentials getPlugin() {

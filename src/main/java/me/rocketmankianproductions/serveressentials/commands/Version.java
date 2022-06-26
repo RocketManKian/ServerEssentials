@@ -19,12 +19,10 @@ public class Version {
     public void run(CommandSender sender, String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            if (player.hasPermission("se.version") || player.hasPermission("se.all")) {
+            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.version");
+            if (hasPerm) {
                 String version = ServerEssentials.getPlugin().getDescription().getVersion();
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&bServer Essentials&7] " + ChatColor.WHITE + "Version: " + ChatColor.GREEN + version));
-            } else {
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.version");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
             }
         }else if (sender instanceof ConsoleCommandSender) {
             String version = ServerEssentials.getPlugin().getDescription().getVersion();

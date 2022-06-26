@@ -59,7 +59,8 @@ public class MsgToggle {
         if (sender instanceof Player){
             Player player = (Player) sender;
             if (command.getName().equalsIgnoreCase("msgtoggle")) {
-                if (player.hasPermission("se.msgtoggle") || player.hasPermission("se.all")) {
+                boolean hasPerm = ServerEssentials.permissionChecker(player, "se.msgtoggle");
+                if (hasPerm) {
                     if (args.length == 0) {
                         if (fileConfig.getBoolean("msgtoggle." + player.getName(), false) == false) {
                             fileConfig.set("msgtoggle." + player.getName(), true);
@@ -87,10 +88,6 @@ public class MsgToggle {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
-                } else {
-                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.msgtoggle");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                    return true;
                 }
             }
         }else{

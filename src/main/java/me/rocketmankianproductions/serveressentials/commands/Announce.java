@@ -18,7 +18,8 @@ public class Announce implements CommandExecutor {
 
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (player.hasPermission("se.announce") || player.hasPermission("se.all")) {
+            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.announce");
+            if (hasPerm){
                 if (args.length > 0) {
                     String prefix = ServerEssentials.getPlugin().getConfig().getString("prefix");
                     String announce = "";
@@ -40,10 +41,6 @@ public class Announce implements CommandExecutor {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }
-            } else {
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.announce");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                return true;
             }
         } else if (sender instanceof ConsoleCommandSender) {
             Player target = Bukkit.getPlayer(args[0]);

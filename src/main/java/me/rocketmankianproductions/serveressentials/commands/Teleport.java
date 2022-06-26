@@ -22,7 +22,9 @@ public class Teleport implements CommandExecutor {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 } else if (args.length == 1 || args.length == 2) {
-                    if (player.hasPermission("se.teleport") || player.hasPermission("se.all")) {
+                    boolean hasPerm2 = ServerEssentials.permissionChecker(player, "se.back.bypass");
+                    boolean hasPerm = ServerEssentials.permissionChecker(player, "se.teleport");
+                    if (hasPerm) {
                         if (args.length == 1) {
                             Player target = Bukkit.getPlayer(args[0]);
                             if (target == null) {
@@ -43,21 +45,7 @@ public class Teleport implements CommandExecutor {
                                     }
                                     String msg = Lang.fileConfig.getString("teleport-success").replace("<target>", target2);
                                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                    if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")) {
-                                        if (Back.location.containsKey(player.getUniqueId())) {
-                                            Back.location.remove(player.getUniqueId());
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        } else {
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        }
-                                    } else if (player.hasPermission("se.back.bypass")) {
-                                        if (Back.location.containsKey(player.getUniqueId())) {
-                                            Back.location.remove(player.getUniqueId());
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        } else {
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        }
-                                    }
+                                    teleportSave(player, hasPerm2);
                                     player.teleport(target.getLocation());
                                     return true;
                                 } else if (!sender.hasPermission("se.silenttp")) {
@@ -66,21 +54,7 @@ public class Teleport implements CommandExecutor {
                                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                         return true;
                                     }
-                                    if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")) {
-                                        if (Back.location.containsKey(player.getUniqueId())) {
-                                            Back.location.remove(player.getUniqueId());
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        } else {
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        }
-                                    } else if (player.hasPermission("se.back.bypass")) {
-                                        if (Back.location.containsKey(player.getUniqueId())) {
-                                            Back.location.remove(player.getUniqueId());
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        } else {
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        }
-                                    }
+                                    teleportSave(player, hasPerm2);
                                     String msg = Lang.fileConfig.getString("teleport-success").replace("<target>", target2);
                                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                     String msg2 = Lang.fileConfig.getString("teleport-target-success").replace("<sender>", sender.getName());
@@ -111,41 +85,13 @@ public class Teleport implements CommandExecutor {
                                     if (target == sender) {
                                         String msg = Lang.fileConfig.getString("teleport-target-success").replace("<sender>", playerToSend.getName());
                                         target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                        if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")) {
-                                            if (Back.location.containsKey(playerToSend.getUniqueId())) {
-                                                Back.location.remove(playerToSend.getUniqueId());
-                                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                                            } else {
-                                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                                            }
-                                        } else if (player.hasPermission("se.back.bypass")) {
-                                            if (Back.location.containsKey(playerToSend.getUniqueId())) {
-                                                Back.location.remove(playerToSend.getUniqueId());
-                                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                                            } else {
-                                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                                            }
-                                        }
+                                        teleportSave(player, hasPerm2);
                                         playerToSend.teleport(target.getLocation());
                                         return true;
                                     } else if (playerToSend == sender) {
                                         String msg = Lang.fileConfig.getString("teleport-success").replace("<target>", target2);
                                         playerToSend.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                        if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")) {
-                                            if (Back.location.containsKey(playerToSend.getUniqueId())) {
-                                                Back.location.remove(playerToSend.getUniqueId());
-                                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                                            } else {
-                                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                                            }
-                                        } else if (player.hasPermission("se.back.bypass")) {
-                                            if (Back.location.containsKey(playerToSend.getUniqueId())) {
-                                                Back.location.remove(playerToSend.getUniqueId());
-                                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                                            } else {
-                                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                                            }
-                                        }
+                                        teleportSave(player, hasPerm2);
                                         playerToSend.teleport(target.getLocation());
                                         return true;
                                     } else {
@@ -155,21 +101,7 @@ public class Teleport implements CommandExecutor {
                                         playerToSend.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                                         String msg3 = Lang.fileConfig.getString("teleport-target-success").replace("<sender>", playerToSend.getName());
                                         target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
-                                        if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")) {
-                                            if (Back.location.containsKey(playerToSend.getUniqueId())) {
-                                                Back.location.remove(playerToSend.getUniqueId());
-                                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                                            } else {
-                                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                                            }
-                                        } else if (player.hasPermission("se.back.bypass")) {
-                                            if (Back.location.containsKey(playerToSend.getUniqueId())) {
-                                                Back.location.remove(playerToSend.getUniqueId());
-                                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                                            } else {
-                                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                                            }
-                                        }
+                                        teleportSave(player, hasPerm2);
                                         playerToSend.teleport(target.getLocation());
                                         return true;
                                     }
@@ -184,21 +116,7 @@ public class Teleport implements CommandExecutor {
                                         playerToSend.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                         String msg2 = Lang.fileConfig.getString("teleport-target-success").replace("<sender>", playerToSend.getName());
                                         target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                        if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")) {
-                                            if (Back.location.containsKey(playerToSend.getUniqueId())) {
-                                                Back.location.remove(playerToSend.getUniqueId());
-                                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                                            } else {
-                                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                                            }
-                                        } else if (player.hasPermission("se.back.bypass")) {
-                                            if (Back.location.containsKey(playerToSend.getUniqueId())) {
-                                                Back.location.remove(playerToSend.getUniqueId());
-                                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                                            } else {
-                                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                                            }
-                                        }
+                                        teleportSave(player, hasPerm2);
                                         playerToSend.teleport(target.getLocation());
                                         return true;
                                     } else if (playerToSend == sender) {
@@ -206,21 +124,7 @@ public class Teleport implements CommandExecutor {
                                         target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                         String msg2 = Lang.fileConfig.getString("teleport-success").replace("<target>", target.getName());
                                         playerToSend.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                        if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")) {
-                                            if (Back.location.containsKey(playerToSend.getUniqueId())) {
-                                                Back.location.remove(playerToSend.getUniqueId());
-                                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                                            } else {
-                                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                                            }
-                                        } else if (player.hasPermission("se.back.bypass")) {
-                                            if (Back.location.containsKey(playerToSend.getUniqueId())) {
-                                                Back.location.remove(playerToSend.getUniqueId());
-                                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                                            } else {
-                                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                                            }
-                                        }
+                                        teleportSave(player, hasPerm2);
                                         playerToSend.teleport(target.getLocation());
                                         return true;
                                     } else {
@@ -230,50 +134,20 @@ public class Teleport implements CommandExecutor {
                                         target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                                         String msg3 = Lang.fileConfig.getString("teleport-force-target").replace("<target>", target.getName());
                                         playerToSend.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
-                                        if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")) {
-                                            if (Back.location.containsKey(playerToSend.getUniqueId())) {
-                                                Back.location.remove(playerToSend.getUniqueId());
-                                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                                            } else {
-                                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                                            }
-                                        } else if (player.hasPermission("se.back.bypass")) {
-                                            if (Back.location.containsKey(playerToSend.getUniqueId())) {
-                                                Back.location.remove(playerToSend.getUniqueId());
-                                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                                            } else {
-                                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                                            }
-                                        }
+                                        teleportSave(player, hasPerm2);
                                         playerToSend.teleport(target.getLocation());
                                         return true;
                                     }
                                 }
                             }
                         }
-                    } else {
-                        String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.teleport");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                        return true;
                     }
                 }else if (args.length == 3 || args.length == 4){
-                    if (player.hasPermission("se.teleport.coords") || player.hasPermission("se.all")){
+                    boolean hasPerm2 = ServerEssentials.permissionChecker(player, "se.back.bypass");
+                    boolean hasPerm = ServerEssentials.permissionChecker(player, "se.teleport.coords");
+                    if (hasPerm) {
                         if (args.length == 3) {
-                            if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")) {
-                                if (Back.location.containsKey(player.getUniqueId())) {
-                                    Back.location.remove(player.getUniqueId());
-                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                } else {
-                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                }
-                            } else if (player.hasPermission("se.back.bypass")) {
-                                if (Back.location.containsKey(player.getUniqueId())) {
-                                    Back.location.remove(player.getUniqueId());
-                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                } else {
-                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                }
-                            }
+                            teleportSave(player, hasPerm2);
                             try {
                                 double x = 0;
                                 if (args[0].equalsIgnoreCase("~")){
@@ -345,10 +219,6 @@ public class Teleport implements CommandExecutor {
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             return true;
                         }
-                    }else {
-                        String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.teleport.coords");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                        return true;
                     }
                 }
         } else if (sender instanceof ConsoleCommandSender) {
@@ -356,21 +226,8 @@ public class Teleport implements CommandExecutor {
                 Player playerToSend = Bukkit.getPlayer(args[0]);
                 Player target = Bukkit.getPlayer(args[1]);
                 if (playerToSend != target && target != null) {
-                    if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")) {
-                        if (Back.location.containsKey(playerToSend.getUniqueId())) {
-                            Back.location.remove(playerToSend.getUniqueId());
-                            Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                        } else {
-                            Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                        }
-                    } else if (playerToSend.hasPermission("se.back.bypass")) {
-                        if (Back.location.containsKey(playerToSend.getUniqueId())) {
-                            Back.location.remove(playerToSend.getUniqueId());
-                            Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                        } else {
-                            Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                        }
-                    }
+                    boolean hasPerm2 = ServerEssentials.permissionChecker(playerToSend, "se.back.bypass");
+                    teleportSave(playerToSend, hasPerm2);
                     playerToSend.teleport(target.getLocation());
                     String msg = Lang.fileConfig.getString("teleport-others").replace("<target>", playerToSend.getName()).replace("<target2>", target.getName());
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
@@ -412,21 +269,8 @@ public class Teleport implements CommandExecutor {
                 Player target = Bukkit.getPlayer(args[1]);
                 if (playerToSend != target) {
                     try {
-                        if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")){
-                            if (Back.location.containsKey(playerToSend.getUniqueId())){
-                                Back.location.remove(playerToSend.getUniqueId());
-                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                            }else{
-                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                            }
-                        }else if (playerToSend.hasPermission("se.back.bypass")){
-                            if (Back.location.containsKey(playerToSend.getUniqueId())){
-                                Back.location.remove(playerToSend.getUniqueId());
-                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                            }else{
-                                Back.location.put(playerToSend.getUniqueId(), playerToSend.getLocation());
-                            }
-                        }
+                        boolean hasPerm2 = ServerEssentials.permissionChecker(playerToSend, "se.back.bypass");
+                        teleportSave(playerToSend, hasPerm2);
                         playerToSend.teleport(target.getLocation());
                         String msg = Lang.fileConfig.getString("teleport-force-target").replace("<target>", target.getName());
                         playerToSend.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
@@ -465,5 +309,22 @@ public class Teleport implements CommandExecutor {
             }
         }
         return false;
+    }
+    public static void teleportSave(Player player, boolean hasPerm2){
+        if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")) {
+            if (Back.location.containsKey(player.getUniqueId())) {
+                Back.location.remove(player.getUniqueId());
+                Back.location.put(player.getUniqueId(), player.getLocation());
+            } else {
+                Back.location.put(player.getUniqueId(), player.getLocation());
+            }
+        } else if (hasPerm2) {
+            if (Back.location.containsKey(player.getUniqueId())) {
+                Back.location.remove(player.getUniqueId());
+                Back.location.put(player.getUniqueId(), player.getLocation());
+            } else {
+                Back.location.put(player.getUniqueId(), player.getLocation());
+            }
+        }
     }
 }

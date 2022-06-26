@@ -1,5 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
+import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -15,13 +16,10 @@ public class Trash implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            if (player.hasPermission("se.trash") || player.hasPermission("se.all")){
+            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.trash");
+            if (hasPerm) {
                 Inventory trash = Bukkit.createInventory(player, 27, ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("trash-gui-name")));
                 player.openInventory(trash);
-                return true;
-            }else{
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.trash");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                 return true;
             }
         }else{
@@ -29,5 +27,6 @@ public class Trash implements CommandExecutor {
             Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
             return true;
         }
+        return false;
     }
 }

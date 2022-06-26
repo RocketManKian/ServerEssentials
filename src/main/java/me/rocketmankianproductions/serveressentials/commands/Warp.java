@@ -31,29 +31,18 @@ public class Warp implements CommandExecutor {
         // Checking if the player has the correct permission
         if (sender instanceof Player){
             Player player = (Player) sender;
-            if (player.hasPermission("se.warp") || player.hasPermission("se.all")) {
+            boolean hasPerm3 = ServerEssentials.permissionChecker(player, "se.back.bypass");
+            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.warp");
+            if (hasPerm) {
                 if (args.length == 1) {
                     if (Setwarp.file.exists() && Setwarp.fileConfig.getString("Warp." + args[0] + ".World") != null) {
                         // Check if the File Exists and if Location.World has data
-                        if (sender.hasPermission("se.warps." + args[0]) || sender.hasPermission("se.warps.all")) {
+                        boolean hasPerm2 = ServerEssentials.permissionChecker(player, "se.warps." + args[0]);
+                        if (hasPerm2) {
                             Location loc = getLocation(args);
                             if (args.length == 1) {
                                 if (ServerEssentials.plugin.getConfig().getInt("warp-teleport") == 0){
-                                    if (ServerEssentials.plugin.getConfig().getBoolean("warp-save")){
-                                        if (Back.location.containsKey(player.getUniqueId())){
-                                            Back.location.remove(player.getUniqueId());
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        }else{
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        }
-                                    }else if (player.hasPermission("se.back.bypass")){
-                                        if (Back.location.containsKey(player.getUniqueId())){
-                                            Back.location.remove(player.getUniqueId());
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        }else{
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        }
-                                    }
+                                    warpSave(player, hasPerm3);
                                     if (loc.isWorldLoaded()){
                                         player.teleport(loc);
                                         Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
@@ -84,21 +73,7 @@ public class Warp implements CommandExecutor {
                                             public void run() {
                                                 if (cancel.contains(player.getUniqueId())){
                                                     if (warpteleport.containsKey(player.getUniqueId())) {
-                                                        if (ServerEssentials.plugin.getConfig().getBoolean("warp-save")){
-                                                            if (Back.location.containsKey(player.getUniqueId())){
-                                                                Back.location.remove(player.getUniqueId());
-                                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                                            }else{
-                                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                                            }
-                                                        }else if (player.hasPermission("se.back.bypass")){
-                                                            if (Back.location.containsKey(player.getUniqueId())){
-                                                                Back.location.remove(player.getUniqueId());
-                                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                                            }else{
-                                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                                            }
-                                                        }
+                                                        warpSave(player, hasPerm3);
                                                         if (loc.isWorldLoaded()){
                                                             // Teleporting Player
                                                             player.teleport(loc);
@@ -130,21 +105,7 @@ public class Warp implements CommandExecutor {
                                         warpteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
                                             public void run() {
                                                 if (warpteleport.containsKey(player.getUniqueId())) {
-                                                    if (ServerEssentials.plugin.getConfig().getBoolean("warp-save")){
-                                                        if (Back.location.containsKey(player.getUniqueId())){
-                                                            Back.location.remove(player.getUniqueId());
-                                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                                        }else{
-                                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                                        }
-                                                    }else if (player.hasPermission("se.back.bypass")){
-                                                        if (Back.location.containsKey(player.getUniqueId())){
-                                                            Back.location.remove(player.getUniqueId());
-                                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                                        }else{
-                                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                                        }
-                                                    }
+                                                    warpSave(player, hasPerm3);
                                                     if (loc.isWorldLoaded()){
                                                         // Teleporting Player
                                                         player.teleport(loc);
@@ -171,10 +132,6 @@ public class Warp implements CommandExecutor {
                                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 return true;
                             }
-                        } else {
-                            String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.warps." + args[0]);
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                            return true;
                         }
                     } else {
                         String msg = Lang.fileConfig.getString("warp-not-found").replace("<warp>", args[0]);
@@ -314,10 +271,6 @@ public class Warp implements CommandExecutor {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }
-            } else {
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.warp");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                return true;
             }
         }else if (sender instanceof ConsoleCommandSender || sender instanceof BlockCommandSender) {
             String console = Lang.fileConfig.getString("console-invalid");
@@ -336,5 +289,23 @@ public class Warp implements CommandExecutor {
                 Setwarp.fileConfig.getDouble("Warp." + args[0] + ".Z"),
                 yaw, 0);
         return loc;
+    }
+
+    public static void warpSave(Player player, boolean hasPerm2){
+        if (ServerEssentials.plugin.getConfig().getBoolean("warp-save")) {
+            if (Back.location.containsKey(player.getUniqueId())) {
+                Back.location.remove(player.getUniqueId());
+                Back.location.put(player.getUniqueId(), player.getLocation());
+            } else {
+                Back.location.put(player.getUniqueId(), player.getLocation());
+            }
+        } else if (hasPerm2) {
+            if (Back.location.containsKey(player.getUniqueId())) {
+                Back.location.remove(player.getUniqueId());
+                Back.location.put(player.getUniqueId(), player.getLocation());
+            } else {
+                Back.location.put(player.getUniqueId(), player.getLocation());
+            }
+        }
     }
 }

@@ -29,7 +29,8 @@ public class Repair implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (player.hasPermission("se.repair") || player.hasPermission("se.all")) {
+            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.repair");
+            if (hasPerm) {
                 if (args.length == 0) {
                     // Check to see if Player has command cooldown active
                     if (!repaircancel.containsKey(player.getUniqueId())) {
@@ -124,10 +125,6 @@ public class Repair implements CommandExecutor {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }
-            } else {
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.repair");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                return true;
             }
         } else {
             String console = Lang.fileConfig.getString("console-invalid");

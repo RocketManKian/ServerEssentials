@@ -55,8 +55,9 @@ public class TPToggle {
         if (sender instanceof Player){
             Player player = (Player) sender;
             if (command.getName().equalsIgnoreCase("tptoggle")) {
-                if (player.hasPermission("se.tptoggle") || player.hasPermission("se.all")) {
-                    if ((sender instanceof Player)) {
+                boolean hasPerm = ServerEssentials.permissionChecker(player, "se.tptoggle");
+                if (hasPerm) {
+                    if (sender instanceof Player) {
                         if (args.length == 0) {
                             if (fileConfig.getBoolean("tptoggle." + player.getName(), false) == false) {
                                 fileConfig.set("tptoggle." + player.getName(), true);
@@ -89,10 +90,6 @@ public class TPToggle {
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
-                } else {
-                    String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.tptoggle");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                    return true;
                 }
             }
         }else{

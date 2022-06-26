@@ -28,7 +28,9 @@ public class Spawn implements CommandExecutor {
         if (sender instanceof Player){
             Player player = (Player) sender;
             // Checking if the player has the correct permission
-            if (player.hasPermission("se.spawn") || player.hasPermission("se.all")) {
+            boolean hasPerm2 = ServerEssentials.permissionChecker(player, "se.back.bypass");
+            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.spawn");
+            if (hasPerm) {
                 // Check if the File Exists
                 if (Setspawn.file.exists()) {
                     if (args.length == 0) {
@@ -36,21 +38,7 @@ public class Spawn implements CommandExecutor {
                             if (Setspawn.fileConfig.getString("Newbies.Location.World") != null){
                                 Location loc = getNewbiesLocation();
                                 if (ServerEssentials.plugin.getConfig().getInt("spawn-teleport") == 0){
-                                    if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")){
-                                        if (Back.location.containsKey(player.getUniqueId())){
-                                            Back.location.remove(player.getUniqueId());
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        }else{
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        }
-                                    }else if (player.hasPermission("se.back.bypass")){
-                                        if (Back.location.containsKey(player.getUniqueId())){
-                                            Back.location.remove(player.getUniqueId());
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        }else{
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        }
-                                    }
+                                    spawnSave(player, hasPerm2);
                                     if (loc.isWorldLoaded()){
                                         // Teleporting Player
                                         player.teleport(loc);
@@ -75,21 +63,7 @@ public class Spawn implements CommandExecutor {
                                             public void run() {
                                                 if (cancel.contains(player.getUniqueId())) {
                                                     if (spawnteleport.containsKey(player.getUniqueId())) {
-                                                        if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")) {
-                                                            if (Back.location.containsKey(player.getUniqueId())) {
-                                                                Back.location.remove(player.getUniqueId());
-                                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                                            } else {
-                                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                                            }
-                                                        } else if (player.hasPermission("se.back.bypass")) {
-                                                            if (Back.location.containsKey(player.getUniqueId())) {
-                                                                Back.location.remove(player.getUniqueId());
-                                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                                            } else {
-                                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                                            }
-                                                        }
+                                                        spawnSave(player, hasPerm2);
                                                         if (loc.isWorldLoaded()) {
                                                             // Teleporting Player
                                                             player.teleport(loc);
@@ -116,21 +90,7 @@ public class Spawn implements CommandExecutor {
                                         spawnteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
                                             public void run() {
                                                 if (spawnteleport.containsKey(player.getUniqueId())) {
-                                                    if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")) {
-                                                        if (Back.location.containsKey(player.getUniqueId())) {
-                                                            Back.location.remove(player.getUniqueId());
-                                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                                        } else {
-                                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                                        }
-                                                    } else if (player.hasPermission("se.back.bypass")) {
-                                                        if (Back.location.containsKey(player.getUniqueId())) {
-                                                            Back.location.remove(player.getUniqueId());
-                                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                                        } else {
-                                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                                        }
-                                                    }
+                                                    spawnSave(player, hasPerm2);
                                                     if (loc.isWorldLoaded()) {
                                                         // Teleporting Player
                                                         player.teleport(loc);
@@ -155,21 +115,7 @@ public class Spawn implements CommandExecutor {
                             if (Setspawn.fileConfig.getString("Location.World") != null) {
                                 Location loc = getLocation();
                                 if (ServerEssentials.plugin.getConfig().getInt("spawn-teleport") == 0) {
-                                    if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")) {
-                                        if (Back.location.containsKey(player.getUniqueId())) {
-                                            Back.location.remove(player.getUniqueId());
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        } else {
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        }
-                                    } else if (player.hasPermission("se.back.bypass")) {
-                                        if (Back.location.containsKey(player.getUniqueId())) {
-                                            Back.location.remove(player.getUniqueId());
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        } else {
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        }
-                                    }
+                                    spawnSave(player, hasPerm2);
                                     if (loc.isWorldLoaded()) {
                                         // Teleporting Player
                                         player.teleport(loc);
@@ -194,21 +140,7 @@ public class Spawn implements CommandExecutor {
                                             public void run() {
                                                 if (cancel.contains(player.getUniqueId())) {
                                                     if (spawnteleport.containsKey(player.getUniqueId())) {
-                                                        if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")) {
-                                                            if (Back.location.containsKey(player.getUniqueId())) {
-                                                                Back.location.remove(player.getUniqueId());
-                                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                                            } else {
-                                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                                            }
-                                                        } else if (player.hasPermission("se.back.bypass")) {
-                                                            if (Back.location.containsKey(player.getUniqueId())) {
-                                                                Back.location.remove(player.getUniqueId());
-                                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                                            } else {
-                                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                                            }
-                                                        }
+                                                        spawnSave(player, hasPerm2);
                                                         if (loc.isWorldLoaded()) {
                                                             // Teleporting Player
                                                             player.teleport(loc);
@@ -235,21 +167,7 @@ public class Spawn implements CommandExecutor {
                                         spawnteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
                                             public void run() {
                                                 if (spawnteleport.containsKey(player.getUniqueId())) {
-                                                    if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")) {
-                                                        if (Back.location.containsKey(player.getUniqueId())) {
-                                                            Back.location.remove(player.getUniqueId());
-                                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                                        } else {
-                                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                                        }
-                                                    } else if (player.hasPermission("se.back.bypass")) {
-                                                        if (Back.location.containsKey(player.getUniqueId())) {
-                                                            Back.location.remove(player.getUniqueId());
-                                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                                        } else {
-                                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                                        }
-                                                    }
+                                                    spawnSave(player, hasPerm2);
                                                     if (loc.isWorldLoaded()) {
                                                         // Teleporting Player
                                                         player.teleport(loc);
@@ -277,21 +195,7 @@ public class Spawn implements CommandExecutor {
                             if (Setspawn.fileConfig.getString("Newbies.Location.World") != null){
                                 Location loc = getNewbiesLocation();
                                 if (ServerEssentials.plugin.getConfig().getInt("spawn-teleport") == 0){
-                                    if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")){
-                                        if (Back.location.containsKey(player.getUniqueId())){
-                                            Back.location.remove(player.getUniqueId());
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        }else{
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        }
-                                    }else if (player.hasPermission("se.back.bypass")){
-                                        if (Back.location.containsKey(player.getUniqueId())){
-                                            Back.location.remove(player.getUniqueId());
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        }else{
-                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                        }
-                                    }
+                                    spawnSave(player, hasPerm2);
                                     if (loc.isWorldLoaded()){
                                         // Teleporting Player
                                         player.teleport(loc);
@@ -316,21 +220,7 @@ public class Spawn implements CommandExecutor {
                                             public void run() {
                                                 if (cancel.contains(player.getUniqueId())) {
                                                     if (spawnteleport.containsKey(player.getUniqueId())) {
-                                                        if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")) {
-                                                            if (Back.location.containsKey(player.getUniqueId())) {
-                                                                Back.location.remove(player.getUniqueId());
-                                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                                            } else {
-                                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                                            }
-                                                        } else if (player.hasPermission("se.back.bypass")) {
-                                                            if (Back.location.containsKey(player.getUniqueId())) {
-                                                                Back.location.remove(player.getUniqueId());
-                                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                                            } else {
-                                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                                            }
-                                                        }
+                                                        spawnSave(player, hasPerm2);
                                                         if (loc.isWorldLoaded()) {
                                                             // Teleporting Player
                                                             player.teleport(loc);
@@ -357,21 +247,7 @@ public class Spawn implements CommandExecutor {
                                         spawnteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
                                             public void run() {
                                                 if (spawnteleport.containsKey(player.getUniqueId())) {
-                                                    if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")) {
-                                                        if (Back.location.containsKey(player.getUniqueId())) {
-                                                            Back.location.remove(player.getUniqueId());
-                                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                                        } else {
-                                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                                        }
-                                                    } else if (player.hasPermission("se.back.bypass")) {
-                                                        if (Back.location.containsKey(player.getUniqueId())) {
-                                                            Back.location.remove(player.getUniqueId());
-                                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                                        } else {
-                                                            Back.location.put(player.getUniqueId(), player.getLocation());
-                                                        }
-                                                    }
+                                                    spawnSave(player, hasPerm2);
                                                     if (loc.isWorldLoaded()) {
                                                         // Teleporting Player
                                                         player.teleport(loc);
@@ -403,10 +279,6 @@ public class Spawn implements CommandExecutor {
                     String msg = Lang.fileConfig.getString("spawn-invalid");
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                 }
-            } else {
-                String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.spawn");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                return true;
             }
         }else if (sender instanceof ConsoleCommandSender){
             if (args.length == 1){
@@ -415,21 +287,8 @@ public class Spawn implements CommandExecutor {
                     // Check if the File Exists and if Location.World has data
                     if (Setspawn.file.exists() && Setspawn.fileConfig.getString("Location.World") != null) {
                         Location loc = getLocation();
-                        if (ServerEssentials.plugin.getConfig().getBoolean("spawn-save")){
-                            if (Back.location.containsKey(target.getUniqueId())){
-                                Back.location.remove(target.getUniqueId());
-                                Back.location.put(target.getUniqueId(), target.getLocation());
-                            }else{
-                                Back.location.put(target.getUniqueId(), target.getLocation());
-                            }
-                        }else if (target.hasPermission("se.back.bypass")){
-                            if (Back.location.containsKey(target.getUniqueId())){
-                                Back.location.remove(target.getUniqueId());
-                                Back.location.put(target.getUniqueId(), target.getLocation());
-                            }else{
-                                Back.location.put(target.getUniqueId(), target.getLocation());
-                            }
-                        }
+                        boolean hasPerm2 = ServerEssentials.permissionChecker(target, "se.back.bypass");
+                        spawnSave(target, hasPerm2);
                         if (loc.isWorldLoaded()){
                             // Teleporting player to Location
                             target.teleport(loc);
@@ -471,5 +330,23 @@ public class Spawn implements CommandExecutor {
         float pitch = Setspawn.fileConfig.getInt("Newbies.Location.Pitch");
         Location loc = new Location(Bukkit.getWorld(Setspawn.fileConfig.getString("Newbies.Location.World")), Setspawn.fileConfig.getDouble("Newbies.Location.X"), Setspawn.fileConfig.getDouble("Newbies.Location.Y"), Setspawn.fileConfig.getDouble("Newbies.Location.Z"), yaw, pitch);
         return loc;
+    }
+
+    public static void spawnSave(Player player, boolean hasPerm2){
+        if (ServerEssentials.plugin.getConfig().getBoolean("spawn-save")) {
+            if (Back.location.containsKey(player.getUniqueId())) {
+                Back.location.remove(player.getUniqueId());
+                Back.location.put(player.getUniqueId(), player.getLocation());
+            } else {
+                Back.location.put(player.getUniqueId(), player.getLocation());
+            }
+        } else if (hasPerm2) {
+            if (Back.location.containsKey(player.getUniqueId())) {
+                Back.location.remove(player.getUniqueId());
+                Back.location.put(player.getUniqueId(), player.getLocation());
+            } else {
+                Back.location.put(player.getUniqueId(), player.getLocation());
+            }
+        }
     }
 }
