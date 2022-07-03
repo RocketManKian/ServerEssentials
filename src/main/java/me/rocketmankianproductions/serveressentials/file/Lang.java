@@ -37,6 +37,8 @@ public class Lang {
                 fileConfig.addDefault("incorrect-format", "Incorrect format! Please use &6<command>");
                 fileConfig.addDefault("target-self", "You cannot target yourself.");
                 fileConfig.addDefault("first-time-join", "Welcome <player> to the Server!");
+                fileConfig.addDefault("staff-join-message", "&d(&5&lStaff&d) <player> &7has joined the game");
+                fileConfig.addDefault("staff-leave-message", "&d(&5&lStaff&d) <player> &7has quit the game");
                 fileConfig.addDefault("website-command", "Website Command");
                 fileConfig.addDefault("discord-command", "Discord Command");
                 fileConfig.addDefault("gui-confirm-name", "&aYes");
@@ -286,6 +288,12 @@ public class Lang {
                 }
                 if (fileConfig.getString("first-time-join") == null){
                     fileConfig.set("first-time-join", "Welcome <player> to the Server!");
+                }
+                if (fileConfig.getString("staff-join-message") == null){
+                    fileConfig.set("staff-join-message", "&d(&5&lStaff&d) <player> &7has joined the game");
+                }
+                if (fileConfig.getString("staff-leave-message") == null){
+                    fileConfig.set("staff-leave-message", "&d(&5&lStaff&d) <player> &7has quit the game");
                 }
                 if (fileConfig.getString("website-command") == null){
                     fileConfig.set("website-command", "Website Command");
