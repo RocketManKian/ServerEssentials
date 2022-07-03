@@ -131,20 +131,18 @@ public class PlayerJoinListener implements Listener {
                     String servername = ServerEssentials.plugin.getConfig().getString("server-name");
                     if (textChannel != null && ServerEssentials.plugin.getConfig().getBoolean("enable-discord-integration")){
                         textChannel.sendMessage("**" + player.getName() + "**" + " has joined the " + servername + " Server").queue();
-                        Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', "&d(&5&lStaff&d) ") + ChatColor.LIGHT_PURPLE + player.getName() + ChatColor.GRAY + " has joined the game", "se.staffchat");
-                    }else{
-                        Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', "&d(&5&lStaff&d) ") + ChatColor.LIGHT_PURPLE + player.getName() + ChatColor.GRAY + " has joined the game", "se.staffchat");
                     }
+                    Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("staff-join-message").replace("<player>", player.getName())), "se.staffchat");
                 }else{
                     if (ServerEssentials.isConnectedToDiscordSRV){
                         String channel = ServerEssentials.getPlugin().getConfig().getString("staff-chat-channel-name");
                         TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName(channel);
                         if (textChannel != null && ServerEssentials.getPlugin().getConfig().getBoolean("enable-discord-integration")){
                             textChannel.sendMessage("**" + player.getName() + "**" + " has joined the game").queue();
-                            Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', "&d(&5&lStaff&d) ") + ChatColor.LIGHT_PURPLE + player.getName() + ChatColor.GRAY + " has joined the game", "se.staffchat");
                         }
+                        Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("staff-join-message").replace("<player>", player.getName())), "se.staffchat");
                     }else{
-                        Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', "&d(&5&lStaff&d) ") + ChatColor.LIGHT_PURPLE + player.getName() + ChatColor.GRAY + " has joined the game", "se.staffchat");
+                        Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("staff-join-message").replace("<player>", player.getName())), "se.staffchat");
                     }
                 }
             }

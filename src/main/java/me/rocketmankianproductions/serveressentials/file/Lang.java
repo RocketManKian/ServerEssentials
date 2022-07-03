@@ -37,6 +37,8 @@ public class Lang {
                 fileConfig.addDefault("incorrect-format", "Incorrect format! Please use &6<command>");
                 fileConfig.addDefault("target-self", "You cannot target yourself.");
                 fileConfig.addDefault("first-time-join", "Welcome <player> to the Server!");
+                fileConfig.addDefault("staff-join-message", "&d(&5&lStaff&d) <player> &7has joined the game");
+                fileConfig.addDefault("staff-leave-message", "&d(&5&lStaff&d) <player> &7has quit the game");
                 fileConfig.addDefault("website-command", "Website Command");
                 fileConfig.addDefault("discord-command", "Discord Command");
                 fileConfig.addDefault("gui-confirm-name", "&aYes");
@@ -273,19 +275,25 @@ public class Lang {
                     fileConfig.set("target-offline", "Target is offline");
                 }
                 if (fileConfig.getString("console-invalid") == null){
-                    fileConfig.addDefault("console-invalid", "You cannot execute this command in Console");
+                    fileConfig.set("console-invalid", "You cannot execute this command in Console");
                 }
                 if (fileConfig.getString("invalid-player") == null){
                     fileConfig.set("invalid-player", "You are not a player");
                 }
                 if (fileConfig.getString("incorrect-format") == null){
-                    fileConfig.addDefault("incorrect-format", "Incorrect format! Please use &6<command>");
+                    fileConfig.set("incorrect-format", "Incorrect format! Please use &6<command>");
                 }
                 if (fileConfig.getString("target-self") == null){
                     fileConfig.set("target-self", "You cannot target yourself.");
                 }
                 if (fileConfig.getString("first-time-join") == null){
                     fileConfig.set("first-time-join", "Welcome <player> to the Server!");
+                }
+                if (fileConfig.getString("staff-join-message") == null){
+                    fileConfig.set("staff-join-message", "&d(&5&lStaff&d) <player> &7has joined the game");
+                }
+                if (fileConfig.getString("staff-leave-message") == null){
+                    fileConfig.set("staff-leave-message", "&d(&5&lStaff&d) <player> &7has quit the game");
                 }
                 if (fileConfig.getString("website-command") == null){
                     fileConfig.set("website-command", "Website Command");
@@ -294,10 +302,10 @@ public class Lang {
                     fileConfig.set("discord-command", "Discord Command");
                 }
                 if (fileConfig.getString("gui-confirm-name") == null){
-                    fileConfig.addDefault("gui-confirm-name", "&aYes");
+                    fileConfig.set("gui-confirm-name", "&aYes");
                 }
                 if (fileConfig.getString("gui-deny-name") == null){
-                    fileConfig.addDefault("gui-deny-name", "&cNo");
+                    fileConfig.set("gui-deny-name", "&cNo");
                 }
                 if (fileConfig.getString("back-previous-location") == null){
                     fileConfig.set("back-previous-location", "Teleported to previous location");
@@ -519,16 +527,16 @@ public class Lang {
                     fileConfig.set("reply-no-message", "There is no message to reply to");
                 }
                 if (fileConfig.getString("message-sender") == null){
-                    fileConfig.addDefault("message-sender", "&eme &6>> &f<target> &7: <message>");
+                    fileConfig.set("message-sender", "&eme &6>> &f<target> &7: <message>");
                 }
                 if (fileConfig.getString("message-recipient") == null){
-                    fileConfig.addDefault("message-recipient", "&f<sender> &6>> &eme &7: <message>");
+                    fileConfig.set("message-recipient", "&f<sender> &6>> &eme &7: <message>");
                 }
                 if (fileConfig.getString("reply-sender") == null){
-                    fileConfig.addDefault("reply-sender", "&eme &6>> &f<target> &7: <message>");
+                    fileConfig.set("reply-sender", "&eme &6>> &f<target> &7: <message>");
                 }
                 if (fileConfig.getString("reply-recipient") == null){
-                    fileConfig.addDefault("reply-recipient", "&f<sender> &6>> &eme &7: <message>");
+                    fileConfig.set("reply-recipient", "&f<sender> &6>> &eme &7: <message>");
                 }
                 if (fileConfig.getString("playtime-self") == null){
                     fileConfig.set("playtime-self", "You have played for <days> Days <hours> Hours <minutes> Minutes <seconds> Seconds");
@@ -567,31 +575,31 @@ public class Lang {
                     fileConfig.set("report-successful", "Report sent successfully");
                 }
                 if (fileConfig.getString("report-user-line-one") == null){
-                    fileConfig.addDefault("report-user-line-one", "&b--------- &cNEW REPORT &b---------");
+                    fileConfig.set("report-user-line-one", "&b--------- &cNEW REPORT &b---------");
                 }
                 if (fileConfig.getString("report-user-line-two") == null){
-                    fileConfig.addDefault("report-user-line-two", "&cReporter &7>> &f<player>");
+                    fileConfig.set("report-user-line-two", "&cReporter &7>> &f<player>");
                 }
                 if (fileConfig.getString("report-user-line-three") == null){
-                    fileConfig.addDefault("report-user-line-three", "&cReported User &7>> &f<target>");
+                    fileConfig.set("report-user-line-three", "&cReported User &7>> &f<target>");
                 }
                 if (fileConfig.getString("report-user-line-four") == null){
-                    fileConfig.addDefault("report-user-line-four", "&cReason &7>> &f<message>");
+                    fileConfig.set("report-user-line-four", "&cReason &7>> &f<message>");
                 }
                 if (fileConfig.getString("report-user-line-five") == null){
-                    fileConfig.addDefault("report-user-line-five", "&b-----------------------------");
+                    fileConfig.set("report-user-line-five", "&b-----------------------------");
                 }
                 if (fileConfig.getString("report-bug-line-one") == null){
-                    fileConfig.addDefault("report-bug-line-one", "&b--------- &cBUG REPORT &b---------");
+                    fileConfig.set("report-bug-line-one", "&b--------- &cBUG REPORT &b---------");
                 }
                 if (fileConfig.getString("report-bug-line-two") == null){
-                    fileConfig.addDefault("report-bug-line-two", "&cReporter &7>> &f<player>");
+                    fileConfig.set("report-bug-line-two", "&cReporter &7>> &f<player>");
                 }
                 if (fileConfig.getString("report-bug-line-three") == null){
-                    fileConfig.addDefault("report-bug-line-three", "&cBug &7>> &f<message>");
+                    fileConfig.set("report-bug-line-three", "&cBug &7>> &f<message>");
                 }
                 if (fileConfig.getString("report-bug-line-four") == null){
-                    fileConfig.addDefault("report-bug-line-four", "&b-----------------------------");
+                    fileConfig.set("report-bug-line-four", "&b-----------------------------");
                 }
                 if (fileConfig.getString("newbies-spawn-deletion-success") == null){
                     fileConfig.set("newbies-spawn-deletion-success", "Newbie Spawn Deleted");
