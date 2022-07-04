@@ -45,7 +45,6 @@ public class TeleportRequest implements CommandExecutor {
         }
         Player player = (Player) sender;
         boolean hasPerm7 = ServerEssentials.permissionChecker(player, "se.tpdeny");
-        boolean hasPerm6 = ServerEssentials.permissionChecker(player, "se.back.bypass");
         boolean hasPerm5 = ServerEssentials.permissionChecker(player, "se.tpacancel");
         boolean hasPerm4 = ServerEssentials.permissionChecker(player, "se.tpaccept");
         boolean hasPerm3 = ServerEssentials.permissionChecker(player, "se.tpahere");
@@ -439,7 +438,7 @@ public class TeleportRequest implements CommandExecutor {
             if (hasPerm4) {
                 if (ServerEssentials.plugin.getConfig().getInt("teleport-wait") == 0){
                     if (tpa.containsKey(player.getUniqueId())) {
-                        Teleport.teleportSave(player, hasPerm6);
+                        Teleport.teleportSave(player);
                         Player target = Bukkit.getPlayer(tpa.get(player.getUniqueId()));
                         // Teleporting Player
                         Bukkit.getPlayer(tpa.get(player.getUniqueId())).teleport(player);
@@ -451,7 +450,7 @@ public class TeleportRequest implements CommandExecutor {
                         target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                         return true;
                     } else if (tpahere.containsKey(player.getUniqueId())) {
-                        Teleport.teleportSave(player, hasPerm6);
+                        Teleport.teleportSave(player);
                         Player target = Bukkit.getPlayer(tpahere.get(player.getUniqueId()));
                         String msg = Lang.fileConfig.getString("teleport-target-success").replace("<sender>", player.getName());
                         target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
@@ -484,7 +483,7 @@ public class TeleportRequest implements CommandExecutor {
                                 public void run() {
                                     if (cancel.contains(target.getUniqueId())){
                                         if (teleport.containsKey(player.getUniqueId())) {
-                                            Teleport.teleportSave(player, hasPerm6);
+                                            Teleport.teleportSave(player);
                                             // Teleporting Player
                                             String msg = Lang.fileConfig.getString("teleport-success").replace("<target>", player.getName());
                                             target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
@@ -515,7 +514,7 @@ public class TeleportRequest implements CommandExecutor {
                                 public void run() {
                                     if (cancel.contains(player.getUniqueId())){
                                         if (teleport.containsKey(player.getUniqueId())) {
-                                            Teleport.teleportSave(player, hasPerm6);
+                                            Teleport.teleportSave(player);
                                             String msg = Lang.fileConfig.getString("teleport-target-success").replace("<sender>", player.getName());
                                             target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                             String msg2 = Lang.fileConfig.getString("teleport-success").replace("<target>", target.getName());
@@ -549,7 +548,7 @@ public class TeleportRequest implements CommandExecutor {
                             teleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
                                 public void run() {
                                     if (teleport.containsKey(player.getUniqueId())) {
-                                        Teleport.teleportSave(player, hasPerm6);
+                                        Teleport.teleportSave(player);
                                         // Teleporting Player
                                         String msg = Lang.fileConfig.getString("teleport-target-success").replace("<sender>", target.getName());
                                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
@@ -576,7 +575,7 @@ public class TeleportRequest implements CommandExecutor {
                             teleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
                                 public void run() {
                                     if (teleport.containsKey(player.getUniqueId())) {
-                                        Teleport.teleportSave(player, hasPerm6);
+                                        Teleport.teleportSave(player);
                                         String msg = Lang.fileConfig.getString("teleport-target-success").replace("<sender>", player.getName());
                                         target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                         String msg2 = Lang.fileConfig.getString("teleport-success").replace("<target>", target.getName());
