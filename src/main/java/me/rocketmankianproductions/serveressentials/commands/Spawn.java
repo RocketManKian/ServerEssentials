@@ -28,7 +28,6 @@ public class Spawn implements CommandExecutor {
         if (sender instanceof Player){
             Player player = (Player) sender;
             // Checking if the player has the correct permission
-            boolean hasPerm2 = ServerEssentials.permissionChecker(player, "se.back.bypass");
             boolean hasPerm = ServerEssentials.permissionChecker(player, "se.spawn");
             if (hasPerm) {
                 // Check if the File Exists
@@ -38,7 +37,7 @@ public class Spawn implements CommandExecutor {
                             if (Setspawn.fileConfig.getString("Newbies.Location.World") != null){
                                 Location loc = getNewbiesLocation();
                                 if (ServerEssentials.plugin.getConfig().getInt("spawn-teleport") == 0){
-                                    spawnSave(player, hasPerm2);
+                                    spawnSave(player);
                                     if (loc.isWorldLoaded()){
                                         // Teleporting Player
                                         player.teleport(loc);
@@ -63,7 +62,7 @@ public class Spawn implements CommandExecutor {
                                             public void run() {
                                                 if (cancel.contains(player.getUniqueId())) {
                                                     if (spawnteleport.containsKey(player.getUniqueId())) {
-                                                        spawnSave(player, hasPerm2);
+                                                        spawnSave(player);
                                                         if (loc.isWorldLoaded()) {
                                                             // Teleporting Player
                                                             player.teleport(loc);
@@ -90,7 +89,7 @@ public class Spawn implements CommandExecutor {
                                         spawnteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
                                             public void run() {
                                                 if (spawnteleport.containsKey(player.getUniqueId())) {
-                                                    spawnSave(player, hasPerm2);
+                                                    spawnSave(player);
                                                     if (loc.isWorldLoaded()) {
                                                         // Teleporting Player
                                                         player.teleport(loc);
@@ -115,7 +114,7 @@ public class Spawn implements CommandExecutor {
                             if (Setspawn.fileConfig.getString("Location.World") != null) {
                                 Location loc = getLocation();
                                 if (ServerEssentials.plugin.getConfig().getInt("spawn-teleport") == 0) {
-                                    spawnSave(player, hasPerm2);
+                                    spawnSave(player);
                                     if (loc.isWorldLoaded()) {
                                         // Teleporting Player
                                         player.teleport(loc);
@@ -140,7 +139,7 @@ public class Spawn implements CommandExecutor {
                                             public void run() {
                                                 if (cancel.contains(player.getUniqueId())) {
                                                     if (spawnteleport.containsKey(player.getUniqueId())) {
-                                                        spawnSave(player, hasPerm2);
+                                                        spawnSave(player);
                                                         if (loc.isWorldLoaded()) {
                                                             // Teleporting Player
                                                             player.teleport(loc);
@@ -167,7 +166,7 @@ public class Spawn implements CommandExecutor {
                                         spawnteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
                                             public void run() {
                                                 if (spawnteleport.containsKey(player.getUniqueId())) {
-                                                    spawnSave(player, hasPerm2);
+                                                    spawnSave(player);
                                                     if (loc.isWorldLoaded()) {
                                                         // Teleporting Player
                                                         player.teleport(loc);
@@ -195,7 +194,7 @@ public class Spawn implements CommandExecutor {
                             if (Setspawn.fileConfig.getString("Newbies.Location.World") != null){
                                 Location loc = getNewbiesLocation();
                                 if (ServerEssentials.plugin.getConfig().getInt("spawn-teleport") == 0){
-                                    spawnSave(player, hasPerm2);
+                                    spawnSave(player);
                                     if (loc.isWorldLoaded()){
                                         // Teleporting Player
                                         player.teleport(loc);
@@ -220,7 +219,7 @@ public class Spawn implements CommandExecutor {
                                             public void run() {
                                                 if (cancel.contains(player.getUniqueId())) {
                                                     if (spawnteleport.containsKey(player.getUniqueId())) {
-                                                        spawnSave(player, hasPerm2);
+                                                        spawnSave(player);
                                                         if (loc.isWorldLoaded()) {
                                                             // Teleporting Player
                                                             player.teleport(loc);
@@ -247,7 +246,7 @@ public class Spawn implements CommandExecutor {
                                         spawnteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
                                             public void run() {
                                                 if (spawnteleport.containsKey(player.getUniqueId())) {
-                                                    spawnSave(player, hasPerm2);
+                                                    spawnSave(player);
                                                     if (loc.isWorldLoaded()) {
                                                         // Teleporting Player
                                                         player.teleport(loc);
@@ -287,8 +286,7 @@ public class Spawn implements CommandExecutor {
                     // Check if the File Exists and if Location.World has data
                     if (Setspawn.file.exists() && Setspawn.fileConfig.getString("Location.World") != null) {
                         Location loc = getLocation();
-                        boolean hasPerm2 = ServerEssentials.permissionChecker(target, "se.back.bypass");
-                        spawnSave(target, hasPerm2);
+                        spawnSave(target);
                         if (loc.isWorldLoaded()){
                             // Teleporting player to Location
                             target.teleport(loc);
@@ -332,7 +330,7 @@ public class Spawn implements CommandExecutor {
         return loc;
     }
 
-    public static void spawnSave(Player player, boolean hasPerm2){
+    public static void spawnSave(Player player){
         if (ServerEssentials.plugin.getConfig().getBoolean("spawn-save")) {
             if (Back.location.containsKey(player.getUniqueId())) {
                 Back.location.remove(player.getUniqueId());
@@ -340,7 +338,7 @@ public class Spawn implements CommandExecutor {
             } else {
                 Back.location.put(player.getUniqueId(), player.getLocation());
             }
-        } else if (hasPerm2) {
+        } else if (player.hasPermission("se.back.bypass")) {
             if (Back.location.containsKey(player.getUniqueId())) {
                 Back.location.remove(player.getUniqueId());
                 Back.location.put(player.getUniqueId(), player.getLocation());

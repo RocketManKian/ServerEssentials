@@ -61,24 +61,10 @@ public class PlayerClickEvent implements Listener {
                     player.openInventory(confirm);
                     warp2 = warp;
                 }else if (e.getClick()==ClickType.LEFT) {
-                    if (player.hasPermission("se.warps." + warp) || player.hasPermission("se.warps.all")) {
+                    if (ServerEssentials.permissionChecker(player, "se.warps.warp" + warp) || ServerEssentials.permissionChecker(player, "se.warps.all")) {
                         if (ServerEssentials.plugin.getConfig().getInt("warp-teleport") == 0){
                             Location loc = getWarpLocation(warp, player);
-                            if (ServerEssentials.plugin.getConfig().getBoolean("warp-save")){
-                                if (Back.location.containsKey(player.getUniqueId())){
-                                    Back.location.remove(player.getUniqueId());
-                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                }else{
-                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                }
-                            }else if (player.hasPermission("se.back.bypass")){
-                                if (Back.location.containsKey(player.getUniqueId())){
-                                    Back.location.remove(player.getUniqueId());
-                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                }else{
-                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                }
-                            }
+                            Warp.warpSave(player);
                             if (loc.isWorldLoaded()){
                                 // Teleporting Player
                                 player.teleport(loc);
@@ -111,21 +97,7 @@ public class PlayerClickEvent implements Listener {
                                     public void run() {
                                         if (Warp.cancel.contains(player.getUniqueId())){
                                             if (warpteleport.containsKey(player.getUniqueId())) {
-                                                if (ServerEssentials.plugin.getConfig().getBoolean("warp-save")){
-                                                    if (Back.location.containsKey(player.getUniqueId())){
-                                                        Back.location.remove(player.getUniqueId());
-                                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                                    }else{
-                                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                                    }
-                                                }else if (player.hasPermission("se.back.bypass")){
-                                                    if (Back.location.containsKey(player.getUniqueId())){
-                                                        Back.location.remove(player.getUniqueId());
-                                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                                    }else{
-                                                        Back.location.put(player.getUniqueId(), player.getLocation());
-                                                    }
-                                                }
+                                                Warp.warpSave(player);
                                                 if (loc.isWorldLoaded()){
                                                     // Teleporting Player
                                                     player.teleport(loc);
@@ -160,21 +132,7 @@ public class PlayerClickEvent implements Listener {
                                 warpteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
                                     public void run() {
                                         if (warpteleport.containsKey(player.getUniqueId())) {
-                                            if (ServerEssentials.plugin.getConfig().getBoolean("warp-save")){
-                                                if (Back.location.containsKey(player.getUniqueId())){
-                                                    Back.location.remove(player.getUniqueId());
-                                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                                }else{
-                                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                                }
-                                            }else if (player.hasPermission("se.back.bypass")){
-                                                if (Back.location.containsKey(player.getUniqueId())){
-                                                    Back.location.remove(player.getUniqueId());
-                                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                                }else{
-                                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                                }
-                                            }
+                                            Warp.warpSave(player);
                                             if (loc.isWorldLoaded()){
                                                 // Teleporting Player
                                                 player.teleport(loc);
@@ -196,9 +154,6 @@ public class PlayerClickEvent implements Listener {
                                 player.closeInventory();
                             }
                         }
-                    } else {
-                        String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.warps." + warp);
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                     }
                 }
             }
@@ -235,21 +190,7 @@ public class PlayerClickEvent implements Listener {
                 } else if (e.getClick() == ClickType.LEFT) {
                     if (ServerEssentials.plugin.getConfig().getInt("home-teleport") == 0) {
                         Location loc = getHomeLocation(home, player);
-                        if (ServerEssentials.plugin.getConfig().getBoolean("home-save")){
-                            if (Back.location.containsKey(player.getUniqueId())){
-                                Back.location.remove(player.getUniqueId());
-                                Back.location.put(player.getUniqueId(), player.getLocation());
-                            }else{
-                                Back.location.put(player.getUniqueId(), player.getLocation());
-                            }
-                        }else if (player.hasPermission("se.back.bypass")){
-                            if (Back.location.containsKey(player.getUniqueId())){
-                                Back.location.remove(player.getUniqueId());
-                                Back.location.put(player.getUniqueId(), player.getLocation());
-                            }else{
-                                Back.location.put(player.getUniqueId(), player.getLocation());
-                            }
-                        }
+                        Home.homeSave(player);
                         if (loc.isWorldLoaded()){
                             // Teleporting Player
                             player.teleport(loc);
@@ -282,21 +223,7 @@ public class PlayerClickEvent implements Listener {
                                 public void run() {
                                     if (Home.cancel.contains(player.getUniqueId())){
                                         if (hometeleport.containsKey(player.getUniqueId())) {
-                                            if (ServerEssentials.plugin.getConfig().getBoolean("home-save")){
-                                                if (Back.location.containsKey(player.getUniqueId())){
-                                                    Back.location.remove(player.getUniqueId());
-                                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                                }else{
-                                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                                }
-                                            }else if (player.hasPermission("se.back.bypass")){
-                                                if (Back.location.containsKey(player.getUniqueId())){
-                                                    Back.location.remove(player.getUniqueId());
-                                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                                }else{
-                                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                                }
-                                            }
+                                            Home.homeSave(player);
                                             if (loc.isWorldLoaded()){
                                                 // Teleporting Player
                                                 player.teleport(loc);
@@ -331,21 +258,7 @@ public class PlayerClickEvent implements Listener {
                             hometeleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
                                 public void run() {
                                     if (hometeleport.containsKey(player.getUniqueId())) {
-                                        if (ServerEssentials.plugin.getConfig().getBoolean("home-save")){
-                                            if (Back.location.containsKey(player.getUniqueId())){
-                                                Back.location.remove(player.getUniqueId());
-                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                            }else{
-                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                            }
-                                        }else if (player.hasPermission("se.back.bypass")){
-                                            if (Back.location.containsKey(player.getUniqueId())){
-                                                Back.location.remove(player.getUniqueId());
-                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                            }else{
-                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                            }
-                                        }
+                                        Home.homeSave(player);
                                         if (loc.isWorldLoaded()){
                                             // Teleporting Player
                                             player.teleport(loc);
@@ -402,21 +315,7 @@ public class PlayerClickEvent implements Listener {
                 } else if (e.getClick() == ClickType.LEFT) {
                     if (ServerEssentials.plugin.getConfig().getInt("home-teleport") == 0) {
                         Location loc = getHomeLocation(home, ListHomes.target);
-                        if (ServerEssentials.plugin.getConfig().getBoolean("home-save")){
-                            if (Back.location.containsKey(player.getUniqueId())){
-                                Back.location.remove(player.getUniqueId());
-                                Back.location.put(player.getUniqueId(), player.getLocation());
-                            }else{
-                                Back.location.put(player.getUniqueId(), player.getLocation());
-                            }
-                        }else if (player.hasPermission("se.back.bypass")){
-                            if (Back.location.containsKey(player.getUniqueId())){
-                                Back.location.remove(player.getUniqueId());
-                                Back.location.put(player.getUniqueId(), player.getLocation());
-                            }else{
-                                Back.location.put(player.getUniqueId(), player.getLocation());
-                            }
-                        }
+                        Home.homeSave(player);
                         if (loc.isWorldLoaded()){
                             // Teleporting Player
                             player.teleport(loc);
@@ -449,21 +348,7 @@ public class PlayerClickEvent implements Listener {
                                 public void run() {
                                     if (Home.cancel.contains(player.getUniqueId())){
                                         if (hometeleport.containsKey(player.getUniqueId())) {
-                                            if (ServerEssentials.plugin.getConfig().getBoolean("home-save")){
-                                                if (Back.location.containsKey(player.getUniqueId())){
-                                                    Back.location.remove(player.getUniqueId());
-                                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                                }else{
-                                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                                }
-                                            }else if (player.hasPermission("se.back.bypass")){
-                                                if (Back.location.containsKey(player.getUniqueId())){
-                                                    Back.location.remove(player.getUniqueId());
-                                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                                }else{
-                                                    Back.location.put(player.getUniqueId(), player.getLocation());
-                                                }
-                                            }
+                                            Home.homeSave(player);
                                             if (loc.isWorldLoaded()){
                                                 // Teleporting Player
                                                 player.teleport(loc);
@@ -498,21 +383,7 @@ public class PlayerClickEvent implements Listener {
                             hometeleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
                                 public void run() {
                                     if (hometeleport.containsKey(player.getUniqueId())) {
-                                        if (ServerEssentials.plugin.getConfig().getBoolean("home-save")){
-                                            if (Back.location.containsKey(player.getUniqueId())){
-                                                Back.location.remove(player.getUniqueId());
-                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                            }else{
-                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                            }
-                                        }else if (player.hasPermission("se.back.bypass")){
-                                            if (Back.location.containsKey(player.getUniqueId())){
-                                                Back.location.remove(player.getUniqueId());
-                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                            }else{
-                                                Back.location.put(player.getUniqueId(), player.getLocation());
-                                            }
-                                        }
+                                        Home.homeSave(player);
                                         if (loc.isWorldLoaded()){
                                             // Teleporting Player
                                             player.teleport(loc);
@@ -547,7 +418,7 @@ public class PlayerClickEvent implements Listener {
                 }
                 if (e.getCurrentItem().getType() == Material.LIME_STAINED_GLASS_PANE) {
                     e.setCancelled(true);
-                    if (player.hasPermission("se.deletehome")) {
+                    if (ServerEssentials.permissionChecker(player, "se.deletehome")) {
                         Player target = (Player) e.getInventory().getHolder();
                         UUID targetname = target.getUniqueId();
                         Sethome.fileConfig.set("Home." + targetname + "." + home3, null);
@@ -562,8 +433,6 @@ public class PlayerClickEvent implements Listener {
                     }else{
                         e.setCancelled(true);
                         player.closeInventory();
-                        String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.deletehome");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                     }
                 } else if (e.getCurrentItem().getType() == Material.RED_STAINED_GLASS_PANE) {
                     e.setCancelled(true);
@@ -581,7 +450,7 @@ public class PlayerClickEvent implements Listener {
                 }
                 if (e.getCurrentItem().getType() == Material.LIME_STAINED_GLASS_PANE) {
                     e.setCancelled(true);
-                    if (player.hasPermission("se.deletehome.others")) {
+                    if (ServerEssentials.permissionChecker(player, "se.deletehome.others")) {
                         OfflinePlayer target = ListHomes.target;
                         UUID targetname = target.getUniqueId();
                         Sethome.fileConfig.set("Home." + targetname + "." + targethome3, null);
@@ -596,8 +465,6 @@ public class PlayerClickEvent implements Listener {
                     }else{
                         e.setCancelled(true);
                         player.closeInventory();
-                        String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.deletehome.others");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                     }
                 } else if (e.getCurrentItem().getType() == Material.RED_STAINED_GLASS_PANE) {
                     e.setCancelled(true);
@@ -615,7 +482,7 @@ public class PlayerClickEvent implements Listener {
                 }
                 if (e.getCurrentItem().getType() == Material.LIME_STAINED_GLASS_PANE) {
                     e.setCancelled(true);
-                    if (player.hasPermission("se.deletewarp")) {
+                    if (ServerEssentials.permissionChecker(player, "se.deletewarp")) {
                         Setwarp.fileConfig.set("Warp." + warp3, null);
                         try {
                             Setwarp.fileConfig.save(Setwarp.file);
@@ -628,8 +495,6 @@ public class PlayerClickEvent implements Listener {
                     }else{
                         e.setCancelled(true);
                         player.closeInventory();
-                        String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.deletewarp");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
                     }
                 } else if (e.getCurrentItem().getType() == Material.RED_STAINED_GLASS_PANE) {
                     e.setCancelled(true);

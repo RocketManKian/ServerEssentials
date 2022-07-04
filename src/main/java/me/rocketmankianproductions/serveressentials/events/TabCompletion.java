@@ -216,7 +216,7 @@ public class TabCompletion implements TabCompleter {
                     ConfigurationSection home = Sethome.fileConfig.getConfigurationSection("Home." + target.getUniqueId());
                     if (home != null){
                         for (String playerhomes: home.getKeys(false)){
-                            if (player.hasPermission("se.home") && !playerhomes.isEmpty()){
+                            if (player.hasPermission("se.home.others") && !playerhomes.isEmpty()){
                                 autoCompletes.add(playerhomes);
                             }else{
                                 return null;

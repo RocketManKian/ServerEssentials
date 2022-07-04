@@ -31,7 +31,6 @@ public class Warp implements CommandExecutor {
         // Checking if the player has the correct permission
         if (sender instanceof Player){
             Player player = (Player) sender;
-            boolean hasPerm3 = ServerEssentials.permissionChecker(player, "se.back.bypass");
             boolean hasPerm = ServerEssentials.permissionChecker(player, "se.warp");
             if (hasPerm) {
                 if (args.length == 1) {
@@ -42,7 +41,7 @@ public class Warp implements CommandExecutor {
                             Location loc = getLocation(args);
                             if (args.length == 1) {
                                 if (ServerEssentials.plugin.getConfig().getInt("warp-teleport") == 0){
-                                    warpSave(player, hasPerm3);
+                                    warpSave(player);
                                     if (loc.isWorldLoaded()){
                                         player.teleport(loc);
                                         Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
@@ -73,7 +72,7 @@ public class Warp implements CommandExecutor {
                                             public void run() {
                                                 if (cancel.contains(player.getUniqueId())){
                                                     if (warpteleport.containsKey(player.getUniqueId())) {
-                                                        warpSave(player, hasPerm3);
+                                                        warpSave(player);
                                                         if (loc.isWorldLoaded()){
                                                             // Teleporting Player
                                                             player.teleport(loc);
@@ -105,7 +104,7 @@ public class Warp implements CommandExecutor {
                                         warpteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
                                             public void run() {
                                                 if (warpteleport.containsKey(player.getUniqueId())) {
-                                                    warpSave(player, hasPerm3);
+                                                    warpSave(player);
                                                     if (loc.isWorldLoaded()){
                                                         // Teleporting Player
                                                         player.teleport(loc);
@@ -291,7 +290,7 @@ public class Warp implements CommandExecutor {
         return loc;
     }
 
-    public static void warpSave(Player player, boolean hasPerm2){
+    public static void warpSave(Player player){
         if (ServerEssentials.plugin.getConfig().getBoolean("warp-save")) {
             if (Back.location.containsKey(player.getUniqueId())) {
                 Back.location.remove(player.getUniqueId());
@@ -299,7 +298,7 @@ public class Warp implements CommandExecutor {
             } else {
                 Back.location.put(player.getUniqueId(), player.getLocation());
             }
-        } else if (hasPerm2) {
+        } else if (player.hasPermission("se.back.bypass")) {
             if (Back.location.containsKey(player.getUniqueId())) {
                 Back.location.remove(player.getUniqueId());
                 Back.location.put(player.getUniqueId(), player.getLocation());

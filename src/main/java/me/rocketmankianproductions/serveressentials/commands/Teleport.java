@@ -22,7 +22,6 @@ public class Teleport implements CommandExecutor {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 } else if (args.length == 1 || args.length == 2) {
-                    boolean hasPerm2 = ServerEssentials.permissionChecker(player, "se.back.bypass");
                     boolean hasPerm = ServerEssentials.permissionChecker(player, "se.teleport");
                     if (hasPerm) {
                         if (args.length == 1) {
@@ -45,7 +44,7 @@ public class Teleport implements CommandExecutor {
                                     }
                                     String msg = Lang.fileConfig.getString("teleport-success").replace("<target>", target2);
                                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                    teleportSave(player, hasPerm2);
+                                    teleportSave(player);
                                     player.teleport(target.getLocation());
                                     return true;
                                 } else if (!sender.hasPermission("se.silenttp")) {
@@ -54,7 +53,7 @@ public class Teleport implements CommandExecutor {
                                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                         return true;
                                     }
-                                    teleportSave(player, hasPerm2);
+                                    teleportSave(player);
                                     String msg = Lang.fileConfig.getString("teleport-success").replace("<target>", target2);
                                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                     String msg2 = Lang.fileConfig.getString("teleport-target-success").replace("<sender>", sender.getName());
@@ -85,13 +84,13 @@ public class Teleport implements CommandExecutor {
                                     if (target == sender) {
                                         String msg = Lang.fileConfig.getString("teleport-target-success").replace("<sender>", playerToSend.getName());
                                         target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                        teleportSave(player, hasPerm2);
+                                        teleportSave(player);
                                         playerToSend.teleport(target.getLocation());
                                         return true;
                                     } else if (playerToSend == sender) {
                                         String msg = Lang.fileConfig.getString("teleport-success").replace("<target>", target2);
                                         playerToSend.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                        teleportSave(player, hasPerm2);
+                                        teleportSave(player);
                                         playerToSend.teleport(target.getLocation());
                                         return true;
                                     } else {
@@ -101,7 +100,7 @@ public class Teleport implements CommandExecutor {
                                         playerToSend.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                                         String msg3 = Lang.fileConfig.getString("teleport-target-success").replace("<sender>", playerToSend.getName());
                                         target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
-                                        teleportSave(player, hasPerm2);
+                                        teleportSave(player);
                                         playerToSend.teleport(target.getLocation());
                                         return true;
                                     }
@@ -116,7 +115,7 @@ public class Teleport implements CommandExecutor {
                                         playerToSend.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                         String msg2 = Lang.fileConfig.getString("teleport-target-success").replace("<sender>", playerToSend.getName());
                                         target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                        teleportSave(player, hasPerm2);
+                                        teleportSave(player);
                                         playerToSend.teleport(target.getLocation());
                                         return true;
                                     } else if (playerToSend == sender) {
@@ -124,7 +123,7 @@ public class Teleport implements CommandExecutor {
                                         target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                         String msg2 = Lang.fileConfig.getString("teleport-success").replace("<target>", target.getName());
                                         playerToSend.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                        teleportSave(player, hasPerm2);
+                                        teleportSave(player);
                                         playerToSend.teleport(target.getLocation());
                                         return true;
                                     } else {
@@ -134,7 +133,7 @@ public class Teleport implements CommandExecutor {
                                         target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                                         String msg3 = Lang.fileConfig.getString("teleport-force-target").replace("<target>", target.getName());
                                         playerToSend.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
-                                        teleportSave(player, hasPerm2);
+                                        teleportSave(player);
                                         playerToSend.teleport(target.getLocation());
                                         return true;
                                     }
@@ -143,11 +142,10 @@ public class Teleport implements CommandExecutor {
                         }
                     }
                 }else if (args.length == 3 || args.length == 4){
-                    boolean hasPerm2 = ServerEssentials.permissionChecker(player, "se.back.bypass");
                     boolean hasPerm = ServerEssentials.permissionChecker(player, "se.teleport.coords");
                     if (hasPerm) {
                         if (args.length == 3) {
-                            teleportSave(player, hasPerm2);
+                            teleportSave(player);
                             try {
                                 double x = 0;
                                 if (args[0].equalsIgnoreCase("~")){
@@ -226,8 +224,7 @@ public class Teleport implements CommandExecutor {
                 Player playerToSend = Bukkit.getPlayer(args[0]);
                 Player target = Bukkit.getPlayer(args[1]);
                 if (playerToSend != target && target != null) {
-                    boolean hasPerm2 = ServerEssentials.permissionChecker(playerToSend, "se.back.bypass");
-                    teleportSave(playerToSend, hasPerm2);
+                    teleportSave(playerToSend);
                     playerToSend.teleport(target.getLocation());
                     String msg = Lang.fileConfig.getString("teleport-others").replace("<target>", playerToSend.getName()).replace("<target2>", target.getName());
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
@@ -269,8 +266,7 @@ public class Teleport implements CommandExecutor {
                 Player target = Bukkit.getPlayer(args[1]);
                 if (playerToSend != target) {
                     try {
-                        boolean hasPerm2 = ServerEssentials.permissionChecker(playerToSend, "se.back.bypass");
-                        teleportSave(playerToSend, hasPerm2);
+                        teleportSave(playerToSend);
                         playerToSend.teleport(target.getLocation());
                         String msg = Lang.fileConfig.getString("teleport-force-target").replace("<target>", target.getName());
                         playerToSend.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
@@ -310,7 +306,7 @@ public class Teleport implements CommandExecutor {
         }
         return false;
     }
-    public static void teleportSave(Player player, boolean hasPerm2){
+    public static void teleportSave(Player player){
         if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")) {
             if (Back.location.containsKey(player.getUniqueId())) {
                 Back.location.remove(player.getUniqueId());
@@ -318,7 +314,7 @@ public class Teleport implements CommandExecutor {
             } else {
                 Back.location.put(player.getUniqueId(), player.getLocation());
             }
-        } else if (hasPerm2) {
+        } else if (player.hasPermission("se.back.bypass")) {
             if (Back.location.containsKey(player.getUniqueId())) {
                 Back.location.remove(player.getUniqueId());
                 Back.location.put(player.getUniqueId(), player.getLocation());
