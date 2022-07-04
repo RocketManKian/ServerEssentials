@@ -3,14 +3,13 @@ package me.rocketmankianproductions.serveressentials.events;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import me.clip.placeholderapi.PlaceholderAPI;
+import me.clip.placeholderapi.updatechecker.UpdateChecker;
 import me.rocketmankianproductions.serveressentials.LoggerMessage;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.UpdateChecker.Update;
 import me.rocketmankianproductions.serveressentials.commands.*;
 import me.rocketmankianproductions.serveressentials.file.Lang;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.ComponentBuilder;
-import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.*;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
@@ -18,6 +17,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+import java.awt.*;
 import java.io.IOException;
 
 public class PlayerJoinListener implements Listener {
@@ -35,7 +35,11 @@ public class PlayerJoinListener implements Listener {
                 new Update(ServerEssentials.getPlugin(), 86675).getLatestVersion(version -> {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&5--------------------------------"));
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7There is a new version of &6ServerEssentials &7available."));
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "https://www.spigotmc.org/resources/server-essentials.86675/"));
+                    TextComponent textComponent = new TextComponent(ChatColor.translateAlternateColorCodes('&', "&6&lDownload"));
+                    textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
+                            new ComponentBuilder("Click to Download").create()));
+                    textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.spigotmc.org/resources/server-essentials.86675/"));
+                    player.spigot().sendMessage(textComponent);
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bLatest version: " + "&a" + version + " &8| &bInstalled version: &c" + ServerEssentials.getPlugin().getDescription().getVersion()));
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&5--------------------------------"));
                 });
@@ -57,7 +61,7 @@ public class PlayerJoinListener implements Listener {
         if (player.hasPlayedBefore()) {
             if (ServerEssentials.getPlugin().getConfig().getBoolean("enable-join-message")) {
                 if (SilentJoin.fileConfig.getBoolean("silent." + player.getName(), false) == false) {
-                    String jm = ServerEssentials.getPlugin().getConfig().getString("join-symbol");
+                    String jm = Lang.fileConfig.getString("join-symbol");
                     pj.setJoinMessage(ChatColor.translateAlternateColorCodes('&', jm + " " + player.getName()));
                 } else {
                     pj.setJoinMessage("");

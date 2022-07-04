@@ -11,8 +11,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -272,28 +274,24 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
     }
 
     public void registerEvents() {
+        PluginManager pm = getServer().getPluginManager();
         // Scheduler
         Long delay = plugin.getConfig().getLong("broadcast-delay");
         broadcastLoop = new Broadcast(this).runTaskTimer(this, delay, delay);
-        // Join and Leave Message
-        getServer().getPluginManager().registerEvents(new PlayerJoinListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerLeaveListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerRespawnListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerClickEvent(), this);
-        getServer().getPluginManager().registerEvents(new PlayerChatEvent(), this);
-        getServer().getPluginManager().registerEvents(new PlayerDeathEvent(), this);
-        getServer().getPluginManager().registerEvents(new PlayerMoveEvent(), this);
-        getServer().getPluginManager().registerEvents(new PlayerWorldCheck(), this);
-        // Plugins Command
-        getServer().getPluginManager().registerEvents(new Plugins(), this);
-        // God Command
-        getServer().getPluginManager().registerEvents(new God(), this);
+        pm.registerEvents(new PlayerJoinListener(), this);
+        pm.registerEvents(new PlayerLeaveListener(), this);
+        pm.registerEvents(new PlayerRespawnListener(), this);
+        pm.registerEvents(new PlayerClickEvent(), this);
+        pm.registerEvents(new PlayerChatEvent(), this);
+        pm.registerEvents(new PlayerDeathEvent(), this);
+        pm.registerEvents(new PlayerMoveEvent(), this);
+        pm.registerEvents(new PlayerWorldCheck(), this);
+        pm.registerEvents(new Plugins(), this);
+        pm.registerEvents(new God(), this);
     }
 
     public void registerPlaceholder() {
-        // PlaceholderAPI
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
-            //Bleh
             LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "PlaceholderAPI has been enabled.");
             isConnectedToPlaceholderAPI = true;
         } else {
@@ -303,7 +301,6 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
     }
 
     public void registerDiscordSRV() {
-        // PlaceholderAPI
         if (Bukkit.getPluginManager().getPlugin("DiscordSRV") != null) {
             //Bleh
             LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "DiscordSRV Integration has been enabled.");
@@ -317,7 +314,6 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
     }
 
     public void registerUpdate() {
-        // UpdateChecker
         new Update(this, 86675).getLatestVersion(version -> {
             if (this.getDescription().getVersion().equalsIgnoreCase(version)) {
                 LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "Server Essentials is up to date!");

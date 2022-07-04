@@ -7,7 +7,6 @@ import me.rocketmankianproductions.serveressentials.commands.SilentJoin;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Statistic;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,7 +19,7 @@ public class PlayerLeaveListener implements Listener {
         Player player = pj.getPlayer();
         if (ServerEssentials.getPlugin().getConfig().getBoolean("enable-leave-message")) {
             if (SilentJoin.fileConfig.getBoolean("silent." + player.getName(), false) == false) {
-                String lm = ServerEssentials.getPlugin().getConfig().getString("leave-symbol");
+                String lm = Lang.fileConfig.getString("leave-symbol");
                 pj.setQuitMessage(ChatColor.translateAlternateColorCodes('&', lm + " " + player.getPlayerListName()));
             }
         }else{
