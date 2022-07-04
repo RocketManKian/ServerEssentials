@@ -22,12 +22,13 @@ import java.util.UUID;
 
 public class Warp implements CommandExecutor {
 
-    private static HashMap<UUID, Integer> warpteleport = new HashMap<>();
+    public static HashMap<UUID, Integer> warpteleport = new HashMap<>();
     public static ArrayList<UUID> cancel = new ArrayList<>();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         int delay = ServerEssentials.plugin.getConfig().getInt("warp-teleport");
+        Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
         // Checking if the player has the correct permission
         if (sender instanceof Player){
             Player player = (Player) sender;
@@ -42,23 +43,7 @@ public class Warp implements CommandExecutor {
                             if (args.length == 1) {
                                 if (ServerEssentials.plugin.getConfig().getInt("warp-teleport") == 0){
                                     warpSave(player);
-                                    if (loc.isWorldLoaded()){
-                                        player.teleport(loc);
-                                        Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
-                                        if (subtitle) {
-                                            String msg = Lang.fileConfig.getString("warp-subtitle").replace("<warp>", args[0]);
-                                            player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
-                                            return true;
-                                        } else {
-                                            String msg = Lang.fileConfig.getString("warp-message").replace("<warp>", args[0]);
-                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                            return true;
-                                        }
-                                    }else{
-                                        String msg = Lang.fileConfig.getString("warp-world-invalid");
-                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                        return true;
-                                    }
+                                    warpTeleport(player, loc, "warp-message", subtitle, args[0]);
                                 }else{
                                     if (ServerEssentials.plugin.getConfig().getBoolean("warp-movement-cancel")){
                                         cancel.add(player.getUniqueId());
@@ -73,22 +58,7 @@ public class Warp implements CommandExecutor {
                                                 if (cancel.contains(player.getUniqueId())){
                                                     if (warpteleport.containsKey(player.getUniqueId())) {
                                                         warpSave(player);
-                                                        if (loc.isWorldLoaded()){
-                                                            // Teleporting Player
-                                                            player.teleport(loc);
-                                                            Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
-                                                            if (subtitle) {
-                                                                String msg = Lang.fileConfig.getString("warp-subtitle").replace("<warp>", args[0]);
-                                                                player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
-                                                            } else {
-                                                                String msg = Lang.fileConfig.getString("warp-message").replace("<warp>", args[0]);
-                                                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                            }
-                                                        }else{
-                                                            String msg = Lang.fileConfig.getString("warp-world-invalid");
-                                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                        }
-                                                        cancel.remove(player.getUniqueId());
+                                                        warpTeleport(player, loc, "warp-message", subtitle, args[0]);
                                                     }
                                                 }
                                             }
@@ -105,21 +75,7 @@ public class Warp implements CommandExecutor {
                                             public void run() {
                                                 if (warpteleport.containsKey(player.getUniqueId())) {
                                                     warpSave(player);
-                                                    if (loc.isWorldLoaded()){
-                                                        // Teleporting Player
-                                                        player.teleport(loc);
-                                                        Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
-                                                        if (subtitle) {
-                                                            String msg = Lang.fileConfig.getString("warp-subtitle").replace("<warp>", args[0]);
-                                                            player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
-                                                        } else {
-                                                            String msg = Lang.fileConfig.getString("warp-message").replace("<warp>", args[0]);
-                                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                        }
-                                                    }else{
-                                                        String msg = Lang.fileConfig.getString("warp-world-invalid");
-                                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                    }
+                                                    warpTeleport(player, loc, "warp-message", subtitle, args[0]);
                                                 }
                                             }
                                         }, delay));
@@ -306,5 +262,31 @@ public class Warp implements CommandExecutor {
                 Back.location.put(player.getUniqueId(), player.getLocation());
             }
         }
+    }
+
+    public static void warpTeleport(Player player, Location loc, String lang, Boolean subtitle, String warp){
+        if (subtitle){
+            if (loc.isWorldLoaded()) {
+                // Teleporting Player
+                player.teleport(loc);
+                String msg = Lang.fileConfig.getString("warp-subtitle").replace("<warp>", warp);
+                player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
+            } else {
+                String msg = Lang.fileConfig.getString("warp-world-invalid");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+            }
+        }else{
+            if (loc.isWorldLoaded()) {
+                // Teleporting Player
+                player.teleport(loc);
+                String msg = Lang.fileConfig.getString(lang).replace("<warp>", warp);
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+            } else {
+                String msg = Lang.fileConfig.getString("warp-world-invalid");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+            }
+        }
+        cancel.remove(player.getUniqueId());
+        warpteleport.remove(player.getUniqueId());
     }
 }

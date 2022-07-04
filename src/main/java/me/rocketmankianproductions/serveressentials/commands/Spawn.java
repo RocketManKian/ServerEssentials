@@ -1,6 +1,5 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
-import com.google.common.collect.Sets;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
@@ -63,17 +62,7 @@ public class Spawn implements CommandExecutor {
                                                 if (cancel.contains(player.getUniqueId())) {
                                                     if (spawnteleport.containsKey(player.getUniqueId())) {
                                                         spawnSave(player);
-                                                        if (loc.isWorldLoaded()) {
-                                                            // Teleporting Player
-                                                            player.teleport(loc);
-                                                            String msg = Lang.fileConfig.getString("newbies-spawn-successful");
-                                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                            cancel.remove(player.getUniqueId());
-                                                        } else {
-                                                            String msg = Lang.fileConfig.getString("spawn-world-invalid");
-                                                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                        }
-                                                        spawnteleport.remove(player.getUniqueId());
+                                                        spawnTeleport(player, loc, "newbies-spawn-successful");
                                                     }
                                                 }
                                             }
@@ -90,15 +79,7 @@ public class Spawn implements CommandExecutor {
                                             public void run() {
                                                 if (spawnteleport.containsKey(player.getUniqueId())) {
                                                     spawnSave(player);
-                                                    if (loc.isWorldLoaded()) {
-                                                        // Teleporting Player
-                                                        player.teleport(loc);
-                                                        String msg = Lang.fileConfig.getString("newbies-spawn-successful");
-                                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                    } else {
-                                                        String msg = Lang.fileConfig.getString("spawn-world-invalid");
-                                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                    }
+                                                    spawnTeleport(player, loc, "newbies-spawn-successful");
                                                 }
                                             }
                                         }, delay));
@@ -140,17 +121,7 @@ public class Spawn implements CommandExecutor {
                                                 if (cancel.contains(player.getUniqueId())) {
                                                     if (spawnteleport.containsKey(player.getUniqueId())) {
                                                         spawnSave(player);
-                                                        if (loc.isWorldLoaded()) {
-                                                            // Teleporting Player
-                                                            player.teleport(loc);
-                                                            String msg = Lang.fileConfig.getString("spawn-successful");
-                                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                            cancel.remove(player.getUniqueId());
-                                                        } else {
-                                                            String msg = Lang.fileConfig.getString("spawn-world-invalid");
-                                                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                        }
-                                                        spawnteleport.remove(player.getUniqueId());
+                                                        spawnTeleport(player, loc, "spawn-successful");
                                                     }
                                                 }
                                             }
@@ -167,15 +138,7 @@ public class Spawn implements CommandExecutor {
                                             public void run() {
                                                 if (spawnteleport.containsKey(player.getUniqueId())) {
                                                     spawnSave(player);
-                                                    if (loc.isWorldLoaded()) {
-                                                        // Teleporting Player
-                                                        player.teleport(loc);
-                                                        String msg = Lang.fileConfig.getString("spawn-successful");
-                                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                    } else {
-                                                        String msg = Lang.fileConfig.getString("spawn-world-invalid");
-                                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                    }
+                                                    spawnTeleport(player, loc, "spawn-successful");
                                                 }
                                             }
                                         }, delay));
@@ -195,17 +158,7 @@ public class Spawn implements CommandExecutor {
                                 Location loc = getNewbiesLocation();
                                 if (ServerEssentials.plugin.getConfig().getInt("spawn-teleport") == 0){
                                     spawnSave(player);
-                                    if (loc.isWorldLoaded()){
-                                        // Teleporting Player
-                                        player.teleport(loc);
-                                        String msg = Lang.fileConfig.getString("newbies-spawn-successful");
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                        return true;
-                                    }else{
-                                        String msg = Lang.fileConfig.getString("spawn-world-invalid");
-                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                        return true;
-                                    }
+                                    spawnTeleport(player, loc, "newbies-spawn-successful");
                                 }else {
                                     if (ServerEssentials.plugin.getConfig().getBoolean("spawn-movement-cancel")) {
                                         cancel.add(player.getUniqueId());
@@ -220,17 +173,7 @@ public class Spawn implements CommandExecutor {
                                                 if (cancel.contains(player.getUniqueId())) {
                                                     if (spawnteleport.containsKey(player.getUniqueId())) {
                                                         spawnSave(player);
-                                                        if (loc.isWorldLoaded()) {
-                                                            // Teleporting Player
-                                                            player.teleport(loc);
-                                                            String msg = Lang.fileConfig.getString("newbies-spawn-successful");
-                                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                            cancel.remove(player.getUniqueId());
-                                                        } else {
-                                                            String msg = Lang.fileConfig.getString("spawn-world-invalid");
-                                                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                        }
-                                                        spawnteleport.remove(player.getUniqueId());
+                                                        spawnTeleport(player, loc, "newbies-spawn-successful");
                                                     }
                                                 }
                                             }
@@ -247,15 +190,7 @@ public class Spawn implements CommandExecutor {
                                             public void run() {
                                                 if (spawnteleport.containsKey(player.getUniqueId())) {
                                                     spawnSave(player);
-                                                    if (loc.isWorldLoaded()) {
-                                                        // Teleporting Player
-                                                        player.teleport(loc);
-                                                        String msg = Lang.fileConfig.getString("newbies-spawn-successful");
-                                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                    } else {
-                                                        String msg = Lang.fileConfig.getString("spawn-world-invalid");
-                                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                    }
+                                                    spawnTeleport(player, loc, "newbies-spawn-successful");
                                                 }
                                             }
                                         }, delay));
@@ -345,6 +280,20 @@ public class Spawn implements CommandExecutor {
             } else {
                 Back.location.put(player.getUniqueId(), player.getLocation());
             }
+        }
+    }
+
+    public static void spawnTeleport(Player player, Location loc, String lang){
+        if (loc.isWorldLoaded()) {
+            // Teleporting Player
+            player.teleport(loc);
+            String msg = Lang.fileConfig.getString(lang);
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+        } else {
+            String msg = Lang.fileConfig.getString("spawn-world-invalid");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+            cancel.remove(player.getUniqueId());
+            spawnteleport.remove(player.getUniqueId());
         }
     }
 }

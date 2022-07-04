@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 1.79.2
+# This config was generated for version 1.79.3
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -25,10 +25,6 @@ update-checker: true
 enable-join-message: true
 # Enable or Disable the Leave Message
 enable-leave-message: true
-# Change the Join Symbol that is displayed before the player's name.
-join-symbol: "&6[&a+&6]"
-# Change the Leave Symbol that is displayed before the player's name.
-leave-symbol: "&6[&c-&6]"
 # Enable or Disable the First Time Join Message
 enable-first-time-join-message: true
 # Enable or Disable the Staff Join Message
