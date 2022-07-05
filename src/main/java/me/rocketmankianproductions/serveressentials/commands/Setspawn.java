@@ -54,8 +54,7 @@ public class Setspawn implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.setspawn");
-            if (hasPerm) {
+            if (ServerEssentials.permissionChecker(player, "se.setspawn")) {
                 if (args.length == 0) {
                     String world = player.getWorld().getName();
                     fileConfig.set("Location.World", world);

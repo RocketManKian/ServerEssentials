@@ -24,8 +24,7 @@ public class Reload {
     public void run(CommandSender sender, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.reload");
-            if (hasPerm) {
+            if (ServerEssentials.permissionChecker(player, "se.reload")) {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.GREEN + "Server Essentials has been reloaded!"));
                 // Reloading YML files
                 ServerEssentials.getPlugin().reloadConfig();

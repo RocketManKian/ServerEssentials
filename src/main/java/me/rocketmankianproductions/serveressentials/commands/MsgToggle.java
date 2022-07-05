@@ -59,8 +59,7 @@ public class MsgToggle {
         if (sender instanceof Player){
             Player player = (Player) sender;
             if (command.getName().equalsIgnoreCase("msgtoggle")) {
-                boolean hasPerm = ServerEssentials.permissionChecker(player, "se.msgtoggle");
-                if (hasPerm) {
+                if (ServerEssentials.permissionChecker(player, "se.msgtoggle")) {
                     if (args.length == 0) {
                         if (fileConfig.getBoolean("msgtoggle." + player.getName(), false) == false) {
                             fileConfig.set("msgtoggle." + player.getName(), true);

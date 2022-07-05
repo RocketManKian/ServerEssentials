@@ -57,8 +57,7 @@ public class Sethome implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (args.length == 1) {
-                boolean hasPerm = ServerEssentials.permissionChecker(player, "se.sethome");
-                if (hasPerm) {
+                if (ServerEssentials.permissionChecker(player, "se.sethome")) {
                     String world = player.getWorld().getName();
                     String name = player.getUniqueId().toString();
                     int maxHomesConfig = ServerEssentials.plugin.getConfig().getInt("default-home-count");

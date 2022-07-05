@@ -17,8 +17,7 @@ public class Discord implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.discord");
-            if (hasPerm) {
+            if (ServerEssentials.permissionChecker(player, "se.discord")) {
                 String prefix = ServerEssentials.getPlugin().getConfig().getString("prefix");
                 String discord = Lang.fileConfig.getString("discord-command");
                 if (ServerEssentials.isConnectedToPlaceholderAPI) {

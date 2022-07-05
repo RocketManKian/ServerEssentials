@@ -19,8 +19,7 @@ public class Version {
     public void run(CommandSender sender, String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.version");
-            if (hasPerm) {
+            if (ServerEssentials.permissionChecker(player, "se.version")) {
                 String version = ServerEssentials.getPlugin().getDescription().getVersion();
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7[&bServer Essentials&7] " + ChatColor.WHITE + "Version: " + ChatColor.GREEN + version));
             }

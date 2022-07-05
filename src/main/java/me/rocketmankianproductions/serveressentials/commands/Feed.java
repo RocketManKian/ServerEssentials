@@ -12,8 +12,7 @@ public class Feed implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.feed");
-            if (hasPerm) {
+            if (ServerEssentials.permissionChecker(player, "se.feed")) {
                 Player target = Bukkit.getPlayer(args[0]);
                 if (args.length <= 1) {
                     if (args.length == 1) {

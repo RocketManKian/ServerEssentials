@@ -16,8 +16,7 @@ public class Time implements CommandExecutor {
         if (sender instanceof Player){
             Player player = (Player) sender;
             if (args.length == 0){
-                boolean hasPerm = ServerEssentials.permissionChecker(player, "se.time");
-                if (hasPerm) {
+                if (ServerEssentials.permissionChecker(player, "se.time")) {
                     if (command.getName().equalsIgnoreCase("dawn") || command.getName().equalsIgnoreCase("sunrise")) {
                         for (World world : Bukkit.getServer().getWorlds()) {
                             if (player.getWorld().equals(world)){

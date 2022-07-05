@@ -17,8 +17,7 @@ public class SendHome implements CommandExecutor {
         if (sender instanceof Player){
             Location loc;
             Player player = (Player) sender;
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.sendhome");
-            if (hasPerm) {
+            if (ServerEssentials.permissionChecker(player, "se.sendhome")) {
                 if (args.length == 2){
                     Player target = Bukkit.getPlayer(args[0]);
                     if (target != null) {

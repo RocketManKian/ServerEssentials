@@ -26,8 +26,7 @@ public class God implements CommandExecutor, Listener {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.god");
-            if (hasPerm) {
+            if (ServerEssentials.permissionChecker(player, "se.god")) {
                 if (args.length == 0) {
                     if (god_toggle.contains(player.getName())) {
                         String msg = Lang.fileConfig.getString("god-disabled");

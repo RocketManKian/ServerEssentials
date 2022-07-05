@@ -16,8 +16,7 @@ public class Website implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.website");
-            if (hasPerm) {
+            if (ServerEssentials.permissionChecker(player, "se.website")) {
                 String prefix = ServerEssentials.getPlugin().getConfig().getString("prefix");
                 String website = Lang.fileConfig.getString("website-command");
                 if (ServerEssentials.isConnectedToPlaceholderAPI) {

@@ -15,8 +15,7 @@ public class Vanish implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.vanish");
-            if (hasPerm) {
+            if (ServerEssentials.permissionChecker(player, "se.vanish")) {
                 if (args.length == 0){
                     if (ServerEssentials.getPlugin().invisible_list.contains(player)){
                         for (Player people : Bukkit.getOnlinePlayers()){

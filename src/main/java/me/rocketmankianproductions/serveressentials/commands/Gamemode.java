@@ -38,8 +38,7 @@ public class Gamemode implements CommandExecutor {
                     return true;
                 }
             }else if ((command.getName().equalsIgnoreCase("gmc"))){
-                boolean hasPerm = ServerEssentials.permissionChecker(player, "se.gamemode.creative");
-                if (hasPerm) {
+                if (ServerEssentials.permissionChecker(player, "se.gamemode.creative")) {
                     if (args.length == 1) {
                         Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
                         targetPlayer.setGameMode(GameMode.CREATIVE);
@@ -60,8 +59,7 @@ public class Gamemode implements CommandExecutor {
                     }
                 }
             }else if ((command.getName().equalsIgnoreCase("gms"))){
-                boolean hasPerm = ServerEssentials.permissionChecker(player, "se.gamemode.survival");
-                if (hasPerm) {
+                if (ServerEssentials.permissionChecker(player, "se.gamemode.survival")) {
                     if (args.length == 1) {
                         Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
                         targetPlayer.setGameMode(GameMode.SURVIVAL);
@@ -82,8 +80,7 @@ public class Gamemode implements CommandExecutor {
                     }
                 }
             }else if ((command.getName().equalsIgnoreCase("gmsp"))){
-                boolean hasPerm = ServerEssentials.permissionChecker(player, "se.gamemode.spectator");
-                if (hasPerm) {
+                if (ServerEssentials.permissionChecker(player, "se.gamemode.spectator")) {
                     if (args.length == 1) {
                         Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
                         targetPlayer.setGameMode(GameMode.SPECTATOR);
@@ -104,8 +101,7 @@ public class Gamemode implements CommandExecutor {
                     }
                 }
             }else if ((command.getName().equalsIgnoreCase("gma"))){
-                boolean hasPerm = ServerEssentials.permissionChecker(player, "se.gamemode.adventure");
-                if (hasPerm) {
+                if (ServerEssentials.permissionChecker(player, "se.gamemode.adventure")) {
                     if (args.length == 1) {
                         Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
                         targetPlayer.setGameMode(GameMode.ADVENTURE);
@@ -250,8 +246,7 @@ public class Gamemode implements CommandExecutor {
         return false;
     }
     public void gmc(String[] args, Player player) {
-        boolean hasPerm = ServerEssentials.permissionChecker(player, "se.gamemode.creative");
-        if (hasPerm) {
+        if (ServerEssentials.permissionChecker(player, "se.gamemode.creative")) {
             if (args.length == 2) {
                 Player targetPlayer = Bukkit.getServer().getPlayer(args[1]);
                 if (targetPlayer != null){
@@ -275,8 +270,7 @@ public class Gamemode implements CommandExecutor {
         }
     }
     public void gms(String[] args, Player player) {
-        boolean hasPerm = ServerEssentials.permissionChecker(player, "se.gamemode.survival");
-        if (hasPerm) {
+        if (ServerEssentials.permissionChecker(player, "se.gamemode.survival")) {
             if (args.length == 2) {
                 Player targetPlayer = Bukkit.getServer().getPlayer(args[1]);
                 if (targetPlayer != null){
@@ -300,8 +294,7 @@ public class Gamemode implements CommandExecutor {
         }
     }
     public void gmsp(String[] args, Player player) {
-        boolean hasPerm = ServerEssentials.permissionChecker(player, "se.gamemode.spectator");
-        if (hasPerm) {
+        if (ServerEssentials.permissionChecker(player, "se.gamemode.spectator")) {
             if (args.length == 2) {
                 Player targetPlayer = Bukkit.getServer().getPlayer(args[1]);
                 if (targetPlayer != null){
@@ -325,8 +318,7 @@ public class Gamemode implements CommandExecutor {
         }
     }
     public void gma(String[] args, Player player) {
-        boolean hasPerm = ServerEssentials.permissionChecker(player, "se.gamemode.adventure");
-        if (hasPerm) {
+        if (ServerEssentials.permissionChecker(player, "se.gamemode.adventure")) {
             if (args.length == 2) {
                 Player targetPlayer = Bukkit.getServer().getPlayer(args[1]);
                 if (targetPlayer != null){

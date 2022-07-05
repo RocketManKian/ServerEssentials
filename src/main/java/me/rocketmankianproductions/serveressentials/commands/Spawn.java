@@ -27,8 +27,7 @@ public class Spawn implements CommandExecutor {
         if (sender instanceof Player){
             Player player = (Player) sender;
             // Checking if the player has the correct permission
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.spawn");
-            if (hasPerm) {
+            if (ServerEssentials.permissionChecker(player, "se.spawn")){
                 // Check if the File Exists
                 if (Setspawn.file.exists()) {
                     if (args.length == 0) {

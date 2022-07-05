@@ -15,8 +15,7 @@ public class Speed implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.speed");
-            if (hasPerm) {
+            if (ServerEssentials.permissionChecker(player, "se.speed")) {
                 if (args.length == 1){
                     if (args[0].equalsIgnoreCase("reset")){
                         player.setFlySpeed((float)0.1);

@@ -24,8 +24,7 @@ public class ReportBug implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.reportbug");
-            if (hasPerm) {
+            if (ServerEssentials.permissionChecker(player, "se.reportbug")) {
                 if (args.length >= 1) {
                     String msg = Lang.fileConfig.getString("report-successful");
                     String server = ServerEssentials.getPlugin().getConfig().getString("server-name");

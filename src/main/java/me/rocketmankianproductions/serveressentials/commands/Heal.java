@@ -26,8 +26,7 @@ public class Heal implements CommandExecutor {
         if (sender instanceof Player) {
             Player target;
             Player player = (Player) sender;
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.heal");
-            if (hasPerm) {
+            if (ServerEssentials.permissionChecker(player, "se.heal")) {
                 if (args.length <= 1) {
                     // Check to see if Player has command cooldown active
                     if (!healcancel.containsKey(player.getUniqueId())) {

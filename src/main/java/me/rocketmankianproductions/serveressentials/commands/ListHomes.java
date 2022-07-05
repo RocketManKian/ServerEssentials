@@ -26,8 +26,7 @@ public class ListHomes implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.listhomes");
-            if (hasPerm) {
+            if (ServerEssentials.permissionChecker(player, "se.listhomes")) {
                 if (args.length == 1) {
                     target = Bukkit.getOfflinePlayer(args[0]);
                     if (ServerEssentials.plugin.getConfig().getBoolean("enable-home-gui")){
