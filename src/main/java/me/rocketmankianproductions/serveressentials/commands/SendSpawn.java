@@ -17,8 +17,7 @@ public class SendSpawn implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.spawn.others");
-            if (hasPerm) {
+            if (ServerEssentials.permissionChecker(player, "se.spawn.others")) {
                 if (args.length == 1){
                     if (Setspawn.fileConfig.getString("Location.World") != null) {
                         Location loc = getLocation();

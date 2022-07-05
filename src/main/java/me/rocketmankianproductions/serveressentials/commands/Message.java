@@ -14,8 +14,7 @@ public class Message implements CommandExecutor {
         if (sender instanceof Player){
             Player messager = (Player) sender;
             // Check if the Sender has the se.message permission
-            boolean hasPerm = ServerEssentials.permissionChecker(messager, "se.message");
-            if (hasPerm) {
+            if (ServerEssentials.permissionChecker(messager, "se.message")) {
                 String sm = "";
                 if (args.length >= 2) {
                     //recipient == target
@@ -43,8 +42,7 @@ public class Message implements CommandExecutor {
                         String msgrecipient = Lang.fileConfig.getString("message-recipient").replace("<sender>", sendername).replace("<message>", sm);
                         String msgsocialspy = Lang.fileConfig.getString("socialspy-message").replace("<sender>", sendername).replace("<target>", targetname).replace("<message>", sm);
                         // Check if the Sender doesn't have the se.socialspy permission
-                        boolean hasPerm2 = ServerEssentials.permissionChecker(messager, "se.socialspy");
-                        if (!hasPerm2) {
+                        if (!messager.hasPermission("se.socialspy")) {
                             // Loop to check through all Online Players and get all players who are included within the HashMap
                             for (Player admin : Bukkit.getOnlinePlayers()) {
                                 if (SocialSpy.socialspy.contains(admin)) {

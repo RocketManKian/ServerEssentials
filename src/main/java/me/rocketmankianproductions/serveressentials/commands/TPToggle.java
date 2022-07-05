@@ -55,8 +55,7 @@ public class TPToggle {
         if (sender instanceof Player){
             Player player = (Player) sender;
             if (command.getName().equalsIgnoreCase("tptoggle")) {
-                boolean hasPerm = ServerEssentials.permissionChecker(player, "se.tptoggle");
-                if (hasPerm) {
+                if (ServerEssentials.permissionChecker(player, "se.tptoggle")) {
                     if (sender instanceof Player) {
                         if (args.length == 0) {
                             if (fileConfig.getBoolean("tptoggle." + player.getName(), false) == false) {

@@ -17,16 +17,14 @@ public class SendWarp implements CommandExecutor {
         if (sender instanceof Player) {
             Location loc;
             Player player = (Player) sender;
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.sendwarp");
-            if (hasPerm) {
+            if (ServerEssentials.permissionChecker(player, "se.sendwarp")) {
                 if (args.length == 2) {
                     if (Setwarp.file.exists() && Setwarp.fileConfig.getString("Warp." + args[1] + ".World") != null) {
                         Player target = Bukkit.getServer().getPlayer(args[0]);
                         if (target != null) {
                             if (target != player) {
                                 // Check if the File Exists and if Location.World has data
-                                boolean hasPerm2 = ServerEssentials.permissionChecker(player, "se.warps." + args[1]);
-                                if (hasPerm2) {
+                                if (ServerEssentials.permissionChecker(player, "se.warps." + args[1])) {
                                     // Gathering Location
                                     float yaw = Setwarp.fileConfig.getInt("Warp." + args[1] + ".Yaw");
                                     float pitch = Sethome.fileConfig.getInt("Warp." + args[1] + ".Pitch");

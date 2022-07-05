@@ -18,8 +18,7 @@ public class DeleteSpawn implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             // Checking if the player has the se.deletespawn permission
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.deletespawn");
-            if (hasPerm) {
+            if (ServerEssentials.permissionChecker(player, "se.deletespawn")) {
                 // Averaging out the whether the file exists or not by checking for value in one of the default saving points
                 if (args.length == 0) {
                     if (Setspawn.file.exists() && Setspawn.fileConfig.getString("Location.World") != null) {

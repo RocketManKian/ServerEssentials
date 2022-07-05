@@ -19,8 +19,7 @@ public class DeleteHome implements CommandExecutor {
         if (sender instanceof Player){
             Player player = (Player) sender;
             // Checking if the player has the se.deletehome permission
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.deletehome");
-            if (hasPerm) {
+            if (ServerEssentials.permissionChecker(player, "se.deletehome")) {
                 if (args.length == 1) {
                     String name = player.getUniqueId().toString();
                     // Averaging out the whether the file exists or not by checking for value in one of the default saving points

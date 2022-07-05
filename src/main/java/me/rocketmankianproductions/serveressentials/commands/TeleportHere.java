@@ -16,8 +16,7 @@ public class TeleportHere implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.teleport");
-            if (hasPerm) {
+            if (ServerEssentials.permissionChecker(player, "se.teleport")) {
                 if (args.length == 1) {
                     Player target = Bukkit.getPlayer(args[0]);
                     String sender2 = sender.getName();

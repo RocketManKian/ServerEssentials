@@ -19,8 +19,7 @@ public class DeleteWarp implements CommandExecutor {
         if (sender instanceof Player){
             Player player = (Player) sender;
             // Checking if the player has the se.deletewarp permission
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.deletewarp");
-            if (hasPerm) {
+            if (ServerEssentials.permissionChecker(player, "se.deletewarp")) {
                 if (args.length == 1) {
                     // Averaging out the whether the file exists or not by checking for value in one of the default saving points
                     if (Setwarp.file.exists() && Setwarp.fileConfig.getString("Warp." + args[0]) != null) {

@@ -28,10 +28,8 @@ public class Back implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.back");
-            if (hasPerm){
-                boolean hasPerm2 = ServerEssentials.permissionChecker(player, "se.back.bypass");
-                if (hasPerm2){
+            if (ServerEssentials.permissionChecker(player, "se.back")) {
+                if (ServerEssentials.permissionChecker(player, "se.back.bypass")) {
                     if (location.containsKey(player.getUniqueId())) {
                         location2.put(player.getUniqueId(), player.getLocation());
                         player.teleport(location.get(player.getUniqueId()));
@@ -57,28 +55,26 @@ public class Back implements CommandExecutor {
                     int delay3 = delay2 / 20;
                     if (location.containsKey(player.getUniqueId())) {
                         Boolean blacklistedworld = ServerEssentials.plugin.getConfig().getBoolean("enable-back-blacklist");
-                        if (hasPerm2){
-                            if (!backcancel.containsKey(player.getUniqueId())) {
-                                location2.put(player.getUniqueId(), player.getLocation());
-                                player.teleport(location.get(player.getUniqueId()));
-                                location.remove(player.getUniqueId());
-                                String msg = Lang.fileConfig.getString("back-previous-location");
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                backcancel.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
-                                    public void run() {
-                                        backconfirm.put(player.getUniqueId(), true);
-                                        backcancel.remove(player.getUniqueId());
-                                    }
-                                }, delay2));
-                                setTimer(delay3);
-                                startTimer();
-                                return true;
-                            }
-                            if (backcancel.containsKey(player.getUniqueId()) && backcancel.get(player.getUniqueId()) != null) {
-                                String msg = Lang.fileConfig.getString("command-timeout").replace("<time>", String.valueOf(time));
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                return true;
-                            }
+                        if (!backcancel.containsKey(player.getUniqueId())) {
+                            location2.put(player.getUniqueId(), player.getLocation());
+                            player.teleport(location.get(player.getUniqueId()));
+                            location.remove(player.getUniqueId());
+                            String msg = Lang.fileConfig.getString("back-previous-location");
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            backcancel.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
+                                public void run() {
+                                    backconfirm.put(player.getUniqueId(), true);
+                                    backcancel.remove(player.getUniqueId());
+                                }
+                            }, delay2));
+                            setTimer(delay3);
+                            startTimer();
+                            return true;
+                        }
+                        if (backcancel.containsKey(player.getUniqueId()) && backcancel.get(player.getUniqueId()) != null) {
+                            String msg = Lang.fileConfig.getString("command-timeout").replace("<time>", String.valueOf(time));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            return true;
                         }
                         if (blacklistedworld) {
                             for (String worlds : ServerEssentials.plugin.getConfig().getStringList("back-blacklist")) {
@@ -135,7 +131,7 @@ public class Back implements CommandExecutor {
                         }
                     } else if (location2.containsKey(player.getUniqueId())) {
                         Boolean blacklistedworld = ServerEssentials.plugin.getConfig().getBoolean("enable-back-blacklist");
-                        if (hasPerm2){
+                        if (ServerEssentials.permissionChecker(player, "se.back.bypass")) {
                             if (!backcancel.containsKey(player.getUniqueId())) {
                                 location.put(player.getUniqueId(), player.getLocation());
                                 player.teleport(location2.get(player.getUniqueId()));

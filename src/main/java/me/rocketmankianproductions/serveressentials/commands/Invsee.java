@@ -20,8 +20,7 @@ public class Invsee implements CommandExecutor, Listener {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (args.length == 1) {
-                boolean hasPerm = ServerEssentials.permissionChecker(player, "se.invsee");
-                if (hasPerm) {
+                if (ServerEssentials.permissionChecker(player, "se.invsee")) {
                     Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
                     if (targetPlayer == sender) {
                         String msg = Lang.fileConfig.getString("invsee-target-is-sender");
@@ -37,8 +36,7 @@ public class Invsee implements CommandExecutor, Listener {
                     }
                 }
             } else if (args.length == 2) {
-                boolean hasPerm = ServerEssentials.permissionChecker(player, "se.invsee.others");
-                if (hasPerm) {
+                if (ServerEssentials.permissionChecker(player, "se.invsee.others")) {
                     Inventory myInventory = Bukkit.createInventory(player, 9, ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("invsee-armor-gui")));
                     Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
                     if (targetPlayer == sender) {

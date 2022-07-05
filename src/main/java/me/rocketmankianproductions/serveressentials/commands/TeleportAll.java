@@ -15,8 +15,7 @@ public class TeleportAll implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.tpall");
-            if (hasPerm) {
+            if (ServerEssentials.permissionChecker(player, "se.tpall")) {
                 if (Bukkit.getServer().getOnlinePlayers().size() == 1) {
                     String msg = Lang.fileConfig.getString("teleport-no-players-online");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));

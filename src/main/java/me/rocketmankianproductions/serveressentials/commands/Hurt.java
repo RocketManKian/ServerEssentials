@@ -17,8 +17,7 @@ public class Hurt implements CommandExecutor {
             Player player = (Player) sender;
             if (commandLabel.equalsIgnoreCase("hurt")) {
                 // Checking if the player has the se.hurt permission
-                boolean hasPerm = ServerEssentials.permissionChecker(player, "se.hurt");
-                if (hasPerm) {
+                if (ServerEssentials.permissionChecker(player, "se.hurt")) {
                     // Checking if the player exists
                     if (args.length >= 2) {
                         try {

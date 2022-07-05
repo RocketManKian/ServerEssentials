@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 1.79.3
+version: 1.79.4
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -37,9 +37,9 @@ commands:
   sethome:
     description: Sets Your Home
   home:
-    description: Teleports you to home
+    description: Teleports you to Home
   deletehome:
-    description: Deletes your home
+    description: Deletes your Home
     aliases: [delhome]
   teleport:
     description: Teleport Function

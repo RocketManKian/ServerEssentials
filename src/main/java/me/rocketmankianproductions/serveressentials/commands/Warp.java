@@ -32,8 +32,7 @@ public class Warp implements CommandExecutor {
         // Checking if the player has the correct permission
         if (sender instanceof Player){
             Player player = (Player) sender;
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.warp");
-            if (hasPerm) {
+            if (ServerEssentials.permissionChecker(player, "se.warp")) {
                 if (args.length == 1) {
                     if (Setwarp.file.exists() && Setwarp.fileConfig.getString("Warp." + args[0] + ".World") != null) {
                         // Check if the File Exists and if Location.World has data

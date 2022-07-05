@@ -60,8 +60,7 @@ public class Rules implements CommandExecutor {
                 return false;
             }
             Player player = (Player) sender;
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.rules");
-            if (hasPerm) {
+            if (ServerEssentials.permissionChecker(player, "se.rules")) {
                 player.sendMessage(ChatColor.GREEN + "Server Rules:");
                 for (String rule : fileConfig.getStringList(configpath)) {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', rule));

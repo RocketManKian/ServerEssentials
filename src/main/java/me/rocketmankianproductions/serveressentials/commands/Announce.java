@@ -18,8 +18,7 @@ public class Announce implements CommandExecutor {
 
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.announce");
-            if (hasPerm){
+            if (ServerEssentials.permissionChecker(player, "se.announce")) {
                 if (args.length > 0) {
                     String prefix = ServerEssentials.getPlugin().getConfig().getString("prefix");
                     String announce = "";

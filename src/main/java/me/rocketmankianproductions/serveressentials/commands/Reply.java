@@ -44,8 +44,7 @@ public class Reply implements CommandExecutor {
                         String msgsender = Lang.fileConfig.getString("reply-sender").replace("<target>", name).replace("<message>", sm);
                         String msgrecipient = Lang.fileConfig.getString("reply-recipient").replace("<sender>", player.getName()).replace("<message>", sm);
                         String msgsocialspy = Lang.fileConfig.getString("socialspy-message").replace("<sender>", player.getName()).replace("<target>", name).replace("<message>", sm);
-                        boolean hasPerm2 = ServerEssentials.permissionChecker(player, "se.socialspy");
-                        if (!hasPerm2) {
+                        if (!player.hasPermission("se.socialspy")) {
                             // Loop to check through all Online Players and get all players who are included within the HashMap
                             for (Player admin : Bukkit.getOnlinePlayers()) {
                                 if (SocialSpy.socialspy.contains(admin)) {

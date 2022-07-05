@@ -23,8 +23,7 @@ public class StaffChat implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.staffchat");
-            if (hasPerm) {
+            if (ServerEssentials.permissionChecker(player, "se.staffchat")) {
                 if (args.length == 0) {
                     if (!staffchat.contains(player)){
                         String msg = Lang.fileConfig.getString("staffchat-enabled");

@@ -22,8 +22,7 @@ public class Teleport implements CommandExecutor {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                 return true;
             } else if (args.length == 1 || args.length == 2) {
-                boolean hasPerm = ServerEssentials.permissionChecker(player, "se.teleport");
-                if (hasPerm) {
+                if (ServerEssentials.permissionChecker(player, "se.teleport")) {
                     if (args.length == 1) {
                         Player target = Bukkit.getPlayer(args[0]);
                         if (target == null) {

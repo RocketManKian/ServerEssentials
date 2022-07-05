@@ -20,8 +20,7 @@ public class SE implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (args.length == 0) {
-                boolean hasPerm = ServerEssentials.permissionChecker(player, "se.info");
-                if (hasPerm) {
+                if (ServerEssentials.permissionChecker(player, "se.info")) {
                     player.sendMessage(ChatColor.GREEN + "---------------------------"
                             + "\nServer Essentials Commands"
                             + "\n---------------------------"

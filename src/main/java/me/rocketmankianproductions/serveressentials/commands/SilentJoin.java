@@ -47,8 +47,7 @@ public class SilentJoin {
     public void run(CommandSender sender, String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.silentjoin");
-            if (hasPerm) {
+            if (ServerEssentials.permissionChecker(player, "se.silentjoin")) {
                 if (fileConfig.getBoolean("silent." + player.getName(), false) == false) {
                     fileConfig.set("silent." + player.getName(), true);
                     String msg = Lang.fileConfig.getString("silentjoin-enabled");

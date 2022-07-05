@@ -21,8 +21,7 @@ public class Lore implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.lore");
-            if (hasPerm) {
+            if (ServerEssentials.permissionChecker(player, "se.lore")) {
                 if (args.length >= 1){
                     if (args[0].equalsIgnoreCase("set")){
                         ItemStack hand = player.getItemInHand();

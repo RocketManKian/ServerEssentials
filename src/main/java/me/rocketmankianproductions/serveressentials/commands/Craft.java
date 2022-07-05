@@ -17,8 +17,7 @@ public class Craft implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.craft");
-            if (hasPerm) {
+            if (ServerEssentials.permissionChecker(player, "se.craft")) {
                 if (args.length == 0) {
                     if (sender instanceof Player) {
                         player.playSound(((Player) sender).getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 3.0F, 2.0F);

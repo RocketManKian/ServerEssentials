@@ -25,8 +25,7 @@ public class Report implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.reportuser");
-            if (hasPerm) {
+            if (ServerEssentials.permissionChecker(player, "se.reportuser")) {
                 if (args.length >= 2) {
                     OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
                     if (target == sender) {

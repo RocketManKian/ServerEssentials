@@ -18,8 +18,7 @@ public class Hat implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (args.length == 0) {
-                boolean hasPerm = ServerEssentials.permissionChecker(player, "se.hat");
-                if (hasPerm) {
+                if (ServerEssentials.permissionChecker(player, "se.hat")) {
                     if (!player.getItemInHand().getType().equals(Material.AIR)) {
                         String msg = Lang.fileConfig.getString("hat-success").replace("<hat>", player.getItemInHand().getType().name());
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));

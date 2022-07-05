@@ -15,8 +15,7 @@ public class Fly implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.fly");
-            if (hasPerm) {
+            if (ServerEssentials.permissionChecker(player, "se.fly")) {
                 if (args.length == 0) {
                     if (player.getAllowFlight() == true) {
                         player.setFlying(true);

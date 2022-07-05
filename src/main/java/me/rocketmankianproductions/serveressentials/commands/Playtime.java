@@ -16,8 +16,7 @@ public class Playtime implements CommandExecutor {
         if (sender instanceof Player){
             Player player = (Player) sender;
             // Otherwise checking if the player has the correct permission
-            boolean hasPerm = ServerEssentials.permissionChecker(player, "se.playtime");
-            if (hasPerm) {
+            if (ServerEssentials.permissionChecker(player, "se.playtime")) {
                 if (args.length == 1){
                     Player target = Bukkit.getPlayerExact(args[0]);
                     if (target != null){
