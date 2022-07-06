@@ -4,7 +4,6 @@ import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -26,7 +25,7 @@ public class TeleportRequest implements CommandExecutor {
     public static HashMap<UUID, Integer> teleport = new HashMap<>();
     public static ArrayList<UUID> cancel = new ArrayList<>();
     int time;
-    int taskID;
+    public static int taskID;
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
@@ -48,133 +47,13 @@ public class TeleportRequest implements CommandExecutor {
             if (ServerEssentials.permissionChecker(player, "se.tpa")) {
                 if (args.length == 1) {
                     Player target = Bukkit.getPlayer(args[0]);
-                    Boolean blacklistedworld = ServerEssentials.plugin.getConfig().getBoolean("enable-teleport-blacklist");
-                    Boolean blacklistedworld2 = ServerEssentials.plugin.getConfig().getBoolean("enable-teleport-in-world");
                     if (target != null) {
                         if (target != player) {
-                            if (blacklistedworld){
-                                if (blacklistedworld && blacklistedworld2){
-                                    if (!teleportcooldown.containsKey(player.getUniqueId()) || ServerEssentials.permissionChecker(player, "se.teleport.bypass")){
-                                        for (String worlds : ServerEssentials.plugin.getConfig().getStringList("teleport-blacklist")){
-                                            if (target.getWorld().getName().equalsIgnoreCase(worlds)){
-                                                World world = target.getWorld();
-                                                if (player.getWorld() != world){
-                                                    String msg = Lang.fileConfig.getString("teleport-request-blacklisted-world");
-                                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                    return true;
-                                                }
-                                            }
-                                        }
-                                        if (TPToggle.fileConfig.getBoolean("tptoggle." + target.getName(), false) == false) {
-                                            tpa.put(target.getUniqueId(), player.getUniqueId());
-                                            String msg = Lang.fileConfig.getString("teleport-request-sent").replace("<target>", target.getName());
-                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                            String msg2 = Lang.fileConfig.getString("teleport-request-cancel-warning");
-                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                            String msg3 = Lang.fileConfig.getString("teleport-request-target-receive").replace("<sender>", player.getName());
-                                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
-                                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-request-accept")));
-                                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-request-deny")));
-                                            String msg4 = Lang.fileConfig.getString("teleport-request-timeout-warning").replace("<time>", String.valueOf(delay3));
-                                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
-                                            if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
-                                                cancelTimeout(target);
-                                            }
-                                            teleportcancel.put(target.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
-                                                public void run() {
-                                                    if (tpa.containsKey(target.getUniqueId())) {
-                                                        String msg = Lang.fileConfig.getString("teleport-request-timeout");
-                                                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                        tpa.remove(target.getUniqueId());
-                                                    }
-                                                }
-                                            }, delay2));
-                                            teleportcooldown.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
-                                                public void run() {
-                                                    teleportcooldown.remove(player.getUniqueId());
-                                                }
-                                            }, delay5));
-                                            setTimer(delay6);
-                                            startTimer();
-                                            return true;
-                                        } else {
-                                            String msg = Lang.fileConfig.getString("teleport-disabled");
-                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                            return true;
-                                        }
-                                    }
-                                    if (teleportcooldown.containsKey(player.getUniqueId()) && teleportcooldown.get(player.getUniqueId()) != null) {
-                                        String msg = Lang.fileConfig.getString("command-timeout").replace("<time>", String.valueOf(time));
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                        return true;
-                                    }
-                                }else{
-                                    if (!teleportcooldown.containsKey(player.getUniqueId()) || ServerEssentials.permissionChecker(player, "se.teleport.bypass")){
-                                        for (String worlds : ServerEssentials.plugin.getConfig().getStringList("teleport-blacklist")){
-                                            if (target.getWorld().getName().equalsIgnoreCase(worlds)){
-                                                String msg = Lang.fileConfig.getString("teleport-request-blacklisted-world");
-                                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                return true;
-                                            }
-                                        }
-                                        if (TPToggle.fileConfig.getBoolean("tptoggle." + target.getName(), false) == false) {
-                                            tpa.put(target.getUniqueId(), player.getUniqueId());
-                                            String msg = Lang.fileConfig.getString("teleport-request-sent").replace("<target>", target.getName());
-                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                            String msg2 = Lang.fileConfig.getString("teleport-request-cancel-warning");
-                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                            String msg3 = Lang.fileConfig.getString("teleport-request-target-receive").replace("<sender>", player.getName());
-                                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
-                                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-request-accept")));
-                                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-request-deny")));
-                                            String msg4 = Lang.fileConfig.getString("teleport-request-timeout-warning").replace("<time>", String.valueOf(delay3));
-                                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
-                                            if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
-                                                cancelTimeout(target);
-                                            }
-                                            teleportcancel.put(target.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
-                                                public void run() {
-                                                    if (tpa.containsKey(target.getUniqueId())) {
-                                                        String msg = Lang.fileConfig.getString("teleport-request-timeout");
-                                                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                        tpa.remove(target.getUniqueId());
-                                                    }
-                                                }
-                                            }, delay2));
-                                            teleportcooldown.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
-                                                public void run() {
-                                                    teleportcooldown.remove(player.getUniqueId());
-                                                }
-                                            }, delay5));
-                                            setTimer(delay6);
-                                            startTimer();
-                                            return true;
-                                        } else {
-                                            String msg = Lang.fileConfig.getString("teleport-disabled");
-                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                            return true;
-                                        }
-                                    }
-                                    if (teleportcooldown.containsKey(player.getUniqueId()) && teleportcooldown.get(player.getUniqueId()) != null) {
-                                        String msg = Lang.fileConfig.getString("command-timeout").replace("<time>", String.valueOf(time));
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                        return true;
-                                    }
-                                }
-                            }else{
-                                if (!teleportcooldown.containsKey(player.getUniqueId()) || ServerEssentials.permissionChecker(player, "se.teleport.bypass")){
+                            if (!blacklistCheck(player, target, "teleport-request-blacklisted-world")){
+                                if (!teleportcooldown.containsKey(player.getUniqueId()) || player.hasPermission("se.teleport.bypass")){
                                     if (TPToggle.fileConfig.getBoolean("tptoggle." + target.getName(), false) == false) {
                                         tpa.put(target.getUniqueId(), player.getUniqueId());
-                                        String msg = Lang.fileConfig.getString("teleport-request-sent").replace("<target>", target.getName());
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                        String msg2 = Lang.fileConfig.getString("teleport-request-cancel-warning");
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                        String msg3 = Lang.fileConfig.getString("teleport-request-target-receive").replace("<sender>", player.getName());
-                                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
-                                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-request-accept")));
-                                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-request-deny")));
-                                        String msg4 = Lang.fileConfig.getString("teleport-request-timeout-warning").replace("<time>", String.valueOf(delay3));
-                                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
+                                        teleportRequestMessage(player, target, "teleport-request-sent", "teleport-request-cancel-warning", "teleport-request-target-receive", "teleport-request-timeout-warning", delay3);
                                         if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
                                             cancelTimeout(target);
                                         }
@@ -228,135 +107,13 @@ public class TeleportRequest implements CommandExecutor {
             if (ServerEssentials.permissionChecker(player, "se.tpahere")) {
                 if (args.length == 1) {
                     Player target = Bukkit.getPlayer(args[0]);
-                    Boolean blacklistedworld = ServerEssentials.plugin.getConfig().getBoolean("enable-teleport-blacklist");
-                    Boolean blacklistedworld2 = ServerEssentials.plugin.getConfig().getBoolean("enable-teleport-in-world");
                     if (target != null) {
                         if (target != player) {
-                            if (blacklistedworld){
-                                // Both Blacklist and Teleport in World
-                                if (blacklistedworld && blacklistedworld2){
-                                    for (String worlds : ServerEssentials.plugin.getConfig().getStringList("teleport-blacklist")){
-                                        if (player.getWorld().getName().equalsIgnoreCase(worlds)){
-                                            World world = player.getWorld();
-                                            if (!target.getWorld().getName().equalsIgnoreCase(String.valueOf(world))){
-                                                String msg = Lang.fileConfig.getString("teleport-here-blacklisted-world");
-                                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                return true;
-                                            }
-                                        }
-                                    }
-                                    if (!teleportherecooldown.containsKey(player.getUniqueId()) || ServerEssentials.permissionChecker(player, "se.teleport.bypass")){
-                                        if (TPToggle.fileConfig.getBoolean("tptoggle." + target.getName(), false) == false) {
-                                            tpahere.put(target.getUniqueId(), player.getUniqueId());
-                                            String msg = Lang.fileConfig.getString("teleport-here-request-sent").replace("<target>", target.getName());
-                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                            String msg2 = Lang.fileConfig.getString("teleport-here-request-cancel-warning");
-                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                            String msg3 = Lang.fileConfig.getString("teleport-here-request-target-receive").replace("<sender>", player.getName());
-                                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
-                                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-here-request-accept")));
-                                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-here-request-deny")));
-                                            String msg4 = Lang.fileConfig.getString("teleport-here-request-timeout-warning").replace("<time>", String.valueOf(delay3));
-                                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
-                                            if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
-                                                cancelTimeout(target);
-                                            }
-                                            teleportcancel.put(target.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
-                                                public void run() {
-                                                    if (tpahere.containsKey(target.getUniqueId())) {
-                                                        String msg = Lang.fileConfig.getString("teleport-here-request-timeout");
-                                                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                        tpahere.remove(target.getUniqueId());
-                                                    }
-                                                }
-                                            }, delay2));
-                                            teleportherecooldown.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
-                                                public void run() {
-                                                    teleportherecooldown.remove(player.getUniqueId());
-                                                }
-                                            }, delay5));
-                                            setTimer(delay6);
-                                            startTimer();
-                                            return true;
-                                        } else {
-                                            String msg = Lang.fileConfig.getString("teleport-disabled");
-                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                            return true;
-                                        }
-                                    }
-                                    if (teleportherecooldown.containsKey(player.getUniqueId()) && teleportherecooldown.get(player.getUniqueId()) != null) {
-                                        String msg = Lang.fileConfig.getString("command-timeout").replace("<time>", String.valueOf(time));
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                        return true;
-                                    }
-                                    // BlackListed World Only
-                                }else{
-                                    if (!teleportherecooldown.containsKey(player.getUniqueId()) || ServerEssentials.permissionChecker(player, "se.teleport.bypass")){
-                                        for (String worlds : ServerEssentials.plugin.getConfig().getStringList("teleport-blacklist")){
-                                            if (player.getWorld().getName().equalsIgnoreCase(worlds)){
-                                                String msg = Lang.fileConfig.getString("teleport-here-blacklisted-world");
-                                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                return true;
-                                            }
-                                        }
-                                        if (TPToggle.fileConfig.getBoolean("tptoggle." + target.getName(), false) == false) {
-                                            tpahere.put(target.getUniqueId(), player.getUniqueId());
-                                            String msg = Lang.fileConfig.getString("teleport-here-request-sent").replace("<target>", target.getName());
-                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                            String msg2 = Lang.fileConfig.getString("teleport-here-request-cancel-warning");
-                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                            String msg3 = Lang.fileConfig.getString("teleport-here-request-target-receive").replace("<sender>", player.getName());
-                                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
-                                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-here-request-accept")));
-                                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-here-request-deny")));
-                                            String msg4 = Lang.fileConfig.getString("teleport-here-request-timeout-warning").replace("<time>", String.valueOf(delay3));
-                                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
-                                            if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
-                                                cancelTimeout(target);
-                                            }
-                                            teleportcancel.put(target.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
-                                                public void run() {
-                                                    if (tpahere.containsKey(target.getUniqueId())) {
-                                                        String msg = Lang.fileConfig.getString("teleport-here-request-timeout");
-                                                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                                        tpahere.remove(target.getUniqueId());
-                                                    }
-                                                }
-                                            }, delay2));
-                                            teleportherecooldown.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
-                                                public void run() {
-                                                    teleportherecooldown.remove(player.getUniqueId());
-                                                }
-                                            }, delay5));
-                                            setTimer(delay6);
-                                            startTimer();
-                                            return true;
-                                        } else {
-                                            String msg = Lang.fileConfig.getString("teleport-disabled");
-                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                            return true;
-                                        }
-                                    }
-                                    if (teleportherecooldown.containsKey(player.getUniqueId()) && teleportherecooldown.get(player.getUniqueId()) != null) {
-                                        String msg = Lang.fileConfig.getString("command-timeout").replace("<time>", String.valueOf(time));
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                        return true;
-                                    }
-                                }
-                            }else{
-                                if (!teleportherecooldown.containsKey(player.getUniqueId()) || ServerEssentials.permissionChecker(player, "se.teleport.bypass")){
+                            if (!blacklistCheck(player, target, "teleport-here-blacklisted-world")){
+                                if (!teleportherecooldown.containsKey(player.getUniqueId()) || player.hasPermission("se.teleport.bypass")){
                                     if (TPToggle.fileConfig.getBoolean("tptoggle." + target.getName(), false) == false) {
                                         tpahere.put(target.getUniqueId(), player.getUniqueId());
-                                        String msg = Lang.fileConfig.getString("teleport-here-request-sent").replace("<target>", target.getName());
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                        String msg2 = Lang.fileConfig.getString("teleport-here-request-cancel-warning");
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                        String msg3 = Lang.fileConfig.getString("teleport-here-request-target-receive").replace("<sender>", player.getName());
-                                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
-                                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-here-request-accept")));
-                                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-here-request-deny")));
-                                        String msg4 = Lang.fileConfig.getString("teleport-here-request-timeout-warning").replace("<time>", String.valueOf(delay3));
-                                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
+                                        teleportRequestMessage(player, target, "teleport-here-request-sent", "teleport-here-request-cancel-warning", "teleport-here-request-target-receive", "teleport-here-request-timeout-warning", delay3);
                                         if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
                                             cancelTimeout(target);
                                         }
@@ -438,18 +195,12 @@ public class TeleportRequest implements CommandExecutor {
                         Bukkit.getPlayer(tpa.get(player.getUniqueId())).teleport(player);
                         tpa.remove(player.getUniqueId());
                         cancelTimeout(player);
-                        String msg = Lang.fileConfig.getString("teleport-target-success").replace("<sender>", target.getName());
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                        String msg2 = Lang.fileConfig.getString("teleport-accept-request").replace("<sender>", player.getName());
-                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                        teleportSuccessMessage(target, player, "tpa");
                         return true;
                     } else if (tpahere.containsKey(player.getUniqueId())) {
                         Teleport.teleportSave(player);
                         Player target = Bukkit.getPlayer(tpahere.get(player.getUniqueId()));
-                        String msg = Lang.fileConfig.getString("teleport-target-success").replace("<sender>", player.getName());
-                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                        String msg2 = Lang.fileConfig.getString("teleport-success").replace("<target>", target.getName());
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                        teleportSuccessMessage(player, target, "tpahere");
                         player.teleport(Bukkit.getPlayer(tpahere.get(player.getUniqueId())));
                         cancelTimeout(player);
                         tpahere.remove(player.getUniqueId());
@@ -470,27 +221,7 @@ public class TeleportRequest implements CommandExecutor {
                             String msg2 = Lang.fileConfig.getString("teleport-wait-message").replace("<player>", player.getName()).replace("<time>", String.valueOf(tpwait));
                             target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                             tpwait = tpwait * 20;
-                            if (teleport.containsKey(player.getUniqueId()) && teleport.get(player.getUniqueId()) != null) {
-                                Bukkit.getScheduler().cancelTask(teleport.get(player.getUniqueId()));
-                            }
-                            teleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
-                                public void run() {
-                                    if (cancel.contains(target.getUniqueId())){
-                                        if (teleport.containsKey(player.getUniqueId())) {
-                                            Teleport.teleportSave(player);
-                                            // Teleporting Player
-                                            String msg = Lang.fileConfig.getString("teleport-success").replace("<target>", player.getName());
-                                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                            String msg2 = Lang.fileConfig.getString("teleport-target-success").replace("<sender>", target.getName());
-                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                            Bukkit.getPlayer(tpa.get(player.getUniqueId())).teleport(player);
-                                            teleport.remove(player.getUniqueId());
-                                            cancel.remove(target.getUniqueId());
-                                            tpa.remove(player.getUniqueId());
-                                        }
-                                    }
-                                }
-                            }, tpwait));
+                            teleportSuccess(player, target, tpwait, "tpa", true);
                             return true;
                         } else if (tpahere.containsKey(player.getUniqueId())) {
                             Player target = Bukkit.getPlayer(tpahere.get(player.getUniqueId()));
@@ -501,26 +232,7 @@ public class TeleportRequest implements CommandExecutor {
                             String msg2 = Lang.fileConfig.getString("teleport-wait-message").replace("<player>", target.getName()).replace("<time>", String.valueOf(tpwait));
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                             tpwait = tpwait * 20;
-                            if (teleport.containsKey(player.getUniqueId()) && teleport.get(player.getUniqueId()) != null) {
-                                Bukkit.getScheduler().cancelTask(teleport.get(player.getUniqueId()));
-                            }
-                            teleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
-                                public void run() {
-                                    if (cancel.contains(player.getUniqueId())){
-                                        if (teleport.containsKey(player.getUniqueId())) {
-                                            Teleport.teleportSave(player);
-                                            String msg = Lang.fileConfig.getString("teleport-target-success").replace("<sender>", player.getName());
-                                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                            String msg2 = Lang.fileConfig.getString("teleport-success").replace("<target>", target.getName());
-                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                            player.teleport(Bukkit.getPlayer(tpahere.get(player.getUniqueId())));
-                                            cancel.remove(player.getUniqueId());
-                                            teleport.remove(player.getUniqueId());
-                                            tpahere.remove(target.getUniqueId());
-                                        }
-                                    }
-                                }
-                            }, tpwait));
+                            teleportSuccess(player, target, tpwait, "tpahere", true);
                             return true;
                         } else if (tpahere.get(player.getUniqueId()) == null || tpa.get(player.getUniqueId()) == null) {
                             String msg = Lang.fileConfig.getString("teleport-no-request-accept");
@@ -536,24 +248,7 @@ public class TeleportRequest implements CommandExecutor {
                             String msg2 = Lang.fileConfig.getString("teleport-wait-message").replace("<player>", player.getName()).replace("<time>", String.valueOf(tpwait));
                             target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                             tpwait = tpwait * 20;
-                            if (teleport.containsKey(player.getUniqueId()) && teleport.get(player.getUniqueId()) != null) {
-                                Bukkit.getScheduler().cancelTask(teleport.get(player.getUniqueId()));
-                            }
-                            teleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
-                                public void run() {
-                                    if (teleport.containsKey(player.getUniqueId())) {
-                                        Teleport.teleportSave(player);
-                                        // Teleporting Player
-                                        String msg = Lang.fileConfig.getString("teleport-target-success").replace("<sender>", target.getName());
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                        String msg2 = Lang.fileConfig.getString("teleport-success").replace("<target>", player.getName());
-                                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                        Bukkit.getPlayer(tpa.get(player.getUniqueId())).teleport(player);
-                                        teleport.remove(player.getUniqueId());
-                                        tpa.remove(player.getUniqueId());
-                                    }
-                                }
-                            }, tpwait));
+                            teleportSuccess(target, player, tpwait, "tpa", false);
                             return true;
                         } else if (tpahere.containsKey(player.getUniqueId())) {
                             Player target = Bukkit.getPlayer(tpahere.get(player.getUniqueId()));
@@ -563,24 +258,7 @@ public class TeleportRequest implements CommandExecutor {
                             String msg2 = Lang.fileConfig.getString("teleport-accept-request").replace("<sender>", player.getName());
                             Bukkit.getPlayer(tpahere.get(player.getUniqueId())).sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                             tpwait = tpwait * 20;
-                            if (teleport.containsKey(player.getUniqueId()) && teleport.get(player.getUniqueId()) != null) {
-                                Bukkit.getScheduler().cancelTask(teleport.get(player.getUniqueId()));
-                            }
-                            teleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
-                                public void run() {
-                                    if (teleport.containsKey(player.getUniqueId())) {
-                                        Teleport.teleportSave(player);
-                                        String msg = Lang.fileConfig.getString("teleport-target-success").replace("<sender>", player.getName());
-                                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                        String msg2 = Lang.fileConfig.getString("teleport-success").replace("<target>", target.getName());
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                        player.teleport(Bukkit.getPlayer(tpahere.get(player.getUniqueId())));
-                                        tpahere.remove(player.getUniqueId());
-                                        teleport.remove(player.getUniqueId());
-                                        tpahere.remove(target.getUniqueId());
-                                    }
-                                }
-                            }, tpwait));
+                            teleportSuccess(player, target, tpwait, "tpahere", false);
                             return true;
                         } else if (tpahere.get(player.getUniqueId()) == null || tpa.get(player.getUniqueId()) == null) {
                             String msg = Lang.fileConfig.getString("teleport-no-request-accept");
@@ -656,5 +334,100 @@ public class TeleportRequest implements CommandExecutor {
     }
     public void stopTimer() {
         Bukkit.getScheduler().cancelTask(taskID);
+    }
+
+    public void teleportRequestMessage(Player player, Player target, String requestsent, String requestcancel, String targetreceive, String timeoutwarning, int delay3){
+        String msg = Lang.fileConfig.getString(requestsent).replace("<target>", target.getName());
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+        String msg2 = Lang.fileConfig.getString(requestcancel);
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+        String msg3 = Lang.fileConfig.getString(targetreceive).replace("<sender>", player.getName());
+        target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
+        target.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-here-request-accept")));
+        target.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("teleport-here-request-deny")));
+        String msg4 = Lang.fileConfig.getString(timeoutwarning).replace("<time>", String.valueOf(delay3));
+        target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
+    }
+
+    public static Boolean blacklistCheck(Player player, Player target, String lang){
+        boolean blacklistedworld = false;
+        if (ServerEssentials.plugin.getConfig().getBoolean("enable-teleport-blacklist")){
+            for (String worlds : ServerEssentials.plugin.getConfig().getStringList("teleport-blacklist")) {
+                if (player.getWorld().getName().equalsIgnoreCase(worlds)) {
+                    if (ServerEssentials.plugin.getConfig().getBoolean("enable-teleport-in-world")){
+                        String world = player.getWorld().getName();
+                        if (target.getWorld().getName() != world){
+                            String msg = Lang.fileConfig.getString(lang);
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            blacklistedworld = true;
+                        }
+                    }else{
+                        String msg = Lang.fileConfig.getString(lang);
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        blacklistedworld = true;
+                    }
+                }
+            }
+        }
+        return blacklistedworld;
+    }
+
+    public void teleportSuccessMessage(Player player, Player target, String tp){
+        String msg = Lang.fileConfig.getString("teleport-target-success").replace("<sender>", player.getName());
+        String msg2 = Lang.fileConfig.getString("teleport-success").replace("<target>", target.getName());
+        if (tp.equalsIgnoreCase("tpahere")){
+            target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+        }else if (tp.equalsIgnoreCase("tpa")){
+            target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+        }
+    }
+
+    public void teleportSuccess(Player player, Player target, int tpwait, String tp, boolean movement){
+        if (teleport.containsKey(player.getUniqueId()) && teleport.get(player.getUniqueId()) != null) {
+            Bukkit.getScheduler().cancelTask(teleport.get(player.getUniqueId()));
+        }
+        teleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+            public void run() {
+                if (movement){
+                    if (cancel.contains(target.getUniqueId()) || cancel.contains(player.getUniqueId())){
+                        if (teleport.containsKey(player.getUniqueId())) {
+                            Teleport.teleportSave(player);
+                            // Teleporting Player
+                            if (tp.equalsIgnoreCase("tpahere")){
+                                player.teleport(Bukkit.getPlayer(tpahere.get(player.getUniqueId())));
+                                teleportSuccessMessage(player, target, "tpahere");
+                                tpahere.remove(target.getUniqueId());
+                            }else if (tp.equalsIgnoreCase("tpa")){
+                                Bukkit.getPlayer(tpa.get(player.getUniqueId())).teleport(player);
+                                teleportSuccessMessage(target, player, "tpa");
+                                tpa.remove(player.getUniqueId());
+                            }
+                            teleport.remove(player.getUniqueId());
+                            cancel.remove(target.getUniqueId());
+                            cancel.remove(player.getUniqueId());
+                        }
+                    }
+                }else{
+                    if (teleport.containsKey(player.getUniqueId())) {
+                        Teleport.teleportSave(player);
+                        // Teleporting Player
+                        if (tp.equalsIgnoreCase("tpahere")){
+                            player.teleport(Bukkit.getPlayer(tpahere.get(player.getUniqueId())));
+                            teleportSuccessMessage(player, target, "tpahere");
+                            tpahere.remove(target.getUniqueId());
+                        }else if (tp.equalsIgnoreCase("tpa")){
+                            Bukkit.getPlayer(tpa.get(player.getUniqueId())).teleport(player);
+                            teleportSuccessMessage(target, player, "tpa");
+                            tpa.remove(player.getUniqueId());
+                        }
+                        teleport.remove(player.getUniqueId());
+                        cancel.remove(target.getUniqueId());
+                        cancel.remove(player.getUniqueId());
+                    }
+                }
+            }
+        }, tpwait));
     }
 }

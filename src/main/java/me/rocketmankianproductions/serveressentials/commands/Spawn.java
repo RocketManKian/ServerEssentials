@@ -36,17 +36,7 @@ public class Spawn implements CommandExecutor {
                                 Location loc = getNewbiesLocation();
                                 if (ServerEssentials.plugin.getConfig().getInt("spawn-teleport") == 0){
                                     spawnSave(player);
-                                    if (loc.isWorldLoaded()){
-                                        // Teleporting Player
-                                        player.teleport(loc);
-                                        String msg = Lang.fileConfig.getString("newbies-spawn-successful");
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                        return true;
-                                    }else{
-                                        String msg = Lang.fileConfig.getString("spawn-world-invalid");
-                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                        return true;
-                                    }
+                                    spawnTeleport(player, loc, "newbies-spawn-successful");
                                 }else {
                                     if (ServerEssentials.plugin.getConfig().getBoolean("spawn-movement-cancel")) {
                                         cancel.add(player.getUniqueId());
@@ -95,17 +85,7 @@ public class Spawn implements CommandExecutor {
                                 Location loc = getLocation();
                                 if (ServerEssentials.plugin.getConfig().getInt("spawn-teleport") == 0) {
                                     spawnSave(player);
-                                    if (loc.isWorldLoaded()) {
-                                        // Teleporting Player
-                                        player.teleport(loc);
-                                        String msg = Lang.fileConfig.getString("spawn-successful");
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                        return true;
-                                    } else {
-                                        String msg = Lang.fileConfig.getString("spawn-world-invalid");
-                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                        return true;
-                                    }
+                                    spawnTeleport(player, loc, "spawn-successful");
                                 } else {
                                     if (ServerEssentials.plugin.getConfig().getBoolean("spawn-movement-cancel")) {
                                         cancel.add(player.getUniqueId());
@@ -291,8 +271,8 @@ public class Spawn implements CommandExecutor {
         } else {
             String msg = Lang.fileConfig.getString("spawn-world-invalid");
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-            cancel.remove(player.getUniqueId());
-            spawnteleport.remove(player.getUniqueId());
         }
+        cancel.remove(player.getUniqueId());
+        spawnteleport.remove(player.getUniqueId());
     }
 }

@@ -1,9 +1,6 @@
 package me.rocketmankianproductions.serveressentials.events;
 
-import me.rocketmankianproductions.serveressentials.commands.Home;
-import me.rocketmankianproductions.serveressentials.commands.Spawn;
-import me.rocketmankianproductions.serveressentials.commands.TeleportRequest;
-import me.rocketmankianproductions.serveressentials.commands.Warp;
+import me.rocketmankianproductions.serveressentials.commands.*;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -58,6 +55,13 @@ public class PlayerMoveEvent implements Listener {
                 }
                 TeleportRequest.cancel.remove(player.getUniqueId());
                 String msg = Lang.fileConfig.getString("teleport-movement-cancel");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+            }
+        }
+        if (Back.cancel.contains(player.getUniqueId())){
+            if (m.getFrom().getBlockX() != m.getTo().getBlockX() || m.getFrom().getBlockZ() != m.getTo().getBlockZ() || m.getFrom().getBlockY() != m.getTo().getBlockY()) {
+                Back.cancel.remove(player.getUniqueId());
+                String msg = Lang.fileConfig.getString("back-movement-cancel");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
             }
         }
