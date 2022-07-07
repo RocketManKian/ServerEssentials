@@ -48,7 +48,7 @@ public class SilentJoin {
         if (sender instanceof Player){
             Player player = (Player) sender;
             if (ServerEssentials.permissionChecker(player, "se.silentjoin")) {
-                if (fileConfig.getBoolean("silent." + player.getName(), false) == false) {
+                if (!fileConfig.getBoolean("silent." + player.getName())) {
                     fileConfig.set("silent." + player.getName(), true);
                     String msg = Lang.fileConfig.getString("silentjoin-enabled");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
