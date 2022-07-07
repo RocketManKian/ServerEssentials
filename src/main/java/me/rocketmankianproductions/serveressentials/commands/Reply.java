@@ -44,37 +44,8 @@ public class Reply implements CommandExecutor {
                         String msgsender = Lang.fileConfig.getString("reply-sender").replace("<target>", name).replace("<message>", sm);
                         String msgrecipient = Lang.fileConfig.getString("reply-recipient").replace("<sender>", player.getName()).replace("<message>", sm);
                         String msgsocialspy = Lang.fileConfig.getString("socialspy-message").replace("<sender>", player.getName()).replace("<target>", name).replace("<message>", sm);
-                        if (!player.hasPermission("se.socialspy")) {
-                            // Loop to check through all Online Players and get all players who are included within the HashMap
-                            for (Player admin : Bukkit.getOnlinePlayers()) {
-                                if (SocialSpy.socialspy.contains(admin)) {
-                                    if (admin.getUniqueId().equals(sender)){
-                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msgsender));
-                                        Bukkit.getPlayer(reply.get(player.getUniqueId())).sendMessage(ChatColor.translateAlternateColorCodes('&', msgrecipient));
-                                    }else{
-                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msgsocialspy));
-                                    }
-                                }
-                            }
-                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msgsender));
-                            Bukkit.getPlayer(reply.get(player.getUniqueId())).sendMessage(ChatColor.translateAlternateColorCodes('&', msgrecipient));
-                            return true;
-                        } else {
-                            // Loop to check through all Online Players and get all players who are included within the HashMap
-                            for (Player admin : Bukkit.getOnlinePlayers()) {
-                                if (SocialSpy.socialspy.contains(admin)) {
-                                    if (admin.getUniqueId().equals(sender)){
-                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msgsender));
-                                        Bukkit.getPlayer(reply.get(player.getUniqueId())).sendMessage(ChatColor.translateAlternateColorCodes('&', msgrecipient));
-                                    }else{
-                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msgsocialspy));
-                                    }
-                                }
-                            }
-                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msgsender));
-                            Bukkit.getPlayer(reply.get(player.getUniqueId())).sendMessage(ChatColor.translateAlternateColorCodes('&', msgrecipient));
-                            return true;
-                        }
+                        socialSpy(player, Bukkit.getPlayer(reply.get(player.getUniqueId())), msgsocialspy, msgsender, msgrecipient);
+                        return true;
                     } else {
                         String msg = Lang.fileConfig.getString("target-offline");
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
@@ -88,5 +59,17 @@ public class Reply implements CommandExecutor {
             return true;
         }
         return false;
+    }
+
+    public void socialSpy(Player messager, Player recipient, String msgsocialspy, String msgsender, String msgrecipient){
+        for (Player admin : Bukkit.getOnlinePlayers()) {
+            if (SocialSpy.fileConfig.getBoolean("Spy." + admin.getName())) {
+                if (admin != messager && admin != recipient) {
+                    admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msgsocialspy));
+                }
+            }
+        }
+        messager.sendMessage(ChatColor.translateAlternateColorCodes('&', msgsender));
+        recipient.sendMessage(ChatColor.translateAlternateColorCodes('&', msgrecipient));
     }
 }

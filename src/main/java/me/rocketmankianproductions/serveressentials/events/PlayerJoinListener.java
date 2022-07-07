@@ -48,12 +48,14 @@ public class PlayerJoinListener implements Listener {
 
         // Sets default value if player has the permission.
         if (player.hasPermission("se.silentjoin")) {
-            boolean b = SilentJoin.fileConfig.getBoolean("silent." + player.getName(), false);
-            SilentJoin.fileConfig.set("silent." + player.getName(), b);
-            try {
-                SilentJoin.fileConfig.save(SilentJoin.file);
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (SilentJoin.fileConfig.getString("silent." + player.getName()) == null){
+                boolean b = SilentJoin.fileConfig.getBoolean("silent." + player.getName(), false);
+                SilentJoin.fileConfig.set("silent." + player.getName(), b);
+                try {
+                    SilentJoin.fileConfig.save(SilentJoin.file);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
 

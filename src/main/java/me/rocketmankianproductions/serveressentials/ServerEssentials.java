@@ -62,6 +62,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         new SilentJoin(plugin);
         new TPToggle(plugin);
         new MsgToggle(plugin);
+        new SocialSpy(plugin);
         LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "Commands have been enabled.");
         // Register Update
         registerUpdate();
@@ -253,8 +254,6 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         // Send Warp Command
         getCommand("sendwarp").setExecutor(new SendWarp());
         getCommand("sendwarp").setTabCompleter(new TabCompletion());
-        // Social Spy Command
-        getCommand("socialspy").setExecutor(new SocialSpy());
         // Staff Chat Command
         getCommand("staffchat").setExecutor(new StaffChat());
         // Trash Command
@@ -270,6 +269,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         new TPToggle(plugin).run(sender, args, command);
         new MsgToggle(plugin).run(sender, args, command);
+        new SocialSpy(plugin).run(sender, args, command);
         return false;
     }
 
