@@ -19,15 +19,9 @@ public class Craft implements CommandExecutor {
             Player player = (Player) sender;
             if (ServerEssentials.permissionChecker(player, "se.craft")) {
                 if (args.length == 0) {
-                    if (sender instanceof Player) {
-                        player.playSound(((Player) sender).getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 3.0F, 2.0F);
-                        player.openWorkbench((Location) null, true);
-                        return true;
-                    } else {
-                        String msg = Lang.fileConfig.getString("invalid-player");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                        return true;
-                    }
+                    player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_CHIME, 3.0F, 2.0F);
+                    player.openWorkbench(null, true);
+                    return true;
                 }else{
                     String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/craft");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));

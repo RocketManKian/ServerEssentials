@@ -29,7 +29,7 @@ public class Rename implements CommandExecutor {
                             return true;
                         } else {
                             ItemMeta im = hand.getItemMeta();
-                            String myArgs = String.join(" ", (CharSequence[]) ArrayUtils.remove(args, 0));
+                            String myArgs = String.join(" ", ArrayUtils.remove(args, 0));
                             im.setDisplayName(ChatColor.translateAlternateColorCodes('&', myArgs));
                             hand.setItemMeta(im);
                             String msg = Lang.fileConfig.getString("rename-successful").replace("<name>", myArgs);
