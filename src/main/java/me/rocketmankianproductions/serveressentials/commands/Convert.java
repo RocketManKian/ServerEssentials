@@ -57,7 +57,6 @@ public class Convert implements CommandExecutor {
                             itemChecker(player, inv, Material.AMETHYST_SHARD, Material.AMETHYST_BLOCK, 4, 0, false);
                         }
                     } else {
-                        Bukkit.broadcastMessage(String.valueOf(materials));
                         String msg = Lang.fileConfig.getString("convert-invalid").replace("<item>", inv.getType().name());
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
