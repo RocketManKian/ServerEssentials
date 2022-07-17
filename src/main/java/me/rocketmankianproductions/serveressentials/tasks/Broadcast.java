@@ -11,13 +11,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import static org.bukkit.Bukkit.getServer;
-
 public class Broadcast extends BukkitRunnable {
-    ServerEssentials plugin;
     FileConfiguration config = ServerEssentials.plugin.getConfig();
     int counter = 0;
     private Player player;
+    private final ServerEssentials plugin;
 
     public Broadcast(ServerEssentials plugin) {
         this.plugin = plugin;
@@ -25,16 +23,20 @@ public class Broadcast extends BukkitRunnable {
 
     @Override
     public void run() {
-        if (config.getBoolean("broadcast")) {
-            Integer minplayers = ServerEssentials.getPlugin().getConfig().getInt("broadcast-min-players");
-            if (Bukkit.getOnlinePlayers().size() >= minplayers){
+        if (plugin.getConfig().getBoolean("broadcast")){
+            int minplayers = ServerEssentials.getPlugin().getConfig().getInt("broadcast-min-players");
+            if (Bukkit.getOnlinePlayers().size() >= minplayers) {
                 String prefix = plugin.getConfig().getString("prefix");
                 List<String> messages = (plugin.getConfig().getStringList("broadcast-messages"));
                 if (ServerEssentials.isConnectedToPlaceholderAPI) {
                     @NotNull List<String> placeholder = PlaceholderAPI.setPlaceholders(player, messages);
-                    getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', prefix + " " + ChatColor.WHITE + placeholder.get(counter)));
+                    for (Player player : Bukkit.getOnlinePlayers()){
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + " " + ChatColor.WHITE + placeholder.get(counter)));
+                    }
                 } else {
-                    getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', prefix + " " + ChatColor.WHITE + messages.get(counter)));
+                    for (Player player : Bukkit.getOnlinePlayers()){
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + " " + ChatColor.WHITE + messages.get(counter)));
+                    }
                 }
                 counter = counter + 1;
                 if (counter == messages.size()) {
