@@ -8,9 +8,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.HandlerList;
-import org.bukkit.event.Listener;
-import org.bukkit.plugin.Plugin;
 
 public class Reload {
 
@@ -38,7 +35,7 @@ public class Reload {
                 Lang.reload();
                 // Applying Broadcast Changes
                 ServerEssentials.broadcastLoop.cancel();
-                Long delay = ServerEssentials.getPlugin().getConfig().getLong("broadcast-delay");
+                long delay = ServerEssentials.getPlugin().getConfig().getLong("broadcast-delay");
                 ServerEssentials.broadcastLoop = new Broadcast(ServerEssentials.plugin).runTaskTimer(ServerEssentials.plugin, delay, delay);
             }
         } else if (sender instanceof ConsoleCommandSender) {
@@ -53,7 +50,7 @@ public class Reload {
             Setwarp.reload();
             Lang.reload();
             ServerEssentials.broadcastLoop.cancel();
-            Long delay = ServerEssentials.getPlugin().getConfig().getLong("broadcast-delay");
+            long delay = ServerEssentials.getPlugin().getConfig().getLong("broadcast-delay");
             ServerEssentials.broadcastLoop = new Broadcast(ServerEssentials.plugin).runTaskTimer(ServerEssentials.plugin, delay, delay);
         }
     }

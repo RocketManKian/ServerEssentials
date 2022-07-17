@@ -11,7 +11,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
@@ -301,7 +300,6 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
 
     public void registerDiscordSRV() {
         if (Bukkit.getPluginManager().getPlugin("DiscordSRV") != null) {
-            //Bleh
             LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "DiscordSRV Integration has been enabled.");
             getServer().getPluginManager().registerEvents(new DiscordMessageReceived(this), this);
             DiscordSRV.api.subscribe(discordsrvListener);
