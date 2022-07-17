@@ -37,6 +37,14 @@ public class TabCompletion implements TabCompleter {
                 return autoCompletes; // then return the list
             }
         }
+        // Sudo Command
+        if (command.getName().equalsIgnoreCase("sudo")){
+            List<String> autoCompletes = new ArrayList<>();
+            if (args.length == 2){
+                autoCompletes.add("<command>");
+                return autoCompletes;
+            }
+        }
         // Test Commands
         if (command.getName().equalsIgnoreCase("test")) { // checking if my command is the one i'm after
             List<String> autoCompletes = new ArrayList<>(); //create a new string list for tab completion

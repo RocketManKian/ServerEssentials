@@ -43,6 +43,8 @@ public class Lang {
                 fileConfig.addDefault("staff-leave-message", "&d(&5&lStaff&d) <player> &7has quit the game");
                 fileConfig.addDefault("website-command", "Website Command");
                 fileConfig.addDefault("discord-command", "Discord Command");
+                fileConfig.addDefault("youtube-command", "YouTube Command");
+                fileConfig.addDefault("twitch-command", "Twitch Command");
                 fileConfig.addDefault("gui-confirm-name", "&aYes");
                 fileConfig.addDefault("gui-deny-name", "&cNo");
                 fileConfig.addDefault("back-previous-location", "Teleported to previous location");
@@ -254,6 +256,8 @@ public class Lang {
                 fileConfig.addDefault("convert-successful", "Successfully converted <amount> <item> into <total> <block>");
                 fileConfig.addDefault("convert-unsuccessful", "You do not have enough <item> to convert");
                 fileConfig.addDefault("convert-invalid", "You cannot convert <item>");
+                fileConfig.addDefault("sudo-successful", "Successfully ran command <command> for <target>");
+                fileConfig.addDefault("sudo-command-invalid", "Command <command> doesn't exist.");
                 fileConfig.options().copyDefaults(true);
                 fileConfig.save(file);
                 LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "Lang.yml file created");
@@ -310,6 +314,12 @@ public class Lang {
                 }
                 if (fileConfig.getString("discord-command") == null){
                     fileConfig.set("discord-command", "Discord Command");
+                }
+                if (fileConfig.getString("youtube-command") == null){
+                    fileConfig.set("youtube-command", "YouTube Command");
+                }
+                if (fileConfig.getString("twitch-command") == null){
+                    fileConfig.set("twitch-command", "Twitch Command");
                 }
                 if (fileConfig.getString("gui-confirm-name") == null){
                     fileConfig.set("gui-confirm-name", "&aYes");
@@ -943,6 +953,12 @@ public class Lang {
                 }
                 if (fileConfig.getString("convert-invalid") == null){
                     fileConfig.set("convert-invalid", "You cannot convert <item>");
+                }
+                if (fileConfig.getString("sudo-successful") == null){
+                    fileConfig.set("sudo-successful", "Successfully ran command [<command>] for <target>");
+                }
+                if (fileConfig.getString("sudo-command-invalid") == null){
+                    fileConfig.set("sudo-command-invalid", "Command [<command>] doesn't exist.");
                 }
                 fileConfig.options().copyDefaults(true);
                 fileConfig.save(file);

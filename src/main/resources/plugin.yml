@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 1.79.9
+version: 1.80.0
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -15,6 +15,11 @@ commands:
   website:
     description: Website
     aliases: [web,site]
+  youtube:
+    description: YouTube
+    aliases: [yt]
+  twitch:
+    description: Twitch
   jump:
     description: Bounce like a bunny
   rules:
@@ -189,6 +194,8 @@ commands:
     description: Back Command
   convert:
     description: Convert Command
+  sudo:
+    description: Sudo Command
 permissions:
   se.all:
     description: "Gives access to all commands."
@@ -197,6 +204,8 @@ permissions:
       se.reload: true
       se.website: true
       se.discord: true
+      se.youtube: true
+      se.twitch: true
       se.rules: true
       se.hurt: true
       se.playtime: true
@@ -271,7 +280,7 @@ permissions:
       se.back.bypass: true
       se.teleport.bypass: true
       se.convert: true
-      se.nick: true
+      se.sudo: true
   se.reload:
     description: "Gives access to the /se reload command."
     default: false
@@ -280,6 +289,12 @@ permissions:
     default: false
   se.discord:
     description: "Gives access to the /discord command."
+    default: false
+  se.youtube:
+    description: "Gives access to the /youtube command."
+    default: false
+  se.twitch:
+    description: "Gives access to the /twitch command."
     default: false
   se.rules:
     description: "Gives access to the /rules command."
@@ -502,4 +517,7 @@ permissions:
     default: false
   se.setwarp.block:
     description: "Setwarp Block Command Permission"
+    default: false
+  se.sudo:
+    description: "Sudo Command Permission"
     default: false

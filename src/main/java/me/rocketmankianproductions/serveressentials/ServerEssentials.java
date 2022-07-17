@@ -118,6 +118,10 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("discord").setExecutor(new Discord());
         // Website Command
         getCommand("website").setExecutor(new Website());
+        // YouTube Command
+        getCommand("youtube").setExecutor(new YouTube());
+        // Twitch Command
+        getCommand("twitch").setExecutor(new Twitch());
         // Playtime Command
         getCommand("playtime").setExecutor(new Playtime());
         // SetSpawn Command
@@ -261,6 +265,9 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("back").setExecutor(new Back());
         // Convert Command
         getCommand("convert").setExecutor(new Convert());
+        // Convert Command
+        getCommand("sudo").setExecutor(new Sudo());
+        getCommand("sudo").setTabCompleter(new TabCompletion());
     }
 
     @Override
