@@ -29,6 +29,8 @@ public class SE implements CommandExecutor {
                             + "\n/se silentjoin - Toggles joining and leaving message"
                             + "\n/website - Shows Website Of Choice"
                             + "\n/discord - Shows Discord Of Choice"
+                            + "\n/youtube - Shows YouTube Channel Of Choice"
+                            + "\n/twitch - Shows Twitch Channel Of Choice"
                             + "\n/rules - Displays Rules"
                             + "\n/playtime - Displays Playtime"
                             + "\n/playtime (name) - Displays Playtime for another user"
@@ -90,10 +92,11 @@ public class SE implements CommandExecutor {
                             + "\n/socialspy - Enables or Disables the SocialSpy Feature"
                             + "\n/staffchat - Enables or Disables the StaffChat Command"
                             + "\n/trash - Opens the Trash Chute GUI"
-                            + "\n/report (user) - Report specified User to Admins"
+                            + "\n/report (player) - Report specified User to Admins"
                             + "\n/reportbug (bug) - Report specified Bug to Admins"
                             + "\n/back - Teleports to Previous Location"
-                            + "\n/convert - Converts Items into Block Form");
+                            + "\n/convert - Converts Items into Block Form"
+                            + "\n/sudo (player) <command> - Executes a Command as the Targeted Player.");
                     return true;
                 }
             }else if (args.length == 1){
