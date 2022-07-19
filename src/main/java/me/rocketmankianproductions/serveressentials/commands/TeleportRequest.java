@@ -50,7 +50,7 @@ public class TeleportRequest implements CommandExecutor {
         Player player = (Player) sender;
         if (command.getName().equalsIgnoreCase("tpa")) {
             if (ServerEssentials.permissionChecker(player, "se.tpa")) {
-                if (args.length == 1) {
+                if (args.length >= 1) {
                     Player target = Bukkit.getPlayer(args[0]);
                     if (target != null) {
                         if (target != player) {
