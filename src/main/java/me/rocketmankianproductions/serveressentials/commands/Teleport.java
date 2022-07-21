@@ -12,6 +12,10 @@ import org.jetbrains.annotations.NotNull;
 
 public class Teleport implements CommandExecutor {
 
+    double x = 0;
+    double y = 0;
+    double z = 0;
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player) {
@@ -146,55 +150,38 @@ public class Teleport implements CommandExecutor {
                     if (args.length == 3) {
                         teleportSave(player);
                         try {
-                            double x = 0;
-                            if (args[0].equalsIgnoreCase("~")){
-                                x = player.getLocation().getX();
-                            }else{
-                                x = Double.parseDouble(args[0]);
-                            }
-                            double y = 0;
-                            if (args[1].equalsIgnoreCase("~")){
-                                y = player.getLocation().getY();
-                            }else{
-                                y = Double.parseDouble(args[1]);
-                            }
-                            double z = 0;
-                            if (args[2].equalsIgnoreCase("~")){
-                                z = player.getLocation().getZ();
-                            }else{
-                                z = Double.parseDouble(args[2]);
-                            }
-                            Location location = new Location(((Player) sender).getWorld(), x, y, z);
+                            translateCoords(args, 0, 1, 2, player);
+                            Location location = new Location(player.getWorld(), x, y, z);
                             String msg = Lang.fileConfig.getString("teleport-pos-success");
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             player.teleport(location);
-                        } catch (NumberFormatException n){
+                        } catch (NumberFormatException n) {
                             String msg = Lang.fileConfig.getString("teleport-pos-invalid");
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         }
                         return true;
-                    } else if (args.length == 4){
-                        Player target = Bukkit.getPlayerExact(args[0]);
-                        if (target == null){
-                            String msg = Lang.fileConfig.getString("target-offline");
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                            return true;
-                        }else if (args[0].equalsIgnoreCase(target.getName())){
-                            if (args[0].equalsIgnoreCase(player.getName())){
+                    } else if (args.length == 4) {
+                        if (args[0].equalsIgnoreCase(player.getName()) || args[0].equalsIgnoreCase("@s") || args[0].equalsIgnoreCase("@p")) {
+                            teleportSave(player);
+                            try {
+                                translateCoords(args, 1, 2, 3, player);
+                                Location yourlocation = new Location(player.getWorld(), x, y, z);
+                                player.teleport(yourlocation);
+                                String msg = Lang.fileConfig.getString("teleport-pos-success");
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            } catch (NumberFormatException e) {
+                                String msg = Lang.fileConfig.getString("teleport-pos-invalid");
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            }
+                        } else if (!args[0].equalsIgnoreCase(player.getName())) {
+                            Player target = Bukkit.getPlayerExact(args[0]);
+                            if (target == null){
+                                String msg = Lang.fileConfig.getString("target-offline");
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                return true;
+                            }else {
                                 try {
-                                    World myworld = player.getWorld();
-                                    Location yourlocation = new Location(myworld, Double.parseDouble(args[1]), Double.parseDouble(args[2]), Double.parseDouble(args[3]));
-                                    player.teleport(yourlocation);
-                                    String msg = Lang.fileConfig.getString("teleport-pos-success");
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                } catch (NumberFormatException e) {
-                                    String msg = Lang.fileConfig.getString("teleport-pos-invalid");
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                }
-                            }else{
-                                try {
-                                    World myworld = target.getWorld();
-                                    Location yourlocation = new Location(myworld, Double.parseDouble(args[1]), Double.parseDouble(args[2]), Double.parseDouble(args[3]));
+                                    Location yourlocation = new Location(target.getWorld(), Double.parseDouble(args[1]), Double.parseDouble(args[2]), Double.parseDouble(args[3]));
                                     target.teleport(yourlocation);
                                     String msg = Lang.fileConfig.getString("teleport-pos-target-success");
                                     target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
@@ -205,12 +192,12 @@ public class Teleport implements CommandExecutor {
                                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                                 }
                             }
-                            return true;
-                        }else{
-                            String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/teleport <x> <y> <z>");
+                        } else {
+                            String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/teleport <target> <x> <y> <z>");
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             return true;
                         }
+                        return true;
                     }else{
                         String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/teleport <x> <y> <z>");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
@@ -243,7 +230,7 @@ public class Teleport implements CommandExecutor {
                     String msg = Lang.fileConfig.getString("target-offline");
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
-                }else if (args[0].equalsIgnoreCase(target.getName())) {
+                }else {
                     try {
                         World myworld = target.getWorld();
                         Location yourlocation = new Location(myworld, Double.parseDouble(args[1]), Double.parseDouble(args[2]), Double.parseDouble(args[3]));
@@ -305,6 +292,24 @@ public class Teleport implements CommandExecutor {
         }
         return false;
     }
+    public void translateCoords (String[] args, int one, int two, int three, Player player){
+        if (args[one].equalsIgnoreCase("~")) {
+            x = player.getLocation().getX();
+        } else {
+            x = Double.parseDouble(args[one]);
+        }
+        if (args[two].equalsIgnoreCase("~")) {
+            y = player.getLocation().getY();
+        } else {
+            y = Double.parseDouble(args[two]);
+        }
+        if (args[three].equalsIgnoreCase("~")) {
+            z = player.getLocation().getZ();
+        } else {
+            z = Double.parseDouble(args[three]);
+        }
+    }
+
     public static void teleportSave(Player player){
         if (ServerEssentials.plugin.getConfig().getBoolean("teleport-save")) {
             if (Back.location.containsKey(player.getUniqueId())) {
