@@ -62,22 +62,24 @@ public class TabCompletion implements TabCompleter {
         }
         // Speed Command
         if (command.getName().equalsIgnoreCase("speed")) { // checking if my command is the one i'm after
-            List<String> autoCompletes = new ArrayList<>(); //create a new string list for tab completion
-            if (args.length == 1) { //only interested in the first sub command, if you wanted to cover more deeper sub commands, you could have multiple if statements or a switch statement
-                Player player = (Player) sender;
-                if (player.hasPermission("se.speed")){
+            Player player = (Player) sender;
+            if (player.hasPermission("se.speed")){
+                List<String> autoCompletes = new ArrayList<>(); //create a new string list for tab completion
+                if (args.length == 1) { //only interested in the first sub command, if you wanted to cover more deeper sub commands, you could have multiple if statements or a switch statement
                     autoCompletes.add("walk");
                     autoCompletes.add("fly");
                     autoCompletes.add("reset");
+                    return autoCompletes; // then return the list
+                }else if (args.length == 2) {
+                    if (args[0].equalsIgnoreCase("reset")) {
+                        autoCompletes.add("fly");
+                        autoCompletes.add("walk");
+                    }else{
+                        autoCompletes.add("<1-10>");
+                        autoCompletes.add("<player>");
+                    }
+                    return autoCompletes; // then return the list
                 }
-                return autoCompletes; // then return the list
-            }else if (args.length == 2){
-                Player player = (Player) sender;
-                if (player.hasPermission("se.speed")){
-                    autoCompletes.add("walk");
-                    autoCompletes.add("fly");
-                }
-                return autoCompletes; // then return the list
             }
         }
         // Spawn Command

@@ -56,7 +56,7 @@ public class TeleportRequest implements CommandExecutor {
                         if (target != player) {
                             if (!blacklistCheck(player, target, "teleport-request-blacklisted-world")){
                                 if (!teleportcooldown.containsKey(player.getUniqueId()) || player.hasPermission("se.teleport.bypass")){
-                                    if (TPToggle.fileConfig.getBoolean("tptoggle." + target.getName(), false) == false) {
+                                    if (TPToggle.fileConfig.getBoolean("tptoggle." + target.getName()) == false) {
                                         tpa.put(target.getUniqueId(), player.getUniqueId());
                                         teleportRequestMessage(player, target, "teleport-request-sent", "teleport-request-cancel-warning", "teleport-request-target-receive", "teleport-request-timeout-warning", delay3);
                                         if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
