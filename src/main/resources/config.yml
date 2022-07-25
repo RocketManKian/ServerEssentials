@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 1.80.2
+# This config was generated for version 1.80.3
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -63,8 +63,8 @@ broadcast: false
 # Add Broadcast Messages Here
 # Make sure to use the Format [- "(messagehere)"] on each line to add a new message into the cycle.
 broadcast-messages:
-- "Test Broadcast"
-- "Test Broadcast 2"
+  - "Test Broadcast"
+  - "Test Broadcast 2"
 # Ticks Between Each Message
 # 20 Ticks = 1 Second
 broadcast-delay: 1000
