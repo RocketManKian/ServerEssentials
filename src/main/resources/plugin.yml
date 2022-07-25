@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 1.80.2
+version: 1.80.3
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -498,7 +498,7 @@ permissions:
     description: "Invsee Others Permission"
     default: false
   se.staffchat:
-    description: "Invsee Others Permission"
+    description: "StaffChat Command"
     default: false
   se.trash:
     description: "Trash Command"

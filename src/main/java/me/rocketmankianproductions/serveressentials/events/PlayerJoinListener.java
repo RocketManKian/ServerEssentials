@@ -62,14 +62,14 @@ public class PlayerJoinListener implements Listener {
         // Decide if Join Message gets posted or not.
         if (player.hasPlayedBefore()) {
             if (ServerEssentials.getPlugin().getConfig().getBoolean("enable-join-message")) {
-                if (SilentJoin.fileConfig.getBoolean("silent." + player.getName(), false) == false) {
+                if (SilentJoin.fileConfig.getBoolean("silent." + player.getName()) == false) {
                     String jm = Lang.fileConfig.getString("join-symbol");
                     pj.setJoinMessage(ChatColor.translateAlternateColorCodes('&', jm + " " + player.getName()));
                 } else {
                     pj.setJoinMessage("");
                 }
             } else {
-                if (SilentJoin.fileConfig.getBoolean("silent." + player.getName(), true) == true) {
+                if (SilentJoin.fileConfig.getBoolean("silent." + player.getName()) == true) {
                     pj.setJoinMessage("");
                 }
             }
