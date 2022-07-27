@@ -19,8 +19,14 @@ public class PlayerLeaveListener implements Listener {
         Player player = pj.getPlayer();
         if (ServerEssentials.getPlugin().getConfig().getBoolean("enable-leave-message")) {
             if (SilentJoin.fileConfig.getBoolean("silent." + player.getName()) == false) {
-                String lm = Lang.fileConfig.getString("leave-symbol");
-                pj.setQuitMessage(ChatColor.translateAlternateColorCodes('&', lm + " " + player.getPlayerListName()));
+                if (Lang.fileConfig.getString("leave-symbol").isEmpty()){
+                    pj.setQuitMessage("");
+                }else{
+                    String lm = Lang.fileConfig.getString("leave-symbol");
+                    pj.setQuitMessage(ChatColor.translateAlternateColorCodes('&', lm + " " + player.getPlayerListName()));
+                }
+            }else{
+                pj.setQuitMessage("");
             }
         }else{
             if (SilentJoin.fileConfig.getBoolean("silent." + player.getName()) == true){
