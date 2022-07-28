@@ -81,7 +81,7 @@ public class Playtime implements CommandExecutor {
         int seconds = rest / 20;
         if (target != null){
             String msg = Lang.fileConfig.getString(stringmsg).replace("<target>", target.getName()).replace("<days>", String.valueOf(days)).replace("<hours>", String.valueOf(hours)).replace("<minutes>", String.valueOf(minutes)).replace("<seconds>", String.valueOf(seconds));
-            player.sendMessage(msg);
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
         }else{
             String msg = Lang.fileConfig.getString(stringmsg).replace("<days>", String.valueOf(days)).replace("<hours>", String.valueOf(hours)).replace("<minutes>", String.valueOf(minutes)).replace("<seconds>", String.valueOf(seconds));
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
