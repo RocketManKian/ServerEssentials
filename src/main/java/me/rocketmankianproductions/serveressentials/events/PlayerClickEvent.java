@@ -14,7 +14,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.UUID;
 
 public class PlayerClickEvent implements Listener {
@@ -38,7 +37,7 @@ public class PlayerClickEvent implements Listener {
                     confirmDenyGUI(player, "warp", warp);
                     warp2 = warp;
                 }else if (e.getClick()==ClickType.LEFT) {
-                    if (ServerEssentials.permissionChecker(player, "se.warps.warp" + warp) || ServerEssentials.permissionChecker(player, "se.warps.all")) {
+                    if (player.hasPermission("se.warps.all") || ServerEssentials.permissionChecker(player, "se.warps." + warp)) {
                         if (ServerEssentials.plugin.getConfig().getInt("warp-teleport") == 0){
                             Location loc = getWarpLocation(warp, player);
                             Warp.warpSave(player);

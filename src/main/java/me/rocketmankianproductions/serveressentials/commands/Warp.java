@@ -29,62 +29,53 @@ public class Warp implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         int delay = ServerEssentials.plugin.getConfig().getInt("warp-teleport");
         Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-warp-subtitle");
-        // Checking if the player has the correct permission
         if (sender instanceof Player){
             Player player = (Player) sender;
             if (ServerEssentials.permissionChecker(player, "se.warp")) {
                 if (args.length == 1) {
                     if (Setwarp.file.exists() && Setwarp.fileConfig.getString("Warp." + args[0] + ".World") != null) {
-                        // Check if the File Exists and if Location.World has data
-                        boolean hasPerm2 = ServerEssentials.permissionChecker(player, "se.warps." + args[0]);
-                        if (hasPerm2) {
+                        if (player.hasPermission("se.warps.all") || ServerEssentials.permissionChecker(player, "se.warps." + args[0])) {
                             Location loc = getLocation(args);
-                            if (args.length == 1) {
-                                if (ServerEssentials.plugin.getConfig().getInt("warp-teleport") == 0){
-                                    warpSave(player);
-                                    warpTeleport(player, loc, "warp-message", subtitle, args[0]);
-                                }else{
-                                    if (ServerEssentials.plugin.getConfig().getBoolean("warp-movement-cancel")){
-                                        cancel.add(player.getUniqueId());
-                                        String msg = Lang.fileConfig.getString("warp-wait-message").replace("<warp>", args[0]).replace("<time>", String.valueOf(delay));
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                        delay = delay * 20;
-                                        if (warpteleport.containsKey(player.getUniqueId()) && warpteleport.get(player.getUniqueId()) != null) {
-                                            Bukkit.getScheduler().cancelTask(warpteleport.get(player.getUniqueId()));
-                                        }
-                                        warpteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
-                                            public void run() {
-                                                if (cancel.contains(player.getUniqueId())){
-                                                    if (warpteleport.containsKey(player.getUniqueId())) {
-                                                        warpSave(player);
-                                                        warpTeleport(player, loc, "warp-message", subtitle, args[0]);
-                                                    }
-                                                }
-                                            }
-                                        }, delay));
-                                        return true;
-                                    }else{
-                                        String msg = Lang.fileConfig.getString("warp-wait-message").replace("<warp>", args[0]).replace("<time>", String.valueOf(delay));
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                        delay = delay * 20;
-                                        if (warpteleport.containsKey(player.getUniqueId()) && warpteleport.get(player.getUniqueId()) != null) {
-                                            Bukkit.getScheduler().cancelTask(warpteleport.get(player.getUniqueId()));
-                                        }
-                                        warpteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
-                                            public void run() {
+                            if (ServerEssentials.plugin.getConfig().getInt("warp-teleport") == 0) {
+                                warpSave(player);
+                                warpTeleport(player, loc, "warp-message", subtitle, args[0]);
+                            } else {
+                                if (ServerEssentials.plugin.getConfig().getBoolean("warp-movement-cancel")) {
+                                    cancel.add(player.getUniqueId());
+                                    String msg = Lang.fileConfig.getString("warp-wait-message").replace("<warp>", args[0]).replace("<time>", String.valueOf(delay));
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    delay = delay * 20;
+                                    if (warpteleport.containsKey(player.getUniqueId()) && warpteleport.get(player.getUniqueId()) != null) {
+                                        Bukkit.getScheduler().cancelTask(warpteleport.get(player.getUniqueId()));
+                                    }
+                                    warpteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                                        public void run() {
+                                            if (cancel.contains(player.getUniqueId())) {
                                                 if (warpteleport.containsKey(player.getUniqueId())) {
                                                     warpSave(player);
                                                     warpTeleport(player, loc, "warp-message", subtitle, args[0]);
                                                 }
                                             }
-                                        }, delay));
-                                        return true;
+                                        }
+                                    }, delay));
+                                    return true;
+                                } else {
+                                    String msg = Lang.fileConfig.getString("warp-wait-message").replace("<warp>", args[0]).replace("<time>", String.valueOf(delay));
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    delay = delay * 20;
+                                    if (warpteleport.containsKey(player.getUniqueId()) && warpteleport.get(player.getUniqueId()) != null) {
+                                        Bukkit.getScheduler().cancelTask(warpteleport.get(player.getUniqueId()));
                                     }
+                                    warpteleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                                        public void run() {
+                                            if (warpteleport.containsKey(player.getUniqueId())) {
+                                                warpSave(player);
+                                                warpTeleport(player, loc, "warp-message", subtitle, args[0]);
+                                            }
+                                        }
+                                    }, delay));
+                                    return true;
                                 }
-                            }else{
-                                String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/warp (warp)");
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                return true;
                             }
                         }
                     } else {
@@ -93,7 +84,7 @@ public class Warp implements CommandExecutor {
                         return true;
                     }
                 } else if (args.length == 0) {
-                    if (player.hasPermission("se.warp") || player.hasPermission("se.all")) {
+                    if (ServerEssentials.permissionChecker(player, "se.warp")) {
                         if (ServerEssentials.plugin.getConfig().getBoolean("enable-warp-gui")){
                             int index = 0;
                             Integer size = ServerEssentials.plugin.getConfig().getInt("warp-gui-size");
@@ -179,13 +170,9 @@ public class Warp implements CommandExecutor {
                                 return true;
                             }
                         }
-                    } else {
-                        String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.warp");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                        return true;
                     }
                 }else if (args.length == 2){
-                    if (player.hasPermission("se.setwarp.block")){
+                    if (ServerEssentials.permissionChecker(player, "se.setwarp.block")){
                         if (args[0].equalsIgnoreCase("setblock")){
                             if (Setwarp.fileConfig.getString("Warp." + args[1] + ".World") != null){
                                 Material material = Material.valueOf(player.getInventory().getItemInMainHand().getType().toString());
@@ -215,10 +202,6 @@ public class Warp implements CommandExecutor {
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             return true;
                         }
-                    }else{
-                        String perm = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.setwarp.block");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', perm));
-                        return true;
                     }
                 }else{
                     String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/warp (warp)");
