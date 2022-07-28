@@ -332,13 +332,12 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
     }
 
     public static boolean permissionChecker(Player player, String perm) {
-        boolean hasPerm;
+        boolean hasPerm = false;
         if (player.hasPermission(perm) || player.hasPermission("se.all")){
             hasPerm = true;
         }else{
             String permmsg = Lang.fileConfig.getString("no-permission-message").replace("<permission>", perm);
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', permmsg));
-            hasPerm = false;
         }
         return hasPerm;
     }
