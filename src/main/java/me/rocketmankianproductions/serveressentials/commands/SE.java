@@ -96,7 +96,9 @@ public class SE implements CommandExecutor {
                             + "\n/reportbug (bug) - Report specified Bug to Admins"
                             + "\n/back - Teleports to Previous Location"
                             + "\n/convert - Converts Items into Block Form"
-                            + "\n/sudo (player) <command> - Executes a Command as the Targeted Player.");
+                            + "\n/sudo (player) <command> - Executes a Command as the Targeted Player."
+                            + "\n/sudo %console% <command> - Executes a Command as Console."
+                            + "\n/whois <player> - Lists various pieces of Player Info");
                     return true;
                 }
             }else if (args.length == 1){
