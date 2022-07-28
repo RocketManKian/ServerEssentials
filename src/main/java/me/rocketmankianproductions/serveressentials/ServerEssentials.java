@@ -265,9 +265,11 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("back").setExecutor(new Back());
         // Convert Command
         getCommand("convert").setExecutor(new Convert());
-        // Convert Command
+        // Sudo Command
         getCommand("sudo").setExecutor(new Sudo());
         getCommand("sudo").setTabCompleter(new TabCompletion());
+        // Whois Command
+        getCommand("whois").setExecutor(new Whois());
     }
 
     @Override
