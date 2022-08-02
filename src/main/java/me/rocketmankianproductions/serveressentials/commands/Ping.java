@@ -29,7 +29,7 @@ public class Ping implements CommandExecutor {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }else{
-                        String msg = Lang.fileConfig.getString("ping-self").replace("<target>", target.getName()).replace("<ping>", String.valueOf(target.getPing()));
+                        String msg = Lang.fileConfig.getString("ping-target").replace("<target>", target.getName()).replace("<ping>", String.valueOf(target.getPing()));
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
