@@ -1,10 +1,10 @@
 name: ServerEssentials
-version: 1.80.6
+version: 1.80.7
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
 description: A Plugin for all Server Owners!
-softdepend: [PlaceholderAPI, DiscordSRV] # This is used, if your plugin works without PlaceholderAPI.
+softdepend: [PlaceholderAPI, DiscordSRV, AcceptTheRules] # This is used, if your plugin works without PlaceholderAPI.
 commands:
   se:
     description: Server Essentials Root Command
@@ -199,6 +199,8 @@ commands:
   whois:
     description: WhoIs Command
     aliases: [checkaccount, checkplayer, playerinfo]
+  ping:
+    description: Ping Command
 permissions:
   se.all:
     description: "Gives access to all commands."
@@ -285,6 +287,7 @@ permissions:
       se.convert: true
       se.sudo: true
       se.whois: true
+      se.ping: true
   se.reload:
     description: "Gives access to the /se reload command."
     default: false
@@ -527,4 +530,7 @@ permissions:
     default: false
   se.whois:
     description: "Whois Command Permission"
+    default: false
+  se.ping:
+    description: "Ping Command Permission"
     default: false
