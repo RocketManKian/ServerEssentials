@@ -258,6 +258,8 @@ public class Lang {
                 fileConfig.addDefault("convert-invalid", "You cannot convert <item>");
                 fileConfig.addDefault("sudo-successful", "Successfully ran command <command> for <target>");
                 fileConfig.addDefault("sudo-command-invalid", "Command <command> doesn't exist.");
+                fileConfig.addDefault("ping-self", "Ping: <ping>");
+                fileConfig.addDefault("ping-target", "<target>'s Ping: <ping>");
                 fileConfig.options().copyDefaults(true);
                 fileConfig.save(file);
                 LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "Lang.yml file created");
@@ -959,6 +961,12 @@ public class Lang {
                 }
                 if (fileConfig.getString("sudo-command-invalid") == null){
                     fileConfig.set("sudo-command-invalid", "Command [<command>] doesn't exist.");
+                }
+                if (fileConfig.getString("ping-self") == null){
+                    fileConfig.set("ping-self", "Ping: <ping>");
+                }
+                if (fileConfig.getString("ping-target") == null){
+                    fileConfig.set("ping-target", "<target>'s Ping: <ping>");
                 }
                 fileConfig.options().copyDefaults(true);
                 fileConfig.save(file);

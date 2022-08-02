@@ -270,6 +270,8 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("sudo").setTabCompleter(new TabCompletion());
         // Whois Command
         getCommand("whois").setExecutor(new Whois());
+        // Ping Command
+        getCommand("ping").setExecutor(new Ping());
     }
 
     @Override
