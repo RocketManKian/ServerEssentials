@@ -65,7 +65,7 @@ public class Sudo implements CommandExecutor {
                 if (isCommand){
                     Player target = Bukkit.getPlayer(args[0]);
                     if (target != null) {
-                        sudoSuccess(args, cmdargs, cmdname, target, null);
+                        sudoSuccess(args, cmdargs, cmdname, target, sender);
                         return true;
                     }else{
                         String msg = Lang.fileConfig.getString("target-offline");
@@ -101,7 +101,7 @@ public class Sudo implements CommandExecutor {
         }
         return isCommand;
     }
-    public void sudoSuccess(String[] args, String cmdargs, String cmdname, Player target, Player player){
+    public void sudoSuccess(String[] args, String cmdargs, String cmdname, Player target, CommandSender sender){
         for (int i = 1; i < args.length; i++) {
             String arg = (args[i] + " ");
             cmdargs = (cmdargs + arg);
@@ -114,7 +114,7 @@ public class Sudo implements CommandExecutor {
             Bukkit.dispatchCommand(console, cmdargs.replace("/", ""));
         }else{
             String msg = Lang.fileConfig.getString("sudo-successful");
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg).replace("<command>", cmdname).replace("<target>", target.getName()));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg).replace("<command>", cmdname).replace("<target>", target.getName()));
             Bukkit.dispatchCommand(target, cmdargs.replace("/", ""));
         }
     }
