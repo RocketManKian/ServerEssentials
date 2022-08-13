@@ -253,7 +253,7 @@ public class TeleportRequest implements CommandExecutor {
                             String msg2 = Lang.fileConfig.getString("teleport-wait-message").replace("<player>", player.getName()).replace("<time>", String.valueOf(tpwait));
                             target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
                             tpwait = tpwait * 20;
-                            teleportSuccess(target, player, tpwait, "tpa", false);
+                            teleportSuccess(player, target, tpwait, "tpa", false);
                             return true;
                         } else if (tpahere.containsKey(player.getUniqueId())) {
                             Player target = Bukkit.getPlayer(tpahere.get(player.getUniqueId()));
