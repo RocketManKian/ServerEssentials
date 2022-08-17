@@ -70,8 +70,10 @@ public class Message implements CommandExecutor {
                         String arg = (args[i] + " ");
                         sm = (sm + arg);
                     }
-                    Bukkit.getLogger().info(ChatColor.YELLOW + "me" + ChatColor.GOLD + " >> " + ChatColor.WHITE + targetname + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
-                    recipient.sendMessage("Console" + ChatColor.GOLD + " >> " + ChatColor.YELLOW + "me" + ChatColor.GRAY + " : " + ChatColor.translateAlternateColorCodes('&', sm));
+                    String msgsender = Lang.fileConfig.getString("message-sender").replace("<target>", targetname).replace("<message>", sm);
+                    String msgrecipientconsole = Lang.fileConfig.getString("message-recipient-console").replace("<message>", sm);
+                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msgsender));
+                    recipient.sendMessage(ChatColor.translateAlternateColorCodes('&', msgrecipientconsole));
                     return true;
                 } else {
                     String msg = Lang.fileConfig.getString("message-disabled");

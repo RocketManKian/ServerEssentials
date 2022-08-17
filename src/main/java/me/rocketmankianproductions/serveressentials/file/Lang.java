@@ -123,6 +123,7 @@ public class Lang {
                 fileConfig.addDefault("message-toggle-disabled", "Incoming Messages have been Enabled");
                 fileConfig.addDefault("message-sender", "&eme &6>> &f<target> &7: <message>");
                 fileConfig.addDefault("message-recipient", "&f<sender> &6>> &eme &7: <message>");
+                fileConfig.addDefault("message-recipient-console", "&fConsole &6>> &eme &7: <message>");
                 fileConfig.addDefault("reply-sender", "&eme &6>> &f<target> &7: <message>");
                 fileConfig.addDefault("reply-recipient", "&f<sender> &6>> &eme &7: <message>");
                 fileConfig.addDefault("reply-no-message", "There is no message to reply to");
@@ -559,6 +560,9 @@ public class Lang {
                 }
                 if (fileConfig.getString("message-recipient") == null){
                     fileConfig.set("message-recipient", "&f<sender> &6>> &eme &7: <message>");
+                }
+                if (fileConfig.getString("message-recipient-console") == null){
+                    fileConfig.set("message-recipient-console", "&fConsole &6>> &eme &7: <message>");
                 }
                 if (fileConfig.getString("reply-sender") == null){
                     fileConfig.set("reply-sender", "&eme &6>> &f<target> &7: <message>");
