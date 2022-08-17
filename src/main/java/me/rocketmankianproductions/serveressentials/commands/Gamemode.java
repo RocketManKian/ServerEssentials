@@ -121,6 +121,10 @@ public class Gamemode implements CommandExecutor {
                         return true;
                     }
                 }
+            }else{
+                String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gm <survival/creative/spectator/adventure>");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                return true;
             }
         }else if (sender instanceof ConsoleCommandSender) {
             if ((command.getName().equalsIgnoreCase("gamemode") || command.getName().equalsIgnoreCase("gm"))) {
@@ -180,6 +184,10 @@ public class Gamemode implements CommandExecutor {
                         Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
                         return true;
                     }
+                }else{
+                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gm <survival/creative/spectator/adventure>");
+                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
+                    return true;
                 }
             }else if ((command.getName().equalsIgnoreCase("gmc"))){
                 if (args.length == 1) {
@@ -238,7 +246,7 @@ public class Gamemode implements CommandExecutor {
                     return true;
                 }
             } else{
-                String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gamemode <mode> (player)");
+                String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gm <survival/creative/spectator/adventure>");
                 Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
                 return true;
             }
