@@ -63,7 +63,7 @@ public class PlayerJoinListener implements Listener {
         if (player.hasPlayedBefore()) {
             if (ServerEssentials.getPlugin().getConfig().getBoolean("enable-join-message")) {
                 if (SilentJoin.fileConfig.getBoolean("silent." + player.getName()) == false) {
-                    if (Lang.fileConfig.getString("leave-symbol").isEmpty()){
+                    if (Lang.fileConfig.getString("join-symbol").isEmpty()){
                         pj.setJoinMessage("");
                     }else{
                         String jm = Lang.fileConfig.getString("join-symbol");
