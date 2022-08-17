@@ -168,6 +168,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("invsee").setExecutor(new Invsee());
         // Gamemode Command
         getCommand("gamemode").setExecutor(new Gamemode());
+        getCommand("gamemode").setTabCompleter(new TabCompletion());
         // Creative Command
         getCommand("creative").setExecutor(new Gamemode());
         // Survival Command
