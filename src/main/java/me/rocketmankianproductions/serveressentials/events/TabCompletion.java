@@ -45,6 +45,16 @@ public class TabCompletion implements TabCompleter {
                 return autoCompletes;
             }
         }
+        if (command.getName().equalsIgnoreCase("gamemode")){
+            List<String> autoCompletes = new ArrayList<>();
+            if (args.length == 1){
+                autoCompletes.add("survival");
+                autoCompletes.add("creative");
+                autoCompletes.add("adventure");
+                autoCompletes.add("spectator");
+                return autoCompletes;
+            }
+        }
         // Test Commands
         if (command.getName().equalsIgnoreCase("test")) { // checking if my command is the one i'm after
             List<String> autoCompletes = new ArrayList<>(); //create a new string list for tab completion

@@ -33,7 +33,7 @@ public class Gamemode implements CommandExecutor {
                     gma(args, player);
                     return true;
                 }else{
-                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gm <survival/creative/spectator/adventure>");
+                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gamemode <survival/creative/spectator/adventure>");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }
@@ -122,7 +122,7 @@ public class Gamemode implements CommandExecutor {
                     }
                 }
             }else{
-                String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gm <survival/creative/spectator/adventure>");
+                String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gamemode <survival/creative/spectator/adventure>");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                 return true;
             }
@@ -185,7 +185,7 @@ public class Gamemode implements CommandExecutor {
                         return true;
                     }
                 }else{
-                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gm <survival/creative/spectator/adventure>");
+                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gamemode <survival/creative/spectator/adventure>");
                     Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
                     return true;
                 }
@@ -246,7 +246,7 @@ public class Gamemode implements CommandExecutor {
                     return true;
                 }
             } else{
-                String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gm <survival/creative/spectator/adventure>");
+                String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gamemode <survival/creative/spectator/adventure>");
                 Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
                 return true;
             }
