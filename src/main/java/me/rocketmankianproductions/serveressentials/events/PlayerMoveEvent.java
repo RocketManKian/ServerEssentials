@@ -39,18 +39,17 @@ public class PlayerMoveEvent implements Listener {
         }
         if (TeleportRequest.cancel.contains(player.getUniqueId()) || TeleportRequest.cancel.contains(Bukkit.getPlayer(TeleportRequest.tpa.get(player.getUniqueId())))){
             if (m.getFrom().getBlockX() != m.getTo().getBlockX() || m.getFrom().getBlockZ() != m.getTo().getBlockZ() || m.getFrom().getBlockY() != m.getTo().getBlockY()) {
-                UUID player2u = getKey(TeleportRequest.tpa, player.getUniqueId());
-                Player player2 = Bukkit.getPlayer(getKey(TeleportRequest.tpa, player.getUniqueId()));
-                Player player3 = Bukkit.getPlayer(getKey(TeleportRequest.tpahere, player.getUniqueId()));
-                UUID player3u = getKey(TeleportRequest.tpa, player.getUniqueId());
-                if (player.getUniqueId().equals(player2u)){
-                    TeleportRequest.tpa.remove(player2);
-                    TeleportRequest.cancelTimeout(player2);
+                UUID playertpau = getKey(TeleportRequest.tpa, player.getUniqueId());
+                Player playertpa = Bukkit.getPlayer(getKey(TeleportRequest.tpa, player.getUniqueId()));
+                Player playertpahere = Bukkit.getPlayer(getKey(TeleportRequest.tpahere, player.getUniqueId()));
+                UUID playertpahereu = getKey(TeleportRequest.tpahere, player.getUniqueId());
+                if (player.getUniqueId().equals(playertpau)){
+                    TeleportRequest.tpa.remove(playertpa);
+                    TeleportRequest.cancelTimeout(playertpa);
                     TeleportRequest.cancel.remove((Bukkit.getPlayer(TeleportRequest.tpa.get(player.getUniqueId()))));
-                }
-                if (player.getUniqueId().equals(player3u)){
-                    TeleportRequest.cancelTimeout(player3);
-                    TeleportRequest.tpahere.remove(player3);
+                }else if (player.getUniqueId().equals(playertpahereu)){
+                    TeleportRequest.cancelTimeout(playertpahere);
+                    TeleportRequest.tpahere.remove(playertpahere);
                     TeleportRequest.cancel.remove((Bukkit.getPlayer(TeleportRequest.tpahere.get(player.getUniqueId()))));
                 }
                 TeleportRequest.cancel.remove(player.getUniqueId());
