@@ -2,7 +2,6 @@ package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
-import net.kyori.adventure.platform.facet.Facet;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -29,7 +28,6 @@ public class TeleportRequest implements CommandExecutor {
     public static int taskID;
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-
         int tpwait = ServerEssentials.plugin.getConfig().getInt("teleport-wait");
         Long delay = ServerEssentials.getPlugin().getConfig().getLong("teleport-cancel");
         int delay2 = (int) (delay * 20);

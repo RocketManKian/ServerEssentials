@@ -23,6 +23,7 @@ public class Feed implements CommandExecutor {
                         if (target != player) {
                             target = Bukkit.getServer().getPlayer(args[0]);
                             target.setFoodLevel(20);
+                            target.setSaturation(5);
                             String msg = Lang.fileConfig.getString("feed-sender-message").replace("<target>", target.getName());
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             String msg2 = Lang.fileConfig.getString("feed-target-message".replace("<sender>", sender.getName()));
@@ -32,6 +33,7 @@ public class Feed implements CommandExecutor {
                             String msg = Lang.fileConfig.getString("feed-self");
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                             player.setFoodLevel(20);
+                            player.setSaturation(5);
                             return true;
                         }
                     }
@@ -39,6 +41,8 @@ public class Feed implements CommandExecutor {
                     String msg = Lang.fileConfig.getString("feed-self");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                     player.setFoodLevel(20);
+                    player.setSaturation(5);
+                    Bukkit.broadcastMessage(String.valueOf(player.getSaturation()));
                     return true;
                 } else {
                     String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/feed (player)");
@@ -56,6 +60,7 @@ public class Feed implements CommandExecutor {
                 } else {
                     target = Bukkit.getServer().getPlayer(args[0]);
                     target.setFoodLevel(20);
+                    target.setSaturation(5);
                     String msg = Lang.fileConfig.getString("feed-sender-message").replace("<target>", target.getName());
                     Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
                     String msg2 = Lang.fileConfig.getString("feed-target-message").replace("<sender>", "Console");
@@ -74,6 +79,7 @@ public class Feed implements CommandExecutor {
                 } else {
                     target = Bukkit.getServer().getPlayer(args[0]);
                     target.setFoodLevel(20);
+                    target.setSaturation(5);
                     block.sendMessage("Successfully fed " + target.getName());
                     return true;
                 }
