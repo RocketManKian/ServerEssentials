@@ -1,10 +1,11 @@
 name: ServerEssentials
-version: 1.81.2
+version: 1.81.3
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
 description: A Plugin for all Server Owners!
 softdepend: [PlaceholderAPI, DiscordSRV, DiscordSRV-Staff-Chat, AcceptTheRules, HuskHomes] # Plugins that load before ServerEssentials
+loadbefore: [Essentials]
 commands:
   se:
     description: Server Essentials Root Command

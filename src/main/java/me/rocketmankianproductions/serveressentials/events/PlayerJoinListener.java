@@ -3,7 +3,6 @@ package me.rocketmankianproductions.serveressentials.events;
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import me.clip.placeholderapi.PlaceholderAPI;
-import me.clip.placeholderapi.updatechecker.UpdateChecker;
 import me.rocketmankianproductions.serveressentials.LoggerMessage;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.UpdateChecker.Update;
@@ -17,7 +16,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import java.awt.*;
 import java.io.IOException;
 
 public class PlayerJoinListener implements Listener {

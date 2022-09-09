@@ -32,7 +32,6 @@ public class TeleportRequest implements CommandExecutor {
     public static int taskID;
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-
         int tpwait = ServerEssentials.plugin.getConfig().getInt("teleport-wait");
         Long delay = ServerEssentials.getPlugin().getConfig().getLong("teleport-cancel");
         int delay2 = (int) (delay * 20);
