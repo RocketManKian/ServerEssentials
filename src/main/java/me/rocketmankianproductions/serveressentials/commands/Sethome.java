@@ -168,7 +168,10 @@ public class Sethome implements CommandExecutor {
     public static int checkMaxHomes (Player player, int max){
         for (PermissionAttachmentInfo permissions : player.getEffectivePermissions()){
             if (permissions.getPermission().contains("se.sethome.") && !permissions.getPermission().contains("se.sethome.unlimited")) {
-                max = Integer.parseInt(permissions.getPermission().split("\\.")[2]);
+                try {
+                    max = Integer.parseInt(permissions.getPermission().split("\\.")[2]);
+                } catch (NumberFormatException e){
+                }
             }
         }
         return max;
