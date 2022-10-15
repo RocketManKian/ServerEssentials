@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 1.81.4
+# This config was generated for version 1.81.5
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -53,6 +53,10 @@ repair-cooldown: 30
 # Set to 0 to Disable
 # Restart Required
 heal-cooldown: 30
+# How long Players have to wait until they can use the Feed Command again
+# Set to 0 to Disable
+# Restart Required
+feed-cooldown: 30
 ############################################################
 # +------------------------------------------------------+ #
 # +              Server Essentials (Broadcast)           + #
