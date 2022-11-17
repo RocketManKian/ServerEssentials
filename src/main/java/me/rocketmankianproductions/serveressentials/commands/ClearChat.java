@@ -1,5 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
@@ -16,12 +17,12 @@ public class ClearChat implements CommandExecutor {
         if (sender instanceof Player){
             Player player = (Player) sender;
             if (ServerEssentials.permissionChecker(player, "se.clearchat")) {
-                if (command.getName().equalsIgnoreCase("clearchat") || command.getName().equalsIgnoreCase("cc")){
-                    for (int x = 0; x < 150; x++){
+                if (command.getName().equalsIgnoreCase("clearchat") || command.getName().equalsIgnoreCase("cc")) {
+                    for (int x = 0; x < 150; x++) {
                         Bukkit.broadcastMessage("");
                     }
                     Bukkit.broadcastMessage(ChatColor.GOLD + "|-------------------+====+-------------------|");
-                    Bukkit.broadcastMessage(ChatColor.RED + " The chat has been cleared by a staff member.");
+                    Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("clear-chat")).replace("<player>", player.getName()));
                     Bukkit.broadcastMessage(ChatColor.GOLD + "|-------------------+====+-------------------|");
                     return true;
                 }else{

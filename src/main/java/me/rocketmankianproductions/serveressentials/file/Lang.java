@@ -52,6 +52,7 @@ public class Lang {
                 fileConfig.addDefault("back-blacklisted-world", "Cannot use Back Command in a Blacklisted World");
                 fileConfig.addDefault("back-movement-cancel", "Teleportation to previous location cancelled due to Movement");
                 fileConfig.addDefault("back-wait-message", "Teleporting to previous location in <time> Seconds");
+                fileConfig.addDefault("clear-chat", "&cThe chat has been cleared by a staff member.");
                 fileConfig.addDefault("clear-success", "Inventory cleared");
                 fileConfig.addDefault("clear-target-success", "<target>(s) inventory has been cleared");
                 fileConfig.addDefault("enderchest-target-is-sender", "Do /ec to access your own Enderchest");
@@ -344,6 +345,9 @@ public class Lang {
                 }
                 if (fileConfig.getString("back-wait-message") == null){
                     fileConfig.set("back-wait-message", "Teleporting to previous location in <time> Seconds");
+                }
+                if (fileConfig.getString("clear-chat") == null){
+                    fileConfig.set("clear-chat", "&cThe chat has been cleared by a staff member.");
                 }
                 if (fileConfig.getString("clear-success") == null){
                     fileConfig.set("clear-success", "Inventory cleared");
