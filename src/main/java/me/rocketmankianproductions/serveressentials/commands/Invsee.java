@@ -12,6 +12,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class Invsee implements CommandExecutor, Listener {
 
 
@@ -24,11 +26,11 @@ public class Invsee implements CommandExecutor, Listener {
                     Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
                     if (targetPlayer == sender) {
                         String msg = Lang.fileConfig.getString("invsee-target-is-sender");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     } else if (Bukkit.getPlayer(args[0]) == null) {
                         String msg = Lang.fileConfig.getString("target-offline");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     } else if (!(Bukkit.getPlayer(args[0]) == null)) {
                         player.openInventory(targetPlayer.getInventory());
@@ -41,11 +43,11 @@ public class Invsee implements CommandExecutor, Listener {
                     Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
                     if (targetPlayer == sender) {
                         String msg = Lang.fileConfig.getString("invsee-target-is-sender");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     } else if (Bukkit.getPlayer(args[0]) == null) {
                         String msg = Lang.fileConfig.getString("target-offline");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     } else if (!(Bukkit.getPlayer(args[0]) == null)) {
                         if (targetPlayer.getInventory().getHelmet() != null){
@@ -63,12 +65,12 @@ public class Invsee implements CommandExecutor, Listener {
                 }
             }else{
                 String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/invsee (player)");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                 return true;
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");
-            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
             return true;
         }
         return false;

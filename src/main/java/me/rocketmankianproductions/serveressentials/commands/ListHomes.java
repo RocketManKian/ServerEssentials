@@ -19,6 +19,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class ListHomes implements CommandExecutor {
 
     public static OfflinePlayer target;
@@ -39,7 +41,7 @@ public class ListHomes implements CommandExecutor {
                                 Inventory inv = Bukkit.createInventory(target.getPlayer(), size, ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("target-home-gui-name").replace("<target>", target.getName())));
                                 if (inventorySection == null) {
                                     String msg = Lang.fileConfig.getString("home-file-error");
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                     return true;
                                 } else {
                                     assert inventorySection != null;
@@ -66,29 +68,29 @@ public class ListHomes implements CommandExecutor {
                                                 }
                                             } catch (NullPointerException e) {
                                                 String msg = Lang.fileConfig.getString("no-homes-set-target").replace("<target>", target.getName());
-                                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                             }
                                             player.openInventory(inv);
                                             return true;
                                         } else {
                                             String msg = Lang.fileConfig.getString("home-gui-error");
-                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                             return true;
                                         }
                                     } else {
                                         String msg = Lang.fileConfig.getString("no-homes-set-target").replace("<target>", target.getName());
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                         return true;
                                     }
                                 }
                             } else {
                                 String msg = Lang.fileConfig.getString("listhomes-self");
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                 return true;
                             }
                         }else{
                             String msg = Lang.fileConfig.getString("player-offline");
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
                         }
                     }else{
@@ -99,7 +101,7 @@ public class ListHomes implements CommandExecutor {
                                     ConfigurationSection inventorySection = Sethome.fileConfig.getConfigurationSection("Home." + targetname);
                                     if (inventorySection == null) {
                                         String msg = Lang.fileConfig.getString("home-file-error");
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                         return true;
                                     } else if (!inventorySection.getKeys(true).isEmpty()) {
                                         assert inventorySection != null;
@@ -120,30 +122,30 @@ public class ListHomes implements CommandExecutor {
                                                 + "\n" + target.getName() + "'s Home(s) List"
                                                 + "\n---------------------------");
                                         String msg = Lang.fileConfig.getString("no-homes-set-target").replace("<target>", target.getName());
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                         return true;
                                     }
                                 }
                             } else {
                                 String msg = Lang.fileConfig.getString("listhomes-self");
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                 return true;
                             }
                         }else{
                             String msg = Lang.fileConfig.getString("player-offline");
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
                         }
                     }
                 }else{
                     String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/listhomes (player)");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");
-            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
             return true;
         }
         return false;

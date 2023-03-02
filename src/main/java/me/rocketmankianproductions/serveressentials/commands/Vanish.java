@@ -9,6 +9,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class Vanish implements CommandExecutor {
 
     @Override
@@ -23,7 +25,7 @@ public class Vanish implements CommandExecutor {
                         }
                         ServerEssentials.getPlugin().invisible_list.remove(player);
                         String msg = Lang.fileConfig.getString("vanish-disabled");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     }else if(!ServerEssentials.getPlugin().invisible_list.contains(player)){
                         for (Player people : Bukkit.getOnlinePlayers()){
                             if (!people.hasPermission("se.vanish")){
@@ -32,17 +34,17 @@ public class Vanish implements CommandExecutor {
                         }
                         ServerEssentials.getPlugin().invisible_list.add(player);
                         String msg = Lang.fileConfig.getString("vanish-enabled");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     }
                 }else if (args.length == 1){
                     Player target = Bukkit.getPlayer(args[0]);
                     if (target == sender) {
                         String msg = Lang.fileConfig.getString("target-self");
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     } else if (target == null) {
                         String msg = Lang.fileConfig.getString("target-offline");
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     } else if (ServerEssentials.getPlugin().invisible_list.contains(target)){
                         for (Player people : Bukkit.getOnlinePlayers()){
@@ -50,9 +52,9 @@ public class Vanish implements CommandExecutor {
                         }
                         ServerEssentials.getPlugin().invisible_list.remove(target);
                         String msg = Lang.fileConfig.getString("vanish-disabled");
-                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         String msg2 = Lang.fileConfig.getString("vanish-target-disabled").replace("<target>", target.getName());
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
                     } else if (!ServerEssentials.getPlugin().invisible_list.contains(target)){
                         for (Player people : Bukkit.getOnlinePlayers()){
                             if (!people.hasPermission("se.vanish")){
@@ -61,19 +63,19 @@ public class Vanish implements CommandExecutor {
                         }
                         ServerEssentials.getPlugin().invisible_list.add(target);
                         String msg = Lang.fileConfig.getString("vanish-enabled");
-                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         String msg2 = Lang.fileConfig.getString("vanish-target-enabled").replace("<target>", target.getName());
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
                     }
                 }else{
                     String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/vanish");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");
-            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
             return true;
         }
         return true;

@@ -11,6 +11,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class Trash implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -23,7 +25,7 @@ public class Trash implements CommandExecutor {
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");
-            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
             return true;
         }
         return false;

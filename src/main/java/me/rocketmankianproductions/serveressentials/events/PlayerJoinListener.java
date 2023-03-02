@@ -18,6 +18,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.io.IOException;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class PlayerJoinListener implements Listener {
     Location loc;
     public static ServerEssentials plugin;
@@ -64,8 +66,8 @@ public class PlayerJoinListener implements Listener {
                     if (Lang.fileConfig.getString("join-symbol").isEmpty()){
                         pj.setJoinMessage("");
                     }else{
-                        String jm = Lang.fileConfig.getString("join-symbol");
-                        pj.setJoinMessage(ChatColor.translateAlternateColorCodes('&', jm + " " + player.getName()));
+                        String jm = ServerEssentials.hex(Lang.fileConfig.getString("join-symbol")).replace("<player>", player.getName());
+                        pj.setJoinMessage(ChatColor.translateAlternateColorCodes('&', hex(jm)));
                     }
                 } else {
                     pj.setJoinMessage("");
@@ -80,9 +82,9 @@ public class PlayerJoinListener implements Listener {
                 String msg = Lang.fileConfig.getString("first-time-join").replace("<player>", player.getName());
                 if (ServerEssentials.isConnectedToPlaceholderAPI) {
                     String placeholder = PlaceholderAPI.setPlaceholders(player, msg);
-                    pj.setJoinMessage(ChatColor.translateAlternateColorCodes('&', placeholder));
+                    pj.setJoinMessage(ChatColor.translateAlternateColorCodes('&', hex(placeholder)));
                 } else {
-                    pj.setJoinMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    pj.setJoinMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                 }
             }
         }
@@ -159,7 +161,7 @@ public class PlayerJoinListener implements Listener {
                 }
                 ServerEssentials.getPlugin().invisible_list.add(player);
                 String msg = Lang.fileConfig.getString("vanish-enabled");
-                player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
+                player.sendTitle(ChatColor.translateAlternateColorCodes('&', hex(msg)), null);
             }
         }
 
@@ -173,13 +175,13 @@ public class PlayerJoinListener implements Listener {
             public void run() {
                 if (!ServerEssentials.isConnectedToPlaceholderAPI && ServerEssentials.plugin.getConfig().getBoolean("enable-motd")) {
                     for (String msg : ServerEssentials.plugin.getConfig().getStringList("motd-message")) {
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     }
                 } else if (ServerEssentials.isConnectedToPlaceholderAPI && ServerEssentials.plugin.getConfig().getBoolean("enable-motd")){
                     if (ServerEssentials.plugin.getConfig().getBoolean("enable-motd")) {
                         for (String msg : ServerEssentials.plugin.getConfig().getStringList("motd-message")) {
                             String placeholder = PlaceholderAPI.setPlaceholders(player, msg);
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', placeholder));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(placeholder)));
                         }
                     }
                 }

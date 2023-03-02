@@ -13,6 +13,8 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class PlayerChatEvent implements Listener {
 
     @EventHandler (priority = EventPriority.HIGHEST)
@@ -28,14 +30,14 @@ public class PlayerChatEvent implements Listener {
                     String player1 = player.getDisplayName();
                     player1 = ChatColor.stripColor(player1);
                     textChannel.sendMessage("**" + player1 + "** » " + scmessage).queue();
-                    Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', msg), "se.staffchat");
+                    Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', hex(msg)), "se.staffchat");
                     c.setCancelled(true);
                 }else{
-                    Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', msg), "se.staffchat");
+                    Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', hex(msg)), "se.staffchat");
                     c.setCancelled(true);
                 }
             } else {
-                Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', msg), "se.staffchat");
+                Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', hex(msg)), "se.staffchat");
                 c.setCancelled(true);
             }
         }

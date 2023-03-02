@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class Home implements CommandExecutor {
 
     public static HashMap<UUID, Integer> hometeleport = new HashMap<>();
@@ -51,23 +53,23 @@ public class Home implements CommandExecutor {
                                 if (loc.isWorldLoaded()) {
                                     player.teleport(loc);
                                     if (subtitle) {
-                                        String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", home);
-                                        player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
+                                        String msg = ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("home-subtitle").replace("<home>", home)));
+                                        player.sendTitle((msg), null);
                                         return true;
                                     } else {
-                                        String msg = Lang.fileConfig.getString("home-message").replace("<home>", home);
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                        String msg = Lang.fileConfig.getString("home-message");
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg).replace("<home>", home)));
                                         return true;
                                     }
                                 } else {
                                     String msg = Lang.fileConfig.getString("home-world-invalid");
-                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                 }
                             } else {
                                 if (ServerEssentials.plugin.getConfig().getBoolean("home-movement-cancel")) {
                                     cancel.add(player.getUniqueId());
                                     String msg = Lang.fileConfig.getString("home-wait-message").replace("<home>", home).replace("<time>", String.valueOf(delay));
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                     delay = delay * 20;
                                     if (hometeleport.containsKey(player.getUniqueId()) && hometeleport.get(player.getUniqueId()) != null) {
                                         Bukkit.getScheduler().cancelTask(hometeleport.get(player.getUniqueId()));
@@ -86,7 +88,7 @@ public class Home implements CommandExecutor {
                                     return true;
                                 } else {
                                     String msg = Lang.fileConfig.getString("home-wait-message").replace("<home>", home).replace("<time>", String.valueOf(delay));
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                     delay = delay * 20;
                                     if (hometeleport.containsKey(player.getUniqueId()) && hometeleport.get(player.getUniqueId()) != null) {
                                         Bukkit.getScheduler().cancelTask(hometeleport.get(player.getUniqueId()));
@@ -110,7 +112,7 @@ public class Home implements CommandExecutor {
                                 Inventory inv = Bukkit.createInventory(player, size, ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("home-gui-name")));
                                 if (inventorySection == null) {
                                     String msg = Lang.fileConfig.getString("home-file-error");
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                     return true;
                                 } else {
                                     assert inventorySection != null;
@@ -137,18 +139,18 @@ public class Home implements CommandExecutor {
                                                 }
                                             } catch (NullPointerException e) {
                                                 String msg = Lang.fileConfig.getString("no-homes-set");
-                                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                             }
                                             player.openInventory(inv);
                                             return true;
                                         } else {
                                             String msg = Lang.fileConfig.getString("home-gui-error");
-                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                             return true;
                                         }
                                     } else {
                                         String msg = Lang.fileConfig.getString("no-homes-set");
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                         return true;
                                     }
                                 }
@@ -167,7 +169,7 @@ public class Home implements CommandExecutor {
                                             player.sendMessage(ChatColor.GOLD + key);
                                         }
                                     } catch (NullPointerException e) {
-                                        //Bleh
+                                        e.printStackTrace();
                                     }
                                     return true;
                                 } else {
@@ -176,14 +178,14 @@ public class Home implements CommandExecutor {
                                             + "\nHome(s) List"
                                             + "\n---------------------------");
                                     String msg = Lang.fileConfig.getString("no-homes-set");
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                     return true;
                                 }
                             }
                         }
                     } else {
                         String msg = Lang.fileConfig.getString("home-file-error");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }
                 } else if (args.length == 1) {
@@ -198,7 +200,7 @@ public class Home implements CommandExecutor {
                                 if (ServerEssentials.plugin.getConfig().getBoolean("home-movement-cancel")) {
                                     cancel.add(player.getUniqueId());
                                     String msg = Lang.fileConfig.getString("home-wait-message").replace("<home>", args[0]).replace("<time>", String.valueOf(delay));
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                     delay = delay * 20;
                                     if (hometeleport.containsKey(player.getUniqueId()) && hometeleport.get(player.getUniqueId()) != null) {
                                         Bukkit.getScheduler().cancelTask(hometeleport.get(player.getUniqueId()));
@@ -216,7 +218,7 @@ public class Home implements CommandExecutor {
                                     return true;
                                 } else {
                                     String msg = Lang.fileConfig.getString("home-wait-message").replace("<home>", args[0]).replace("<time>", String.valueOf(delay));
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                     delay = delay * 20;
                                     if (hometeleport.containsKey(player.getUniqueId()) && hometeleport.get(player.getUniqueId()) != null) {
                                         Bukkit.getScheduler().cancelTask(hometeleport.get(player.getUniqueId()));
@@ -234,12 +236,12 @@ public class Home implements CommandExecutor {
                             }
                         } else {
                             String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/home (home)");
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
                         }
                     } else {
                         String msg = Lang.fileConfig.getString("home-invalid").replace("<home>", args[0]);
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }
                 } else if (args.length == 2) {
@@ -265,11 +267,11 @@ public class Home implements CommandExecutor {
                                                     // Teleporting To Target's Home
                                                     player.teleport(loc);
                                                     String msg = Lang.fileConfig.getString("home-teleport-target").replace("<target>", target.getName());
-                                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                                     return true;
                                                 } else {
                                                     String msg = Lang.fileConfig.getString("home-world-invalid");
-                                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                                     return true;
                                                 }
                                             } else {
@@ -277,7 +279,7 @@ public class Home implements CommandExecutor {
                                                 if (ServerEssentials.plugin.getConfig().getBoolean("home-movement-cancel")) {
                                                     cancel.add(player.getUniqueId());
                                                     String msg = Lang.fileConfig.getString("target-home-wait-message").replace("<target>", args[0]).replace("<time>", String.valueOf(delay));
-                                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                                     delay = delay * 20;
                                                     if (hometeleport.containsKey(player.getUniqueId()) && hometeleport.get(player.getUniqueId()) != null) {
                                                         Bukkit.getScheduler().cancelTask(hometeleport.get(player.getUniqueId()));
@@ -298,10 +300,10 @@ public class Home implements CommandExecutor {
                                                                         // Teleporting To Target's Home
                                                                         player.teleport(loc);
                                                                         String msg = Lang.fileConfig.getString("home-teleport-target").replace("<target>", target.getName());
-                                                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                                                     } else {
                                                                         String msg = Lang.fileConfig.getString("home-world-invalid");
-                                                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                                                     }
                                                                     cancel.remove(player.getUniqueId());
                                                                 }
@@ -331,10 +333,10 @@ public class Home implements CommandExecutor {
                                                                     // Teleporting To Target's Home
                                                                     player.teleport(loc);
                                                                     String msg = Lang.fileConfig.getString("home-teleport-target").replace("<target>", target.getName());
-                                                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                                                 } else {
                                                                     String msg = Lang.fileConfig.getString("home-world-invalid");
-                                                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                                                 }
                                                             }
                                                         }
@@ -344,31 +346,31 @@ public class Home implements CommandExecutor {
                                             }
                                         } else {
                                             String msg = Lang.fileConfig.getString("home-invalid");
-                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                             return true;
                                         }
                                     } else {
                                         String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/home (home)");
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                         return true;
                                     }
                                 } else {
                                     String msg = Lang.fileConfig.getString("player-offline");
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                     return true;
                                 }
                             }
                         }
                     } else {
                         String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/home (home)");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }
                 }
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");
-            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
         }
         return false;
     }
@@ -408,20 +410,21 @@ public class Home implements CommandExecutor {
                 // Teleporting Player
                 player.teleport(loc);
                 String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", finalHome);
-                player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
+                player.sendTitle(hex(msg), null);
+                Bukkit.getLogger().info(msg);
             } else {
-                String msg = Lang.fileConfig.getString("home-world-invalid");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                String msg = ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("home-world-invalid")));
+                player.sendMessage(msg);
             }
         }else{
             if (loc.isWorldLoaded()) {
                 // Teleporting Player
                 player.teleport(loc);
-                String msg = Lang.fileConfig.getString(lang).replace("<home>", finalHome);
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                String msg = Lang.fileConfig.getString(lang);
+                player.sendMessage(hex(msg));
             } else {
-                String msg = Lang.fileConfig.getString("home-world-invalid");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                String msg = hex(Lang.fileConfig.getString("home-world-invalid"));
+                player.sendMessage(msg);
             }
         }
         cancel.remove(player.getUniqueId());

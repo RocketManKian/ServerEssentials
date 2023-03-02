@@ -13,6 +13,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.UUID;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class Reply implements CommandExecutor {
 
     public static HashMap<UUID, UUID> reply = new HashMap<>();
@@ -25,7 +27,7 @@ public class Reply implements CommandExecutor {
             if (hasPerm) {
                 if (args.length <= 0) {
                     String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/reply <message>");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 } else {
                     StringBuilder sb = new StringBuilder();
@@ -36,7 +38,7 @@ public class Reply implements CommandExecutor {
                     // check if theres something in the hashmap / something to reply to
                     if (reply.get(player.getUniqueId()) == null) {
                         String msg = Lang.fileConfig.getString("reply-no-message");
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     } else if (Bukkit.getServer().getOnlinePlayers().contains(Bukkit.getPlayer(reply.get(player.getUniqueId())))) {
                         Reply.reply.put(reply.get(player.getUniqueId()), player.getUniqueId()); // put again to hashmap
@@ -48,14 +50,14 @@ public class Reply implements CommandExecutor {
                         return true;
                     } else {
                         String msg = Lang.fileConfig.getString("target-offline");
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }
                 }
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");
-            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
             return true;
         }
         return false;
@@ -65,11 +67,11 @@ public class Reply implements CommandExecutor {
         for (Player admin : Bukkit.getOnlinePlayers()) {
             if (SocialSpy.fileConfig.getBoolean("Spy." + admin.getName())) {
                 if (admin != messager && admin != recipient) {
-                    admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msgsocialspy));
+                    admin.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msgsocialspy)));
                 }
             }
         }
-        messager.sendMessage(ChatColor.translateAlternateColorCodes('&', msgsender));
-        recipient.sendMessage(ChatColor.translateAlternateColorCodes('&', msgrecipient));
+        messager.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msgsender)));
+        recipient.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msgrecipient)));
     }
 }

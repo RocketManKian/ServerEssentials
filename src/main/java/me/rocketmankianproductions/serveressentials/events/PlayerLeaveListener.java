@@ -12,6 +12,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class PlayerLeaveListener implements Listener {
 
     @EventHandler
@@ -22,8 +24,8 @@ public class PlayerLeaveListener implements Listener {
                 if (Lang.fileConfig.getString("leave-symbol").isEmpty()){
                     pj.setQuitMessage("");
                 }else{
-                    String lm = Lang.fileConfig.getString("leave-symbol");
-                    pj.setQuitMessage(ChatColor.translateAlternateColorCodes('&', lm + " " + player.getPlayerListName()));
+                    String lm = hex(Lang.fileConfig.getString("leave-symbol")).replace("<player>", player.getName());
+                    pj.setQuitMessage(ChatColor.translateAlternateColorCodes('&', hex(lm)));
                 }
             }else{
                 pj.setQuitMessage("");
@@ -47,7 +49,7 @@ public class PlayerLeaveListener implements Listener {
                     if (textChannel != null && ServerEssentials.plugin.getConfig().getBoolean("enable-discord-integration")){
                         textChannel.sendMessage("**" + player.getName() + "**" + " has quit the " + servername + " Server").queue();
                     }
-                    Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("staff-leave-message").replace("<player>", player.getName())), "se.staffchat");
+                    Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("staff-leave-message").replace("<player>", player.getName()))), "se.staffchat");
                 }else{
                     if (ServerEssentials.isConnectedToDiscordSRV){
                         String channel = ServerEssentials.getPlugin().getConfig().getString("staff-chat-channel-name");
@@ -55,9 +57,9 @@ public class PlayerLeaveListener implements Listener {
                         if (textChannel != null && ServerEssentials.getPlugin().getConfig().getBoolean("enable-discord-integration")){
                             textChannel.sendMessage("**" + player.getName() + "**" + " has quit the game").queue();
                         }
-                        Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("staff-leave-message").replace("<player>", player.getName())), "se.staffchat");
+                        Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("staff-leave-message").replace("<player>", player.getName()))), "se.staffchat");
                     }else{
-                        Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("staff-leave-message").replace("<player>", player.getName())), "se.staffchat");
+                        Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("staff-leave-message").replace("<player>", player.getName()))), "se.staffchat");
                     }
                 }
             }

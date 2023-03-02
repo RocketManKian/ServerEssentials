@@ -18,6 +18,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class God implements CommandExecutor, Listener {
 
     public static ArrayList<String> god_toggle = new ArrayList<>();
@@ -30,12 +32,12 @@ public class God implements CommandExecutor, Listener {
                 if (args.length == 0) {
                     if (god_toggle.contains(player.getName())) {
                         String msg = Lang.fileConfig.getString("god-disabled");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         god_toggle.remove(player.getName());
                         return true;
                     } else if (!god_toggle.contains(player.getName())) {
                         String msg = Lang.fileConfig.getString("god-enabled");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         god_toggle.add(player.getName());
                         return true;
                     }
@@ -43,30 +45,30 @@ public class God implements CommandExecutor, Listener {
                     Player target = Bukkit.getPlayer(args[0]);
                     if (target == sender) {
                         String msg = Lang.fileConfig.getString("god-target-is-sender");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     } else if (target == null) {
                         String msg = Lang.fileConfig.getString("player-offline");
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     } else if (god_toggle.contains(target.getName())) {
                         String msg = Lang.fileConfig.getString("god-disabled-target").replace("<target>", target.getName());
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         String msg2 = Lang.fileConfig.getString("god-disabled");
-                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
                         god_toggle.remove(target.getName());
                         return true;
                     } else if (!god_toggle.contains(target.getName())) {
                         String msg = Lang.fileConfig.getString("god-enabled-target").replace("<target>", target.getName());
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         String msg2 = Lang.fileConfig.getString("god-enabled");
-                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
                         god_toggle.add(target.getName());
                         return true;
                     }
                 }else{
                     String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/god (player)");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }
             }
@@ -74,20 +76,20 @@ public class God implements CommandExecutor, Listener {
             Player target = Bukkit.getPlayer(args[0]);
             if (target == null) {
                 String msg = Lang.fileConfig.getString("player-offline");
-                Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
+                Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                 return true;
             } else if (god_toggle.contains(target.getName())) {
                 String msg = Lang.fileConfig.getString("god-disabled-target").replace("<target>", target.getName());
                 Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
                 String msg2 = Lang.fileConfig.getString("god-disabled");
-                target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
                 god_toggle.remove(target.getName());
                 return true;
             } else if (!god_toggle.contains(target.getName())) {
                 String msg = Lang.fileConfig.getString("god-enabled-target").replace("<target>", target.getName());
                 Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
                 String msg2 = Lang.fileConfig.getString("god-enabled");
-                target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
                 god_toggle.add(target.getName());
                 return true;
             }

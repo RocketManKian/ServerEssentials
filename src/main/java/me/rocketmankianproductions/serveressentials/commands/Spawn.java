@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class Spawn implements CommandExecutor {
 
     private static HashMap<UUID, Integer> spawnteleport = new HashMap<>();
@@ -41,7 +43,7 @@ public class Spawn implements CommandExecutor {
                                     if (ServerEssentials.plugin.getConfig().getBoolean("spawn-movement-cancel")) {
                                         cancel.add(player.getUniqueId());
                                         String msg = Lang.fileConfig.getString("newbies-spawn-wait-message").replace("<time>", String.valueOf(delay));
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                         delay = delay * 20;
                                         if (spawnteleport.containsKey(player.getUniqueId()) && spawnteleport.get(player.getUniqueId()) != null) {
                                             Bukkit.getScheduler().cancelTask(spawnteleport.get(player.getUniqueId()));
@@ -59,7 +61,7 @@ public class Spawn implements CommandExecutor {
                                         return true;
                                     } else {
                                         String msg = Lang.fileConfig.getString("newbies-spawn-wait-message").replace("<time>", String.valueOf(delay));
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                         delay = delay * 20;
                                         if (spawnteleport.containsKey(player.getUniqueId()) && spawnteleport.get(player.getUniqueId()) != null) {
                                             Bukkit.getScheduler().cancelTask(spawnteleport.get(player.getUniqueId()));
@@ -78,7 +80,7 @@ public class Spawn implements CommandExecutor {
                             }else{
                                 // Sends Message if Newbies Spawn Doesn't Exist
                                 String msg = Lang.fileConfig.getString("newbies-spawn-invalid");
-                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             }
                         }else if (command.getName().equalsIgnoreCase("spawn")) {
                             if (Setspawn.fileConfig.getString("Location.World") != null) {
@@ -90,7 +92,7 @@ public class Spawn implements CommandExecutor {
                                     if (ServerEssentials.plugin.getConfig().getBoolean("spawn-movement-cancel")) {
                                         cancel.add(player.getUniqueId());
                                         String msg = Lang.fileConfig.getString("spawn-wait-message").replace("<time>", String.valueOf(delay));
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                         delay = delay * 20;
                                         if (spawnteleport.containsKey(player.getUniqueId()) && spawnteleport.get(player.getUniqueId()) != null) {
                                             Bukkit.getScheduler().cancelTask(spawnteleport.get(player.getUniqueId()));
@@ -108,7 +110,7 @@ public class Spawn implements CommandExecutor {
                                         return true;
                                     } else {
                                         String msg = Lang.fileConfig.getString("spawn-wait-message").replace("<time>", String.valueOf(delay));
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                         delay = delay * 20;
                                         if (spawnteleport.containsKey(player.getUniqueId()) && spawnteleport.get(player.getUniqueId()) != null) {
                                             Bukkit.getScheduler().cancelTask(spawnteleport.get(player.getUniqueId()));
@@ -127,7 +129,7 @@ public class Spawn implements CommandExecutor {
                             }else{
                                 // Sends Message if Spawn Doesn't Exist
                                 String msg = Lang.fileConfig.getString("spawn-invalid");
-                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             }
                         }
                     } else if (args.length == 1) {
@@ -142,7 +144,7 @@ public class Spawn implements CommandExecutor {
                                     if (ServerEssentials.plugin.getConfig().getBoolean("spawn-movement-cancel")) {
                                         cancel.add(player.getUniqueId());
                                         String msg = Lang.fileConfig.getString("newbies-spawn-wait-message").replace("<time>", String.valueOf(delay));
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                         delay = delay * 20;
                                         if (spawnteleport.containsKey(player.getUniqueId()) && spawnteleport.get(player.getUniqueId()) != null) {
                                             Bukkit.getScheduler().cancelTask(spawnteleport.get(player.getUniqueId()));
@@ -160,7 +162,7 @@ public class Spawn implements CommandExecutor {
                                         return true;
                                     } else {
                                         String msg = Lang.fileConfig.getString("newbies-spawn-wait-message").replace("<time>", String.valueOf(delay));
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                         delay = delay * 20;
                                         if (spawnteleport.containsKey(player.getUniqueId()) && spawnteleport.get(player.getUniqueId()) != null) {
                                             Bukkit.getScheduler().cancelTask(spawnteleport.get(player.getUniqueId()));
@@ -179,18 +181,18 @@ public class Spawn implements CommandExecutor {
                             }else{
                                 // Sends Message if Newbies Spawn Doesn't Exist
                                 String msg = Lang.fileConfig.getString("newbies-spawn-invalid");
-                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             }
                         }
                     }else{
                         String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/spawn");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }
                 } else {
                     // Sends Message if Spawn Doesn't Exist
                     String msg = Lang.fileConfig.getString("spawn-invalid");
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                 }
             }
         }else if (sender instanceof ConsoleCommandSender){
@@ -206,23 +208,23 @@ public class Spawn implements CommandExecutor {
                             target.teleport(loc);
                             // Sending the Sender and Target a message
                             String msg = Lang.fileConfig.getString("spawn-teleport-target").replace("<target>", target.getName());
-                            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
+                            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             String msg2 = Lang.fileConfig.getString("spawn-teleport-target-success");
-                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
                             return true;
                         }else{
                             String msg = Lang.fileConfig.getString("spawn-world-invalid");
-                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
                         }
                     } else {
                         // Sends Message if Spawn Doesn't Exist
                         String msg = Lang.fileConfig.getString("spawn-invalid");
-                        Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
+                        Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     }
                 } else {
                     String msg = Lang.fileConfig.getString("target-offline");
-                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
+                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }
             }
@@ -267,10 +269,10 @@ public class Spawn implements CommandExecutor {
             // Teleporting Player
             player.teleport(loc);
             String msg = Lang.fileConfig.getString(lang);
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
         } else {
             String msg = Lang.fileConfig.getString("spawn-world-invalid");
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
         }
         cancel.remove(player.getUniqueId());
         spawnteleport.remove(player.getUniqueId());

@@ -9,6 +9,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.help.HelpTopic;
 import org.jetbrains.annotations.NotNull;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class Sudo implements CommandExecutor {
 
     @Override
@@ -28,13 +30,13 @@ public class Sudo implements CommandExecutor {
                                 return true;
                             }else{
                                 String msg = Lang.fileConfig.getString("target-self");
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                 return true;
                             }
                         }else if (args[0].equalsIgnoreCase("%console%")){
                             if (args.length < 3){
                                 String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/sudo %console% <command>");
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                 return true;
                             }else{
                                 Player target2 = Bukkit.getPlayer(args[2]);
@@ -43,17 +45,17 @@ public class Sudo implements CommandExecutor {
                             }
                         }else{
                             String msg = Lang.fileConfig.getString("target-offline");
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
                         }
                     }else{
                         String msg = Lang.fileConfig.getString("sudo-command-invalid");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg).replace("<command>", cmdname));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)).replace("<command>", cmdname));
                         return true;
                     }
                 }else{
                     String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/sudo (player) <command>");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }
             }
@@ -69,17 +71,17 @@ public class Sudo implements CommandExecutor {
                         return true;
                     }else{
                         String msg = Lang.fileConfig.getString("target-offline");
-                        Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
+                        Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }
                 }else{
                     String msg = Lang.fileConfig.getString("sudo-command-invalid");
-                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg).replace("<command>", cmdname));
+                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)).replace("<command>", cmdname));
                     return true;
                 }
             }else{
                 String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/sudo (player) <command>");
-                Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
+                Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                 return true;
             }
         }
@@ -110,11 +112,11 @@ public class Sudo implements CommandExecutor {
             String newcmdname = args[1];
             ConsoleCommandSender console = Bukkit.getServer().getConsoleSender();
             String msg = Lang.fileConfig.getString("sudo-successful");
-            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg).replace("<command>", newcmdname).replace("<target>", args[2]));
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)).replace("<command>", newcmdname).replace("<target>", args[2]));
             Bukkit.dispatchCommand(console, cmdargs.replace("/", ""));
         }else{
             String msg = Lang.fileConfig.getString("sudo-successful");
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg).replace("<command>", cmdname).replace("<target>", target.getName()));
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)).replace("<command>", cmdname).replace("<target>", target.getName()));
             Bukkit.dispatchCommand(target, cmdargs.replace("/", ""));
         }
     }

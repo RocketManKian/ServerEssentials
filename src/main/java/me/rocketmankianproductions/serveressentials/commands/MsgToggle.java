@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.UUID;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class MsgToggle {
 
     public static ServerEssentials plugin;
@@ -69,7 +71,7 @@ public class MsgToggle {
                                 e.printStackTrace();
                             }
                             String msg = Lang.fileConfig.getString("message-toggle-enabled");
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
                         } else {
                             fileConfig.set("msgtoggle." + player.getName(), false);
@@ -79,19 +81,19 @@ public class MsgToggle {
                                 e.printStackTrace();
                             }
                             String msg = Lang.fileConfig.getString("message-toggle-disabled");
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
                         }
                     } else {
                         String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/msgtoggle");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }
                 }
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");
-            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
         }
         return false;
     }

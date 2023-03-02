@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class Back implements CommandExecutor {
 
     public static HashMap<UUID, Location> location = new HashMap<>();
@@ -42,18 +44,18 @@ public class Back implements CommandExecutor {
                         player.teleport(location.get(player.getUniqueId()));
                         location.remove(player.getUniqueId());
                         String msg = Lang.fileConfig.getString("back-previous-location");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }else if (location2.containsKey(player.getUniqueId())){
                         location.put(player.getUniqueId(), player.getLocation());
                         player.teleport(location2.get(player.getUniqueId()));
                         location2.remove(player.getUniqueId());
                         String msg = Lang.fileConfig.getString("back-previous-location");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     } else{
                         String msg = Lang.fileConfig.getString("back-no-location");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }
                 } else{
@@ -74,7 +76,7 @@ public class Back implements CommandExecutor {
                                 }
                             }else{
                                 String msg = Lang.fileConfig.getString("back-no-location");
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             }
                         }else{
                             backwait = backwait * 20;
@@ -93,7 +95,7 @@ public class Back implements CommandExecutor {
                                     }
                                 }else{
                                     String msg = Lang.fileConfig.getString("back-no-location");
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                 }
                             }else{
                                 if (location.containsKey(player.getUniqueId())){
@@ -109,7 +111,7 @@ public class Back implements CommandExecutor {
                                     }
                                 }else{
                                     String msg = Lang.fileConfig.getString("back-no-location");
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                 }
                             }
                         }
@@ -144,7 +146,7 @@ public class Back implements CommandExecutor {
         player.teleport(location2.get(player.getUniqueId()));
         location2.remove(player.getUniqueId());
         String msg = Lang.fileConfig.getString("back-previous-location");
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
         if (ServerEssentials.plugin.getConfig().getInt("back-cooldown") != 0){
             backcancel.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
                 public void run() {
@@ -161,7 +163,7 @@ public class Back implements CommandExecutor {
 
     public void backWait(Player player, HashMap<UUID, Location> location, HashMap<UUID, Location> location2, int backwait, int delay2, int delay3){
         String msg = Lang.fileConfig.getString("back-wait-message").replace("<time>", String.valueOf(backwait / 20));
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
         if (back.containsKey(player.getUniqueId()) && back.get(player.getUniqueId()) != null) {
             Bukkit.getScheduler().cancelTask(back.get(player.getUniqueId()));
         }
@@ -184,7 +186,7 @@ public class Back implements CommandExecutor {
             for (String worlds : ServerEssentials.plugin.getConfig().getStringList("back-blacklist")) {
                 if (player.getWorld().getName().equalsIgnoreCase(worlds)) {
                     String msg = Lang.fileConfig.getString("back-blacklisted-world");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     blacklistedworld = true;
                 }
             }

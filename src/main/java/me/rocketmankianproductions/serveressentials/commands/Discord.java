@@ -11,6 +11,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class Discord implements CommandExecutor {
 
     @Override
@@ -18,18 +20,17 @@ public class Discord implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (ServerEssentials.permissionChecker(player, "se.discord")) {
-                String prefix = ServerEssentials.getPlugin().getConfig().getString("prefix");
                 String discord = Lang.fileConfig.getString("discord-command");
                 if (ServerEssentials.isConnectedToPlaceholderAPI) {
                     String placeholder = PlaceholderAPI.setPlaceholders(player, discord);
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + " " + ChatColor.WHITE + placeholder));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(placeholder)));
                 } else {
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + " " + ChatColor.WHITE + discord));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(discord)));
                 }
             }
         } else {
             String console = Lang.fileConfig.getString("console-invalid");
-            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
             return true;
         }
         return false;

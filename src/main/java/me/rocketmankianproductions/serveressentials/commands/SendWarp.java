@@ -11,6 +11,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class SendWarp implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -36,25 +38,25 @@ public class SendWarp implements CommandExecutor {
                                     // Teleporting Target
                                     target.teleport(loc);
                                     String msg = Lang.fileConfig.getString("sendwarp-player").replace("<target>", target.getName()).replace("<warp>", args[1]);
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                     String msg2 = Lang.fileConfig.getString("sendwarp-target").replace("<warp>", args[1]);
-                                    target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                                    target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
                                     return true;
                                 }
                             }
                         } else {
                             String msg = Lang.fileConfig.getString("target-offline");
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
                         }
                     } else {
                         String msg = Lang.fileConfig.getString("warp-invalid");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }
                 }else{
                     String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/sendwarp (player) (warp)");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }
             }
@@ -76,18 +78,18 @@ public class SendWarp implements CommandExecutor {
                         // Teleporting Target
                         target.teleport(loc);
                         String msg = Lang.fileConfig.getString("sendwarp-player").replace("<target>", target.getName()).replace("<warp>", args[1]);
-                        Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
+                        Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         String msg2 = Lang.fileConfig.getString("sendwarp-target").replace("<warp>", args[1]);
-                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
                         return true;
                     } else {
                         String msg = Lang.fileConfig.getString("target-offline");
-                        Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
+                        Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }
                 }else{
                     String msg = Lang.fileConfig.getString("warp-invalid");
-                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
+                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }
             }

@@ -18,6 +18,8 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class Setspawn implements CommandExecutor {
 
     //settings
@@ -70,7 +72,7 @@ public class Setspawn implements CommandExecutor {
                     }
                     Setspawn.reload();
                     String msg = Lang.fileConfig.getString("spawn-set-successful").replace("<world>", world);
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                 } else if (args.length == 1 && args[0].equalsIgnoreCase("newbies")) {
                     String world = player.getWorld().getName();
                     fileConfig.set("Newbies.Location.World", world);
@@ -86,7 +88,7 @@ public class Setspawn implements CommandExecutor {
                     }
                     Setspawn.reload();
                     String msg = Lang.fileConfig.getString("newbies-spawn-set-successful").replace("<world>", world);
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                 } else if (args.length == 3) {
                     String world = player.getWorld().getName();
                     fileConfig.set("Location.World", world);
@@ -106,10 +108,10 @@ public class Setspawn implements CommandExecutor {
                         }
                         Setspawn.reload();
                         String msg = Lang.fileConfig.getString("spawn-set-successful").replace("<world>", world);
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     } catch (NumberFormatException n) {
                         String msg = Lang.fileConfig.getString("teleport-pos-invalid");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     }
                 } else if (args.length == 4 && args[0].equalsIgnoreCase("newbies")) {
                     String world = player.getWorld().getName();
@@ -130,20 +132,20 @@ public class Setspawn implements CommandExecutor {
                         }
                         Setspawn.reload();
                         String msg = Lang.fileConfig.getString("newbies-spawn-set-successful").replace("<world>", world);
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     } catch (NumberFormatException n) {
                         String msg = Lang.fileConfig.getString("teleport-pos-invalid");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     }
                 }else{
                     String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/setspawn");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");
-            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
             return true;
         }
         return false;

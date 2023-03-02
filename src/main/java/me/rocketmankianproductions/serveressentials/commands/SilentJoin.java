@@ -13,6 +13,8 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.io.IOException;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class SilentJoin {
 
     public static ServerEssentials plugin;
@@ -51,11 +53,11 @@ public class SilentJoin {
                 if (!fileConfig.getBoolean("silent." + player.getName())) {
                     fileConfig.set("silent." + player.getName(), true);
                     String msg = Lang.fileConfig.getString("silentjoin-enabled");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                 } else {
                     fileConfig.set("silent." + player.getName(), false);
                     String msg = Lang.fileConfig.getString("silentjoin-disabled");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                 }
                 try {
                     fileConfig.save(file);
@@ -65,7 +67,7 @@ public class SilentJoin {
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");
-            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
         }
     }
     public static void reload() {

@@ -10,6 +10,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class YouTube implements CommandExecutor {
 
     @Override
@@ -21,14 +23,14 @@ public class YouTube implements CommandExecutor {
                 String youtube = Lang.fileConfig.getString("youtube-command");
                 if (ServerEssentials.isConnectedToPlaceholderAPI) {
                     String placeholder = PlaceholderAPI.setPlaceholders(player, youtube);
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + " " + ChatColor.WHITE + placeholder));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + " " + ChatColor.WHITE + hex(placeholder)));
                 } else {
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + " " + ChatColor.WHITE + youtube));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', prefix + " " + ChatColor.WHITE + hex(youtube)));
                 }
             }
         } else {
             String console = Lang.fileConfig.getString("console-invalid");
-            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
             return true;
         }
         return false;

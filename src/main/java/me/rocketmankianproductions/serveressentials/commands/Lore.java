@@ -16,6 +16,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class Lore implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -27,7 +29,7 @@ public class Lore implements CommandExecutor {
                         ItemStack hand = player.getItemInHand();
                         if (hand.getType().equals(Material.AIR)) {
                             String msg = Lang.fileConfig.getString("lore-invalid-item");
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
                         } else {
                             ItemMeta im = hand.getItemMeta();
@@ -35,37 +37,37 @@ public class Lore implements CommandExecutor {
                             im.setLore(Collections.singletonList(ChatColor.translateAlternateColorCodes('&', myArgs)));
                             hand.setItemMeta(im);
                             String msg = Lang.fileConfig.getString("lore-successful").replace("<lore>", myArgs);
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
                         }
                     }else if (args[0].equalsIgnoreCase("reset") && args.length == 1) {
                         ItemStack hand = player.getItemInHand();
                         if (hand.getType().equals(Material.AIR)) {
                             String msg = Lang.fileConfig.getString("lore-reset-invalid-item");
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
                         } else {
                             ItemMeta im = hand.getItemMeta();
                             im.setLore(null);
                             hand.setItemMeta(im);
                             String msg = Lang.fileConfig.getString("lore-reset-successful");
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
                         }
                     } else {
                         String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/lore <set/reset>");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }
                 } else {
                     String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/lore <set/reset>");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }
             }
         } else {
             String console = Lang.fileConfig.getString("console-invalid");
-            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
             return true;
         }
         return false;

@@ -11,6 +11,8 @@ import org.bukkit.event.Listener;
 import java.util.Map;
 import java.util.UUID;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class PlayerMoveEvent implements Listener {
 
     @EventHandler
@@ -20,21 +22,21 @@ public class PlayerMoveEvent implements Listener {
             if (m.getFrom().getBlockX() != m.getTo().getBlockX() || m.getFrom().getBlockZ() != m.getTo().getBlockZ() || m.getFrom().getBlockY() != m.getTo().getBlockY()) {
                 Home.cancel.remove(player.getUniqueId());
                 String msg = Lang.fileConfig.getString("home-movement-cancel");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
             }
         }
         if (Warp.cancel.contains(player.getUniqueId())){
             if (m.getFrom().getBlockX() != m.getTo().getBlockX() || m.getFrom().getBlockZ() != m.getTo().getBlockZ() || m.getFrom().getBlockY() != m.getTo().getBlockY()) {
                 Warp.cancel.remove(player.getUniqueId());
                 String msg = Lang.fileConfig.getString("warp-movement-cancel");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
             }
         }
         if (Spawn.cancel.contains(player.getUniqueId())){
             if (m.getFrom().getBlockX() != m.getTo().getBlockX() || m.getFrom().getBlockZ() != m.getTo().getBlockZ() || m.getFrom().getBlockY() != m.getTo().getBlockY()) {
                 Spawn.cancel.remove(player.getUniqueId());
                 String msg = Lang.fileConfig.getString("spawn-movement-cancel");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
             }
         }
         if (TeleportRequest.cancel.contains(player.getUniqueId()) || TeleportRequest.cancel.contains(Bukkit.getPlayer(TeleportRequest.tpa.get(player.getUniqueId())))){
@@ -54,14 +56,14 @@ public class PlayerMoveEvent implements Listener {
                 }
                 TeleportRequest.cancel.remove(player.getUniqueId());
                 String msg = Lang.fileConfig.getString("teleport-movement-cancel");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
             }
         }
         if (Back.cancel.contains(player.getUniqueId())){
             if (m.getFrom().getBlockX() != m.getTo().getBlockX() || m.getFrom().getBlockZ() != m.getTo().getBlockZ() || m.getFrom().getBlockY() != m.getTo().getBlockY()) {
                 Back.cancel.remove(player.getUniqueId());
                 String msg = Lang.fileConfig.getString("back-movement-cancel");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
             }
         }
     }

@@ -15,6 +15,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class StaffChat implements CommandExecutor {
 
     public static ArrayList<Player> staffchat = new ArrayList<>();
@@ -27,12 +29,12 @@ public class StaffChat implements CommandExecutor {
                 if (args.length == 0) {
                     if (!staffchat.contains(player)){
                         String msg = Lang.fileConfig.getString("staffchat-enabled");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         staffchat.add(player);
                         return true;
                     }else{
                         String msg = Lang.fileConfig.getString("staffchat-disabled");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         staffchat.remove(player);
                         return true;
                     }
@@ -45,14 +47,14 @@ public class StaffChat implements CommandExecutor {
                         TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName(channel);
                         if (textChannel != null){
                             textChannel.sendMessage("**" + playername + "** » " + myArgs).queue();
-                            Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', msg), "se.staffchat");
+                            Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', hex(msg)), "se.staffchat");
                             return true;
                         }else{
-                            Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', msg), "se.staffchat");
+                            Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', hex(msg)), "se.staffchat");
                             return true;
                         }
                     }else{
-                        Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', msg), "se.staffchat");
+                        Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', hex(msg)), "se.staffchat");
                         return true;
                     }
                 }

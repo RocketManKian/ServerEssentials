@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
 import static me.rocketmankianproductions.serveressentials.ServerEssentials.plugin;
 
 public class SE implements CommandExecutor {
@@ -114,7 +115,7 @@ public class SE implements CommandExecutor {
                 return true;
             }else{
                 String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/se");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                 return true;
             }
         } else if (args.length == 1 && sender instanceof ConsoleCommandSender) {
