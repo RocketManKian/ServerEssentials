@@ -13,6 +13,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class DeleteHome implements CommandExecutor {
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -31,11 +33,11 @@ public class DeleteHome implements CommandExecutor {
                             e.printStackTrace();
                         }
                         String msg = Lang.fileConfig.getString("home-deletion-success").replace("<home>", args[0]);
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     } else {
                         String msg = Lang.fileConfig.getString("home-invalid").replace("<home>", args[0]);
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }
                 }else if (args.length == 2){
@@ -51,23 +53,23 @@ public class DeleteHome implements CommandExecutor {
                                 e.printStackTrace();
                             }
                             String msg = Lang.fileConfig.getString("target-home-deletion-success").replace("<target>", args[0]);
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
                         } else {
                             String msg = Lang.fileConfig.getString("home-invalid").replace("<home>", args[1]);
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
                         }
                     }
                 }else{
                     String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/deletehome (home)");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");
-            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
             return true;
         }
         return false;

@@ -11,6 +11,8 @@ import org.bukkit.scheduler.BukkitScheduler;
 import java.util.HashMap;
 import java.util.UUID;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class Feed implements CommandExecutor {
 
     public static HashMap<UUID, Integer> feedcancel = new HashMap<UUID, Integer>();
@@ -30,19 +32,19 @@ public class Feed implements CommandExecutor {
                         Player target = Bukkit.getPlayer(args[0]);
                         if (target == null) {
                             String msg = Lang.fileConfig.getString("target-offline");
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         } else {
                             if (target != player) {
                                 target = Bukkit.getServer().getPlayer(args[0]);
                                 target.setFoodLevel(20);
                                 target.setSaturation(5);
                                 String msg = Lang.fileConfig.getString("feed-sender-message").replace("<target>", target.getName());
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                 String msg2 = Lang.fileConfig.getString("feed-target-message".replace("<sender>", sender.getName()));
-                                target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                                target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
                             }else{
                                 String msg = Lang.fileConfig.getString("feed-self");
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                 player.setFoodLevel(20);
                                 player.setSaturation(5);
                             }
@@ -58,7 +60,7 @@ public class Feed implements CommandExecutor {
                         return true;
                     } else if (args.length == 0) {
                         String msg = Lang.fileConfig.getString("feed-self");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         player.setFoodLevel(20);
                         player.setSaturation(5);
                         // Command Cooldown
@@ -71,12 +73,12 @@ public class Feed implements CommandExecutor {
                         startTimer();
                     } else {
                         String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/feed (player)");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     }
                     return true;
                 }else if (feedcancel.containsKey(player.getUniqueId()) && feedcancel.get(player.getUniqueId()) != null) {
                     String msg = Lang.fileConfig.getString("command-timeout").replace("<time>", String.valueOf(time));
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }
             }
@@ -85,16 +87,16 @@ public class Feed implements CommandExecutor {
                 Player target = Bukkit.getPlayer(args[0]);
                 if (target == null) {
                     String msg = Lang.fileConfig.getString("player-offline");
-                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
+                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 } else {
                     target = Bukkit.getServer().getPlayer(args[0]);
                     target.setFoodLevel(20);
                     target.setSaturation(5);
                     String msg = Lang.fileConfig.getString("feed-sender-message").replace("<target>", target.getName());
-                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
+                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     String msg2 = Lang.fileConfig.getString("feed-target-message").replace("<sender>", "Console");
-                    target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                    target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
                     return true;
                 }
             }
@@ -104,7 +106,7 @@ public class Feed implements CommandExecutor {
                 Player target = Bukkit.getPlayer(args[0]);
                 if (target == null) {
                     String msg = Lang.fileConfig.getString("player-offline");
-                    block.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    block.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 } else {
                     target = Bukkit.getServer().getPlayer(args[0]);

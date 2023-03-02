@@ -9,6 +9,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class Hurt implements CommandExecutor {
 
     @Override
@@ -25,27 +27,27 @@ public class Hurt implements CommandExecutor {
                             double damageAmount = Double.parseDouble(args[1]);
                             playerToHurt.damage(damageAmount);
                             String msg = Lang.fileConfig.getString("hurt-target").replace("<target>", playerToHurt.getName()).replace("<damage>", args[1]);
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
                         } catch (NumberFormatException exception) {
                             String msg = Lang.fileConfig.getString("hurt-invalid-number").replace("<damage>", args[1]);
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
                         }
                     }else{
                         String msg = Lang.fileConfig.getString("target-offline");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }
                 } else {
                     String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/hurt (player) <amount>");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");
-            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
             return true;
         }
         return false;

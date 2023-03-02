@@ -11,6 +11,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class Test implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -19,21 +21,21 @@ public class Test implements CommandExecutor {
             if (ServerEssentials.permissionChecker(player, "se.test")) {
                 if (args.length == 1) {
                     if (args[0].equalsIgnoreCase("join")) {
-                        if (!(ServerEssentials.getPlugin().getConfig().getString("join-symbol").length() == 0)) {
-                            String jm = ServerEssentials.getPlugin().getConfig().getString("join-symbol");
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', jm + " " + player.getDisplayName()));
+                        if (!(Lang.fileConfig.getString("join-symbol").length() == 0)) {
+                            String jm = Lang.fileConfig.getString("join-symbol");
+                            player.sendMessage(hex(jm + " " + player.getDisplayName()));
                             return true;
                         } else {
-                            player.sendMessage(ChatColor.RED + "The 'join-symbol' config value is empty.");
+                            player.sendMessage(ChatColor.RED + "The 'join-symbol' lang value is empty.");
                             return true;
                         }
                     } else if (args[0].equalsIgnoreCase("leave")) {
-                        if (!(ServerEssentials.getPlugin().getConfig().getString("leave-symbol").length() == 0)) {
-                            String lm = ServerEssentials.getPlugin().getConfig().getString("leave-symbol");
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', lm + " " + player.getDisplayName()));
+                        if (!(Lang.fileConfig.getString("leave-symbol").length() == 0)) {
+                            String lm = Lang.fileConfig.getString("leave-symbol");
+                            player.sendMessage(hex(lm + " " + player.getDisplayName()));
                             return true;
                         } else {
-                            player.sendMessage(ChatColor.RED + "The 'leave-symbol' config value is empty.");
+                            player.sendMessage(ChatColor.RED + "The 'leave-symbol' lang value is empty.");
                             return true;
                         }
                     } else if (args[0].equalsIgnoreCase("welcome")) {
@@ -41,9 +43,9 @@ public class Test implements CommandExecutor {
                             String wm = Lang.fileConfig.getString("first-time-join");
                             if (ServerEssentials.isConnectedToPlaceholderAPI) {
                                 String placeholder = PlaceholderAPI.setPlaceholders(player, wm);
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', placeholder));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(placeholder)));
                             } else {
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', wm));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(wm)));
                             }
                             return true;
                         } else {
@@ -54,12 +56,12 @@ public class Test implements CommandExecutor {
                         if (!(ServerEssentials.getPlugin().getConfig().getString("motd-message").length() == 0)) {
                             if (!ServerEssentials.isConnectedToPlaceholderAPI) {
                                 for (String message : ServerEssentials.plugin.getConfig().getStringList("motd-message")) {
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(message)));
                                 }
                             } else {
                                 for (String message : ServerEssentials.plugin.getConfig().getStringList("motd-message")) {
                                     String placeholder = PlaceholderAPI.setPlaceholders(player, message);
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', placeholder));
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(placeholder)));
                                 }
                             }
                             return true;
@@ -72,9 +74,9 @@ public class Test implements CommandExecutor {
                             String wm = Lang.fileConfig.getString("no-permission-message");
                             if (ServerEssentials.isConnectedToPlaceholderAPI) {
                                 String placeholder = PlaceholderAPI.setPlaceholders(player, wm);
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', placeholder));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(placeholder)));
                             } else {
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', wm));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(wm)));
                             }
                             return true;
                         } else {
@@ -84,13 +86,13 @@ public class Test implements CommandExecutor {
                     }
                 } else {
                     String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/test (motd/welcome/join/leave)");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }
             }
         } else {
             String console = Lang.fileConfig.getString("console-invalid");
-            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
             return true;
         }
         return false;

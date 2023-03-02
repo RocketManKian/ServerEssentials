@@ -12,6 +12,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class DeleteSpawn implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -31,11 +33,11 @@ public class DeleteSpawn implements CommandExecutor {
                         }
                         Setspawn.reload();
                         String msg = Lang.fileConfig.getString("spawn-deletion-success");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     } else {
                         String msg = Lang.fileConfig.getString("spawn-not-found");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }
                 } else if (args.length == 1 && args[0].equalsIgnoreCase("newbies")) {
@@ -50,18 +52,18 @@ public class DeleteSpawn implements CommandExecutor {
                         Setspawn.reload();
                         // If the file exists then it will get deleted upon execution of command
                         String msg = Lang.fileConfig.getString("newbies-spawn-deletion-success");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     } else {
                         String msg = Lang.fileConfig.getString("spawn-not-found");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }
                 }
             }
         } else {
             String console = Lang.fileConfig.getString("console-invalid");
-            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
             return true;
         }
         return false;

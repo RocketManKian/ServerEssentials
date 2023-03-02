@@ -17,6 +17,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class SocialSpy {
 
     public static ServerEssentials plugin;
@@ -73,11 +75,11 @@ public class SocialSpy {
                     if (!fileConfig.getBoolean("Spy." + player.getName())) {
                         fileConfig.set("Spy." + player.getName(), true);
                         String msg = Lang.fileConfig.getString("socialspy-enabled");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     } else {
                         fileConfig.set("Spy." + player.getName(), false);
                         String msg = Lang.fileConfig.getString("socialspy-disabled");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     }
                     try {
                         fileConfig.save(file);
@@ -88,7 +90,7 @@ public class SocialSpy {
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");
-            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
         }
         return false;
     }

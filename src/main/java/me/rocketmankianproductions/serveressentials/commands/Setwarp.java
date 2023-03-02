@@ -18,6 +18,8 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class Setwarp implements CommandExecutor {
 
     public static ServerEssentials plugin;
@@ -78,7 +80,7 @@ public class Setwarp implements CommandExecutor {
                         for (String worlds : ServerEssentials.plugin.getConfig().getStringList("warp-blacklist")){
                             if (player.getWorld().getName().equalsIgnoreCase(worlds)){
                                 String msg = Lang.fileConfig.getString("warp-blacklisted-world");
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                 return true;
                             }
                         }
@@ -98,7 +100,7 @@ public class Setwarp implements CommandExecutor {
                         }
                         reload();
                         String msg = Lang.fileConfig.getString("warp-set-successful");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }else{
                         String warpitem = ServerEssentials.plugin.getConfig().getString("warp-item");
@@ -117,18 +119,18 @@ public class Setwarp implements CommandExecutor {
                         }
                         reload();
                         String msg = Lang.fileConfig.getString("warp-set-successful");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }
                 }
             }else{
                 String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/setwarp (name)");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                 return true;
             }
         } else {
             String console = Lang.fileConfig.getString("console-invalid");
-            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
             return true;
         }
         return false;

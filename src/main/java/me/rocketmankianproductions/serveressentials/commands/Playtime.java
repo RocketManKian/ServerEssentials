@@ -11,6 +11,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class Playtime implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -30,7 +32,7 @@ public class Playtime implements CommandExecutor {
                         }
                     }else{
                         String msg = Lang.fileConfig.getString("target-offline");
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }
                 } else if (args.length == 0) {
@@ -38,7 +40,7 @@ public class Playtime implements CommandExecutor {
                     return true;
                 }else{
                     String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/playtime");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }
             }
@@ -60,7 +62,7 @@ public class Playtime implements CommandExecutor {
                 sender.sendMessage(msg);
             }else{
                 String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/playtime");
-                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                 return true;
             }
         }
@@ -81,10 +83,10 @@ public class Playtime implements CommandExecutor {
         int seconds = rest / 20;
         if (target != null){
             String msg = Lang.fileConfig.getString(stringmsg).replace("<target>", target.getName()).replace("<days>", String.valueOf(days)).replace("<hours>", String.valueOf(hours)).replace("<minutes>", String.valueOf(minutes)).replace("<seconds>", String.valueOf(seconds));
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
         }else{
             String msg = Lang.fileConfig.getString(stringmsg).replace("<days>", String.valueOf(days)).replace("<hours>", String.valueOf(hours)).replace("<minutes>", String.valueOf(minutes)).replace("<seconds>", String.valueOf(seconds));
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
         }
     }
 }

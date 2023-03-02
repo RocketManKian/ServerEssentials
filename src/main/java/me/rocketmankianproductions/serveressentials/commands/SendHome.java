@@ -11,6 +11,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class SendHome implements CommandExecutor {
 
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -36,34 +38,34 @@ public class SendHome implements CommandExecutor {
                                     // Teleporting Target
                                     target.teleport(loc);
                                     String msg = Lang.fileConfig.getString("sendhome-target");
-                                    target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                     String msg2 = Lang.fileConfig.getString("sendhome-player").replace("<target>", target.getName());
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
                                     return true;
                                 } else {
                                     String msg = Lang.fileConfig.getString("home-invalid");
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                     return true;
                                 }
                             }
                         }else{
-                            player.sendMessage("Incorrect format! Please use /home (name) to teleport to your home");
+                            player.sendMessage(hex(Lang.fileConfig.getString("incorrect-format").replace("<command>", "/home <name>")));
                             return true;
                         }
                     }else{
                         String msg = Lang.fileConfig.getString("target-offline");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }
                 }else{
-                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/sendhome (player) (home)");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/sendhome (player) <home>");
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");
-            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
             return true;
         }
         return false;

@@ -21,6 +21,8 @@ import org.bukkit.scheduler.BukkitTask;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public final class ServerEssentials extends JavaPlugin implements Listener {
 
@@ -30,6 +32,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
     public static boolean hasUpdate;
     public static boolean isConnectedToPlaceholderAPI = false;
     public static boolean isConnectedToDiscordSRV = false;
+    public static String prefix;
 
     public ArrayList<Player> invisible_list = new ArrayList<>();
 
@@ -75,6 +78,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "Events have been enabled.");
         // End
         LoggerMessage.log(LoggerMessage.LogLevel.OUTLINE, "*********************");
+        prefix = ServerEssentials.getPlugin().getConfig().getString("prefix");
     }
 
 
@@ -195,7 +199,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         // Reply Command
         getCommand("reply").setExecutor(new Reply());
         getCommand("reply").setTabCompleter(new TabCompletion());
-        // Reply Command
+        // Craft Command
         getCommand("craft").setExecutor(new Craft());
         // Enderchest Command
         getCommand("enderchest").setExecutor(new Enderchest());
@@ -273,6 +277,8 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("whois").setExecutor(new Whois());
         // Ping Command
         getCommand("ping").setExecutor(new Ping());
+        // AFK Command
+        getCommand("afk").setExecutor(new AFK());
     }
 
     @Override
@@ -298,6 +304,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         pm.registerEvents(new PlayerWorldCheck(), this);
         pm.registerEvents(new Plugins(), this);
         pm.registerEvents(new God(), this);
+        pm.registerEvents(new AFK(), this);
     }
 
     public void registerPlaceholder() {
@@ -343,6 +350,25 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', permmsg));
         }
         return hasPerm;
+    }
+
+    public static String hex(String message) {
+        Pattern pattern = Pattern.compile("(#[a-fA-F0-9]{6})");
+        Matcher matcher = pattern.matcher(message);
+        while (matcher.find()) {
+            String hexCode = message.substring(matcher.start(), matcher.end());
+            String replaceSharp = hexCode.replace('#', 'x');
+
+            char[] ch = replaceSharp.toCharArray();
+            StringBuilder builder = new StringBuilder("");
+            for (char c : ch) {
+                builder.append("&" + c);
+            }
+
+            message = message.replace(hexCode, builder.toString());
+            matcher = pattern.matcher(message);
+        }
+        return ChatColor.translateAlternateColorCodes('&', message).replace('&', '§');
     }
 
     public static ServerEssentials getPlugin() {

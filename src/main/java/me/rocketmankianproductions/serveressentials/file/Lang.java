@@ -37,8 +37,8 @@ public class Lang {
                 fileConfig.addDefault("incorrect-format", "Incorrect format! Please use &6<command>");
                 fileConfig.addDefault("target-self", "You cannot target yourself.");
                 fileConfig.addDefault("first-time-join", "Welcome <player> to the Server!");
-                fileConfig.addDefault("join-symbol", "&6[&a+&6]");
-                fileConfig.addDefault("leave-symbol", "&6[&c-&6]");
+                fileConfig.addDefault("join-symbol", "&6[&a+&6] &f<player>");
+                fileConfig.addDefault("leave-symbol", "&6[&c-&6] &f<player>");
                 fileConfig.addDefault("staff-join-message", "&d(&5&lStaff&d) <player> &7has joined the game");
                 fileConfig.addDefault("staff-leave-message", "&d(&5&lStaff&d) <player> &7has quit the game");
                 fileConfig.addDefault("website-command", "Website Command");
@@ -47,12 +47,17 @@ public class Lang {
                 fileConfig.addDefault("twitch-command", "Twitch Command");
                 fileConfig.addDefault("gui-confirm-name", "&aYes");
                 fileConfig.addDefault("gui-deny-name", "&cNo");
+                fileConfig.addDefault("afk-active", "You are now AFK");
+                fileConfig.addDefault("afk-inactive", "You are no longer AFK");
                 fileConfig.addDefault("back-previous-location", "Teleported to previous location");
                 fileConfig.addDefault("back-no-location", "You have no location to return to");
                 fileConfig.addDefault("back-blacklisted-world", "Cannot use Back Command in a Blacklisted World");
                 fileConfig.addDefault("back-movement-cancel", "Teleportation to previous location cancelled due to Movement");
                 fileConfig.addDefault("back-wait-message", "Teleporting to previous location in <time> Seconds");
-                fileConfig.addDefault("clear-chat", "&cThe chat has been cleared by a staff member.");
+                fileConfig.addDefault("clear-chat",
+                        "&6|-------------------+====+-------------------|\n" +
+                                "&cThe chat has been cleared by a staff member.\n" +
+                                "&6|-------------------+====+-------------------|");
                 fileConfig.addDefault("clear-success", "Inventory cleared");
                 fileConfig.addDefault("clear-target-success", "<target>(s) inventory has been cleared");
                 fileConfig.addDefault("enderchest-target-is-sender", "Do /ec to access your own Enderchest");
@@ -140,15 +145,17 @@ public class Lang {
                 fileConfig.addDefault("repair-all-items", "Repaired all item(s)");
                 fileConfig.addDefault("report-self", "You cannot report yourself");
                 fileConfig.addDefault("report-successful", "Report sent successfully");
-                fileConfig.addDefault("report-user-line-one", "&b--------- &cNEW REPORT &b---------");
-                fileConfig.addDefault("report-user-line-two", "&cReporter &7>> &f<player>");
-                fileConfig.addDefault("report-user-line-three", "&cReported User &7>> &f<target>");
-                fileConfig.addDefault("report-user-line-four", "&cReason &7>> &f<message>");
-                fileConfig.addDefault("report-user-line-five", "&b-----------------------------");
-                fileConfig.addDefault("report-bug-line-one", "&b--------- &cBUG REPORT &b---------");
-                fileConfig.addDefault("report-bug-line-two", "&cReporter &7>> &f<player>");
-                fileConfig.addDefault("report-bug-line-three", "&cBug &7>> &f<message>");
-                fileConfig.addDefault("report-bug-line-four", "&b-----------------------------");
+                fileConfig.addDefault("report-user-message",
+                        "&b--------- &cNEW REPORT &b---------\n" +
+                                "&cReporter &7>> &f<player>\n" +
+                                "&cReported User &7>> &f<target>\n" +
+                                "&cReason &7>> &f<message>\n" +
+                                "&b-----------------------------");
+                fileConfig.addDefault("report-bug-message",
+                        "&b--------- &cBUG REPORT &b---------\n" +
+                                "&cReporter &7>> &f<player>\n" +
+                                "&cBug &7>> &f<message>\n" +
+                                "&b-----------------------------");
                 fileConfig.addDefault("newbies-spawn-deletion-success", "Newbie Spawn Deleted");
                 fileConfig.addDefault("spawn-deletion-success", "Spawn Deleted");
                 fileConfig.addDefault("spawn-not-found", "Spawn doesn't exist");
@@ -302,10 +309,10 @@ public class Lang {
                     fileConfig.set("first-time-join", "Welcome <player> to the Server!");
                 }
                 if (fileConfig.getString("join-symbol") == null){
-                    fileConfig.set("join-symbol", "&6[&a+&6]");
+                    fileConfig.set("join-symbol", "&6[&a+&6] &f<player>");
                 }
                 if (fileConfig.getString("leave-symbol") == null){
-                    fileConfig.set("leave-symbol", "&6[&c-&6]");
+                    fileConfig.set("leave-symbol", "&6[&c-&6] &f<player>");
                 }
                 if (fileConfig.getString("staff-join-message") == null){
                     fileConfig.set("staff-join-message", "&d(&5&lStaff&d) <player> &7has joined the game");
@@ -331,6 +338,12 @@ public class Lang {
                 if (fileConfig.getString("gui-deny-name") == null){
                     fileConfig.set("gui-deny-name", "&cNo");
                 }
+                if (fileConfig.getString("afk-active") == null){
+                    fileConfig.set("afk-active", "You are now AFK");
+                }
+                if (fileConfig.getString("afk-inactive") == null){
+                    fileConfig.set("afk-inactive", "You are no longer AFK");
+                }
                 if (fileConfig.getString("back-previous-location") == null){
                     fileConfig.set("back-previous-location", "Teleported to previous location");
                 }
@@ -347,7 +360,10 @@ public class Lang {
                     fileConfig.set("back-wait-message", "Teleporting to previous location in <time> Seconds");
                 }
                 if (fileConfig.getString("clear-chat") == null){
-                    fileConfig.set("clear-chat", "&cThe chat has been cleared by a staff member.");
+                    fileConfig.set("clear-chat",
+                            "&6|-------------------+====+-------------------|\n" +
+                                    "&cThe chat has been cleared by a staff member.\n" +
+                                    "&6|-------------------+====+-------------------|");
                 }
                 if (fileConfig.getString("clear-success") == null){
                     fileConfig.set("clear-success", "Inventory cleared");
@@ -610,32 +626,20 @@ public class Lang {
                 if (fileConfig.getString("report-successful") == null){
                     fileConfig.set("report-successful", "Report sent successfully");
                 }
-                if (fileConfig.getString("report-user-line-one") == null){
-                    fileConfig.set("report-user-line-one", "&b--------- &cNEW REPORT &b---------");
+                if (fileConfig.getString("report-user-message") == null){
+                    fileConfig.set("report-user-message",
+                            "&b--------- &cNEW REPORT &b---------\n" +
+                                    "&cReporter &7>> &f<player>\n" +
+                                    "&cReported User &7>> &f<target>\n" +
+                                    "&cReason &7>> &f<message>\n" +
+                                    "&b-----------------------------");
                 }
-                if (fileConfig.getString("report-user-line-two") == null){
-                    fileConfig.set("report-user-line-two", "&cReporter &7>> &f<player>");
-                }
-                if (fileConfig.getString("report-user-line-three") == null){
-                    fileConfig.set("report-user-line-three", "&cReported User &7>> &f<target>");
-                }
-                if (fileConfig.getString("report-user-line-four") == null){
-                    fileConfig.set("report-user-line-four", "&cReason &7>> &f<message>");
-                }
-                if (fileConfig.getString("report-user-line-five") == null){
-                    fileConfig.set("report-user-line-five", "&b-----------------------------");
-                }
-                if (fileConfig.getString("report-bug-line-one") == null){
-                    fileConfig.set("report-bug-line-one", "&b--------- &cBUG REPORT &b---------");
-                }
-                if (fileConfig.getString("report-bug-line-two") == null){
-                    fileConfig.set("report-bug-line-two", "&cReporter &7>> &f<player>");
-                }
-                if (fileConfig.getString("report-bug-line-three") == null){
-                    fileConfig.set("report-bug-line-three", "&cBug &7>> &f<message>");
-                }
-                if (fileConfig.getString("report-bug-line-four") == null){
-                    fileConfig.set("report-bug-line-four", "&b-----------------------------");
+                if (fileConfig.getString("report-bug-message") == null){
+                    fileConfig.set("report-bug-message",
+                            "&b--------- &cBUG REPORT &b---------\n" +
+                                    "&cReporter &7>> &f<player>\n" +
+                                    "&cBug &7>> &f<message>\n" +
+                                    "&b-----------------------------");
                 }
                 if (fileConfig.getString("newbies-spawn-deletion-success") == null){
                     fileConfig.set("newbies-spawn-deletion-success", "Newbie Spawn Deleted");

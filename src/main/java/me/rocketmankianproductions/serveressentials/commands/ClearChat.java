@@ -1,6 +1,5 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
-import me.clip.placeholderapi.PlaceholderAPI;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
@@ -10,6 +9,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
 
 public class ClearChat implements CommandExecutor {
     @Override
@@ -21,19 +22,17 @@ public class ClearChat implements CommandExecutor {
                     for (int x = 0; x < 150; x++) {
                         Bukkit.broadcastMessage("");
                     }
-                    Bukkit.broadcastMessage(ChatColor.GOLD + "|-------------------+====+-------------------|");
-                    Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("clear-chat")).replace("<player>", player.getName()));
-                    Bukkit.broadcastMessage(ChatColor.GOLD + "|-------------------+====+-------------------|");
+                    Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("clear-chat"))).replace("<player>", player.getName()));
                     return true;
                 }else{
                     String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/clearchat");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");
-            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
             return true;
         }
         return false;

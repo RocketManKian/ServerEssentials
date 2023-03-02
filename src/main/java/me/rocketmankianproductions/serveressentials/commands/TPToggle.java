@@ -15,6 +15,8 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class TPToggle {
 
     public static ServerEssentials plugin;
@@ -66,7 +68,7 @@ public class TPToggle {
                                     e.printStackTrace();
                                 }
                                 String msg = Lang.fileConfig.getString("teleport-toggle-enabled");
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                 return true;
                             } else {
                                 fileConfig.set("tptoggle." + player.getName(), false);
@@ -76,24 +78,24 @@ public class TPToggle {
                                     e.printStackTrace();
                                 }
                                 String msg = Lang.fileConfig.getString("teleport-toggle-disabled");
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                 return true;
                             }
                         } else {
                             String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/tptoggle");
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
                         }
                     } else {
                         String msg = Lang.fileConfig.getString("invalid-player");
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }
                 }
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");
-            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
             return true;
         }
         return true;

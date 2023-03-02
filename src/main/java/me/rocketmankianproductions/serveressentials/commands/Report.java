@@ -17,6 +17,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class Report implements CommandExecutor {
 
     public static ServerEssentials plugin;
@@ -30,12 +32,12 @@ public class Report implements CommandExecutor {
                     OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
                     if (target == sender) {
                         String msg = Lang.fileConfig.getString("report-self");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     } else {
                         String msg = Lang.fileConfig.getString("report-successful");
                         String server = ServerEssentials.getPlugin().getConfig().getString("server-name");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         StringBuilder builder = new StringBuilder();
                         int startArg = 1;
                         int endArg = args.length;
@@ -43,11 +45,7 @@ public class Report implements CommandExecutor {
                             builder.append(args[i] + (args.length > (i + 1) ? " " : ""));
                         }
                         String messages = builder.toString(); // your message from all args after "startArg - 1"
-                        String msg1 = Lang.fileConfig.getString("report-user-line-one");
-                        String msg2 = Lang.fileConfig.getString("report-user-line-two").replace("<player>", player.getName());
-                        String msg3 = Lang.fileConfig.getString("report-user-line-three").replace("<target>", target.getName());
-                        String msg4 = Lang.fileConfig.getString("report-user-line-four").replace("<message>", messages);
-                        String msg5 = Lang.fileConfig.getString("report-user-line-five");
+                        String msg1 = Lang.fileConfig.getString("report-user-message").replace("<player>", player.getName()).replace("<target>", target.getName()).replace("<message>", messages);
                         if (ServerEssentials.isConnectedToDiscordSRV && ServerEssentials.getPlugin().getConfig().getBoolean("enable-discord-integration") == true) {
                             String channelname = ServerEssentials.getPlugin().getConfig().getString("report-user-channel-name");
                             TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName(channelname);
@@ -74,21 +72,13 @@ public class Report implements CommandExecutor {
                                 if (!target.isOnline()){
                                     for (Player admin : Bukkit.getOnlinePlayers()) {
                                         if (admin.hasPermission("se.reportnotification")) {
-                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg1));
-                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
-                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
-                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg5));
+                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg1)));
                                         }
                                     }
                                 }else{
                                     for (Player admin : Bukkit.getOnlinePlayers()) {
                                         if (admin.hasPermission("se.reportnotification")) {
-                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg1));
-                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
-                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
-                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg5));
+                                            admin.sendMessage(hex(msg1));
                                         }
                                     }
                                 }
@@ -111,21 +101,13 @@ public class Report implements CommandExecutor {
                                 if (!target.isOnline()){
                                     for (Player admin : Bukkit.getOnlinePlayers()) {
                                         if (admin.hasPermission("se.reportnotification")) {
-                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg1));
-                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
-                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
-                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg5));
+                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg1)));
                                         }
                                     }
                                 }else{
                                     for (Player admin : Bukkit.getOnlinePlayers()) {
                                         if (admin.hasPermission("se.reportnotification")) {
-                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg1));
-                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
-                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
-                                            admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg5));
+                                            admin.sendMessage(hex(msg1));
                                         }
                                     }
                                 }
@@ -135,21 +117,13 @@ public class Report implements CommandExecutor {
                             if (!target.isOnline()){
                                 for (Player admin : Bukkit.getOnlinePlayers()) {
                                     if (admin.hasPermission("se.reportnotification")) {
-                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg1));
-                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
-                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
-                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg5));
+                                        admin.sendMessage(hex(msg1));
                                     }
                                 }
                             }else{
                                 for (Player admin : Bukkit.getOnlinePlayers()) {
                                     if (admin.hasPermission("se.reportnotification")) {
-                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg1));
-                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
-                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
-                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
-                                        admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msg5));
+                                        admin.sendMessage(hex(msg1));
                                     }
                                 }
                             }
@@ -158,13 +132,13 @@ public class Report implements CommandExecutor {
                     }
                 }else{
                     String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/report (player) <reason>");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");
-            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
             return true;
         }
         return false;

@@ -8,6 +8,8 @@ import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class Message implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -21,11 +23,11 @@ public class Message implements CommandExecutor {
                     Player recipient = Bukkit.getPlayer(args[0]);
                     if (recipient == sender) {
                         String msg = Lang.fileConfig.getString("message-self");
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     } else if (recipient == null) {
                         String msg = Lang.fileConfig.getString("target-offline");
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }
                     // Check if recipient has messaging enabled
@@ -45,12 +47,12 @@ public class Message implements CommandExecutor {
                         return true;
                     } else {
                         String msg = Lang.fileConfig.getString("message-disabled");
-                        messager.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        messager.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }
                 }else{
                     String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/msg (player) <message>");
-                    messager.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    messager.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }
             }
@@ -72,12 +74,12 @@ public class Message implements CommandExecutor {
                     }
                     String msgsender = Lang.fileConfig.getString("message-sender").replace("<target>", targetname).replace("<message>", sm);
                     String msgrecipientconsole = Lang.fileConfig.getString("message-recipient-console").replace("<message>", sm);
-                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msgsender));
-                    recipient.sendMessage(ChatColor.translateAlternateColorCodes('&', msgrecipientconsole));
+                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msgsender)));
+                    recipient.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msgrecipientconsole)));
                     return true;
                 } else {
                     String msg = Lang.fileConfig.getString("message-disabled");
-                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
+                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                 }
             }
         }
@@ -88,11 +90,11 @@ public class Message implements CommandExecutor {
         for (Player admin : Bukkit.getOnlinePlayers()) {
             if (SocialSpy.fileConfig.getBoolean("Spy." + admin.getName())) {
                 if (admin != messager && admin != recipient) {
-                    admin.sendMessage(ChatColor.translateAlternateColorCodes('&', msgsocialspy));
+                    admin.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msgsocialspy)));
                 }
             }
         }
-        messager.sendMessage(ChatColor.translateAlternateColorCodes('&', msgsender));
-        recipient.sendMessage(ChatColor.translateAlternateColorCodes('&', msgrecipient));
+        messager.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msgsender)));
+        recipient.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msgrecipient)));
     }
 }

@@ -1,10 +1,10 @@
 name: ServerEssentials
-version: 1.81.6
+version: 1.81.7
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
 description: A Plugin for all Server Owners!
-softdepend: [PlaceholderAPI, DiscordSRV, DiscordSRV-Staff-Chat, AcceptTheRules, HuskHomes] # Plugins that load before ServerEssentials
+softdepend: [PlaceholderAPI, DiscordSRV, DiscordSRV-Staff-Chat, AcceptTheRules, HuskHomes, LibsDisguises] # Plugins that load before ServerEssentials
 loadbefore: [Essentials]
 commands:
   se:
@@ -102,6 +102,7 @@ commands:
     description: Fly Command
   kill:
     description: Kill Command
+    aliases: [suicide]
   msg:
     description: Message Command
     aliases: [message]
@@ -202,6 +203,8 @@ commands:
     aliases: [checkaccount, checkplayer, playerinfo]
   ping:
     description: Ping Command
+  afk:
+    description: AFK Command
 permissions:
   se.all:
     description: "Gives access to all commands."
@@ -273,6 +276,7 @@ permissions:
       se.rename: true
       se.lore: true
       se.speed: true
+      se.speed.all: true
       se.speed.others: true
       se.reportuser: true
       se.reportbug: true
@@ -289,6 +293,7 @@ permissions:
       se.sudo: true
       se.whois: true
       se.ping: true
+      se.afk: true
   se.reload:
     description: "Gives access to the /se reload command."
     default: false
@@ -478,6 +483,9 @@ permissions:
   se.speed:
     description: "Speed Command"
     default: false
+  se.speed.all:
+    description: "Speed All Command"
+    default: false
   se.speed.others:
     description: "Speed Others Command"
     default: false
@@ -534,4 +542,7 @@ permissions:
     default: false
   se.ping:
     description: "Ping Command Permission"
+    default: false
+  se.afk:
+    description: "AFK Command Permission"
     default: false

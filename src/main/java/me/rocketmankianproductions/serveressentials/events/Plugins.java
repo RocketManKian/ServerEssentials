@@ -7,6 +7,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class Plugins implements Listener {
 
     @EventHandler
@@ -16,7 +18,7 @@ public class Plugins implements Listener {
             if (!player.hasPermission("bukkit.command.plugins")){
                 String msg = Lang.fileConfig.getString("plugins-command");
                 if (!msg.isEmpty()){
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     e.setCancelled(true);
                 }
             }

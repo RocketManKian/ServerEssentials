@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class Rules implements CommandExecutor {
 
     //settings
@@ -63,18 +65,18 @@ public class Rules implements CommandExecutor {
             if (ServerEssentials.permissionChecker(player, "se.rules")) {
                 player.sendMessage(ChatColor.GREEN + "Server Rules:");
                 for (String rule : fileConfig.getStringList(configpath)) {
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', rule));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(rule)));
                 }
                 if (!fileConfig.getStringList("Tips").isEmpty()){
                     player.sendMessage(ChatColor.GREEN + "Tips:");
                     for (String rule : fileConfig.getStringList("Tips")) {
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', rule));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(rule)));
                     }
                 }
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");
-            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
             return true;
         }
         return false;

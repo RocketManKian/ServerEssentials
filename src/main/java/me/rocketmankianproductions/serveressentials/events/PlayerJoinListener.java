@@ -8,8 +8,6 @@ import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.UpdateChecker.Update;
 import me.rocketmankianproductions.serveressentials.commands.*;
 import me.rocketmankianproductions.serveressentials.file.Lang;
-import net.md_5.bungee.api.chat.*;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,6 +15,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.io.IOException;
+
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
 
 public class PlayerJoinListener implements Listener {
     Location loc;
@@ -33,11 +33,7 @@ public class PlayerJoinListener implements Listener {
                 new Update(ServerEssentials.getPlugin(), 86675).getLatestVersion(version -> {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&5--------------------------------"));
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7There is a new version of &6ServerEssentials &7available."));
-                    TextComponent textComponent = new TextComponent(ChatColor.translateAlternateColorCodes('&', "&6&lDownload"));
-                    textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                            new ComponentBuilder("Click to Download").create()));
-                    textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.spigotmc.org/resources/server-essentials.86675/"));
-                    player.spigot().sendMessage(textComponent);
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Download on the &6Bukkit Website"));
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bLatest version: " + "&a" + version + " &8| &bInstalled version: &c" + ServerEssentials.getPlugin().getDescription().getVersion()));
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&5--------------------------------"));
                 });
@@ -64,8 +60,8 @@ public class PlayerJoinListener implements Listener {
                     if (Lang.fileConfig.getString("join-symbol").isEmpty()){
                         pj.setJoinMessage("");
                     }else{
-                        String jm = Lang.fileConfig.getString("join-symbol");
-                        pj.setJoinMessage(ChatColor.translateAlternateColorCodes('&', jm + " " + player.getName()));
+                        String jm = ServerEssentials.hex(Lang.fileConfig.getString("join-symbol")).replace("<player>", player.getName());
+                        pj.setJoinMessage(ChatColor.translateAlternateColorCodes('&', hex(jm)));
                     }
                 } else {
                     pj.setJoinMessage("");
@@ -80,9 +76,9 @@ public class PlayerJoinListener implements Listener {
                 String msg = Lang.fileConfig.getString("first-time-join").replace("<player>", player.getName());
                 if (ServerEssentials.isConnectedToPlaceholderAPI) {
                     String placeholder = PlaceholderAPI.setPlaceholders(player, msg);
-                    pj.setJoinMessage(ChatColor.translateAlternateColorCodes('&', placeholder));
+                    pj.setJoinMessage(ChatColor.translateAlternateColorCodes('&', hex(placeholder)));
                 } else {
-                    pj.setJoinMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    pj.setJoinMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                 }
             }
         }
@@ -159,7 +155,7 @@ public class PlayerJoinListener implements Listener {
                 }
                 ServerEssentials.getPlugin().invisible_list.add(player);
                 String msg = Lang.fileConfig.getString("vanish-enabled");
-                player.sendTitle(ChatColor.translateAlternateColorCodes('&', msg), null);
+                player.sendTitle(ChatColor.translateAlternateColorCodes('&', hex(msg)), null);
             }
         }
 
@@ -173,13 +169,13 @@ public class PlayerJoinListener implements Listener {
             public void run() {
                 if (!ServerEssentials.isConnectedToPlaceholderAPI && ServerEssentials.plugin.getConfig().getBoolean("enable-motd")) {
                     for (String msg : ServerEssentials.plugin.getConfig().getStringList("motd-message")) {
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     }
                 } else if (ServerEssentials.isConnectedToPlaceholderAPI && ServerEssentials.plugin.getConfig().getBoolean("enable-motd")){
                     if (ServerEssentials.plugin.getConfig().getBoolean("enable-motd")) {
                         for (String msg : ServerEssentials.plugin.getConfig().getStringList("motd-message")) {
                             String placeholder = PlaceholderAPI.setPlaceholders(player, msg);
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', placeholder));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(placeholder)));
                         }
                     }
                 }

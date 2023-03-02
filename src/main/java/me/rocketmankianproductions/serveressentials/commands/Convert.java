@@ -15,6 +15,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class Convert implements CommandExecutor {
 
     private static ArrayList<Material> items = new ArrayList<>();
@@ -58,7 +60,7 @@ public class Convert implements CommandExecutor {
                         }
                     } else {
                         String msg = Lang.fileConfig.getString("convert-invalid").replace("<item>", inv.getType().name());
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }
                     return true;
@@ -106,18 +108,18 @@ public class Convert implements CommandExecutor {
                         }
                     }else{
                         String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/convert all");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }
                 }else{
                     String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/convert");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");
-            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
             return true;
         }
         return false;
@@ -198,7 +200,7 @@ public class Convert implements CommandExecutor {
                     player.getInventory().setItemInMainHand(item);
                 }
                 String msg = Lang.fileConfig.getString("convert-successful").replace("<amount>", String.valueOf(amount)).replace("<item>", material1.name()).replace("<total>", String.valueOf(blocks)).replace("<block>", material2.name());
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
             }
         }
     }

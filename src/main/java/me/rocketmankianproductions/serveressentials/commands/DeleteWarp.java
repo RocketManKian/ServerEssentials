@@ -12,6 +12,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class DeleteWarp implements CommandExecutor {
 
     @Override
@@ -32,7 +34,7 @@ public class DeleteWarp implements CommandExecutor {
                                 e.printStackTrace();
                             }
                             String msg = Lang.fileConfig.getString("warp-deletion-success").replace("<warp>", args[0]);
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
                         } else {
                             Setwarp.fileConfig.set("Warp", null);
@@ -42,23 +44,23 @@ public class DeleteWarp implements CommandExecutor {
                                 e.printStackTrace();
                             }
                             String msg = Lang.fileConfig.getString("warp-deletion-success").replace("<warp>", args[0]);
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
                         }
                     } else {
                         String msg = Lang.fileConfig.getString("warp-not-found").replace("<warp>", args[0]);
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }
                 }else{
                     String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/deletewarp (warp)");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");
-            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
             return true;
         }
         return false;

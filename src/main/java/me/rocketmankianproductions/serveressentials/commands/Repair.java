@@ -16,6 +16,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 import java.util.UUID;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class Repair implements CommandExecutor {
 
     public static HashMap<UUID, Integer> repaircancel = new HashMap<UUID, Integer>();
@@ -38,17 +40,17 @@ public class Repair implements CommandExecutor {
                             short durability = item.getDurability();
                             if (item.getType().isBlock()) {
                                 String msg = Lang.fileConfig.getString("repair-invalid-item");
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             } else if (item.getType().isEdible()) {
                                 String msg = Lang.fileConfig.getString("repair-invalid-item");
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             } else if (durability == 0) {
                                 String msg = Lang.fileConfig.getString("repair-durability-max");
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             } else {
                                 player.getItemInHand().setDurability((short) 0);
                                 String msg = Lang.fileConfig.getString("repair-successful").replace("<item>", player.getItemInHand().getType().toString());
-                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                 // Command Cooldown
                                 repaircancel.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
                                     public void run() {
@@ -61,12 +63,12 @@ public class Repair implements CommandExecutor {
                             return true;
                         } else {
                             String msg = Lang.fileConfig.getString("repair-invalid-item");
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
                         }
                     } else if (repaircancel.containsKey(player.getUniqueId()) && repaircancel.get(player.getUniqueId()) != null) {
                         String msg = Lang.fileConfig.getString("command-timeout").replace("<time>", String.valueOf(time));
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }
                 } else if (args.length == 1) {
@@ -81,9 +83,7 @@ public class Repair implements CommandExecutor {
                                             player.getInventory().getItem(i).setDurability((short) 0);
                                         }
                                     }
-                                } catch (Exception e) {
-                                    //bleh
-                                }
+                                } catch (Exception e) {}
                             }
                             player.getInventory().getItemInOffHand().setDurability((short) 0);
                             if (player.getInventory().getBoots() != null) {
@@ -111,23 +111,23 @@ public class Repair implements CommandExecutor {
                             return true;
                         } else {
                             String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/repair all");
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
                         }
                     } else if (repaircancel.containsKey(player.getUniqueId()) && repaircancel.get(player.getUniqueId()) != null) {
                         String msg = Lang.fileConfig.getString("command-timeout").replace("<time>", String.valueOf(time));
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }
                 } else {
                     String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/repair");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }
             }
         } else {
             String console = Lang.fileConfig.getString("console-invalid");
-            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
             return true;
         }
         return false;

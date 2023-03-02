@@ -11,6 +11,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class SendSpawn implements CommandExecutor {
 
     @Override
@@ -44,24 +46,24 @@ public class SendSpawn implements CommandExecutor {
                                 target.teleport(loc);
                                 // Sending the Sender and Target a message
                                 String msg = Lang.fileConfig.getString("spawn-teleport-target").replace("<target>", target.getName());
-                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                 String msg2 = Lang.fileConfig.getString("spawn-teleport-target-success");
-                                target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                                target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
                                 return true;
                             } else {
                                 String msg = Lang.fileConfig.getString("spawn-world-invalid");
-                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                 return true;
                             }
                         } else {
                             String msg = Lang.fileConfig.getString("target-offline");
-                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
                         }
                     }else{
                         // Sends Message Newbies Spawn Doesn't Exist
                         String msg = Lang.fileConfig.getString("spawn-invalid");
-                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     }
                 }else if (args.length == 2){
                     if (args[0].equalsIgnoreCase("newbies")) {
@@ -90,31 +92,31 @@ public class SendSpawn implements CommandExecutor {
                                     target.teleport(loc);
                                     // Sending the Sender and Target a message
                                     String msg = Lang.fileConfig.getString("newbies-spawn-teleport-target").replace("<target>", target.getName());
-                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                     String msg2 = Lang.fileConfig.getString("newbies-spawn-teleport-target-success");
-                                    target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                                    target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
                                     return true;
                                 } else {
                                     String msg = Lang.fileConfig.getString("spawn-world-invalid");
-                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                     return true;
                                 }
                             } else {
                                 String msg = Lang.fileConfig.getString("target-offline");
-                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                 return true;
                             }
                         } else {
                             // Sends Message Newbies Spawn Doesn't Exist
                             String msg = Lang.fileConfig.getString("newbies-spawn-invalid");
-                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         }
                     }
                 }
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");
-            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
             return true;
         }
         return false;

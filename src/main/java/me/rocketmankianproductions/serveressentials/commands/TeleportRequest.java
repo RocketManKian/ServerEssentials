@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class TeleportRequest implements CommandExecutor {
 
     public static HashMap<UUID, UUID> tpa = new HashMap<>();
@@ -38,7 +40,7 @@ public class TeleportRequest implements CommandExecutor {
         int delay6 = delay5 / 20;
         if (!(sender instanceof Player)) {
             String console = Lang.fileConfig.getString("console-invalid");
-            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', console));
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
             return true;
         }
         Player player = (Player) sender;
@@ -60,7 +62,7 @@ public class TeleportRequest implements CommandExecutor {
                                             public void run() {
                                                 if (tpa.containsKey(target.getUniqueId())) {
                                                     String msg = Lang.fileConfig.getString("teleport-request-timeout");
-                                                    target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                    target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                                     tpa.remove(target.getUniqueId());
                                                 }
                                             }
@@ -75,29 +77,29 @@ public class TeleportRequest implements CommandExecutor {
                                         return true;
                                     } else {
                                         String msg = Lang.fileConfig.getString("teleport-disabled");
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                         return true;
                                     }
                                 }
                                 if (teleportcooldown.containsKey(player.getUniqueId()) && teleportcooldown.get(player.getUniqueId()) != null) {
                                     String msg = Lang.fileConfig.getString("command-timeout").replace("<time>", String.valueOf(time));
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                     return true;
                                 }
                             }
                         } else {
                             String msg = Lang.fileConfig.getString("teleport-self");
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
                         }
                     } else {
                         String msg = Lang.fileConfig.getString("target-offline");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }
                 }else{
                     String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/tpa (player)");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }
             }
@@ -120,7 +122,7 @@ public class TeleportRequest implements CommandExecutor {
                                             public void run() {
                                                 if (tpahere.containsKey(target.getUniqueId())) {
                                                     String msg = Lang.fileConfig.getString("teleport-here-request-timeout");
-                                                    target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                                    target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                                     tpahere.remove(target.getUniqueId());
                                                 }
                                             }
@@ -135,29 +137,29 @@ public class TeleportRequest implements CommandExecutor {
                                         return true;
                                     } else {
                                         String msg = Lang.fileConfig.getString("teleport-disabled");
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                         return true;
                                     }
                                 }
                                 if (teleportherecooldown.containsKey(player.getUniqueId()) && teleportherecooldown.get(player.getUniqueId()) != null) {
                                     String msg = Lang.fileConfig.getString("command-timeout").replace("<time>", String.valueOf(time));
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                     return true;
                                 }
                             }
                         } else {
                             String msg = Lang.fileConfig.getString("teleport-self");
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
                         }
                     } else {
                         String msg = Lang.fileConfig.getString("target-offline");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }
                 }else{
                     String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/tpahere (player)");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }
             }
@@ -166,7 +168,7 @@ public class TeleportRequest implements CommandExecutor {
             if (ServerEssentials.permissionChecker(player, "se.tpacancel")) {
                 if (tpa.containsKey(getKey(tpa, player.getUniqueId())) || tpahere.containsKey(getKey(tpahere, player.getUniqueId()))) {
                     String msg = Lang.fileConfig.getString("teleport-cancel");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     if (teleportcancel.containsKey(player.getUniqueId()) && teleportcancel.get(player.getUniqueId()) != null){
                         if (teleportcancel.get(getKey(tpa, player.getUniqueId())) != null){
                             Bukkit.getScheduler().cancelTask(teleportcancel.get(getKey(tpa, player.getUniqueId())));
@@ -179,7 +181,7 @@ public class TeleportRequest implements CommandExecutor {
                     return true;
                 } else if (!tpahere.containsKey(player.getUniqueId()) || !tpa.containsKey(player.getUniqueId())) {
                     String msg = Lang.fileConfig.getString("teleport-no-request");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }
             }
@@ -206,7 +208,7 @@ public class TeleportRequest implements CommandExecutor {
                         return true;
                     } else if (tpahere.get(player.getUniqueId()) == null || tpa.get(player.getUniqueId()) == null) {
                         String msg = Lang.fileConfig.getString("teleport-no-request-accept");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }
                 }else{
@@ -216,9 +218,9 @@ public class TeleportRequest implements CommandExecutor {
                             cancelTimeout(player);
                             cancel.add(target.getUniqueId());
                             String msg = Lang.fileConfig.getString("teleport-accept-request-target").replace("<target>", target.getName());
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             String msg2 = Lang.fileConfig.getString("teleport-wait-message").replace("<player>", player.getName()).replace("<time>", String.valueOf(tpwait));
-                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
                             tpwait = tpwait * 20;
                             tpa.remove(player.getUniqueId());
                             teleportSuccess(player, target, tpwait, "tpa", true);
@@ -228,16 +230,16 @@ public class TeleportRequest implements CommandExecutor {
                             cancelTimeout(player);
                             cancel.add(player.getUniqueId());
                             String msg = Lang.fileConfig.getString("teleport-accept-request").replace("<sender>", player.getName());
-                            Bukkit.getPlayer(tpahere.get(player.getUniqueId())).sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            Bukkit.getPlayer(tpahere.get(player.getUniqueId())).sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             String msg2 = Lang.fileConfig.getString("teleport-wait-message").replace("<player>", target.getName()).replace("<time>", String.valueOf(tpwait));
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
                             tpwait = tpwait * 20;
                             tpahere.remove(player.getUniqueId());
                             teleportSuccess(player, target, tpwait, "tpahere", true);
                             return true;
                         } else if (tpahere.get(player.getUniqueId()) == null || tpa.get(player.getUniqueId()) == null) {
                             String msg = Lang.fileConfig.getString("teleport-no-request-accept");
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
                         }
                     }else{
@@ -245,9 +247,9 @@ public class TeleportRequest implements CommandExecutor {
                             Player target = Bukkit.getPlayer(tpa.get(player.getUniqueId()));
                             cancelTimeout(player);
                             String msg = Lang.fileConfig.getString("teleport-accept-request-target").replace("<target>", target.getName());
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             String msg2 = Lang.fileConfig.getString("teleport-wait-message").replace("<player>", player.getName()).replace("<time>", String.valueOf(tpwait));
-                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
                             tpwait = tpwait * 20;
                             tpa.remove(player.getUniqueId());
                             teleportSuccess(player, target, tpwait, "tpa", false);
@@ -256,16 +258,16 @@ public class TeleportRequest implements CommandExecutor {
                             Player target = Bukkit.getPlayer(tpahere.get(player.getUniqueId()));
                             cancelTimeout(player);
                             String msg = Lang.fileConfig.getString("teleport-wait-message").replace("<player>", target.getName()).replace("<time>", String.valueOf(tpwait));
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             String msg2 = Lang.fileConfig.getString("teleport-accept-request").replace("<sender>", player.getName());
-                            Bukkit.getPlayer(tpahere.get(player.getUniqueId())).sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                            Bukkit.getPlayer(tpahere.get(player.getUniqueId())).sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
                             tpwait = tpwait * 20;
                             tpahere.remove(player.getUniqueId());
                             teleportSuccess(player, target, tpwait, "tpahere", false);
                             return true;
                         } else if (tpahere.get(player.getUniqueId()) == null || tpa.get(player.getUniqueId()) == null) {
                             String msg = Lang.fileConfig.getString("teleport-no-request-accept");
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
                         }
                     }
@@ -277,9 +279,9 @@ public class TeleportRequest implements CommandExecutor {
                 if (tpa.containsKey(player.getUniqueId())) {
                     Player target = Bukkit.getPlayer(tpa.get(player.getUniqueId()));
                     String msg = Lang.fileConfig.getString("teleport-deny-request-target").replace("<target>", target.getName());
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     String msg2 = Lang.fileConfig.getString("teleport-deny-request").replace("<sender>", player.getName());
-                    Bukkit.getPlayer(tpa.get(player.getUniqueId())).sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                    Bukkit.getPlayer(tpa.get(player.getUniqueId())).sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
                     if (teleportcancel.containsKey(player.getUniqueId()) && teleportcancel.get(player.getUniqueId()) != null){
                         Bukkit.getScheduler().cancelTask(teleportcancel.get(player.getUniqueId()));
                     }
@@ -288,9 +290,9 @@ public class TeleportRequest implements CommandExecutor {
                 } else if (tpahere.containsKey(player.getUniqueId())) {
                     Player target = Bukkit.getPlayer(tpahere.get(player.getUniqueId()));
                     String msg = Lang.fileConfig.getString("teleport-deny-request-target").replace("<target>", target.getName());
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     String msg2 = Lang.fileConfig.getString("teleport-deny-request").replace("<sender>", player.getName());
-                    Bukkit.getPlayer(tpahere.get(player.getUniqueId())).sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+                    Bukkit.getPlayer(tpahere.get(player.getUniqueId())).sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
                     if (teleportcancel.containsKey(player.getUniqueId()) && teleportcancel.get(player.getUniqueId()) != null){
                         Bukkit.getScheduler().cancelTask(teleportcancel.get(player.getUniqueId()));
                     }
@@ -298,7 +300,7 @@ public class TeleportRequest implements CommandExecutor {
                     return true;
                 } else if (!tpahere.containsKey(player.getUniqueId()) || !tpa.containsKey(player.getUniqueId())) {
                     String msg = Lang.fileConfig.getString("teleport-no-request-deny");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }
             }
@@ -342,27 +344,27 @@ public class TeleportRequest implements CommandExecutor {
     public void teleportRequestMessage(Player player, Player target, String requestsent, String targetreceive, String timeoutwarning, String teleportcancelwarning, String teleportrequestaccept, String teleportrequestdeny, int delay3){
         String msg = Lang.fileConfig.getString(requestsent).replace("<target>", target.getName());
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-        String message = Lang.fileConfig.getString(teleportcancelwarning);
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', message));
+        String message = hex(Lang.fileConfig.getString(teleportcancelwarning));
+        player.sendMessage(message);
         String msg3 = Lang.fileConfig.getString(targetreceive).replace("<sender>", player.getName());
         target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg3));
-        String message2 = Lang.fileConfig.getString(teleportrequestaccept);
-        target.sendMessage(ChatColor.translateAlternateColorCodes('&', message2));
-        String message3 = Lang.fileConfig.getString(teleportrequestdeny);
-        target.sendMessage(ChatColor.translateAlternateColorCodes('&', message3));
+        String message2 = hex(Lang.fileConfig.getString(teleportrequestaccept));
+        target.sendMessage(message2);
+        String message3 = hex(Lang.fileConfig.getString(teleportrequestdeny));
+        target.sendMessage(message3);
         String msg4 = Lang.fileConfig.getString(timeoutwarning).replace("<time>", String.valueOf(delay3));
-        target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg4));
+        target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg4)));
     }
 
     public void teleportSuccessMessage(Player player, Player target, String tp){
         String msg = Lang.fileConfig.getString("teleport-target-success").replace("<sender>", player.getName());
         String msg2 = Lang.fileConfig.getString("teleport-success").replace("<target>", target.getName());
         if (tp.equalsIgnoreCase("tpahere")){
-            target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+            target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
         }else if (tp.equalsIgnoreCase("tpa")){
-            target.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg2));
+            target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
         }
     }
 
@@ -375,12 +377,12 @@ public class TeleportRequest implements CommandExecutor {
                         String world = player.getWorld().getName();
                         if (target.getWorld().getName() != world){
                             String msg = Lang.fileConfig.getString(lang);
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             blacklistedworld = true;
                         }
                     }else{
                         String msg = Lang.fileConfig.getString(lang);
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         blacklistedworld = true;
                     }
                 }
