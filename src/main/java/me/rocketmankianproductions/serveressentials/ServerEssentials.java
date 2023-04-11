@@ -75,6 +75,10 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
                 registerEvents();
             }
         }.runTaskLaterAsynchronously(this, 20L);
+        // Placeholder API Event
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null){
+            new PlaceholderExpansion(this).register();
+        }
         LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "Events have been enabled.");
         // End
         LoggerMessage.log(LoggerMessage.LogLevel.OUTLINE, "*********************");
@@ -278,7 +282,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         // Ping Command
         getCommand("ping").setExecutor(new Ping());
         // AFK Command
-        getCommand("afk").setExecutor(new AFK());
+        //getCommand("afk").setExecutor(new AFK());
     }
 
     @Override
@@ -304,7 +308,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         pm.registerEvents(new PlayerWorldCheck(), this);
         pm.registerEvents(new Plugins(), this);
         pm.registerEvents(new God(), this);
-        pm.registerEvents(new AFK(), this);
+        //pm.registerEvents(new AFK(), this);
     }
 
     public void registerPlaceholder() {

@@ -18,6 +18,7 @@ public class PlayerMoveEvent implements Listener {
     @EventHandler
     public void onMove(org.bukkit.event.player.PlayerMoveEvent m){
         Player player = m.getPlayer();
+
         if (Home.cancel.contains(player.getUniqueId())){
             if (m.getFrom().getBlockX() != m.getTo().getBlockX() || m.getFrom().getBlockZ() != m.getTo().getBlockZ() || m.getFrom().getBlockY() != m.getTo().getBlockY()) {
                 Home.cancel.remove(player.getUniqueId());

@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 1.81.7
+version: 1.81.8
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -203,8 +203,6 @@ commands:
     aliases: [checkaccount, checkplayer, playerinfo]
   ping:
     description: Ping Command
-  afk:
-    description: AFK Command
 permissions:
   se.all:
     description: "Gives access to all commands."
@@ -252,6 +250,7 @@ permissions:
       se.gamemode.adventure: true
       se.gamemode.spectator: true
       se.fly: true
+      se.fly.others: true
       se.tpahere: true
       se.kill: true
       se.message: true
@@ -407,6 +406,9 @@ permissions:
     default: false
   se.fly:
     description: "Fly Command"
+    default: false
+  se.fly.others:
+    description: "Fly Others Command"
     default: false
   se.tpahere:
     description: "Tpahere Command"

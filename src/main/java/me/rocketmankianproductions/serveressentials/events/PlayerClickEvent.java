@@ -375,6 +375,9 @@ public class PlayerClickEvent implements Listener {
                 }
             }
         }
+        if (e.getView().getTitle().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', "&b&l" + Invsee.targetName.get(player) + "'s Inventory"))){
+            e.setCancelled(true);
+        }
     }
     public static Location getWarpLocation(String warp, OfflinePlayer player){
         // Gathering Location

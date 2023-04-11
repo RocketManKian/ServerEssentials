@@ -19,6 +19,7 @@ public class PlayerLeaveListener implements Listener {
     @EventHandler
     void onPlayerLeave(PlayerQuitEvent pj) {
         Player player = pj.getPlayer();
+
         if (ServerEssentials.getPlugin().getConfig().getBoolean("enable-leave-message")) {
             if (SilentJoin.fileConfig.getBoolean("silent." + player.getName()) == false) {
                 if (Lang.fileConfig.getString("leave-symbol").isEmpty()){
