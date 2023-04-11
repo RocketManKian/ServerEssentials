@@ -25,7 +25,7 @@ public class PlayerJoinListener implements Listener {
     public static ServerEssentials plugin;
 
     @EventHandler
-    void onPlayerJoin(PlayerJoinEvent pj) {
+    public void onPlayerJoin(PlayerJoinEvent pj) {
         Player player = pj.getPlayer();
 
         // Check to see if Update Checker is enabled in Config

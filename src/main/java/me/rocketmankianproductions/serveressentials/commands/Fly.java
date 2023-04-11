@@ -19,8 +19,10 @@ public class Fly implements CommandExecutor {
                 if (args.length == 0) {
                     flyToggle(player, false, null);
                 } else if (args.length == 1) {
-                    Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
-                    flyToggle(targetPlayer, true, player);
+                    if (ServerEssentials.permissionChecker(player, "se.fly.others")){
+                        Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
+                        flyToggle(targetPlayer, true, player);
+                    }
                 } else {
                     String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/fly (player)");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
