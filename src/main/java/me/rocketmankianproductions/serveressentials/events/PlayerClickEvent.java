@@ -149,31 +149,41 @@ public class PlayerClickEvent implements Listener {
                     if (ServerEssentials.plugin.getConfig().getInt("home-teleport") == 0) {
                         Location loc = getHomeLocation(home, player);
                         Home.homeSave(player);
-                        Home.homeTeleport(player, loc, "home-message", subtitle, home);
-                        player.closeInventory();
+                        if (loc != null){
+                            Home.homeTeleport(player, loc, "home-message", subtitle, home);
+                            player.closeInventory();
+                        }else{
+                            player.sendMessage(Lang.fileConfig.getString("home-invalid").replace("<home>", home));
+                            player.closeInventory();
+                        }
                     } else {
                         if (ServerEssentials.plugin.getConfig().getBoolean("home-movement-cancel")){
-                            Home.cancel.add(player.getUniqueId());
-                            int seconds = ServerEssentials.plugin.getConfig().getInt("home-teleport");
-                            String msg = Lang.fileConfig.getString("home-wait-message").replace("<home>", home).replace("<time>", String.valueOf(seconds));
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                            seconds = seconds * 20;
                             Location loc = getHomeLocation(home, player);
-                            if (Home.hometeleport.containsKey(player.getUniqueId()) && Home.hometeleport.get(player.getUniqueId()) != null) {
-                                Bukkit.getScheduler().cancelTask(Home.hometeleport.get(player.getUniqueId()));
-                            }
-                            String finalHome = home;
-                            Home.hometeleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
-                                public void run() {
-                                    if (Home.cancel.contains(player.getUniqueId())){
-                                        if (Home.hometeleport.containsKey(player.getUniqueId())) {
-                                            Home.homeSave(player);
-                                            Home.homeTeleport(player, loc, "home-message", subtitle, finalHome);
+                            if (loc != null){
+                                Home.cancel.add(player.getUniqueId());
+                                int seconds = ServerEssentials.plugin.getConfig().getInt("home-teleport");
+                                String msg = Lang.fileConfig.getString("home-wait-message").replace("<home>", home).replace("<time>", String.valueOf(seconds));
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                                seconds = seconds * 20;
+                                if (Home.hometeleport.containsKey(player.getUniqueId()) && Home.hometeleport.get(player.getUniqueId()) != null) {
+                                    Bukkit.getScheduler().cancelTask(Home.hometeleport.get(player.getUniqueId()));
+                                }
+                                String finalHome = home;
+                                Home.hometeleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
+                                    public void run() {
+                                        if (Home.cancel.contains(player.getUniqueId())){
+                                            if (Home.hometeleport.containsKey(player.getUniqueId())) {
+                                                Home.homeSave(player);
+                                                Home.homeTeleport(player, loc, "home-message", subtitle, finalHome);
+                                            }
                                         }
                                     }
-                                }
-                            }, seconds));
-                            player.closeInventory();
+                                }, seconds));
+                                player.closeInventory();
+                            }else{
+                                player.sendMessage(Lang.fileConfig.getString("home-invalid").replace("<home>", home));
+                                player.closeInventory();
+                            }
                         }else{
                             int seconds = ServerEssentials.plugin.getConfig().getInt("home-teleport");
                             String msg = Lang.fileConfig.getString("home-wait-message").replace("<home>", home).replace("<time>", String.valueOf(seconds));
@@ -390,16 +400,20 @@ public class PlayerClickEvent implements Listener {
                 yaw, pitch);
         return loc;
     }
-    public static Location getHomeLocation(String home, OfflinePlayer player){
+    public static Location getHomeLocation(String home, OfflinePlayer player) {
         UUID name = player.getUniqueId();
         // Gathering Location
         float yaw = Sethome.fileConfig.getInt("Home." + name + "." + home + ".Yaw");
-        Location loc = new Location(Bukkit.getWorld(Sethome.fileConfig.getString("Home." + name + "." + home + ".World")),
-                Sethome.fileConfig.getDouble("Home." + name + "." + home + ".X"),
-                Sethome.fileConfig.getDouble("Home." + name + "." + home + ".Y"),
-                Sethome.fileConfig.getDouble("Home." + name + "." + home + ".Z"),
-                yaw, 0);
-        return loc;
+        if (Sethome.fileConfig.getString("Home." + name + "." + home + ".World") == null){
+            return null;
+        }else{
+            Location loc = new Location(Bukkit.getWorld(Sethome.fileConfig.getString("Home." + name + "." + home + ".World")),
+                    Sethome.fileConfig.getDouble("Home." + name + "." + home + ".X"),
+                    Sethome.fileConfig.getDouble("Home." + name + "." + home + ".Y"),
+                    Sethome.fileConfig.getDouble("Home." + name + "." + home + ".Z"),
+                    yaw, 0);
+            return loc;
+        }
     }
 
     public static void confirmDenyGUI (Player player, String homewarp, String value){
