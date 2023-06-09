@@ -2,6 +2,7 @@ package me.rocketmankianproductions.serveressentials.events;
 
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.commands.SilentJoin;
 import me.rocketmankianproductions.serveressentials.file.Lang;
@@ -22,11 +23,16 @@ public class PlayerLeaveListener implements Listener {
 
         if (ServerEssentials.getPlugin().getConfig().getBoolean("enable-leave-message")) {
             if (SilentJoin.fileConfig.getBoolean("silent." + player.getName()) == false) {
+                String msg = hex(Lang.fileConfig.getString("leave-symbol")).replace("<player>", player.getName());
                 if (Lang.fileConfig.getString("leave-symbol").isEmpty()){
                     pj.setQuitMessage("");
                 }else{
-                    String lm = hex(Lang.fileConfig.getString("leave-symbol")).replace("<player>", player.getName());
-                    pj.setQuitMessage(ChatColor.translateAlternateColorCodes('&', hex(lm)));
+                    if (ServerEssentials.isConnectedToPlaceholderAPI) {
+                        String placeholder = PlaceholderAPI.setPlaceholders(player, msg);
+                        pj.setQuitMessage(ChatColor.translateAlternateColorCodes('&', hex(placeholder)));
+                    }else{
+                        pj.setQuitMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                    }
                 }
             }else{
                 pj.setQuitMessage("");

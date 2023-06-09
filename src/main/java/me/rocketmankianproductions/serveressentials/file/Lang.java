@@ -97,7 +97,7 @@ public class Lang {
                 fileConfig.addDefault("home-message", "Successfully teleported to <home>");
                 fileConfig.addDefault("home-wait-message", "Teleporting to <home> in <time> Seconds");
                 fileConfig.addDefault("target-home-wait-message", "Teleporting to <target>(s) Home in <time> Seconds");
-                fileConfig.addDefault("home-invalid", "Home <home> doesn't exist!");
+                fileConfig.addDefault("home-invalid", "Home &6<home> &fdoesn't exist or is invalid");
                 fileConfig.addDefault("home-file-error", "home.yml file is empty or null");
                 fileConfig.addDefault("home-gui-name", "Home GUI");
                 fileConfig.addDefault("target-home-gui-name", "<target>(s) Home List");
@@ -483,7 +483,7 @@ public class Lang {
                     fileConfig.set("target-home-wait-message", "Teleporting to <target>(s) Home in <time> Seconds");
                 }
                 if (fileConfig.getString("home-invalid") == null) {
-                    fileConfig.set("home-invalid", "Home <home> doesn't exist!");
+                    fileConfig.set("home-invalid", "Home &6<home> &fdoesn't exist or is invalid");
                 }
                 if (fileConfig.getString("home-file-error") == null){
                     fileConfig.set("home-file-error", "home.yml file is empty or null");
