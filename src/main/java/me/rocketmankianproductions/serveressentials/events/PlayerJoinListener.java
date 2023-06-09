@@ -63,11 +63,16 @@ public class PlayerJoinListener implements Listener {
         if (player.hasPlayedBefore()) {
             if (ServerEssentials.getPlugin().getConfig().getBoolean("enable-join-message")) {
                 if (SilentJoin.fileConfig.getBoolean("silent." + player.getName()) == false) {
+                    String msg = ServerEssentials.hex(Lang.fileConfig.getString("join-symbol")).replace("<player>", player.getName());
                     if (Lang.fileConfig.getString("join-symbol").isEmpty()){
                         pj.setJoinMessage("");
                     }else{
-                        String jm = ServerEssentials.hex(Lang.fileConfig.getString("join-symbol")).replace("<player>", player.getName());
-                        pj.setJoinMessage(ChatColor.translateAlternateColorCodes('&', hex(jm)));
+                        if (ServerEssentials.isConnectedToPlaceholderAPI){
+                            String placeholder = PlaceholderAPI.setPlaceholders(player, msg);
+                            pj.setJoinMessage(ChatColor.translateAlternateColorCodes('&', hex(placeholder)));
+                        }else{
+                            pj.setJoinMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                        }
                     }
                 } else {
                     pj.setJoinMessage("");
