@@ -26,6 +26,7 @@ public class TeleportRequest implements CommandExecutor {
     public static HashMap<UUID, Integer> teleportherecooldown = new HashMap<>();
     public static HashMap<UUID, Integer> teleport = new HashMap<>();
     public static ArrayList<UUID> cancel = new ArrayList<>();
+    public static ArrayList<UUID> cancel2 = new ArrayList<>();
     int time;
     public static int taskID;
 
@@ -190,19 +191,18 @@ public class TeleportRequest implements CommandExecutor {
             if (ServerEssentials.permissionChecker(player, "se.tpaccept")) {
                 if (ServerEssentials.plugin.getConfig().getInt("teleport-wait") == 0){
                     if (tpa.containsKey(player.getUniqueId())) {
-                        Teleport.teleportSave(player);
                         Player target = Bukkit.getPlayer(tpa.get(player.getUniqueId()));
-                        // Teleporting Player
-                        Bukkit.getPlayer(tpa.get(player.getUniqueId())).teleport(player);
-                        tpa.remove(player.getUniqueId());
-                        cancelTimeout(player);
+                        Teleport.teleportSave(target);
+                        target.teleport(player);
                         teleportSuccessMessage(target, player, "tpa");
+                        cancelTimeout(player);
+                        tpa.remove(player.getUniqueId());
                         return true;
                     } else if (tpahere.containsKey(player.getUniqueId())) {
-                        Teleport.teleportSave(player);
                         Player target = Bukkit.getPlayer(tpahere.get(player.getUniqueId()));
+                        Teleport.teleportSave(player);
+                        player.teleport(target);
                         teleportSuccessMessage(player, target, "tpahere");
-                        player.teleport(Bukkit.getPlayer(tpahere.get(player.getUniqueId())));
                         cancelTimeout(player);
                         tpahere.remove(player.getUniqueId());
                         return true;
@@ -228,7 +228,7 @@ public class TeleportRequest implements CommandExecutor {
                         } else if (tpahere.containsKey(player.getUniqueId())) {
                             Player target = Bukkit.getPlayer(tpahere.get(player.getUniqueId()));
                             cancelTimeout(player);
-                            cancel.add(player.getUniqueId());
+                            cancel2.add(player.getUniqueId());
                             String msg = Lang.fileConfig.getString("teleport-accept-request").replace("<sender>", player.getName());
                             Bukkit.getPlayer(tpahere.get(player.getUniqueId())).sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             String msg2 = Lang.fileConfig.getString("teleport-wait-message").replace("<player>", target.getName()).replace("<time>", String.valueOf(tpwait));
@@ -398,40 +398,40 @@ public class TeleportRequest implements CommandExecutor {
         teleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
             public void run() {
                 if (movement){
-                    if (cancel.contains(target.getUniqueId()) || cancel.contains(player.getUniqueId())){
+                    if (cancel.contains(target.getUniqueId()) || cancel2.contains(player.getUniqueId())){
                         if (teleport.containsKey(player.getUniqueId())) {
-                            Teleport.teleportSave(player);
                             // Teleporting Player
                             if (tp.equalsIgnoreCase("tpahere")){
+                                Teleport.teleportSave(player);
                                 player.teleport(target);
                                 teleportSuccessMessage(player, target, "tpahere");
                                 tpahere.remove(target.getUniqueId());
                             }else if (tp.equalsIgnoreCase("tpa")){
+                                Teleport.teleportSave(target);
                                 target.teleport(player);
                                 teleportSuccessMessage(target, player, "tpa");
                                 tpa.remove(player.getUniqueId());
                             }
                             teleport.remove(player.getUniqueId());
                             cancel.remove(target.getUniqueId());
-                            cancel.remove(player.getUniqueId());
+                            cancel2.remove(player.getUniqueId());
                         }
                     }
                 }else{
                     if (teleport.containsKey(player.getUniqueId())) {
-                        Teleport.teleportSave(player);
                         // Teleporting Player
                         if (tp.equalsIgnoreCase("tpahere")){
+                            Teleport.teleportSave(player);
                             player.teleport(target);
                             teleportSuccessMessage(player, target, "tpahere");
                             tpahere.remove(target.getUniqueId());
                         }else if (tp.equalsIgnoreCase("tpa")){
+                            Teleport.teleportSave(target);
                             target.teleport(player);
                             teleportSuccessMessage(target, player, "tpa");
                             tpa.remove(player.getUniqueId());
                         }
                         teleport.remove(player.getUniqueId());
-                        cancel.remove(target.getUniqueId());
-                        cancel.remove(player.getUniqueId());
                     }
                 }
             }
