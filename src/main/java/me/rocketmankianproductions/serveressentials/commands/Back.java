@@ -72,7 +72,7 @@ public class Back implements CommandExecutor {
                             }else if (location2.containsKey(player.getUniqueId())) {
                                 blacklistCheck(player);
                                 if (!blacklistCheck(player)){
-                                    backCancel(player, location2, location, delay2, delay3);
+                                    backCancel(player, location, location2, delay2, delay3);
                                 }
                             }else{
                                 String msg = Lang.fileConfig.getString("back-no-location");

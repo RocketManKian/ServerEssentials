@@ -93,12 +93,12 @@ public class Home implements CommandExecutor {
                                     if (hometeleport.containsKey(player.getUniqueId()) && hometeleport.get(player.getUniqueId()) != null) {
                                         Bukkit.getScheduler().cancelTask(hometeleport.get(player.getUniqueId()));
                                     }
-                                    String finalHome1 = home;
+                                    String finalHome = home;
                                     hometeleport.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.plugin), new Runnable() {
                                         public void run() {
                                             if (hometeleport.containsKey(player.getUniqueId())) {
                                                 homeSave(player);
-                                                homeTeleport(player, loc, "home-message", subtitle, finalHome1);
+                                                homeTeleport(player, loc, "home-message", subtitle, finalHome);
                                             }
                                         }
                                     }, delay));
@@ -370,7 +370,6 @@ public class Home implements CommandExecutor {
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");
-            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
         }
         return false;
     }
@@ -388,19 +387,9 @@ public class Home implements CommandExecutor {
 
     public static void homeSave(Player player){
         if (ServerEssentials.plugin.getConfig().getBoolean("home-save")) {
-            if (Back.location.containsKey(player.getUniqueId())) {
-                Back.location.remove(player.getUniqueId());
-                Back.location.put(player.getUniqueId(), player.getLocation());
-            } else {
-                Back.location.put(player.getUniqueId(), player.getLocation());
-            }
+            Back.location.put(player.getUniqueId(), player.getLocation());
         } else if (player.hasPermission("se.back.bypass")) {
-            if (Back.location.containsKey(player.getUniqueId())) {
-                Back.location.remove(player.getUniqueId());
-                Back.location.put(player.getUniqueId(), player.getLocation());
-            } else {
-                Back.location.put(player.getUniqueId(), player.getLocation());
-            }
+            Back.location.put(player.getUniqueId(), player.getLocation());
         }
     }
 
@@ -411,7 +400,6 @@ public class Home implements CommandExecutor {
                 player.teleport(loc);
                 String msg = Lang.fileConfig.getString("home-subtitle").replace("<home>", finalHome);
                 player.sendTitle(hex(msg), null);
-                Bukkit.getLogger().info(msg);
             } else {
                 String msg = ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("home-world-invalid")));
                 player.sendMessage(msg);
@@ -421,7 +409,7 @@ public class Home implements CommandExecutor {
                 // Teleporting Player
                 player.teleport(loc);
                 String msg = Lang.fileConfig.getString(lang);
-                player.sendMessage(hex(msg));
+                player.sendMessage(hex(msg).replace("<home>", finalHome));
             } else {
                 String msg = hex(Lang.fileConfig.getString("home-world-invalid"));
                 player.sendMessage(msg);
