@@ -8,8 +8,6 @@ import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.UpdateChecker.Update;
 import me.rocketmankianproductions.serveressentials.commands.*;
 import me.rocketmankianproductions.serveressentials.file.Lang;
-import net.md_5.bungee.api.chat.*;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,18 +26,13 @@ public class PlayerJoinListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent pj) {
         Player player = pj.getPlayer();
 
-        // Check to see if Update Checker is enabled in Config
         if (ServerEssentials.getPlugin().getConfig().getBoolean("update-checker")){
             // Checking if the player is op and if the plugin has an update
             if ((player.isOp() || player.hasPermission("se.alert")) && ServerEssentials.getPlugin().hasUpdate()) {
                 new Update(ServerEssentials.getPlugin(), 86675).getLatestVersion(version -> {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&5--------------------------------"));
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7There is a new version of &6ServerEssentials &7available."));
-                    TextComponent textComponent = new TextComponent(ChatColor.translateAlternateColorCodes('&', "&6&lDownload"));
-                    textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT,
-                            new ComponentBuilder("Click to Download").create()));
-                    textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://www.spigotmc.org/resources/server-essentials.86675/"));
-                    player.spigot().sendMessage(textComponent);
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Download on the &6Bukkit Website"));
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&bLatest version: " + "&a" + version + " &8| &bInstalled version: &c" + ServerEssentials.getPlugin().getDescription().getVersion()));
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&5--------------------------------"));
                 });
