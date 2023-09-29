@@ -1,4 +1,4 @@
-name: ServerEssentials-Bukkit
+name: ServerEssentials
 version: 1.82.3
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
