@@ -96,6 +96,8 @@ public class TabCompletion implements TabCompleter {
         if (command.getName().equalsIgnoreCase("spawn")){
             List<String> autoCompletes = new ArrayList<>();
             if (args.length == 1){
+                return null;
+            }else if (args.length == 2 && !args[0].equalsIgnoreCase("newbies")){
                 if (Setspawn.fileConfig.getString("Newbies") != null){
                     autoCompletes.add("newbies");
                 }

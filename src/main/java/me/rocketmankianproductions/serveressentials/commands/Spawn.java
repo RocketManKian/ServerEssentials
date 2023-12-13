@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.permissionChecker;
 
 public class Spawn implements CommandExecutor {
 
@@ -34,7 +35,7 @@ public class Spawn implements CommandExecutor {
                 if (Setspawn.file.exists()) {
                     if (args.length == 0) {
                         if (command.getName().equalsIgnoreCase("tutorial")){
-                            if (Setspawn.fileConfig.getString("Newbies.Location.World") != null){
+                            if (checkNewbiesSpawn(sender) == false) {
                                 Location loc = getNewbiesLocation();
                                 if (ServerEssentials.plugin.getConfig().getInt("spawn-teleport") == 0){
                                     spawnSave(player);
@@ -77,13 +78,9 @@ public class Spawn implements CommandExecutor {
                                         return true;
                                     }
                                 }
-                            }else{
-                                // Sends Message if Newbies Spawn Doesn't Exist
-                                String msg = Lang.fileConfig.getString("newbies-spawn-invalid");
-                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             }
                         }else if (command.getName().equalsIgnoreCase("spawn")) {
-                            if (Setspawn.fileConfig.getString("Location.World") != null) {
+                            if (checkSpawn(sender) == false){
                                 Location loc = getLocation();
                                 if (ServerEssentials.plugin.getConfig().getInt("spawn-teleport") == 0) {
                                     spawnSave(player);
@@ -126,21 +123,17 @@ public class Spawn implements CommandExecutor {
                                         return true;
                                     }
                                 }
-                            }else{
-                                // Sends Message if Spawn Doesn't Exist
-                                String msg = Lang.fileConfig.getString("spawn-invalid");
-                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             }
                         }
                     } else if (args.length == 1) {
                         // Teleport to Newbies Spawn
                         if (args[0].equalsIgnoreCase("newbies")) {
-                            if (Setspawn.fileConfig.getString("Newbies.Location.World") != null){
+                            if (checkNewbiesSpawn(sender) == false){
                                 Location loc = getNewbiesLocation();
-                                if (ServerEssentials.plugin.getConfig().getInt("spawn-teleport") == 0){
+                                if (ServerEssentials.plugin.getConfig().getInt("spawn-teleport") == 0) {
                                     spawnSave(player);
                                     spawnTeleport(player, loc, "newbies-spawn-successful");
-                                }else {
+                                } else {
                                     if (ServerEssentials.plugin.getConfig().getBoolean("spawn-movement-cancel")) {
                                         cancel.add(player.getUniqueId());
                                         String msg = Lang.fileConfig.getString("newbies-spawn-wait-message").replace("<time>", String.valueOf(delay));
@@ -178,10 +171,92 @@ public class Spawn implements CommandExecutor {
                                         return true;
                                     }
                                 }
-                            }else{
-                                // Sends Message if Newbies Spawn Doesn't Exist
-                                String msg = Lang.fileConfig.getString("newbies-spawn-invalid");
-                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                            }
+                        } else {
+                            if (permissionChecker(player, "se.spawn.others")){
+                                if (checkSpawn(sender) == false){
+                                    Location loc = getLocation();
+                                    Player target = Bukkit.getPlayerExact(args[0]);
+                                    // Checking if the player exists
+                                    if (target != null) {
+                                        if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")) {
+                                            if (Back.location.containsKey(target.getUniqueId())) {
+                                                Back.location.remove(target.getUniqueId());
+                                                Back.location.put(target.getUniqueId(), target.getLocation());
+                                            } else {
+                                                Back.location.put(target.getUniqueId(), target.getLocation());
+                                            }
+                                        } else if (target.hasPermission("se.back.bypass")) {
+                                            if (Back.location.containsKey(target.getUniqueId())) {
+                                                Back.location.remove(target.getUniqueId());
+                                                Back.location.put(target.getUniqueId(), target.getLocation());
+                                            } else {
+                                                Back.location.put(target.getUniqueId(), target.getLocation());
+                                            }
+                                        }
+                                        if (loc.isWorldLoaded()) {
+                                            // Teleporting player to Location
+                                            target.teleport(loc);
+                                            // Sending the Sender and Target a message
+                                            String msg = Lang.fileConfig.getString("spawn-teleport-target").replace("<target>", target.getName());
+                                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                                            String msg2 = Lang.fileConfig.getString("spawn-teleport-target-success");
+                                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
+                                            return true;
+                                        } else {
+                                            String msg = Lang.fileConfig.getString("spawn-world-invalid");
+                                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                                            return true;
+                                        }
+                                    } else {
+                                        String msg = Lang.fileConfig.getString("target-offline");
+                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                                        return true;
+                                    }
+                                }
+                            }
+                        }
+                    }else if (args.length == 2 && args[1].equalsIgnoreCase("newbies")){
+                        if (permissionChecker(player, "se.spawn.others")) {
+                            if (checkNewbiesSpawn(sender) == false) {
+                                Location loc = getNewbiesLocation();
+                                Player target = Bukkit.getPlayerExact(args[0]);
+                                // Checking if the player exists
+                                if (target != null) {
+                                    if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-save")) {
+                                        if (Back.location.containsKey(target.getUniqueId())) {
+                                            Back.location.remove(target.getUniqueId());
+                                            Back.location.put(target.getUniqueId(), target.getLocation());
+                                        } else {
+                                            Back.location.put(target.getUniqueId(), target.getLocation());
+                                        }
+                                    } else if (target.hasPermission("se.back.bypass")) {
+                                        if (Back.location.containsKey(target.getUniqueId())) {
+                                            Back.location.remove(target.getUniqueId());
+                                            Back.location.put(target.getUniqueId(), target.getLocation());
+                                        } else {
+                                            Back.location.put(target.getUniqueId(), target.getLocation());
+                                        }
+                                    }
+                                    if (loc.isWorldLoaded()) {
+                                        // Teleporting player to Location
+                                        target.teleport(loc);
+                                        // Sending the Sender and Target a message
+                                        String msg = Lang.fileConfig.getString("newbies-spawn-teleport-target").replace("<target>", target.getName());
+                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                                        String msg2 = Lang.fileConfig.getString("newbies-spawn-teleport-target-success");
+                                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
+                                        return true;
+                                    } else {
+                                        String msg = Lang.fileConfig.getString("spawn-world-invalid");
+                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                                        return true;
+                                    }
+                                } else {
+                                    String msg = Lang.fileConfig.getString("target-offline");
+                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                                    return true;
+                                }
                             }
                         }
                     }else{
@@ -199,8 +274,8 @@ public class Spawn implements CommandExecutor {
             if (args.length == 1){
                 Player target = Bukkit.getPlayerExact(args[0]);
                 if (target != null){
-                    // Check if the File Exists and if Location.World has data
-                    if (Setspawn.file.exists() && Setspawn.fileConfig.getString("Location.World") != null) {
+                    // Check if the File Exists and if Location isn't null
+                    if (checkSpawn(sender) == false){
                         Location loc = getLocation();
                         spawnSave(target);
                         if (loc.isWorldLoaded()){
@@ -217,16 +292,43 @@ public class Spawn implements CommandExecutor {
                             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
                         }
-                    } else {
-                        // Sends Message if Spawn Doesn't Exist
-                        String msg = Lang.fileConfig.getString("spawn-invalid");
-                        Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     }
                 } else {
                     String msg = Lang.fileConfig.getString("target-offline");
                     Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }
+            }else if (args.length == 2 && args[1].equalsIgnoreCase("newbies")){
+                Player target = Bukkit.getPlayerExact(args[0]);
+                if (target != null){
+                    // Check if the File Exists and if Location isn't null
+                    if (checkNewbiesSpawn(sender) == false){
+                        Location loc = getNewbiesLocation();
+                        spawnSave(target);
+                        if (loc.isWorldLoaded()){
+                            // Teleporting player to Location
+                            target.teleport(loc);
+                            // Sending the Sender and Target a message
+                            String msg = Lang.fileConfig.getString("newbies-spawn-teleport-target").replace("<target>", target.getName());
+                            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                            String msg2 = Lang.fileConfig.getString("newbies-spawn-teleport-target-success");
+                            target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
+                            return true;
+                        }else{
+                            String msg = Lang.fileConfig.getString("spawn-world-invalid");
+                            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                            return true;
+                        }
+                    }
+                } else {
+                    String msg = Lang.fileConfig.getString("target-offline");
+                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                    return true;
+                }
+            }else{
+                String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/spawn");
+                Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                return true;
             }
         }
         return false;
@@ -244,6 +346,32 @@ public class Spawn implements CommandExecutor {
         float pitch = Setspawn.fileConfig.getInt("Newbies.Location.Pitch");
         Location loc = new Location(Bukkit.getWorld(Setspawn.fileConfig.getString("Newbies.Location.World")), Setspawn.fileConfig.getDouble("Newbies.Location.X"), Setspawn.fileConfig.getDouble("Newbies.Location.Y"), Setspawn.fileConfig.getDouble("Newbies.Location.Z"), yaw, pitch);
         return loc;
+    }
+
+    public boolean checkSpawn(CommandSender sender){
+        boolean spawnInvalid;
+        Location spawn = getLocation();
+        if (Setspawn.file.exists() && spawn != null) {
+            spawnInvalid = false;
+        }else{
+            spawnInvalid = true;
+            String msg = Lang.fileConfig.getString("spawn-invalid");
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+        }
+        return spawnInvalid;
+    }
+
+    public boolean checkNewbiesSpawn(CommandSender sender){
+        boolean spawnInvalid;
+        Location spawnNewbies = getNewbiesLocation();
+        if (Setspawn.file.exists() && spawnNewbies != null) {
+            spawnInvalid = false;
+        }else{
+            spawnInvalid = true;
+            String msg = Lang.fileConfig.getString("newbies-spawn-invalid");
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+        }
+        return spawnInvalid;
     }
 
     public static void spawnSave(Player player){

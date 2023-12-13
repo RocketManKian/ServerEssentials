@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 1.82.3
+version: 1.82.4
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -34,9 +34,7 @@ commands:
   tutorial:
     description: Teleports you to newbie spawn
   spawn:
-    description: Teleports you to spawn
-  sendspawn:
-    description: Teleports a player to Spawn
+    description: Teleports you or a player to spawn
   deletespawn:
     description: Deletes the spawn
     aliases: [delspawn]
