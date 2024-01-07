@@ -24,11 +24,7 @@ public class DiscordMessageReceived implements Listener {
     public void discordMessageReceived(DiscordGuildMessagePreProcessEvent event) {
         String channelname = ServerEssentials.getPlugin().getConfig().getString("staff-chat-channel-name");
         TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName(channelname);
-        if (textChannel == null || ServerEssentials.getPlugin().getConfig().getBoolean("enable-staff-discord-integration") == false){
-            if (event.getMessage().getChannel().equals(textChannel)){
-                textChannel.sendMessage("Discord Integration is disabled, or the channel is invalid!").queue();
-            }
-        }else{
+        if (textChannel != null && ServerEssentials.getPlugin().getConfig().getBoolean("enable-staff-discord-integration")){
             if (event.getMessage().getChannel().equals(textChannel)) {
                 String message = event.getMessage().getContentDisplay();
                 String name = event.getMessage().getAuthor().getName();
