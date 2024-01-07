@@ -210,6 +210,7 @@ public class Lang {
                 fileConfig.addDefault("staffchat-enabled", "StaffChat has been Enabled");
                 fileConfig.addDefault("staffchat-disabled", "StaffChat has been Disabled");
                 fileConfig.addDefault("staffchat-message", "&d(&5&lStaff&d) <player>: &7<message>");
+                fileConfig.addDefault("staffchat-discord-message", "&b&lDiscord &f» &d(&5&lStaff&d) <player>&7: &f<message>");
                 fileConfig.addDefault("teleport-self", "You cannot teleport to yourself");
                 fileConfig.addDefault("teleport-success", "Teleported to <target>");
                 fileConfig.addDefault("teleport-target-success", "<sender> has teleported to you");
@@ -802,6 +803,9 @@ public class Lang {
                 }
                 if (fileConfig.getString("staffchat-message") == null){
                     fileConfig.set("staffchat-message", "&d(&5&lStaff&d) <player>: &7<message>");
+                }
+                if (fileConfig.getString("staffchat-discord-message") == null){
+                    fileConfig.set("staffchat-discord-message", "&b&lDiscord &f» &d(&5&lStaff&d) <player>&7: &f<message>");
                 }
                 if (fileConfig.getString("teleport-self") == null){
                     fileConfig.set("teleport-self", "You cannot teleport to yourself");

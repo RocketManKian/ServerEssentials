@@ -53,7 +53,7 @@ public class PlayerLeaveListener implements Listener {
                     String channel = ServerEssentials.getPlugin().getConfig().getString("staff-chat-channel-name");
                     TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName(channel);
                     String servername = ServerEssentials.plugin.getConfig().getString("server-name");
-                    if (textChannel != null && ServerEssentials.plugin.getConfig().getBoolean("enable-discord-integration")){
+                    if (textChannel != null && ServerEssentials.plugin.getConfig().getBoolean("enable-staff-discord-integration")){
                         textChannel.sendMessage("**" + player.getName() + "**" + " has quit the " + servername + " Server").queue();
                     }
                     Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("staff-leave-message").replace("<player>", player.getName()))), "se.staffchat");
@@ -61,7 +61,7 @@ public class PlayerLeaveListener implements Listener {
                     if (ServerEssentials.isConnectedToDiscordSRV){
                         String channel = ServerEssentials.getPlugin().getConfig().getString("staff-chat-channel-name");
                         TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName(channel);
-                        if (textChannel != null && ServerEssentials.getPlugin().getConfig().getBoolean("enable-discord-integration")){
+                        if (textChannel != null && ServerEssentials.getPlugin().getConfig().getBoolean("enable-staff-discord-integration")){
                             textChannel.sendMessage("**" + player.getName() + "**" + " has quit the game").queue();
                         }
                         Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("staff-leave-message").replace("<player>", player.getName()))), "se.staffchat");
