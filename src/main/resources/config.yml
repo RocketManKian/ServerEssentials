@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 1.82.4
+# This config was generated for version 1.82.5
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -95,8 +95,10 @@ motd-message:
 # +              Server Essentials (Discord)             + #
 # +------------------------------------------------------+ #
 ############################################################
-# Enable Discord Integration for the Report and Staff Chat Commands
-enable-discord-integration: false
+# Enable Discord Integration for the Report Commands.
+enable-report-discord-integration: false
+# Enable Discord Integration for Staff Chat.
+enable-staff-discord-integration: false
 # Change the name of the Discord Channel where staff chat messages are sent.
 # This name will have to be entered into the DiscordSRV config.yml File.
 # ["staff-chat": "000000000000000000"] as an example.

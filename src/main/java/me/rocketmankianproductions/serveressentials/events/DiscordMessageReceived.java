@@ -6,6 +6,7 @@ import github.scarsz.discordsrv.api.Subscribe;
 import github.scarsz.discordsrv.api.events.DiscordGuildMessagePreProcessEvent;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.event.Listener;
@@ -23,7 +24,7 @@ public class DiscordMessageReceived implements Listener {
     public void discordMessageReceived(DiscordGuildMessagePreProcessEvent event) {
         String channelname = ServerEssentials.getPlugin().getConfig().getString("staff-chat-channel-name");
         TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName(channelname);
-        if (textChannel == null || ServerEssentials.getPlugin().getConfig().getBoolean("enable-discord-integration") == false){
+        if (textChannel == null || ServerEssentials.getPlugin().getConfig().getBoolean("enable-staff-discord-integration") == false){
             if (event.getMessage().getChannel().equals(textChannel)){
                 textChannel.sendMessage("Discord Integration is disabled, or the channel is invalid!").queue();
             }
@@ -31,7 +32,8 @@ public class DiscordMessageReceived implements Listener {
             if (event.getMessage().getChannel().equals(textChannel)) {
                 String message = event.getMessage().getContentDisplay();
                 String name = event.getMessage().getAuthor().getName();
-                Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', "&b&lDiscord" + " &f» " + "&d(&5&lStaff&d) " + ChatColor.LIGHT_PURPLE + name + "&f: " + ChatColor.GRAY + message), "se.staffchat");
+                String msg = Lang.fileConfig.getString("staffchat-discord-message").replace("<player>", name).replace("<message>", message);
+                Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg)), "se.staffchat");
             }
         }
     }

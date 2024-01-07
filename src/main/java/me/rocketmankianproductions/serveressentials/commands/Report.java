@@ -50,7 +50,7 @@ public class Report implements CommandExecutor {
                         }
                         String messages = builder.toString(); // your message from all args after "startArg - 1"
                         String msg1 = Lang.fileConfig.getString("report-user-message").replace("<player>", player.getName()).replace("<target>", target.getName()).replace("<message>", messages);
-                        if (ServerEssentials.isConnectedToDiscordSRV && ServerEssentials.getPlugin().getConfig().getBoolean("enable-discord-integration") == true) {
+                        if (ServerEssentials.isConnectedToDiscordSRV && ServerEssentials.getPlugin().getConfig().getBoolean("enable-report-discord-integration") == true) {
                             String channelname = ServerEssentials.getPlugin().getConfig().getString("report-user-channel-name");
                             TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName(channelname);
                             EmbedBuilder report = new EmbedBuilder();

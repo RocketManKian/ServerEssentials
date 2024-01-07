@@ -2,6 +2,7 @@ package me.rocketmankianproductions.serveressentials.events;
 
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
+import me.rocketmankianproductions.serveressentials.LoggerMessage;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.commands.StaffChat;
 import me.rocketmankianproductions.serveressentials.file.Lang;
@@ -23,7 +24,7 @@ public class PlayerChatEvent implements Listener {
         if (StaffChat.staffchat.contains(player)) {
             String scmessage = ChatColor.stripColor(c.getMessage());
             String msg = Lang.fileConfig.getString("staffchat-message").replace("<player>", player.getName()).replace("<message>", ChatColor.GRAY + scmessage);
-            if (ServerEssentials.isConnectedToDiscordSRV && ServerEssentials.getPlugin().getConfig().getBoolean("enable-discord-integration") == true) {
+            if (ServerEssentials.isConnectedToDiscordSRV && ServerEssentials.getPlugin().getConfig().getBoolean("enable-staff-discord-integration")) {
                 String channel = ServerEssentials.getPlugin().getConfig().getString("staff-chat-channel-name");
                 TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName(channel);
                 if (textChannel != null) {
@@ -33,6 +34,7 @@ public class PlayerChatEvent implements Listener {
                     Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', hex(msg)), "se.staffchat");
                     c.setCancelled(true);
                 }else{
+                    LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "Text Channel is null, cannot send StaffChat Message to specified channel.");
                     Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', hex(msg)), "se.staffchat");
                     c.setCancelled(true);
                 }
