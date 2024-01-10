@@ -24,8 +24,6 @@ public class Sethome implements CommandExecutor {
 
     public static ServerEssentials plugin;
 
-    int max;
-
     //settings
     public static String filepath = "home.yml";
 
@@ -63,79 +61,26 @@ public class Sethome implements CommandExecutor {
                     String world = player.getWorld().getName();
                     String name = player.getUniqueId().toString();
                     int maxHomesConfig = ServerEssentials.plugin.getConfig().getInt("default-home-count");
-                    int maxHomes = checkMaxHomes(player, max);
+                    int maxHomes = checkMaxHomes(player);
+                    Boolean blacklistenabled = ServerEssentials.getPlugin().getConfig().getBoolean("enable-home-blacklist");
+                    if (blacklistenabled && checkBlacklist(player)){
+                        return true;
+                    }
                     if (fileConfig.contains("Home." + name)) {
                         ConfigurationSection inventorySection = fileConfig.getConfigurationSection("Home." + name);
-                        int homesAmount = 0;
-                        if (inventorySection != null) {
-                            homesAmount = inventorySection.getKeys(false).size();
+                        int homesAmount = (inventorySection != null) ? inventorySection.getKeys(false).size() : 0;
+                        if (fileConfig.getString("Home." + name + "." + args[0]) != null || player.hasPermission("se.sethome.unlimited") || homesAmount < maxHomesConfig || homesAmount < maxHomes) {
+                            createHome(name, args, world, player);
+                            return true;
                         }
-                        Boolean blacklistenabled = ServerEssentials.getPlugin().getConfig().getBoolean("enable-home-blacklist");
-                        if (blacklistenabled) {
-                            for (String worlds : ServerEssentials.plugin.getConfig().getStringList("home-blacklist")) {
-                                if (player.getWorld().getName().equalsIgnoreCase(worlds)) {
-                                    String msg = Lang.fileConfig.getString("home-blacklisted-world");
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                                    return true;
-                                }
-                            }
-                            if (fileConfig.getString("Home." + name + "." + args[0]) != null || player.hasPermission("se.sethome.unlimited")) {
-                                createHome(name, args, world, player);
-                                return true;
-                            }
-                            if (homesAmount < maxHomesConfig || homesAmount < maxHomes) {
-                                createHome(name, args, world, player);
-                                return true;
-                            } else {
-                                // If Player has a value set with the 'se.sethome.' permission, then grab that value and send a specific Permission Message
-                                if (maxHomes != 0){
-                                    String msg = Lang.fileConfig.getString("home-max-homes").replace("<max>", String.valueOf(maxHomes));
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                                    return true;
-                                }else{
-                                    String msg = Lang.fileConfig.getString("home-max-homes").replace("<max>", String.valueOf(maxHomesConfig));
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                                    return true;
-                                }
-                            }
-                        } else {
-                            if (fileConfig.getString("Home." + name + "." + args[0]) != null || player.hasPermission("se.sethome.unlimited")) {
-                                createHome(name, args, world, player);
-                                return true;
-                            }else{
-                                if (homesAmount < maxHomesConfig || homesAmount < maxHomes) {
-                                    createHome(name, args, world, player);
-                                    return true;
-                                } else {
-                                    // If Player has a value set with the 'se.sethome.' permission, then grab that value and send a specific Permission Message
-                                    if (maxHomes != 0){
-                                        String msg = Lang.fileConfig.getString("home-max-homes").replace("<max>", String.valueOf(maxHomes));
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                                        return true;
-                                    }else{
-                                        String msg = Lang.fileConfig.getString("home-max-homes").replace("<max>", String.valueOf(maxHomesConfig));
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                                        return true;
-                                    }
-                                }
-                            }
-                        }
+                        // Send maximum homes message
+                        int maxHomesToShow = (maxHomes != 0) ? maxHomes : maxHomesConfig;
+                        String msg = Lang.fileConfig.getString("home-max-homes").replace("<max>", String.valueOf(maxHomesToShow));
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                        return true;
                     } else if (fileConfig.getString("Home." + name + "." + args[0]) == null) {
-                        Boolean blacklistenabled = ServerEssentials.getPlugin().getConfig().getBoolean("enable-home-blacklist");
-                        if (blacklistenabled) {
-                            for (String worlds : ServerEssentials.plugin.getConfig().getStringList("home-blacklist")) {
-                                if (player.getWorld().getName().equalsIgnoreCase(worlds)) {
-                                    String msg = Lang.fileConfig.getString("home-blacklisted-world");
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                                    return true;
-                                }
-                            }
-                            createHome(name, args, world, player);
-                            return true;
-                        } else {
-                            createHome(name, args, world, player);
-                            return true;
-                        }
+                        createHome(name, args, world, player);
+                        return true;
                     }
                 }
             } else {
@@ -167,7 +112,8 @@ public class Sethome implements CommandExecutor {
         player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
     }
 
-    public static int checkMaxHomes (Player player, int max){
+    public static int checkMaxHomes(Player player){
+        int max = 0;
         for (PermissionAttachmentInfo permissions : player.getEffectivePermissions()){
             if (permissions.getPermission().contains("se.sethome.") && !permissions.getPermission().contains("se.sethome.unlimited")) {
                 try {
@@ -177,5 +123,17 @@ public class Sethome implements CommandExecutor {
             }
         }
         return max;
+    }
+
+    public static boolean checkBlacklist(Player player){
+        boolean isBlacklisted = false;
+        for (String worlds : ServerEssentials.plugin.getConfig().getStringList("home-blacklist")) {
+            if (player.getWorld().getName().equalsIgnoreCase(worlds)) {
+                String msg = Lang.fileConfig.getString("home-blacklisted-world");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                isBlacklisted = true;
+            }
+        }
+        return isBlacklisted;
     }
 }

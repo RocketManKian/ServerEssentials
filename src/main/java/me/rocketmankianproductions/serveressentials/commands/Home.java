@@ -42,12 +42,7 @@ public class Home implements CommandExecutor {
                             for (String key : inventorySection.getKeys(false)) {
                                 home = key;
                             }
-                            float yaw = Sethome.fileConfig.getInt("Home." + name + "." + home + ".Yaw");
-                            Location loc = new Location(Bukkit.getWorld(Sethome.fileConfig.getString("Home." + name + "." + home + ".World")),
-                                    Sethome.fileConfig.getDouble("Home." + name + "." + home + ".X"),
-                                    Sethome.fileConfig.getDouble("Home." + name + "." + home + ".Y"),
-                                    Sethome.fileConfig.getDouble("Home." + name + "." + home + ".Z"),
-                                    yaw, 0);
+                            Location loc = getLocation(player, home);
                             if (ServerEssentials.plugin.getConfig().getInt("home-teleport") == 0) {
                                 homeSave(player);
                                 if (loc.isWorldLoaded()) {
@@ -110,57 +105,45 @@ public class Home implements CommandExecutor {
                                 int index = 0;
                                 Integer size = ServerEssentials.plugin.getConfig().getInt("home-gui-size");
                                 Inventory inv = Bukkit.createInventory(player, size, ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("home-gui-name")));
-                                if (inventorySection == null) {
-                                    String msg = Lang.fileConfig.getString("home-file-error");
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                                    return true;
-                                } else {
-                                    assert inventorySection != null;
-                                    String homeitem = ServerEssentials.plugin.getConfig().getString("home-item");
-                                    ItemStack item = new ItemStack(Material.getMaterial(homeitem));
-                                    ItemMeta meta = item.getItemMeta();
-                                    if (!inventorySection.getKeys(true).isEmpty()) {
-                                        if (!(inventorySection.getKeys(false).size() > ServerEssentials.plugin.getConfig().getInt("home-gui-size"))) {
-                                            try {
-                                                for (String key : inventorySection.getKeys(false)) {
-                                                    String homecolour = ServerEssentials.plugin.getConfig().getString("home-name-colour");
-                                                    meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', homecolour + key));
-                                                    List<String> loreList = new ArrayList<String>();
-                                                    String msg = Lang.fileConfig.getString("home-gui-left-click").replace("<home>", key);
-                                                    loreList.add(ChatColor.translateAlternateColorCodes('&', msg));
-                                                    if (player.hasPermission("se.deletehome")) {
-                                                        String msg2 = Lang.fileConfig.getString("home-gui-right-click").replace("<home>", key);
-                                                        loreList.add(ChatColor.translateAlternateColorCodes('&', msg2));
-                                                    }
-                                                    meta.setLore(loreList);
-                                                    item.setItemMeta(meta);
-                                                    inv.setItem(index, item);
-                                                    index++;
+                                String homeitem = ServerEssentials.plugin.getConfig().getString("home-item");
+                                ItemStack item = new ItemStack(Material.getMaterial(homeitem));
+                                ItemMeta meta = item.getItemMeta();
+                                if (!inventorySection.getKeys(true).isEmpty()) {
+                                    if (!(inventorySection.getKeys(false).size() > ServerEssentials.plugin.getConfig().getInt("home-gui-size"))) {
+                                        try {
+                                            for (String key : inventorySection.getKeys(false)) {
+                                                String homecolour = ServerEssentials.plugin.getConfig().getString("home-name-colour");
+                                                meta.setDisplayName(ChatColor.translateAlternateColorCodes('&', homecolour + key));
+                                                List<String> loreList = new ArrayList<String>();
+                                                String msg = Lang.fileConfig.getString("home-gui-left-click").replace("<home>", key);
+                                                loreList.add(ChatColor.translateAlternateColorCodes('&', msg));
+                                                if (player.hasPermission("se.deletehome")) {
+                                                    String msg2 = Lang.fileConfig.getString("home-gui-right-click").replace("<home>", key);
+                                                    loreList.add(ChatColor.translateAlternateColorCodes('&', msg2));
                                                 }
-                                            } catch (NullPointerException e) {
-                                                String msg = Lang.fileConfig.getString("no-homes-set");
-                                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                                                meta.setLore(loreList);
+                                                item.setItemMeta(meta);
+                                                inv.setItem(index, item);
+                                                index++;
                                             }
-                                            player.openInventory(inv);
-                                            return true;
-                                        } else {
-                                            String msg = Lang.fileConfig.getString("home-gui-error");
+                                        } catch (NullPointerException e) {
+                                            String msg = Lang.fileConfig.getString("no-homes-set");
                                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                                            return true;
                                         }
+                                        player.openInventory(inv);
+                                        return true;
                                     } else {
-                                        String msg = Lang.fileConfig.getString("no-homes-set");
+                                        String msg = Lang.fileConfig.getString("home-gui-error");
                                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                         return true;
                                     }
+                                } else {
+                                    String msg = Lang.fileConfig.getString("no-homes-set");
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                                    return true;
                                 }
                             } else {
-                                if (inventorySection == null) {
-                                    String msg = Lang.fileConfig.getString("home-file-error");
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
-                                    return true;
-                                } else if (!inventorySection.getKeys(true).isEmpty()) {
-                                    assert inventorySection != null;
+                                if (!inventorySection.getKeys(true).isEmpty()) {
                                     player.sendMessage(ChatColor.GREEN + "---------------------------"
                                             + "\nHome(s) List"
                                             + "\n---------------------------");
@@ -173,25 +156,22 @@ public class Home implements CommandExecutor {
                                     }
                                     return true;
                                 } else {
-                                    assert inventorySection != null;
                                     player.sendMessage(ChatColor.GREEN + "---------------------------"
                                             + "\nHome(s) List"
                                             + "\n---------------------------");
-                                    String msg = Lang.fileConfig.getString("no-homes-set");
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                                    sendErrorMessage(player, "no-homes-set");
                                     return true;
                                 }
                             }
                         }
                     } else {
-                        String msg = Lang.fileConfig.getString("home-file-error");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                        sendErrorMessage(player, "home-file-error");
                         return true;
                     }
                 } else if (args.length == 1) {
                     // Check if the File Exists and if Location.World has data
                     if (Sethome.file.exists() && Sethome.fileConfig.getString("Home." + name + "." + args[0] + ".World") != null) {
-                        Location loc = getLocation(args, player);
+                        Location loc = getLocation(player, args[0]);
                         if (args.length == 1) {
                             if (ServerEssentials.plugin.getConfig().getInt("home-teleport") == 0) {
                                 homeSave(player);
@@ -254,26 +234,16 @@ public class Home implements CommandExecutor {
                                     if (args[0].equalsIgnoreCase(target.getName())) {
                                         // Check if the File Exists and if Location.World has data
                                         if (Sethome.file.exists() && Sethome.fileConfig.getString("Home." + targetname + "." + args[1] + ".World") != null) {
+                                            // Gathering Location
+                                            Location loc = getLocation(player, args[1]);
                                             if (ServerEssentials.plugin.getConfig().getInt("home-teleport") == 0) {
-                                                // Gathering Location
-                                                float yaw = Sethome.fileConfig.getInt("Home." + targetname + "." + args[1] + ".Yaw");
-                                                Location loc = new Location(Bukkit.getWorld(Sethome.fileConfig.getString("Home." + targetname + "." + args[1] + ".World")),
-                                                        Sethome.fileConfig.getDouble("Home." + targetname + "." + args[1] + ".X"),
-                                                        Sethome.fileConfig.getDouble("Home." + targetname + "." + args[1] + ".Y"),
-                                                        Sethome.fileConfig.getDouble("Home." + targetname + "." + args[1] + ".Z"),
-                                                        yaw, 0);
-                                                homeSave(player);
-                                                if (loc.isWorldLoaded()) {
-                                                    // Teleporting To Target's Home
-                                                    player.teleport(loc);
-                                                    String msg = Lang.fileConfig.getString("home-teleport-target").replace("<target>", target.getName());
-                                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                                                    return true;
-                                                } else {
-                                                    String msg = Lang.fileConfig.getString("home-world-invalid");
-                                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                                                if (!loc.isWorldLoaded()) {
+                                                    sendErrorMessage(player, "home-world-invalid");
                                                     return true;
                                                 }
+                                                player.teleport(loc);
+                                                String msg = Lang.fileConfig.getString("home-teleport-target").replace("<target>", target.getName());
+                                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                             } else {
                                                 // If Movement Cancel is Enabled in Config
                                                 if (ServerEssentials.plugin.getConfig().getBoolean("home-movement-cancel")) {
@@ -289,22 +259,13 @@ public class Home implements CommandExecutor {
                                                             if (cancel.contains(player.getUniqueId())) {
                                                                 if (hometeleport.containsKey(player.getUniqueId())) {
                                                                     homeSave(player);
-                                                                    // Gathering Location
-                                                                    float yaw = Sethome.fileConfig.getInt("Home." + targetname + "." + args[1] + ".Yaw");
-                                                                    Location loc = new Location(Bukkit.getWorld(Sethome.fileConfig.getString("Home." + targetname + "." + args[1] + ".World")),
-                                                                            Sethome.fileConfig.getDouble("Home." + targetname + "." + args[1] + ".X"),
-                                                                            Sethome.fileConfig.getDouble("Home." + targetname + "." + args[1] + ".Y"),
-                                                                            Sethome.fileConfig.getDouble("Home." + targetname + "." + args[1] + ".Z"),
-                                                                            yaw, 0);
-                                                                    if (loc.isWorldLoaded()) {
-                                                                        // Teleporting To Target's Home
-                                                                        player.teleport(loc);
-                                                                        String msg = Lang.fileConfig.getString("home-teleport-target").replace("<target>", target.getName());
-                                                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                                                                    } else {
-                                                                        String msg = Lang.fileConfig.getString("home-world-invalid");
-                                                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                                                                    if (!loc.isWorldLoaded()) {
+                                                                        sendErrorMessage(player, "home-world-invalid");
+                                                                        return;
                                                                     }
+                                                                    player.teleport(loc);
+                                                                    String msg = Lang.fileConfig.getString("home-teleport-target").replace("<target>", target.getName());
+                                                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                                                     cancel.remove(player.getUniqueId());
                                                                 }
                                                             }
@@ -322,22 +283,13 @@ public class Home implements CommandExecutor {
                                                         public void run() {
                                                             if (hometeleport.containsKey(player.getUniqueId())) {
                                                                 homeSave(player);
-                                                                // Gathering Location
-                                                                float yaw = Sethome.fileConfig.getInt("Home." + targetname + "." + args[1] + ".Yaw");
-                                                                Location loc = new Location(Bukkit.getWorld(Sethome.fileConfig.getString("Home." + targetname + "." + args[1] + ".World")),
-                                                                        Sethome.fileConfig.getDouble("Home." + targetname + "." + args[1] + ".X"),
-                                                                        Sethome.fileConfig.getDouble("Home." + targetname + "." + args[1] + ".Y"),
-                                                                        Sethome.fileConfig.getDouble("Home." + targetname + "." + args[1] + ".Z"),
-                                                                        yaw, 0);
-                                                                if (loc.isWorldLoaded()) {
-                                                                    // Teleporting To Target's Home
-                                                                    player.teleport(loc);
-                                                                    String msg = Lang.fileConfig.getString("home-teleport-target").replace("<target>", target.getName());
-                                                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                                                                } else {
-                                                                    String msg = Lang.fileConfig.getString("home-world-invalid");
-                                                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                                                                if (!loc.isWorldLoaded()) {
+                                                                    sendErrorMessage(player, "home-world-invalid");
+                                                                    return;
                                                                 }
+                                                                player.teleport(loc);
+                                                                String msg = Lang.fileConfig.getString("home-teleport-target").replace("<target>", target.getName());
+                                                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                                             }
                                                         }
                                                     }, delay));
@@ -345,8 +297,7 @@ public class Home implements CommandExecutor {
                                                 }
                                             }
                                         } else {
-                                            String msg = Lang.fileConfig.getString("home-invalid");
-                                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                                            sendErrorMessage(player, "home-invalid");
                                             return true;
                                         }
                                     } else {
@@ -355,8 +306,7 @@ public class Home implements CommandExecutor {
                                         return true;
                                     }
                                 } else {
-                                    String msg = Lang.fileConfig.getString("player-offline");
-                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                                    sendErrorMessage(player, "player-offline");
                                     return true;
                                 }
                             }
@@ -370,17 +320,19 @@ public class Home implements CommandExecutor {
             }
         }else{
             String console = Lang.fileConfig.getString("console-invalid");
+            Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
+            return true;
         }
         return false;
     }
-    public static Location getLocation(String[] args, Player player) {
+    public static Location getLocation(Player player, String home) {
         UUID name = player.getUniqueId();
         // Gathering Location
-        float yaw = Sethome.fileConfig.getInt("Home." + name + "." + args[0] + ".Yaw");
-        Location loc = new Location(Bukkit.getWorld(Sethome.fileConfig.getString("Home." + name + "." + args[0] + ".World")),
-                Sethome.fileConfig.getDouble("Home." + name + "." + args[0] + ".X"),
-                Sethome.fileConfig.getDouble("Home." + name + "." + args[0] + ".Y"),
-                Sethome.fileConfig.getDouble("Home." + name + "." + args[0] + ".Z"),
+        float yaw = Sethome.fileConfig.getInt("Home." + name + "." + home + ".Yaw");
+        Location loc = new Location(Bukkit.getWorld(Sethome.fileConfig.getString("Home." + name + "." + home + ".World")),
+                Sethome.fileConfig.getDouble("Home." + name + "." + home + ".X"),
+                Sethome.fileConfig.getDouble("Home." + name + "." + home + ".Y"),
+                Sethome.fileConfig.getDouble("Home." + name + "." + home + ".Z"),
                 yaw, 0);
         return loc;
     }
@@ -417,5 +369,9 @@ public class Home implements CommandExecutor {
         }
         cancel.remove(player.getUniqueId());
         hometeleport.remove(player.getUniqueId());
+    }
+    private void sendErrorMessage(Player player, String key) {
+        String msg = Lang.fileConfig.getString(key);
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
     }
 }
