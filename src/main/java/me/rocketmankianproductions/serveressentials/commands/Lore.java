@@ -1,8 +1,8 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
+import github.scarsz.discordsrv.dependencies.commons.lang3.ArrayUtils;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
-import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -33,7 +33,7 @@ public class Lore implements CommandExecutor {
                             return true;
                         } else {
                             ItemMeta im = hand.getItemMeta();
-                            String myArgs = String.join(" ", (CharSequence[]) ArrayUtils.remove(args, 0));
+                            String myArgs = String.join(" ", ArrayUtils.remove(args, 0));
                             im.setLore(Collections.singletonList(ChatColor.translateAlternateColorCodes('&', myArgs)));
                             hand.setItemMeta(im);
                             String msg = Lang.fileConfig.getString("lore-successful").replace("<lore>", myArgs);

@@ -226,18 +226,24 @@ public class Lang {
                 fileConfig.addDefault("teleport-request-blacklisted-world", "Target is in a Blacklisted World");
                 fileConfig.addDefault("teleport-request-sent", "You sent a teleport request to <target>");
                 fileConfig.addDefault("teleport-request-cancel-warning", "To cancel this request, type /tpacancel");
+                fileConfig.addDefault("teleport-request-cancel-button", "&e&l&n[Cancel]&r");
                 fileConfig.addDefault("teleport-request-target-receive", "<sender> sent a teleport request to you");
                 fileConfig.addDefault("teleport-request-accept", "To accept, type /tpaccept");
                 fileConfig.addDefault("teleport-request-deny","To deny, type /tpdeny");
+                fileConfig.addDefault("teleport-request-accept-button", "&a&l&n[Accept]&r");
+                fileConfig.addDefault("teleport-request-deny-button","&c&l&n[Deny]&r");
                 fileConfig.addDefault("teleport-request-timeout-warning", "This request will timeout in <time> Seconds");
                 fileConfig.addDefault("teleport-request-timeout", "Teleport request timed out");
                 fileConfig.addDefault("teleport-disabled", "That person has teleporting disabled");
                 fileConfig.addDefault("teleport-here-blacklisted-world", "Cannot send Teleport Here Request because you are in a Blacklisted World");
                 fileConfig.addDefault("teleport-here-request-sent", "You sent a teleport here request to <target>");
                 fileConfig.addDefault("teleport-here-request-cancel-warning", "To cancel this request, type /tpacancel");
+                fileConfig.addDefault("teleport-here-request-cancel-button", "&e&l&n[Cancel]&r");
                 fileConfig.addDefault("teleport-here-request-target-receive", "<sender> would like you to teleport to them");
                 fileConfig.addDefault("teleport-here-request-accept", "To accept, type /tpaccept");
                 fileConfig.addDefault("teleport-here-request-deny","To deny, type /tpdeny");
+                fileConfig.addDefault("teleport-here-request-accept-button", "&a&l&n[Accept]&r");
+                fileConfig.addDefault("teleport-here-request-deny-button","&c&l&n[Deny]&r");
                 fileConfig.addDefault("teleport-here-request-timeout-warning", "This request will timeout in <time> Seconds");
                 fileConfig.addDefault("teleport-here-request-timeout", "Teleport here request timed out");
                 fileConfig.addDefault("teleport-cancel", "You have cancelled all outgoing Teleport Requests");
@@ -852,6 +858,9 @@ public class Lang {
                 if (fileConfig.getString("teleport-request-cancel-warning") == null){
                     fileConfig.set("teleport-request-cancel-warning", "To cancel this request, type /tpacancel");
                 }
+                if (fileConfig.getString("teleport-request-cancel-button") == null){
+                    fileConfig.set("teleport-request-cancel-button", "&e&l&n[Cancel]&r");
+                }
                 if (fileConfig.getString("teleport-request-target-receive") == null){
                     fileConfig.set("teleport-request-target-receive", "<sender> sent a teleport request to you");
                 }
@@ -860,6 +869,12 @@ public class Lang {
                 }
                 if (fileConfig.getString("teleport-request-deny") == null){
                     fileConfig.set("teleport-request-deny","To deny, type /tpdeny");
+                }
+                if (fileConfig.getString("teleport-request-accept-button") == null){
+                    fileConfig.set("teleport-request-accept-button", "&a&l&n[Accept]&r");
+                }
+                if (fileConfig.getString("teleport-request-deny-button") == null){
+                    fileConfig.set("teleport-request-deny-button","&c&l&n[Deny]&r");
                 }
                 if (fileConfig.getString("teleport-request-timeout-warning") == null){
                     fileConfig.set("teleport-request-timeout-warning", "This request will timeout in <time> Seconds");
@@ -879,6 +894,9 @@ public class Lang {
                 if (fileConfig.getString("teleport-here-request-cancel-warning") == null){
                     fileConfig.set("teleport-here-request-cancel-warning", "To cancel this request, type /tpacancel");
                 }
+                if (fileConfig.getString("teleport-here-request-cancel-button") == null){
+                    fileConfig.set("teleport-here-request-cancel-button", "&e&l&n[Cancel]&r");
+                }
                 if (fileConfig.getString("teleport-here-request-target-receive") == null){
                     fileConfig.set("teleport-here-request-target-receive", "<sender> would like you to teleport to them");
                 }
@@ -887,6 +905,12 @@ public class Lang {
                 }
                 if (fileConfig.getString("teleport-here-request-deny") == null){
                     fileConfig.set("teleport-here-request-deny","To deny, type /tpdeny");
+                }
+                if (fileConfig.getString("teleport-here-request-accept-button") == null){
+                    fileConfig.set("teleport-here-request-accept-button", "&a&l&n[Accept]&r");
+                }
+                if (fileConfig.getString("teleport-here-request-deny-button") == null){
+                    fileConfig.set("teleport-here-request-deny-button","&c&l&n[Deny]&r");
                 }
                 if (fileConfig.getString("teleport-here-request-timeout-warning") == null){
                     fileConfig.set("teleport-here-request-timeout-warning", "This request will timeout in <time> Seconds");
