@@ -146,7 +146,7 @@ public class Teleport implements CommandExecutor {
                         }
                     }
                 }
-            }else if (args.length == 3 || args.length == 4){
+            }else if (args.length == 3 || args.length >= 4){
                 boolean hasPerm = ServerEssentials.permissionChecker(player, "se.teleport.coords");
                 if (hasPerm) {
                     if (args.length == 3) {
@@ -162,7 +162,7 @@ public class Teleport implements CommandExecutor {
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         }
                         return true;
-                    } else if (args.length == 4) {
+                    } else if (args.length >= 4) {
                         if (args[0].equalsIgnoreCase(player.getName()) || args[0].equalsIgnoreCase("@s") || args[0].equalsIgnoreCase("@p")) {
                             teleportSave(player);
                             try {
@@ -182,8 +182,11 @@ public class Teleport implements CommandExecutor {
                                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                 return true;
                             }else {
+                                //String dimension = args[4];
+                                String dimension = args[4];
+                                World myworld = dimension == null ? target.getWorld() : Bukkit.getWorld(dimension);
                                 try {
-                                    Location yourlocation = new Location(target.getWorld(), Double.parseDouble(args[1]), Double.parseDouble(args[2]), Double.parseDouble(args[3]));
+                                    Location yourlocation = new Location(myworld, Double.parseDouble(args[1]), Double.parseDouble(args[2]), Double.parseDouble(args[3]));
                                     target.teleport(yourlocation);
                                     String msg = Lang.fileConfig.getString("teleport-pos-target-success");
                                     target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
@@ -226,15 +229,16 @@ public class Teleport implements CommandExecutor {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }
-            } else if (args.length == 4){
+            } else if (args.length >= 4){
                 Player target = Bukkit.getPlayerExact(args[0]);
+                String dimension = args[4];
                 if (target == null){
                     String msg = Lang.fileConfig.getString("target-offline");
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }else {
                     try {
-                        World myworld = target.getWorld();
+                        World myworld = dimension == null ? target.getWorld() : Bukkit.getWorld(dimension);
                         Location yourlocation = new Location(myworld, Double.parseDouble(args[1]), Double.parseDouble(args[2]), Double.parseDouble(args[3]));
                         target.teleport(yourlocation);
                         String msg = Lang.fileConfig.getString("teleport-pos-target-success");
@@ -269,15 +273,16 @@ public class Teleport implements CommandExecutor {
                         return true;
                     }
                 }
-            } else if (args.length == 4){
+            } else if (args.length >= 4){
                 Player target = Bukkit.getPlayerExact(args[0]);
+                String dimension = args[4];
                 if (target == null){
                     String msg = Lang.fileConfig.getString("target-offline");
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }else if (args[0].equalsIgnoreCase(target.getName())) {
                     try {
-                        World myworld = target.getWorld();
+                        World myworld = dimension == null ? target.getWorld() : Bukkit.getWorld(dimension);
                         Location yourlocation = new Location(myworld, Double.parseDouble(args[1]), Double.parseDouble(args[2]), Double.parseDouble(args[3]));
                         target.teleport(yourlocation);
                         String msg = Lang.fileConfig.getString("teleport-pos-target-success");
