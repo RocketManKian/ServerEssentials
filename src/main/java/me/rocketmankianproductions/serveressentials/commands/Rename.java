@@ -1,8 +1,8 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
-import github.scarsz.discordsrv.dependencies.commons.lang3.ArrayUtils;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
+import org.apache.commons.lang3.ArrayUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
