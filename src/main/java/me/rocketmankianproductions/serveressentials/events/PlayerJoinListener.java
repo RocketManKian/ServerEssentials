@@ -127,25 +127,21 @@ public class PlayerJoinListener implements Listener {
             player.teleport(loc);
         }
 
+        // Staff
         if (ServerEssentials.getPlugin().getConfig().getBoolean("enable-staff-join-message")){
             if (player.hasPermission("se.staffchat")){
                 String channel = ServerEssentials.getPlugin().getConfig().getString("staff-chat-channel-name");
-                TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName(channel);
                 String servername = ServerEssentials.plugin.getConfig().getString("server-name");
-                if (!ServerEssentials.plugin.getConfig().getString("server-name").isEmpty() && ServerEssentials.isConnectedToDiscordSRV){
+                String server = (servername == null || servername.isEmpty()) ? " has joined the game" : " has joined the " + servername + " Server";
+                System.out.println(server);
+                if (ServerEssentials.isConnectedToDiscordSRV){
+                    TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName(channel);
                     if (textChannel != null && ServerEssentials.plugin.getConfig().getBoolean("enable-staff-discord-integration")){
-                        textChannel.sendMessage("**" + player.getName() + "**" + " has joined the " + servername + " Server").queue();
+                        textChannel.sendMessage("**" + player.getName() + "**" + server).queue();
                     }
-                    Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("staff-join-message").replace("<player>", player.getName())), "se.staffchat");
+                    Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("staff-join-message").replace("<player>", player.getName()))), "se.staffchat");
                 }else{
-                    if (ServerEssentials.isConnectedToDiscordSRV){
-                        if (textChannel != null && ServerEssentials.getPlugin().getConfig().getBoolean("enable-staff-discord-integration")){
-                            textChannel.sendMessage("**" + player.getName() + "**" + " has joined the game").queue();
-                        }
-                        Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("staff-join-message").replace("<player>", player.getName())), "se.staffchat");
-                    }else{
-                        Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("staff-join-message").replace("<player>", player.getName())), "se.staffchat");
-                    }
+                    Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("staff-join-message").replace("<player>", player.getName()))), "se.staffchat");
                 }
             }
         }
