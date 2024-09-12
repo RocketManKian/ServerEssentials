@@ -2,6 +2,7 @@ package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
+import me.rocketmankianproductions.serveressentials.file.UserFile;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.*;
@@ -31,7 +32,7 @@ public class Message implements CommandExecutor {
                         return true;
                     }
                     // Check if recipient has messaging enabled
-                    else if (!MsgToggle.fileConfig.getBoolean("msgtoggle." + recipient.getName(), false)) {
+                    else if (!UserFile.fileConfig.getBoolean(recipient.getUniqueId() + ".msgtoggle")) {
                         // set players to hashmap
                         Reply.reply.put(recipient.getUniqueId(), messager.getUniqueId());
                         String targetname = recipient.getName();
@@ -65,8 +66,9 @@ public class Message implements CommandExecutor {
                 Player recipient = Bukkit.getPlayer(args[0]);
                 if (recipient == null) {
                     Bukkit.getLogger().info(ChatColor.RED + "Player does not exist");
-                    return true;
-                } else if (MsgToggle.fileConfig.getBoolean("msgtoggle." + recipient.getName(), false) == false) {
+                    return false;
+                }
+                if (!UserFile.fileConfig.getBoolean(recipient.getUniqueId() + ".msgtoggle")) {
                     String targetname = recipient.getName();
                     for (int i = 1; i < args.length; i++) {
                         String arg = (args[i] + " ");
@@ -80,6 +82,7 @@ public class Message implements CommandExecutor {
                 } else {
                     String msg = Lang.fileConfig.getString("message-disabled");
                     Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                    return false;
                 }
             }
         }
@@ -88,7 +91,7 @@ public class Message implements CommandExecutor {
 
     public void socialSpy(Player messager, Player recipient, String msgsocialspy, String msgsender, String msgrecipient){
         for (Player admin : Bukkit.getOnlinePlayers()) {
-            if (SocialSpy.fileConfig.getBoolean("Spy." + admin.getName())) {
+            if (UserFile.fileConfig.getBoolean(admin.getUniqueId() + ".spy")) {
                 if (admin != messager && admin != recipient) {
                     admin.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msgsocialspy)));
                 }

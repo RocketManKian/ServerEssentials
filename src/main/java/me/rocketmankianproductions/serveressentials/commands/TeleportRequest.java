@@ -2,6 +2,7 @@ package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
+import me.rocketmankianproductions.serveressentials.file.UserFile;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -14,7 +15,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -59,7 +59,7 @@ public class TeleportRequest implements CommandExecutor {
                         if (target != player) {
                             if (!blacklistCheck(player, target, "teleport-request-blacklisted-world")){
                                 if (!teleportcooldown.containsKey(player.getUniqueId()) || player.hasPermission("se.teleport.bypass")){
-                                    if (TPToggle.fileConfig.getBoolean("tptoggle." + target.getName()) == false) {
+                                    if (!UserFile.fileConfig.getBoolean(target.getUniqueId() + ".tptoggle")) {
                                         tpa.put(target.getUniqueId(), player.getUniqueId());
                                         teleportRequestMessage(player, target, "teleport-request-sent", "teleport-request-target-receive", "teleport-request-timeout-warning", "teleport-request-cancel-warning", "teleport-request-accept", "teleport-request-deny", "teleport-request-accept-button", "teleport-request-deny-button", "teleport-request-cancel-button", delay3);
                                         if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {
@@ -119,7 +119,7 @@ public class TeleportRequest implements CommandExecutor {
                         if (target != player) {
                             if (!blacklistCheck(player, target, "teleport-here-blacklisted-world")){
                                 if (!teleportherecooldown.containsKey(player.getUniqueId()) || player.hasPermission("se.teleport.bypass")){
-                                    if (TPToggle.fileConfig.getBoolean("tptoggle." + target.getName(), false) == false) {
+                                    if (!UserFile.fileConfig.getBoolean(target.getUniqueId() + ".tptoggle")) {
                                         tpahere.put(target.getUniqueId(), player.getUniqueId());
                                         teleportRequestMessage(player, target, "teleport-here-request-sent", "teleport-here-request-target-receive", "teleport-here-request-timeout-warning", "teleport-here-request-cancel-warning", "teleport-here-request-accept", "teleport-here-request-deny","teleport-here-request-accept-button", "teleport-here-request-deny-button", "teleport-here-request-cancel-button", delay3);
                                         if (teleportcancel.containsKey(target.getUniqueId()) && teleportcancel.get(target.getUniqueId()) != null) {

@@ -7,6 +7,7 @@ import me.rocketmankianproductions.serveressentials.LoggerMessage;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.UpdateChecker.Update;
 import me.rocketmankianproductions.serveressentials.commands.*;
+import me.rocketmankianproductions.serveressentials.file.UserFile;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import net.md_5.bungee.api.chat.*;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -22,11 +23,17 @@ import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
 
 public class PlayerJoinListener implements Listener {
     Location loc;
-    public static ServerEssentials plugin;
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent pj) {
         Player player = pj.getPlayer();
+
+        // Economy
+        if (UserFile.fileConfig.getString(String.valueOf(player.getUniqueId())) == null){
+            UserFile.fileConfig.set(player.getUniqueId() + ".money", ServerEssentials.getPlugin().getConfig().getDouble("start-balance"));
+            Eco.saveBalance();
+        }
+        ServerEssentials.getPlugin().playerBank.put(player.getUniqueId(), UserFile.fileConfig.getDouble(player.getUniqueId() + ".money"));
 
         // Check to see if Update Checker is enabled in Config
         if (ServerEssentials.getPlugin().getConfig().getBoolean("update-checker")){
@@ -48,11 +55,11 @@ public class PlayerJoinListener implements Listener {
 
         // Sets default value if player has the permission.
         if (player.hasPermission("se.silentjoin")) {
-            if (SilentJoin.fileConfig.getString("silent." + player.getName()) == null){
-                boolean b = SilentJoin.fileConfig.getBoolean("silent." + player.getName(), false);
-                SilentJoin.fileConfig.set("silent." + player.getName(), b);
+            if (UserFile.fileConfig.getString("silent." + player.getName()) == null){
+                boolean b = UserFile.fileConfig.getBoolean((player.getUniqueId() + ".silent"), false);
+                UserFile.fileConfig.set((player.getUniqueId() + ".silent"), b);
                 try {
-                    SilentJoin.fileConfig.save(SilentJoin.file);
+                    UserFile.fileConfig.save(UserFile.file);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -62,7 +69,7 @@ public class PlayerJoinListener implements Listener {
         // Decide if Join Message gets posted or not.
         if (player.hasPlayedBefore()) {
             if (ServerEssentials.getPlugin().getConfig().getBoolean("enable-join-message")) {
-                if (SilentJoin.fileConfig.getBoolean("silent." + player.getName()) == false) {
+                if (!UserFile.fileConfig.getBoolean(player.getUniqueId() + ".silent")) {
                     String msg = ServerEssentials.hex(Lang.fileConfig.getString("join-symbol")).replace("<player>", player.getName());
                     if (Lang.fileConfig.getString("join-symbol").isEmpty()){
                         pj.setJoinMessage("");
@@ -78,7 +85,7 @@ public class PlayerJoinListener implements Listener {
                     pj.setJoinMessage("");
                 }
             } else {
-                if (SilentJoin.fileConfig.getBoolean("silent." + player.getName()) == true) {
+                if (UserFile.fileConfig.getBoolean(player.getUniqueId() + ".silent")) {
                     pj.setJoinMessage("");
                 }
             }
@@ -140,7 +147,6 @@ public class PlayerJoinListener implements Listener {
                 String channel = ServerEssentials.getPlugin().getConfig().getString("staff-chat-channel-name");
                 String servername = ServerEssentials.plugin.getConfig().getString("server-name");
                 String server = (servername == null || servername.isEmpty()) ? " has joined the game" : " has joined the " + servername + " Server";
-                System.out.println(server);
                 if (ServerEssentials.isConnectedToDiscordSRV){
                     TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName(channel);
                     if (textChannel != null && ServerEssentials.plugin.getConfig().getBoolean("enable-staff-discord-integration")){
