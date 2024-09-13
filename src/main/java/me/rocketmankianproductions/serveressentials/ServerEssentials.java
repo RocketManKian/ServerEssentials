@@ -60,17 +60,21 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         this.saveDefaultConfig();
         // Lang File
         Lang.setup();
-        // Placeholder API
-        registerPlaceholder();
-        // DiscordSRV
-        registerDiscordSRV();
         // Metrics
         MetricsLite metricsLite = new MetricsLite(this);
         // Setup Config
         setupConfig();
+        // Placeholder API
+        registerPlaceholder();
+        // DiscordSRV
+        registerDiscordSRV();
         // Setup Economy
-        instanceClasses();
-        vaultHook.hook();
+        if (Bukkit.getPluginManager().getPlugin("Vault") != null){
+            instanceClasses();
+            vaultHook.hook();
+        }else{
+            LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "Vault is not installed!");
+        }
         // Setup Commands
         registerCommands();
         new UserFile(plugin);
@@ -101,14 +105,18 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         LoggerMessage.log(LoggerMessage.LogLevel.OUTLINE, "*********************");
         LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "Server Essentials has been disabled.");
         this.saveDefaultConfig();
-        // Disable Placeholder API
-        LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "PlaceholderAPI has been disabled.");
-        // Disable Economy
-        LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "Vault has been disabled.");
-        // Metrics
-        MetricsLite metricsLite = new MetricsLite(this);
         // Config
         LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "Config.yml has been uninitialised.");
+        // Disable Placeholder API
+        if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null){
+            LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "PlaceholderAPI has been disabled.");
+        }
+        // Disable Economy
+        if (Bukkit.getPluginManager().getPlugin("Vault") != null){
+            LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "Vault has been disabled.");
+        }
+        // Metrics
+        MetricsLite metricsLite = new MetricsLite(this);
         // Disable Commands
         LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "Commands have been disabled.");
         // Disable Events
@@ -389,6 +397,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
     }
 
     private void instanceClasses() {
+        LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "Vault has been enabled.");
         getInstance = this;
         economyImplementer = new EconomyImplementer();
         vaultHook = new VaultHook();
