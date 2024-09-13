@@ -35,7 +35,7 @@ public class Spawn implements CommandExecutor {
                 if (Setspawn.file.exists()) {
                     if (args.length == 0) {
                         if (command.getName().equalsIgnoreCase("tutorial")){
-                            if (checkNewbiesSpawn(sender) == false) {
+                            if (!checkNewbiesSpawn(sender)) {
                                 Location loc = getNewbiesLocation();
                                 if (ServerEssentials.plugin.getConfig().getInt("spawn-teleport") == 0){
                                     spawnSave(player);
@@ -80,7 +80,7 @@ public class Spawn implements CommandExecutor {
                                 }
                             }
                         }else if (command.getName().equalsIgnoreCase("spawn")) {
-                            if (checkSpawn(sender) == false){
+                            if (!checkSpawn(sender)){
                                 Location loc = getLocation();
                                 if (ServerEssentials.plugin.getConfig().getInt("spawn-teleport") == 0) {
                                     spawnSave(player);
@@ -128,7 +128,7 @@ public class Spawn implements CommandExecutor {
                     } else if (args.length == 1) {
                         // Teleport to Newbies Spawn
                         if (args[0].equalsIgnoreCase("newbies")) {
-                            if (checkNewbiesSpawn(sender) == false){
+                            if (!checkNewbiesSpawn(sender)){
                                 Location loc = getNewbiesLocation();
                                 if (ServerEssentials.plugin.getConfig().getInt("spawn-teleport") == 0) {
                                     spawnSave(player);
@@ -174,7 +174,7 @@ public class Spawn implements CommandExecutor {
                             }
                         } else {
                             if (permissionChecker(player, "se.spawn.others")){
-                                if (checkSpawn(sender) == false){
+                                if (!checkSpawn(sender)){
                                     Location loc = getLocation();
                                     Player target = Bukkit.getPlayerExact(args[0]);
                                     // Checking if the player exists
@@ -218,7 +218,7 @@ public class Spawn implements CommandExecutor {
                         }
                     }else if (args.length == 2 && args[1].equalsIgnoreCase("newbies")){
                         if (permissionChecker(player, "se.spawn.others")) {
-                            if (checkNewbiesSpawn(sender) == false) {
+                            if (!checkNewbiesSpawn(sender)) {
                                 Location loc = getNewbiesLocation();
                                 Player target = Bukkit.getPlayerExact(args[0]);
                                 // Checking if the player exists
@@ -275,7 +275,7 @@ public class Spawn implements CommandExecutor {
                 Player target = Bukkit.getPlayerExact(args[0]);
                 if (target != null){
                     // Check if the File Exists and if Location isn't null
-                    if (checkSpawn(sender) == false){
+                    if (!checkSpawn(sender)){
                         Location loc = getLocation();
                         spawnSave(target);
                         if (loc.isWorldLoaded()){
@@ -302,7 +302,7 @@ public class Spawn implements CommandExecutor {
                 Player target = Bukkit.getPlayerExact(args[0]);
                 if (target != null){
                     // Check if the File Exists and if Location isn't null
-                    if (checkNewbiesSpawn(sender) == false){
+                    if (!checkNewbiesSpawn(sender)){
                         Location loc = getNewbiesLocation();
                         spawnSave(target);
                         if (loc.isWorldLoaded()){
@@ -335,23 +335,28 @@ public class Spawn implements CommandExecutor {
     }
     public static Location getLocation() {
         // Gathering Location
-        float yaw = Setspawn.fileConfig.getInt("Location.Yaw");
-        float pitch = Setspawn.fileConfig.getInt("Location.Pitch");
-        Location loc = new Location(Bukkit.getWorld(Setspawn.fileConfig.getString("Location.World")), Setspawn.fileConfig.getDouble("Location.X"), Setspawn.fileConfig.getDouble("Location.Y"), Setspawn.fileConfig.getDouble("Location.Z"), yaw, pitch);
-        return loc;
+        if (Setspawn.file.exists() && Setspawn.fileConfig.getString("Location.World") != null){
+            float yaw = Setspawn.fileConfig.getInt("Location.Yaw");
+            float pitch = Setspawn.fileConfig.getInt("Location.Pitch");
+            Location loc = new Location(Bukkit.getWorld(Setspawn.fileConfig.getString("Location.World")), Setspawn.fileConfig.getDouble("Location.X"), Setspawn.fileConfig.getDouble("Location.Y"), Setspawn.fileConfig.getDouble("Location.Z"), yaw, pitch);
+            return loc;
+        }
+        return null;
     }
     public static Location getNewbiesLocation() {
         // Gathering Location
-        float yaw = Setspawn.fileConfig.getInt("Newbies.Location.Yaw");
-        float pitch = Setspawn.fileConfig.getInt("Newbies.Location.Pitch");
-        Location loc = new Location(Bukkit.getWorld(Setspawn.fileConfig.getString("Newbies.Location.World")), Setspawn.fileConfig.getDouble("Newbies.Location.X"), Setspawn.fileConfig.getDouble("Newbies.Location.Y"), Setspawn.fileConfig.getDouble("Newbies.Location.Z"), yaw, pitch);
-        return loc;
+        if (Setspawn.file.exists() && Setspawn.fileConfig.getString("Newbies.Location.World") != null){
+            float yaw = Setspawn.fileConfig.getInt("Newbies.Location.Yaw");
+            float pitch = Setspawn.fileConfig.getInt("Newbies.Location.Pitch");
+            Location loc = new Location(Bukkit.getWorld(Setspawn.fileConfig.getString("Newbies.Location.World")), Setspawn.fileConfig.getDouble("Newbies.Location.X"), Setspawn.fileConfig.getDouble("Newbies.Location.Y"), Setspawn.fileConfig.getDouble("Newbies.Location.Z"), yaw, pitch);
+            return loc;
+        }
+        return null;
     }
 
     public boolean checkSpawn(CommandSender sender){
         boolean spawnInvalid;
-        Location spawn = getLocation();
-        if (Setspawn.file.exists() && spawn != null) {
+        if (Setspawn.file.exists() && getLocation() != null) {
             spawnInvalid = false;
         }else{
             spawnInvalid = true;
@@ -363,8 +368,7 @@ public class Spawn implements CommandExecutor {
 
     public boolean checkNewbiesSpawn(CommandSender sender){
         boolean spawnInvalid;
-        Location spawnNewbies = getNewbiesLocation();
-        if (Setspawn.file.exists() && spawnNewbies != null) {
+        if (Setspawn.file.exists() && getNewbiesLocation() != null) {
             spawnInvalid = false;
         }else{
             spawnInvalid = true;

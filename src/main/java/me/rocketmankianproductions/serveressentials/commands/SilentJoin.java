@@ -1,16 +1,13 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
-import me.rocketmankianproductions.serveressentials.LoggerMessage;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
+import me.rocketmankianproductions.serveressentials.file.UserFile;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
-import java.io.File;
 import java.io.IOException;
 
 import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
@@ -19,48 +16,25 @@ public class SilentJoin {
 
     public static ServerEssentials plugin;
 
-    //settings
-    public static String filepath = "silent.yml";
-
-    public static File file;
-    public static FileConfiguration fileConfig;
-
-    //setup function
     public SilentJoin(ServerEssentials plugin) {
         this.plugin = plugin;
-        //setup silent.yml
-        file = new File(ServerEssentials.plugin.getDataFolder(), filepath);
-        if (!file.exists()) {
-            try {
-                //create default file
-                file.createNewFile();
-                LoggerMessage.log(LoggerMessage.LogLevel.INFO, "Silent.yml file doesn't exist, creating now...");
-                fileConfig = YamlConfiguration.loadConfiguration(file);
-                LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "Silent.yml file created");
-
-            } catch (IOException e) {
-                ServerEssentials.plugin.getLogger().warning(e.toString());
-            }
-        } else {
-            fileConfig = YamlConfiguration.loadConfiguration(file);
-        }
     }
 
     public void run(CommandSender sender, String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
             if (ServerEssentials.permissionChecker(player, "se.silentjoin")) {
-                if (!fileConfig.getBoolean("silent." + player.getName())) {
-                    fileConfig.set("silent." + player.getName(), true);
+                if (!UserFile.fileConfig.getBoolean(player.getUniqueId() + ".silent")) {
+                    UserFile.fileConfig.set(player.getUniqueId() + ".silent", true);
                     String msg = Lang.fileConfig.getString("silentjoin-enabled");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                 } else {
-                    fileConfig.set("silent." + player.getName(), false);
+                    UserFile.fileConfig.set(player.getUniqueId() + ".silent", false);
                     String msg = Lang.fileConfig.getString("silentjoin-disabled");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                 }
                 try {
-                    fileConfig.save(file);
+                    UserFile.fileConfig.save(UserFile.file);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -69,9 +43,5 @@ public class SilentJoin {
             String console = Lang.fileConfig.getString("console-invalid");
             Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
         }
-    }
-    public static void reload() {
-        if (file != null)
-            fileConfig = YamlConfiguration.loadConfiguration(file);
     }
 }

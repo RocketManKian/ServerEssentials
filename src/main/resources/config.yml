@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 1.82.9
+# This config was generated for version 2.0
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -57,6 +57,12 @@ heal-cooldown: 30
 # Set to 0 to Disable
 # Restart Required
 feed-cooldown: 30
+# List Commands Below that you would like to be Disabled
+# Make sure each command is on a new line with - at the start
+# See example below:
+# - message
+disabled-commands:
+  - empty
 ############################################################
 # +------------------------------------------------------+ #
 # +              Server Essentials (Broadcast)           + #
@@ -252,3 +258,25 @@ back-teleport: 5
 # Only works if 'back-teleport' is higher than 0
 # Default: true
 back-movement-cancel: true
+############################################################
+# +------------------------------------------------------+ #
+# +              Server Essentials (Fly)                 + #
+# +------------------------------------------------------+ #
+############################################################
+# Enable Blacklisted World Feature for the Fly Command
+# Default: False
+enable-fly-blacklist: false
+# Blacklist Worlds where Player's cannot use /fly
+fly-blacklist:
+  - world
+############################################################
+# +------------------------------------------------------+ #
+# +              Server Essentials (Eco)                 + #
+# +------------------------------------------------------+ #
+############################################################
+# The Balance that all Players will have upon joining the server, also affecting the </eco reset> command.
+# Default: 0
+start-balance: 0
+# Set this to the Currency Symbol you would like to use.
+# Default: $
+currency-symbol: '$'

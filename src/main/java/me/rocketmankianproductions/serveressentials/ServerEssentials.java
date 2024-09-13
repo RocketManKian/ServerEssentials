@@ -4,7 +4,10 @@ import github.scarsz.discordsrv.DiscordSRV;
 import me.rocketmankianproductions.serveressentials.Metrics.MetricsLite;
 import me.rocketmankianproductions.serveressentials.UpdateChecker.Update;
 import me.rocketmankianproductions.serveressentials.commands.*;
+import me.rocketmankianproductions.serveressentials.eco.EconomyImplementer;
+import me.rocketmankianproductions.serveressentials.eco.VaultHook;
 import me.rocketmankianproductions.serveressentials.events.*;
+import me.rocketmankianproductions.serveressentials.file.UserFile;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import me.rocketmankianproductions.serveressentials.tasks.Broadcast;
 import org.bukkit.Bukkit;
@@ -20,7 +23,9 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -33,6 +38,10 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
     public static boolean isConnectedToPlaceholderAPI = false;
     public static boolean isConnectedToDiscordSRV = false;
     public static String prefix;
+    public static ServerEssentials getInstance;
+    public EconomyImplementer economyImplementer;
+    private VaultHook vaultHook;
+    public final HashMap<UUID,Double> playerBank = new HashMap<>();
 
     public ArrayList<Player> invisible_list = new ArrayList<>();
 
@@ -59,12 +68,12 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         MetricsLite metricsLite = new MetricsLite(this);
         // Setup Config
         setupConfig();
+        // Setup Economy
+        instanceClasses();
+        vaultHook.hook();
         // Setup Commands
         registerCommands();
-        new SilentJoin(plugin);
-        new TPToggle(plugin);
-        new MsgToggle(plugin);
-        new SocialSpy(plugin);
+        new UserFile(plugin);
         LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "Commands have been enabled.");
         // Register Update
         registerUpdate();
@@ -94,6 +103,8 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         this.saveDefaultConfig();
         // Disable Placeholder API
         LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "PlaceholderAPI has been disabled.");
+        // Disable Economy
+        LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "Vault has been disabled.");
         // Metrics
         MetricsLite metricsLite = new MetricsLite(this);
         // Config
@@ -150,6 +161,8 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         // Deletehome Command
         getCommand("deletehome").setExecutor(new DeleteHome());
         getCommand("deletehome").setTabCompleter(new TabCompletion());
+        // Teleport Toggle Command
+        getCommand("tptoggle").setExecutor(new TPToggle());
         // Teleport Command
         getCommand("teleport").setExecutor(new Teleport());
         // TeleportHere Command
@@ -198,6 +211,8 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         // Message Command
         getCommand("msg").setExecutor(new Message());
         getCommand("msg").setTabCompleter(new TabCompletion());
+        // Message Toggle Command
+        getCommand("msgtoggle").setExecutor(new MsgToggle());
         // Reply Command
         getCommand("reply").setExecutor(new Reply());
         getCommand("reply").setTabCompleter(new TabCompletion());
@@ -264,6 +279,8 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         // Send Warp Command
         getCommand("sendwarp").setExecutor(new SendWarp());
         getCommand("sendwarp").setTabCompleter(new TabCompletion());
+        // Social Spy Command
+        getCommand("socialspy").setExecutor(new SocialSpy());
         // Staff Chat Command
         getCommand("staffchat").setExecutor(new StaffChat());
         // Trash Command
@@ -279,16 +296,14 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("whois").setExecutor(new Whois());
         // Ping Command
         getCommand("ping").setExecutor(new Ping());
+        // Economy
+        getCommand("pay").setExecutor(new Pay());
+        getCommand("balance").setExecutor(new Balance());
+        getCommand("baltop").setExecutor(new Baltop());
+        getCommand("eco").setExecutor(new Eco());
+        getCommand("eco").setTabCompleter(new TabCompletion());
         // AFK Command
         //getCommand("afk").setExecutor(new AFK());
-    }
-
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        new TPToggle(plugin).run(sender, args, command);
-        new MsgToggle(plugin).run(sender, args, command);
-        new SocialSpy(plugin).run(sender, args, command);
-        return false;
     }
 
     public void registerEvents() {
@@ -371,6 +386,12 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
             matcher = pattern.matcher(message);
         }
         return ChatColor.translateAlternateColorCodes('&', message).replace('&', '§');
+    }
+
+    private void instanceClasses() {
+        getInstance = this;
+        economyImplementer = new EconomyImplementer();
+        vaultHook = new VaultHook();
     }
 
     public static ServerEssentials getPlugin() {

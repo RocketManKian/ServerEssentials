@@ -352,6 +352,16 @@ public class TabCompletion implements TabCompleter {
             }
             return autoCompletes;
         }
+        if (command.getName().equalsIgnoreCase("eco")) {
+            List<String> autoCompletes = new ArrayList<>();
+            if (args.length == 1) {
+                autoCompletes.add("give");
+                autoCompletes.add("take");
+                autoCompletes.add("set");
+                autoCompletes.add("reset");
+                return autoCompletes;
+            }
+        }
         return null;
     }
 }

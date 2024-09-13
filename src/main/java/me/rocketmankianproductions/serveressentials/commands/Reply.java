@@ -2,6 +2,7 @@ package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
+import me.rocketmankianproductions.serveressentials.file.UserFile;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -35,7 +36,7 @@ public class Reply implements CommandExecutor {
                         sb.append(args[i]).append(" ");
                     }
                     String sm = sb.toString();
-                    // check if theres something in the hashmap / something to reply to
+                    // check if there's something in the hashmap / something to reply to
                     if (reply.get(player.getUniqueId()) == null) {
                         String msg = Lang.fileConfig.getString("reply-no-message");
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
@@ -65,7 +66,7 @@ public class Reply implements CommandExecutor {
 
     public void socialSpy(Player messager, Player recipient, String msgsocialspy, String msgsender, String msgrecipient){
         for (Player admin : Bukkit.getOnlinePlayers()) {
-            if (SocialSpy.fileConfig.getBoolean("Spy." + admin.getName())) {
+            if (UserFile.fileConfig.getBoolean(admin.getUniqueId() + ".spy")) {
                 if (admin != messager && admin != recipient) {
                     admin.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msgsocialspy)));
                 }

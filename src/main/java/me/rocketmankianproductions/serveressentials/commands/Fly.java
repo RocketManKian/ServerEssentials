@@ -17,10 +17,20 @@ public class Fly implements CommandExecutor {
             Player player = (Player) sender;
             if (ServerEssentials.permissionChecker(player, "se.fly")) {
                 if (args.length == 0) {
+                    if (blacklistCheck(player)){
+                        String msg = Lang.fileConfig.getString("fly-blacklisted-world");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                        return false;
+                    }
                     flyToggle(player, false, null);
                 } else if (args.length == 1) {
                     if (ServerEssentials.permissionChecker(player, "se.fly.others")){
                         Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
+                        if (blacklistCheck(player)){
+                            String msg = Lang.fileConfig.getString("fly-blacklisted-world");
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                            return false;
+                        }
                         flyToggle(targetPlayer, true, player);
                     }
                 } else {
@@ -62,5 +72,17 @@ public class Fly implements CommandExecutor {
             String msg = Lang.fileConfig.getString("target-offline");
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
         }
+    }
+
+    public static Boolean blacklistCheck(Player player){
+        boolean blacklistedworld = false;
+        if (ServerEssentials.plugin.getConfig().getBoolean("enable-fly-blacklist")){
+            for (String worlds : ServerEssentials.plugin.getConfig().getStringList("fly-blacklist")) {
+                if (player.getWorld().getName().equalsIgnoreCase(worlds)) {
+                    blacklistedworld = true;
+                }
+            }
+        }
+        return blacklistedworld;
     }
 }

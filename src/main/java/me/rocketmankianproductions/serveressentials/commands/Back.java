@@ -65,15 +65,19 @@ public class Back implements CommandExecutor {
                     }else{
                         if (ServerEssentials.plugin.getConfig().getInt("back-teleport") == 0){
                             if (location.containsKey(player.getUniqueId())){
-                                blacklistCheck(player);
-                                if (!blacklistCheck(player)){
-                                    backCancel(player, location2, location, delay2, delay3);
+                                if (blacklistCheck(player)){
+                                    String msg = Lang.fileConfig.getString("back-blacklisted-world");
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                                    return false;
                                 }
+                                backCancel(player, location2, location, delay2, delay3);
                             }else if (location2.containsKey(player.getUniqueId())) {
-                                blacklistCheck(player);
-                                if (!blacklistCheck(player)){
-                                    backCancel(player, location, location2, delay2, delay3);
+                                if (blacklistCheck(player)){
+                                    String msg = Lang.fileConfig.getString("back-blacklisted-world");
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                                    return false;
                                 }
+                                backCancel(player, location, location2, delay2, delay3);
                             }else{
                                 String msg = Lang.fileConfig.getString("back-no-location");
                                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
@@ -82,33 +86,40 @@ public class Back implements CommandExecutor {
                             backwait = backwait * 20;
                             if (ServerEssentials.plugin.getConfig().getBoolean("back-movement-cancel")){
                                 if (location.containsKey(player.getUniqueId())){
-                                    cancel.add(player.getUniqueId());
-                                    blacklistCheck(player);
-                                    if (!blacklistCheck(player)){
-                                        backWait(player, location, location2, backwait, delay2, delay3);
+                                    if (blacklistCheck(player)){
+                                        String msg = Lang.fileConfig.getString("back-blacklisted-world");
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                                        return false;
                                     }
+                                    backWait(player, location, location2, backwait, delay2, delay3);
+                                    cancel.add(player.getUniqueId());
                                 }else if (location2.containsKey(player.getUniqueId())) {
-                                    cancel.add(player.getUniqueId());
-                                    blacklistCheck(player);
-                                    if (!blacklistCheck(player)){
-                                        backWait(player, location2, location, backwait, delay2, delay3);
+                                    if (blacklistCheck(player)){
+                                        String msg = Lang.fileConfig.getString("back-blacklisted-world");
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                                        return false;
                                     }
+                                    backWait(player, location2, location, backwait, delay2, delay3);
+                                    cancel.add(player.getUniqueId());
                                 }else{
                                     String msg = Lang.fileConfig.getString("back-no-location");
                                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                 }
                             }else{
                                 if (location.containsKey(player.getUniqueId())){
-                                    blacklistCheck(player);
-                                    if (!blacklistCheck(player)){
-                                        player.sendMessage("hi");
-                                        backWait(player, location, location2, backwait, delay2, delay3);
+                                    if (blacklistCheck(player)){
+                                        String msg = Lang.fileConfig.getString("back-blacklisted-world");
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                                        return false;
                                     }
+                                    backWait(player, location, location2, backwait, delay2, delay3);
                                 }else if (location2.containsKey(player.getUniqueId())) {
-                                    blacklistCheck(player);
-                                    if (!blacklistCheck(player)){
-                                        backWait(player, location2, location, backwait, delay2, delay3);
+                                    if (blacklistCheck(player)){
+                                        String msg = Lang.fileConfig.getString("back-blacklisted-world");
+                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                                        return false;
                                     }
+                                    backWait(player, location2, location, backwait, delay2, delay3);
                                 }else{
                                     String msg = Lang.fileConfig.getString("back-no-location");
                                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
@@ -185,8 +196,6 @@ public class Back implements CommandExecutor {
         if (ServerEssentials.plugin.getConfig().getBoolean("enable-back-blacklist")){
             for (String worlds : ServerEssentials.plugin.getConfig().getStringList("back-blacklist")) {
                 if (player.getWorld().getName().equalsIgnoreCase(worlds)) {
-                    String msg = Lang.fileConfig.getString("back-blacklisted-world");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     blacklistedworld = true;
                 }
             }

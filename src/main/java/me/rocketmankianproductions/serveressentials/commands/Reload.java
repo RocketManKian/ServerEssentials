@@ -1,6 +1,7 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.UserFile;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import me.rocketmankianproductions.serveressentials.tasks.Broadcast;
 import org.bukkit.Bukkit;
@@ -27,12 +28,10 @@ public class Reload {
                 ServerEssentials.getPlugin().reloadConfig();
                 Rules.reload();
                 Setspawn.reload();
-                SilentJoin.reload();
                 Sethome.reload();
-                TPToggle.reload();
-                MsgToggle.reload();
                 Setwarp.reload();
                 Lang.reload();
+                UserFile.reload();
                 // Applying Broadcast Changes
                 ServerEssentials.broadcastLoop.cancel();
                 long delay = ServerEssentials.getPlugin().getConfig().getLong("broadcast-delay");
@@ -43,12 +42,10 @@ public class Reload {
             ServerEssentials.getPlugin().reloadConfig();
             Rules.reload();
             Setspawn.reload();
-            SilentJoin.reload();
             Sethome.reload();
-            TPToggle.reload();
-            MsgToggle.reload();
             Setwarp.reload();
             Lang.reload();
+            UserFile.reload();
             ServerEssentials.broadcastLoop.cancel();
             long delay = ServerEssentials.getPlugin().getConfig().getLong("broadcast-delay");
             ServerEssentials.broadcastLoop = new Broadcast(ServerEssentials.plugin).runTaskTimer(ServerEssentials.plugin, delay, delay);

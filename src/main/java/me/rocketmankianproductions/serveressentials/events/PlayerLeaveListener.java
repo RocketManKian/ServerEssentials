@@ -4,8 +4,8 @@ import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
-import me.rocketmankianproductions.serveressentials.commands.SilentJoin;
 import me.rocketmankianproductions.serveressentials.file.Lang;
+import me.rocketmankianproductions.serveressentials.file.UserFile;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -22,7 +22,7 @@ public class PlayerLeaveListener implements Listener {
         Player player = pj.getPlayer();
 
         if (ServerEssentials.getPlugin().getConfig().getBoolean("enable-leave-message")) {
-            if (SilentJoin.fileConfig.getBoolean("silent." + player.getName()) == false) {
+            if (!UserFile.fileConfig.getBoolean(player.getUniqueId() + ".silent")) {
                 String msg = hex(Lang.fileConfig.getString("leave-symbol")).replace("<player>", player.getName());
                 if (Lang.fileConfig.getString("leave-symbol").isEmpty()){
                     pj.setQuitMessage("");
@@ -38,7 +38,7 @@ public class PlayerLeaveListener implements Listener {
                 pj.setQuitMessage("");
             }
         }else{
-            if (SilentJoin.fileConfig.getBoolean("silent." + player.getName()) == true){
+            if (UserFile.fileConfig.getBoolean(player.getUniqueId() + ".silent")){
                 pj.setQuitMessage("");
             }
         }
