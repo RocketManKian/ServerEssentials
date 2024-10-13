@@ -71,12 +71,16 @@ public class Lang {
                 fileConfig.addDefault("eco-baltop-empty", "&6No player balances can be found.");
                 fileConfig.addDefault("eco-baltop-player", "&e<number>. <player>: &a<balance>");
                 fileConfig.addDefault("eco-give", "&aDeposited &e<amount> &ainto &b<player>'s &abalance. New Balance: &e<balance>");
+                fileConfig.addDefault("eco-give-all", "&aDeposited &e<amount> &ainto &beveryone's &abalance.");
                 fileConfig.addDefault("eco-take", "&aTaken &e<amount> &afrom &b<player>'s &abalance. New Balance: &e<balance>");
+                fileConfig.addDefault("eco-take-all", "&aTaken &e<amount> &afrom &beveryone's &abalance.");
                 fileConfig.addDefault("eco-take-target", "&b<player> &ahas taken &e<amount>. New Balance: &e<balance>");
                 fileConfig.addDefault("eco-set", "&aSet &b<player>'s &abalance to &e<balance>");
+                fileConfig.addDefault("eco-set-all", "&aSet &beveryone's &abalance to &e<balance>");
                 fileConfig.addDefault("eco-set-target", "&aYour balance has been set to &e<balance>");
                 fileConfig.addDefault("eco-reset", "&aReset &b<player>'s &abalance to &e<balance>");
-                fileConfig.addDefault("eco-reset-target", "&aYour balance has been reset by &b<player> to &e<balance>");
+                fileConfig.addDefault("eco-reset-all", "&aReset everyone's &abalance to &e<balance>");
+                fileConfig.addDefault("eco-reset-target", "&aYour balance has been reset by &b<player> &ato &e<balance>");
                 fileConfig.addDefault("enderchest-target-is-sender", "Do /ec to access your own Enderchest");
                 fileConfig.addDefault("enderchest-open-success", "Opened <target>(s) Enderchest");
                 fileConfig.addDefault("feed-sender-message", "You have fed <target>");
@@ -137,6 +141,7 @@ public class Lang {
                 fileConfig.addDefault("invsee-armor-gui", "Equipped Armor");
                 fileConfig.addDefault("kill-self", "You just killed yourself");
                 fileConfig.addDefault("kill-target", "You just killed <target>");
+                fileConfig.addDefault("list-message", "&6There are &c<amount> &6out of maximum &c<total> &6players online.");
                 fileConfig.addDefault("lore-invalid-item", "Please hold a valid item to set the lore");
                 fileConfig.addDefault("lore-reset-invalid-item", "Please hold a valid item to reset the lore");
                 fileConfig.addDefault("lore-successful", "Successfully set item lore as <lore>");
@@ -276,6 +281,7 @@ public class Lang {
                 fileConfig.addDefault("teleport-toggle-enabled", "Teleport Requests have been Disabled");
                 fileConfig.addDefault("teleport-toggle-disabled", "Teleport Requests have been Enabled");
                 fileConfig.addDefault("teleport-movement-cancel", "Teleportation cancelled due to Movement");
+                fileConfig.addDefault("time-set", "Time set to <time>");
                 fileConfig.addDefault("time-sunrise", "Time set to Sunrise");
                 fileConfig.addDefault("time-day", "Time set to Day");
                 fileConfig.addDefault("time-sunset", "Time set to Sunset");
@@ -464,16 +470,28 @@ public class Lang {
                     fileConfig.set("eco-give", "&aDeposited &e<amount> &ainto &b<player>'s &abalance. New Balance: &e<balance>");
                 }
 
+                if (fileConfig.getString("eco-give-all") == null) {
+                    fileConfig.set("eco-give-all", "&aDeposited &e<amount> &ainto &beveryone's &abalance.");
+                }
+
                 if (fileConfig.getString("eco-take") == null) {
                     fileConfig.set("eco-take", "&aTaken &e<amount> &afrom &b<player>'s &abalance. New Balance: &e<balance>");
                 }
 
+                if (fileConfig.getString("eco-take-all") == null) {
+                    fileConfig.set("eco-take-all", "&aTaken &e<amount> &afrom &beveryone's &abalance.");
+                }
+
                 if (fileConfig.getString("eco-take-target") == null) {
-                    fileConfig.set("eco-take-target", "&b<player> &ahas taken &e<amount>. New Balance: &e<balance>");
+                    fileConfig.set("eco-take-target", "&b<player> &ahas taken &e<amount>. &aNew Balance: &e<balance>");
                 }
 
                 if (fileConfig.getString("eco-set") == null) {
                     fileConfig.set("eco-set", "&aSet &b<player>'s &abalance to &e<balance>");
+                }
+
+                if (fileConfig.getString("eco-set-all") == null) {
+                    fileConfig.set("eco-set-all", "&aSet &beveryone's &abalance to &e<balance>");
                 }
 
                 if (fileConfig.getString("eco-set-target") == null) {
@@ -482,6 +500,10 @@ public class Lang {
 
                 if (fileConfig.getString("eco-reset") == null) {
                     fileConfig.set("eco-reset", "&aReset &b<player>'s &abalance to &e<balance>");
+                }
+
+                if (fileConfig.getString("eco-reset-all") == null) {
+                    fileConfig.set("eco-reset-all", "&aReset everyone's &abalance &ato &e<balance>");
                 }
 
                 if (fileConfig.getString("eco-reset-target") == null) {
@@ -726,6 +748,10 @@ public class Lang {
 
                 if (fileConfig.getString("kill-target") == null) {
                     fileConfig.set("kill-target", "You just killed <target>");
+                }
+
+                if (fileConfig.getString("list-message") == null) {
+                    fileConfig.set("list-message", "&6There are &c<amount> &6out of maximum &c<total> &6players online.");
                 }
 
                 if (fileConfig.getString("lore-invalid-item") == null) {
@@ -1255,6 +1281,10 @@ public class Lang {
 
                 if (fileConfig.getString("teleport-movement-cancel") == null) {
                     fileConfig.set("teleport-movement-cancel", "Teleportation cancelled due to Movement");
+                }
+
+                if (fileConfig.getString("time-set") == null) {
+                    fileConfig.set("time-set", "Time set to <time>");
                 }
 
                 if (fileConfig.getString("time-sunrise") == null) {

@@ -52,7 +52,7 @@ public class Baltop implements CommandExecutor {
         }
 
         // Sort the balances by money in descending order
-        List<Map.Entry<String, Double>> entries = new ArrayList<>(balances.entrySet());
+        ArrayList<Map.Entry<String, Double>> entries = new ArrayList<>(balances.entrySet());
         entries.sort(Map.Entry.comparingByValue(Comparator.reverseOrder()));
 
         // Convert sorted entries back to a LinkedHashMap to preserve the sorted order

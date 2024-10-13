@@ -1,6 +1,8 @@
 package me.rocketmankianproductions.serveressentials.eco;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.commands.Eco;
+import me.rocketmankianproductions.serveressentials.file.UserFile;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
@@ -16,12 +18,12 @@ public class EconomyImplementer implements Economy {
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 
     @Override
     public String getName() {
-        return null;
+        return "ServerEssentials";
     }
 
     @Override
@@ -160,6 +162,8 @@ public class EconomyImplementer implements Economy {
         }
 
         plugin.playerBank.put(uuid, oldBalance - v);
+        UserFile.fileConfig.set(uuid + ".money", plugin.economyImplementer.getBalance(Bukkit.getPlayer(uuid)));
+        Eco.saveBalance();
         return new EconomyResponse(v, oldBalance - v, EconomyResponse.ResponseType.SUCCESS, null);
     }
 
@@ -173,6 +177,8 @@ public class EconomyImplementer implements Economy {
         }
 
         plugin.playerBank.put(uuid, oldBalance - v);
+        UserFile.fileConfig.set(uuid + ".money", plugin.economyImplementer.getBalance(Bukkit.getOfflinePlayer(uuid)));
+        Eco.saveBalance();
         return new EconomyResponse(v, oldBalance - v, EconomyResponse.ResponseType.SUCCESS, null);
     }
 
@@ -191,6 +197,8 @@ public class EconomyImplementer implements Economy {
         }
 
         plugin.playerBank.put(uuid, oldBalance - v);
+        UserFile.fileConfig.set(uuid + ".money", plugin.economyImplementer.getBalance(Bukkit.getPlayer(uuid)));
+        Eco.saveBalance();
         return new EconomyResponse(v, oldBalance - v, EconomyResponse.ResponseType.SUCCESS, null);
     }
 
@@ -204,6 +212,8 @@ public class EconomyImplementer implements Economy {
         }
 
         plugin.playerBank.put(uuid, oldBalance - v);
+        UserFile.fileConfig.set(uuid + ".money", plugin.economyImplementer.getBalance(Bukkit.getOfflinePlayer(uuid)));
+        Eco.saveBalance();
         return new EconomyResponse(v, oldBalance - v, EconomyResponse.ResponseType.SUCCESS, null);
     }
 
@@ -222,6 +232,8 @@ public class EconomyImplementer implements Economy {
         }
 
         plugin.playerBank.put(uuid, oldBalance + v);
+        UserFile.fileConfig.set(uuid + ".money", plugin.economyImplementer.getBalance(Bukkit.getPlayer(uuid)));
+        Eco.saveBalance();
         return new EconomyResponse(v, oldBalance + v, EconomyResponse.ResponseType.SUCCESS, null);
     }
 
@@ -235,6 +247,8 @@ public class EconomyImplementer implements Economy {
         }
 
         plugin.playerBank.put(uuid, oldBalance + v);
+        UserFile.fileConfig.set(uuid + ".money", plugin.economyImplementer.getBalance(Bukkit.getOfflinePlayer(uuid)));
+        Eco.saveBalance();
         return new EconomyResponse(v, oldBalance + v, EconomyResponse.ResponseType.SUCCESS, null);
     }
 
@@ -253,6 +267,8 @@ public class EconomyImplementer implements Economy {
         }
 
         plugin.playerBank.put(uuid, oldBalance + v);
+        UserFile.fileConfig.set(uuid + ".money", plugin.economyImplementer.getBalance(Bukkit.getPlayer(uuid)));
+        Eco.saveBalance();
         return new EconomyResponse(v, oldBalance + v, EconomyResponse.ResponseType.SUCCESS, null);
     }
 
@@ -266,6 +282,8 @@ public class EconomyImplementer implements Economy {
         }
 
         plugin.playerBank.put(uuid, oldBalance + v);
+        UserFile.fileConfig.set(uuid + ".money", plugin.economyImplementer.getBalance(Bukkit.getOfflinePlayer(uuid)));
+        Eco.saveBalance();
         return new EconomyResponse(v, oldBalance + v, EconomyResponse.ResponseType.SUCCESS, null);
     }
 

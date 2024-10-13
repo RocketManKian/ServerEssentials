@@ -244,6 +244,8 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("day").setExecutor(new Time());
         // Sunset Command
         getCommand("sunset").setExecutor(new Time());
+        // Night Command
+        getCommand("night").setExecutor(new Time());
         // Midnight Command
         getCommand("midnight").setExecutor(new Time());
         // Midnight Command
@@ -305,11 +307,13 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         // Ping Command
         getCommand("ping").setExecutor(new Ping());
         // Economy
-        getCommand("pay").setExecutor(new Pay());
-        getCommand("balance").setExecutor(new Balance());
-        getCommand("baltop").setExecutor(new Baltop());
-        getCommand("eco").setExecutor(new Eco());
-        getCommand("eco").setTabCompleter(new TabCompletion());
+        if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
+            getCommand("pay").setExecutor(new Pay());
+            getCommand("balance").setExecutor(new Balance());
+            getCommand("baltop").setExecutor(new Baltop());
+            getCommand("eco").setExecutor(new Eco());
+            getCommand("eco").setTabCompleter(new TabCompletion());
+        }
         // AFK Command
         //getCommand("afk").setExecutor(new AFK());
     }
