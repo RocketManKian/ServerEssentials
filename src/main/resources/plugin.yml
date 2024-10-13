@@ -1,15 +1,14 @@
 name: ServerEssentials
-version: 2.0.1
+version: 2.0.2
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
 description: A Plugin for all Server Owners!
 softdepend: [PlaceholderAPI, DiscordSRV, DiscordSRV-Staff-Chat, AcceptTheRules, HuskHomes, LibsDisguises, Vault] # Plugins that load before ServerEssentials
-loadbefore: [Essentials]
+loadbefore: [Essentials, getClan, zAuctionHouse]
 commands:
   se:
     description: Server Essentials Root Command
-    usage:
   discord:
     description: Discord
     aliases: [dc]
@@ -124,14 +123,18 @@ commands:
   repair:
     description: Repair Command
     aliases: [fix]
+  time:
+    description: Time Command
   sunrise:
     description: Sunrise Command
-    aliases: [dawn]
+    aliases: [dawn, morning]
   day:
     description: Day Command
   sunset:
     description: Sunset Command
     aliases: [dusk]
+  night:
+    description: Night Command
   midnight:
     description: Midnight Command
   sun:
