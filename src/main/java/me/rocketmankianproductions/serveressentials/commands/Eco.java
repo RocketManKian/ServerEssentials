@@ -237,6 +237,6 @@ public class Eco implements CommandExecutor {
     }
 
     public void incorrectFormat(Player sender) {
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Usage:\n&f/eco give &e<player> <amount> &6- Gives the specified player the specified amount of money.\n&f/eco take &e<player> <amount> &6- Takes the specified amount of money from the specified player.\n&f/eco set &e<player> <amount> &6- Sets the specified player's balance to the specified amount of money.\n&f/eco reset &e<player> &6- Resets the specified player's balance to the server's starting balance."));
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&6Usage:\n&f/eco give &e<player/all/*> <amount> &6- Gives the specified player the specified amount of money.\n&f/eco take &e<player/all/*> <amount> &6- Takes the specified amount of money from the specified player.\n&f/eco set &e<player/all/*> <amount> &6- Sets the specified player's balance to the specified amount of money.\n&f/eco reset &e<player/all/*> &6- Resets the specified player's balance to the server's starting balance."));
     }
 }

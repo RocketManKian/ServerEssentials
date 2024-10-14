@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 2.0.2
+version: 2.0.3
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -206,14 +206,23 @@ commands:
     description: Ping Command
   pay:
     description: Pay Command
+  paytoggle:
+    description: Pay Toggle Command
   balance:
     description: Balance Command
     aliases: [bal, money]
   baltop:
     description: Baltop Command
+    aliases: [balancetop]
   eco:
     description: Eco Command
     aliases: [economy]
+  near:
+    description: Near Command
+  anvil:
+    description: Anvil Command
+  seen:
+    description: Seen Command
 permissions:
   se.all:
     description: "Gives access to all commands."
@@ -305,9 +314,13 @@ permissions:
       se.ping: true
       se.afk: true
       se.pay: true
+      se.paytoggle: true
       se.balance: true
       se.baltop: true
       se.eco: true
+      se.near: true
+      se.anvil: true
+      se.seen: true
   se.reload:
     description: "Gives access to the /se reload command."
     default: false
@@ -566,6 +579,9 @@ permissions:
   se.pay:
     description: "Pay Command Permission"
     default: false
+  se.paytoggle:
+    description: "Pay Toggle Command Permission"
+    default: false
   se.balance:
     description: "Balance Command Permission"
     default: false
@@ -574,4 +590,13 @@ permissions:
     default: false
   se.eco:
     description: "Eco Command Permission"
+    default: false
+  se.near:
+    description: "Near Command Permission"
+    default: false
+  se.anvil:
+    description: "Anvil Command Permission"
+    default: false
+  se.seen:
+    description: "Seen Command Permission"
     default: false

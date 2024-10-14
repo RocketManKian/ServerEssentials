@@ -28,6 +28,15 @@ public class PlayerJoinListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent pj) {
         Player player = pj.getPlayer();
 
+        // Seen Command
+        long currentTime = System.currentTimeMillis();  // Capture current timestamp
+        UserFile.fileConfig.set(player.getUniqueId() + ".login", currentTime);
+        try {
+            UserFile.fileConfig.save(UserFile.file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         // Economy
         if (UserFile.fileConfig.getString(String.valueOf(player.getUniqueId())) == null){
             UserFile.fileConfig.set(player.getUniqueId() + ".money", ServerEssentials.getPlugin().getConfig().getDouble("start-balance"));

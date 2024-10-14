@@ -69,8 +69,10 @@ public class SE implements CommandExecutor {
                             + "\n/balance - Displays your balance"
                             + "\n/baltop - Displays the Top 10 Richest players on the server"
                             + "\n/pay (player) - Pay another player the specified amount of money"
+                            + "\n/paytoggle - Toggles whether players can pay you money"
                             + "\n/eco <give/take/set/reset> <player/all/*> - Admin Economy Command for managing money"
                             + "\n/craft - Opens the Crafting GUI"
+                            + "\n/anvil - Opens the Anvil GUI"
                             + "\n/setwarp (name) - Sets a Warp with the Following Name"
                             + "\n/deletewarp (name) - Deletes the Warp with the Following Name"
                             + "\n/warp (name) - Warps to the Following Name"
@@ -105,6 +107,8 @@ public class SE implements CommandExecutor {
                             + "\n/convert - Converts Items into Block Form"
                             + "\n/sudo (player) <command> - Executes a Command as the Targeted Player."
                             + "\n/sudo %console% <command> - Executes a Command as Console."
+                            + "\n/near - Displays all Nearby Players."
+                            + "\n/seen <player> - Shows when the Player was last active alongside their UUID."
                             + "\n/whois <player> - Lists various pieces of Player Info");
                     return true;
                 }

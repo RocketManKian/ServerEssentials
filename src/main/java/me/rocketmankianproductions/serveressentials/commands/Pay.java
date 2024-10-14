@@ -31,45 +31,51 @@ public class Pay implements CommandExecutor {
             if (args.length == 2){
                 OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
                 if (target.hasPlayedBefore() && target != player){
-                    // Make sure Target has money
-                    if (UserFile.fileConfig.getString(String.valueOf(target.getUniqueId())) == null){
-                        UserFile.fileConfig.set(player.getUniqueId() + ".money", plugin.getConfig().getDouble("start-balance"));
-                        Eco.saveBalance();
-                    }
-                    plugin.playerBank.put(target.getUniqueId(), UserFile.fileConfig.getDouble(target.getUniqueId() + ".money"));
-                    // Pay Target
-                    double amount = Double.parseDouble(args[1]);
-                    try {
-                        if (amount > 0){
-                            if (plugin.economyImplementer.has(player, amount)){
-                                EconomyResponse r = plugin.economyImplementer.depositPlayer(args[0], amount);
-                                plugin.economyImplementer.withdrawPlayer(player, amount);
-                                if (r.transactionSuccess()) {
-                                    if (target.isOnline()){
-                                        String msg = Lang.fileConfig.getString("eco-receive").replace("<amount>", plugin.economyImplementer.format(amount)).replace("<player>", args[0]).replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(target)));
-                                        target.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg)));
+                    if (!UserFile.fileConfig.getBoolean(target.getUniqueId() + ".paytoggle")) {
+                        // Make sure Target has money
+                        if (UserFile.fileConfig.getString(String.valueOf(target.getUniqueId())) == null){
+                            UserFile.fileConfig.set(player.getUniqueId() + ".money", plugin.getConfig().getDouble("start-balance"));
+                            Eco.saveBalance();
+                        }
+                        plugin.playerBank.put(target.getUniqueId(), UserFile.fileConfig.getDouble(target.getUniqueId() + ".money"));
+                        // Pay Target
+                        double amount = Double.parseDouble(args[1]);
+                        try {
+                            if (amount > 0){
+                                if (plugin.economyImplementer.has(player, amount)){
+                                    EconomyResponse r = plugin.economyImplementer.depositPlayer(args[0], amount);
+                                    plugin.economyImplementer.withdrawPlayer(player, amount);
+                                    if (r.transactionSuccess()) {
+                                        if (target.isOnline()){
+                                            String msg = Lang.fileConfig.getString("eco-receive").replace("<amount>", plugin.economyImplementer.format(amount)).replace("<player>", args[0]).replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(target)));
+                                            target.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg)));
+                                        }
+                                        String msg2 = Lang.fileConfig.getString("eco-pay").replace("<amount>", plugin.economyImplementer.format(amount)).replace("<player>", args[0]).replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(target)));
+                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg2)));
+                                        UserFile.fileConfig.set(player.getUniqueId() + ".money", plugin.economyImplementer.getBalance(player));
+                                        UserFile.fileConfig.set(target.getUniqueId() + ".money", plugin.economyImplementer.getBalance(target));
+                                        Eco.saveBalance();
+                                        return true;
+                                    } else {
+                                        sender.sendMessage(String.format(ChatColor.RED + "An error occurred: %s", r.errorMessage));
                                     }
-                                    String msg2 = Lang.fileConfig.getString("eco-pay").replace("<amount>", plugin.economyImplementer.format(amount)).replace("<player>", args[0]).replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(player)));
-                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg2)));
-                                    UserFile.fileConfig.set(player.getUniqueId() + ".money", plugin.economyImplementer.getBalance(player));
-                                    UserFile.fileConfig.set(target.getUniqueId() + ".money", plugin.economyImplementer.getBalance(target));
-                                    Eco.saveBalance();
-                                    return true;
-                                } else {
-                                    sender.sendMessage(String.format(ChatColor.RED + "An error occurred: %s", r.errorMessage));
+                                }else {
+                                    String msg = Lang.fileConfig.getString("eco-insufficient");
+                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg)));
+                                    return false;
                                 }
-                            }else {
-                                String msg = Lang.fileConfig.getString("eco-insufficient");
+                            }else{
+                                String msg = Lang.fileConfig.getString("eco-invalid");
                                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg)));
                                 return false;
                             }
-                        }else{
-                            String msg = Lang.fileConfig.getString("eco-invalid");
-                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg)));
-                            return false;
+                        } catch (NumberFormatException var12) {
+                            sender.sendMessage(ChatColor.RED + "Invalid balance amount. Please enter a valid number.");
                         }
-                    } catch (NumberFormatException var12) {
-                        sender.sendMessage(ChatColor.RED + "Invalid balance amount. Please enter a valid number.");
+                    }else{
+                        String msg = Lang.fileConfig.getString("pay-disabled");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                        return true;
                     }
                     return true;
                 }else{

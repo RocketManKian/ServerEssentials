@@ -15,39 +15,37 @@ import java.io.IOException;
 
 import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
 
-public class TPToggle implements CommandExecutor {
-
-    public static ServerEssentials plugin;
+public class PayToggle implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
-        if (sender instanceof Player){
+        if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (ServerEssentials.permissionChecker(player, "se.tptoggle")) {
+            if (ServerEssentials.permissionChecker(player, "se.paytoggle")) {
                 if (args.length == 0) {
-                    if (!UserFile.fileConfig.getBoolean(player.getUniqueId() + ".tptoggle")) {
-                        UserFile.fileConfig.set(player.getUniqueId() + ".tptoggle", true);
+                    if (!UserFile.fileConfig.getBoolean(player.getUniqueId() + ".paytoggle")) {
+                        UserFile.fileConfig.set(player.getUniqueId() + ".paytoggle", true);
                         try {
                             UserFile.fileConfig.save(UserFile.file);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        String msg = Lang.fileConfig.getString("teleport-toggle-enabled");
+                        String msg = Lang.fileConfig.getString("pay-toggle-enabled");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     } else {
-                        UserFile.fileConfig.set(player.getUniqueId() + ".tptoggle", false);
+                        UserFile.fileConfig.set(player.getUniqueId() + ".paytoggle", false);
                         try {
                             UserFile.fileConfig.save(UserFile.file);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        String msg = Lang.fileConfig.getString("teleport-toggle-disabled");
+                        String msg = Lang.fileConfig.getString("pay-toggle-disabled");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }
                 } else {
-                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/tptoggle");
+                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/paytoggle");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }
