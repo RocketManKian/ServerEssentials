@@ -306,9 +306,16 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("whois").setExecutor(new Whois());
         // Ping Command
         getCommand("ping").setExecutor(new Ping());
+        // Near Command
+        getCommand("near").setExecutor(new Near());
+        // Anvil Command
+        getCommand("anvil").setExecutor(new Anvil());
+        // Seen Command
+        getCommand("seen").setExecutor(new Seen());
         // Economy
         if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
             getCommand("pay").setExecutor(new Pay());
+            getCommand("paytoggle").setExecutor(new PayToggle());
             getCommand("balance").setExecutor(new Balance());
             getCommand("baltop").setExecutor(new Baltop());
             getCommand("eco").setExecutor(new Eco());

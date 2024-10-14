@@ -13,12 +13,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import java.io.IOException;
+
 import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
 
 public class PlayerLeaveListener implements Listener {
 
     @EventHandler
-    void onPlayerLeave(PlayerQuitEvent pj) {
+    public void onPlayerLeave(PlayerQuitEvent pj) {
         Player player = pj.getPlayer();
 
         if (ServerEssentials.getPlugin().getConfig().getBoolean("enable-leave-message")) {
@@ -41,6 +43,15 @@ public class PlayerLeaveListener implements Listener {
             if (UserFile.fileConfig.getBoolean(player.getUniqueId() + ".silent")){
                 pj.setQuitMessage("");
             }
+        }
+
+        // Seen Command
+        long currentTime = System.currentTimeMillis();  // Capture current timestamp
+        UserFile.fileConfig.set(player.getUniqueId() + ".logout", currentTime);
+        try {
+            UserFile.fileConfig.save(UserFile.file);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
 
         // Vanish

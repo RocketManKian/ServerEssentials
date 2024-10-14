@@ -67,6 +67,9 @@ public class Lang {
                 fileConfig.addDefault("eco-balance-target", "&b<player>'s &aBalance: &e<balance>");
                 fileConfig.addDefault("eco-receive", "&aYou have received &e<amount> &afrom &b<player>. &aYou now have: &e<balance>");
                 fileConfig.addDefault("eco-pay", "&aPaid &b<player> &e<amount>. &aThey now have: &e<balance>");
+                fileConfig.addDefault("pay-toggle-enabled", "Players can no longer pay you");
+                fileConfig.addDefault("pay-toggle-disabled", "Players can now pay you");
+                fileConfig.addDefault("pay-disabled", "That player has paying disabled");
                 fileConfig.addDefault("eco-baltop", "&6---- Top Balances ----");
                 fileConfig.addDefault("eco-baltop-empty", "&6No player balances can be found.");
                 fileConfig.addDefault("eco-baltop-player", "&e<number>. <player>: &a<balance>");
@@ -156,6 +159,8 @@ public class Lang {
                 fileConfig.addDefault("reply-sender", "&eme &6>> &f<target> &7: <message>");
                 fileConfig.addDefault("reply-recipient", "&f<sender> &6>> &eme &7: <message>");
                 fileConfig.addDefault("reply-no-message", "There is no message to reply to");
+                fileConfig.addDefault("near-message", "&6Players nearby:");
+                fileConfig.addDefault("near-invalid", "&6No players found within &e<range> blocks:");
                 fileConfig.addDefault("playtime-self", "You have played for <days> Days <hours> Hours <minutes> Minutes <seconds> Seconds");
                 fileConfig.addDefault("playtime-target", "<target> has played for <days> Days <hours> Hours <minutes> Minutes <seconds> Seconds");
                 fileConfig.addDefault("rename-invalid-item", "Please hold a valid item to rename");
@@ -257,7 +262,7 @@ public class Lang {
                 fileConfig.addDefault("teleport-request-deny-button", "&c&l&n[Deny]&r");
                 fileConfig.addDefault("teleport-request-timeout-warning", "This request will timeout in <time> Seconds");
                 fileConfig.addDefault("teleport-request-timeout", "Teleport request timed out");
-                fileConfig.addDefault("teleport-disabled", "That person has teleporting disabled");
+                fileConfig.addDefault("teleport-disabled", "That player has teleporting disabled");
                 fileConfig.addDefault("teleport-here-blacklisted-world", "Cannot send Teleport Here Request because you are in a Blacklisted World");
                 fileConfig.addDefault("teleport-here-request-sent", "You sent a teleport here request to <target>");
                 fileConfig.addDefault("teleport-here-request-cancel-warning", "To cancel this request, type /tpacancel");
@@ -296,6 +301,11 @@ public class Lang {
                 fileConfig.addDefault("convert-successful", "Successfully converted <amount> <item> into <total> <block>");
                 fileConfig.addDefault("convert-unsuccessful", "You do not have enough <item> to convert");
                 fileConfig.addDefault("convert-invalid", "You cannot convert <item>");
+                fileConfig.addDefault("seen-online", "&6Player &e<player> &6has been &aonline &6for &c<time>." +
+                        "\n&6- UUID: &f<uuid>");
+                fileConfig.addDefault("seen-offline", "&6Player &e<player> &6was last seen &c<time> &6ago." +
+                        "\n&6- UUID: &f<uuid>");
+                fileConfig.addDefault("seen-invalid", "&6Player &e<player> &6has no available data.");
                 fileConfig.addDefault("sudo-successful", "Successfully ran command <command> for <target>");
                 fileConfig.addDefault("sudo-command-invalid", "Command <command> doesn't exist.");
                 fileConfig.addDefault("ping-self", "Ping: <ping>");
@@ -452,6 +462,18 @@ public class Lang {
 
                 if (fileConfig.getString("eco-pay") == null) {
                     fileConfig.set("eco-pay", "&aPaid &b<player> &e<amount>. &aThey now have: &e<balance>");
+                }
+
+                if (fileConfig.getString("pay-toggle-enabled") == null) {
+                    fileConfig.set("pay-toggle-enabled", "Players can no longer pay you");
+                }
+
+                if (fileConfig.getString("pay-toggle-disabled") == null) {
+                    fileConfig.set("pay-toggle-disabled", "Players can now pay you");
+                }
+
+                if (fileConfig.getString("pay-disabled") == null) {
+                    fileConfig.set("pay-disabled", "That player has paying disabled");
                 }
 
                 if (fileConfig.getString("eco-baltop") == null) {
@@ -808,6 +830,14 @@ public class Lang {
 
                 if (fileConfig.getString("reply-recipient") == null) {
                     fileConfig.set("reply-recipient", "&f<sender> &6>> &eme &7: <message>");
+                }
+
+                if (fileConfig.getString("near-message") == null) {
+                    fileConfig.set("near-message", "&6Players nearby:");
+                }
+
+                if (fileConfig.getString("near-invalid") == null){
+                    fileConfig.set("near-invalid", "&6No players found within &e<range> blocks:");
                 }
 
                 if (fileConfig.getString("playtime-self") == null) {
@@ -1341,6 +1371,20 @@ public class Lang {
 
                 if (fileConfig.getString("convert-invalid") == null) {
                     fileConfig.set("convert-invalid", "You cannot convert <item>");
+                }
+
+                if (fileConfig.getString("seen-online") == null) {
+                    fileConfig.set("seen-online", "&6Player &e<player> &6has been &aonline &6for &c<time>." +
+                            "\n&6- UUID: &f<uuid>");
+                }
+
+                if (fileConfig.getString("seen-offline") == null) {
+                    fileConfig.set("seen-offline", "&6Player &e<player> &6was last seen &c<time> &6ago." +
+                            "\n&6- UUID: &f<uuid>");
+                }
+
+                if (fileConfig.getString("seen-invalid") == null) {
+                    fileConfig.set("seen-invalid", "&6Player &e<player> &6has no available data.");
                 }
 
                 if (fileConfig.getString("sudo-successful") == null) {

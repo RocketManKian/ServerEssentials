@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 2.0.2
+# This config was generated for version 2.0.3
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -57,6 +57,10 @@ heal-cooldown: 30
 # Set to 0 to Disable
 # Restart Required
 feed-cooldown: 30
+# Near Range
+# How many Blocks the /near command should search for nearby players
+# Default: 200 Blocks
+near-range: 200
 # List Commands Below that you would like to be Disabled
 # Make sure each command is on a new line with - at the start
 # See example below:
