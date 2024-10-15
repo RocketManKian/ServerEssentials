@@ -238,6 +238,16 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("deletewarp").setTabCompleter(new TabCompletion());
         // Repair Command
         getCommand("repair").setExecutor(new Repair());
+        // Weather Command
+        getCommand("weather").setExecutor(new Weather());
+        getCommand("weather").setTabCompleter(new TabCompletion());
+        // Sun Weather Command
+        getCommand("sun").setExecutor(new Weather());
+        // Storm Weather Command
+        getCommand("storm").setExecutor(new Weather());
+        // Time Command
+        getCommand("time").setExecutor(new Time());
+        getCommand("time").setTabCompleter(new TabCompletion());
         // Sunrise Command
         getCommand("sunrise").setExecutor(new Time());
         // Day Command
@@ -248,12 +258,6 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("night").setExecutor(new Time());
         // Midnight Command
         getCommand("midnight").setExecutor(new Time());
-        // Midnight Command
-        getCommand("sun").setExecutor(new Time());
-        // Midnight Command
-        getCommand("storm").setExecutor(new Time());
-        // Midnight Command
-        getCommand("thunder").setExecutor(new Time());
         // Vanish Command
         getCommand("vanish").setExecutor(new Vanish());
         // Test Command
@@ -309,7 +313,9 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         // Near Command
         getCommand("near").setExecutor(new Near());
         // Anvil Command
-        getCommand("anvil").setExecutor(new Anvil());
+        if (isVersionOrLater("1.21.1")) {
+            getCommand("anvil").setExecutor(new Anvil());
+        }
         // Seen Command
         getCommand("seen").setExecutor(new Seen());
         // Economy
@@ -416,5 +422,40 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
 
     public static ServerEssentials getPlugin() {
         return plugin;
+    }
+
+    public boolean isVersionOrLater(String targetVersion) {
+        // Get the server's version string from Bukkit
+        String serverVersion = Bukkit.getServer().getVersion();
+
+        // Extract version number from the server string
+        String versionPattern = "([0-9]+)\\.([0-9]+)\\.([0-9]+)";
+        Pattern pattern = Pattern.compile(versionPattern);
+        Matcher matcher = pattern.matcher(serverVersion);
+
+        // If server version matches the version pattern, extract version numbers
+        if (matcher.find()) {
+            int major = Integer.parseInt(matcher.group(1));
+            int minor = Integer.parseInt(matcher.group(2));
+            int patch = Integer.parseInt(matcher.group(3));
+
+            // Parse the target version for comparison
+            String[] targetParts = targetVersion.split("\\.");
+            int targetMajor = Integer.parseInt(targetParts[0]);
+            int targetMinor = Integer.parseInt(targetParts[1]);
+            int targetPatch = Integer.parseInt(targetParts[2]);
+
+            // Compare versions: first major, then minor, then patch
+            if (major > targetMajor) {
+                return true; // Major version is higher, so it's later
+            } else if (major == targetMajor) {
+                if (minor > targetMinor) {
+                    return true; // Minor version is higher
+                } else if (minor == targetMinor && patch >= targetPatch) {
+                    return true; // Patch version is the same or higher
+                }
+            }
+        }
+        return false;
     }
 }

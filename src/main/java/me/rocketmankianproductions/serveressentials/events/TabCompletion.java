@@ -104,6 +104,29 @@ public class TabCompletion implements TabCompleter {
             }
             return autoCompletes;
         }
+        // Time Command
+        if (command.getName().equalsIgnoreCase("time")){
+            List<String> autoCompletes = new ArrayList<>();
+            if (args.length == 1){
+                autoCompletes.add("set");
+            }else if (args.length == 2){
+                autoCompletes.add("sunrise");
+                autoCompletes.add("day");
+                autoCompletes.add("sunset");
+                autoCompletes.add("night");
+                autoCompletes.add("midnight");
+            }
+            return autoCompletes;
+        }
+        // Weather Command
+        if (command.getName().equalsIgnoreCase("weather")){
+            List<String> autoCompletes = new ArrayList<>();
+            if (args.length == 1){
+                autoCompletes.add("sun");
+                autoCompletes.add("storm");
+            }
+            return autoCompletes;
+        }
         // Set Spawn Command
         if (command.getName().equalsIgnoreCase("setspawn")){
             List<String> autoCompletes = new ArrayList<>();

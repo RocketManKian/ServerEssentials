@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 2.0.3
+version: 2.0.4
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -123,6 +123,8 @@ commands:
   repair:
     description: Repair Command
     aliases: [fix]
+  weather:
+    description: Weather Command
   time:
     description: Time Command
   sunrise:
@@ -139,10 +141,10 @@ commands:
     description: Midnight Command
   sun:
     description: Clear Weather Command
-  thunder:
-    description: Storm Command
+    aliases: [clear]
   storm:
     description: Storm Command
+    aliases: [thunder]
   vanish:
     description: Vanish Command
     aliases: [v]
@@ -286,6 +288,7 @@ permissions:
       se.deletewarp: true
       se.repair: true
       se.time: true
+      se.weather: true
       se.vanish: true
       se.test: true
       se.clear: true
@@ -476,6 +479,9 @@ permissions:
     default: false
   se.time:
     description: "Time Command"
+    default: false
+  se.weather:
+    description: "Weather Command"
     default: false
   se.vanish:
     description: "Vanish Command"
