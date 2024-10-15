@@ -3,6 +3,7 @@ package me.rocketmankianproductions.serveressentials.events;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.commands.*;
 import me.rocketmankianproductions.serveressentials.file.Lang;
+import me.rocketmankianproductions.serveressentials.utils.CompatibilityUtil;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -27,9 +28,10 @@ public class PlayerClickEvent implements Listener {
     @EventHandler
     public void onClick(InventoryClickEvent e){
         Player player = (Player) e.getWhoClicked();
-        if (e.getView().getTitle().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("invsee-armor-gui")))){
+        String inventoryTitle = CompatibilityUtil.getTitle(e);
+        if (inventoryTitle.equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("invsee-armor-gui")))){
             e.setCancelled(true);
-        }else if (e.getView().getTitle().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("warp-gui-name")))){
+        }else if (inventoryTitle.equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("warp-gui-name")))){
             e.setCancelled(true);
             ItemStack item = e.getCurrentItem();
             if (item != null){
@@ -135,7 +137,7 @@ public class PlayerClickEvent implements Listener {
                     }
                 }
             }
-        }else if (e.getView().getTitle().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("home-gui-name")))) {
+        }else if (inventoryTitle.equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("home-gui-name")))) {
             Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
             e.setCancelled(true);
             ItemStack item = e.getCurrentItem();
@@ -207,7 +209,7 @@ public class PlayerClickEvent implements Listener {
                     }
                 }
             }
-        }else if (ListHomes.target != null && e.getView().getTitle().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("target-home-gui-name").replace("<target>", ListHomes.target.getName())))) {
+        }else if (ListHomes.target != null && inventoryTitle.equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("target-home-gui-name").replace("<target>", ListHomes.target.getName())))) {
             Boolean subtitle = ServerEssentials.plugin.getConfig().getBoolean("enable-home-subtitle");
             e.setCancelled(true);
             ItemStack item = e.getCurrentItem();
@@ -294,7 +296,7 @@ public class PlayerClickEvent implements Listener {
         // Delete Home Confirm GUI
         String home3 = home2;
         if (home3 != null){
-            if (e.getView().getTitle().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("delete-home-gui-name").replace("<home>", home3)))) {
+            if (inventoryTitle.equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("delete-home-gui-name").replace("<home>", home3)))) {
                 if (e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR || e.getCurrentItem().getType() == Material.GRAY_STAINED_GLASS_PANE){
                     e.setCancelled(true);
                     return;
@@ -326,7 +328,7 @@ public class PlayerClickEvent implements Listener {
         // Delete Target Home Confirm GUI
         String targethome3 = targethome2;
         if (targethome3 != null){
-            if (e.getView().getTitle().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("target-delete-home-gui-name").replace("<target>", ListHomes.target.getName()).replace("<home>", targethome3)))) {
+            if (inventoryTitle.equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("target-delete-home-gui-name").replace("<target>", ListHomes.target.getName()).replace("<home>", targethome3)))) {
                 if (e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR || e.getCurrentItem().getType() == Material.GRAY_STAINED_GLASS_PANE){
                     e.setCancelled(true);
                     return;
@@ -358,7 +360,7 @@ public class PlayerClickEvent implements Listener {
         // Delete Warp Confirm GUI
         String warp3 = warp2;
         if (warp3 != null){
-            if (e.getView().getTitle().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("delete-warp-gui-name").replace("<warp>", warp3)))) {
+            if (inventoryTitle.equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("delete-warp-gui-name").replace("<warp>", warp3)))) {
                 if (e.getCurrentItem() == null || e.getCurrentItem().getType() == Material.AIR || e.getCurrentItem().getType() == Material.GRAY_STAINED_GLASS_PANE){
                     e.setCancelled(true);
                     return;
@@ -385,7 +387,7 @@ public class PlayerClickEvent implements Listener {
                 }
             }
         }
-        if (e.getView().getTitle().equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', "&b&l" + Invsee.targetName.get(player) + "'s Inventory"))){
+        if (inventoryTitle.equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', "&b&l" + Invsee.targetName.get(player) + "'s Inventory"))){
             e.setCancelled(true);
         }
     }

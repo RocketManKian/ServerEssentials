@@ -286,13 +286,14 @@ public class Lang {
                 fileConfig.addDefault("teleport-toggle-enabled", "Teleport Requests have been Disabled");
                 fileConfig.addDefault("teleport-toggle-disabled", "Teleport Requests have been Enabled");
                 fileConfig.addDefault("teleport-movement-cancel", "Teleportation cancelled due to Movement");
-                fileConfig.addDefault("time-set", "Time set to <time>");
-                fileConfig.addDefault("time-sunrise", "Time set to Sunrise");
-                fileConfig.addDefault("time-day", "Time set to Day");
-                fileConfig.addDefault("time-sunset", "Time set to Sunset");
-                fileConfig.addDefault("time-midnight", "Time set to Midnight");
-                fileConfig.addDefault("weather-sun", "Weather changed to Sun");
-                fileConfig.addDefault("weather-storm", "Weather changed to Storm");
+                fileConfig.addDefault("time-set", "&6Time set to &c<time> ticks &6in: &c<world>");
+                fileConfig.addDefault("time-sunrise", "&6Time set to &cSunrise &6in: &c<world>");
+                fileConfig.addDefault("time-day", "&6Time set to &cDay &6in: &c<world>");
+                fileConfig.addDefault("time-sunset", "&6Time set to &cSunset &6in: &c<world>");
+                fileConfig.addDefault("time-night", "&6Time set to &cNight &6in: &c<world>");
+                fileConfig.addDefault("time-midnight", "&6Time set to &cMidnight &6in: &c<world>");
+                fileConfig.addDefault("weather-sun", "&6Weather set to &cSun &6in: &c<world>");
+                fileConfig.addDefault("weather-storm", "&6Weather set to &cStorm &6in: &c<world>");
                 fileConfig.addDefault("trash-gui-name", "Trash Chute");
                 fileConfig.addDefault("vanish-enabled", "You are now invisible!");
                 fileConfig.addDefault("vanish-disabled", "You are now visible to other players on the server");
@@ -1314,31 +1315,35 @@ public class Lang {
                 }
 
                 if (fileConfig.getString("time-set") == null) {
-                    fileConfig.set("time-set", "Time set to <time>");
+                    fileConfig.set("time-set", "&6Time set to &c<time> ticks &6in: &c<world>");
                 }
 
                 if (fileConfig.getString("time-sunrise") == null) {
-                    fileConfig.set("time-sunrise", "Time set to Sunrise");
+                    fileConfig.set("time-sunrise", "&6Time set to &cSunrise &6in: &c<world>");
                 }
 
                 if (fileConfig.getString("time-day") == null) {
-                    fileConfig.set("time-day", "Time set to Day");
+                    fileConfig.set("time-day", "&6Time set to &cDay &6in: &c<world>");
                 }
 
                 if (fileConfig.getString("time-sunset") == null) {
-                    fileConfig.set("time-sunset", "Time set to Sunset");
+                    fileConfig.set("time-sunset", "&6Time set to &cSunset &6in: &c<world>");
+                }
+
+                if (fileConfig.getString("time-night") == null) {
+                    fileConfig.set("time-night", "&6Time set to &cNight &6in: &c<world>");
                 }
 
                 if (fileConfig.getString("time-midnight") == null) {
-                    fileConfig.set("time-midnight", "Time set to Midnight");
+                    fileConfig.set("time-midnight", "&6Time set to &cMidnight &6in: &c<world>");
                 }
 
                 if (fileConfig.getString("weather-sun") == null) {
-                    fileConfig.set("weather-sun", "Weather changed to Sun");
+                    fileConfig.set("weather-sun", "&6Weather set to &cSun &6in: &c<world>");
                 }
 
                 if (fileConfig.getString("weather-storm") == null) {
-                    fileConfig.set("weather-storm", "Weather changed to Storm");
+                    fileConfig.set("weather-storm", "&6Weather set to &cStorm &6in: &c<world>");
                 }
 
                 if (fileConfig.getString("trash-gui-name") == null) {
