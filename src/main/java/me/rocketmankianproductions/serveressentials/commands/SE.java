@@ -79,7 +79,7 @@ public class SE implements CommandExecutor {
                             + "\n/repair - Repairs the item you are holding"
                             + "\n/repair all - Repairs all items in your Inventory"
                             + "\n/weather (sun/storm) - Sets Weather of the current world to specified weather"
-                            + "\n/time (time/sunrise/day/sunset/night/midnight/storm/sun) - Sets Time of the current world to specified time"
+                            + "\n/time (set/sunrise/day/sunset/night/midnight) - Sets Time of the current world to specified time"
                             + "\n/sunrise - Changes Time to Sunrise"
                             + "\n/day - Changes Time to Day"
                             + "\n/sunset - Changes Time to Sunset"
