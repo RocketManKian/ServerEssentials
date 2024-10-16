@@ -286,6 +286,7 @@ public class Lang {
                 fileConfig.addDefault("teleport-toggle-enabled", "Teleport Requests have been Disabled");
                 fileConfig.addDefault("teleport-toggle-disabled", "Teleport Requests have been Enabled");
                 fileConfig.addDefault("teleport-movement-cancel", "Teleportation cancelled due to Movement");
+                fileConfig.addDefault("time-message", "&6Current Time in &c<world> &6is: &c<24time> &6or &c<12time> &6or &c<time> ticks");
                 fileConfig.addDefault("time-set", "&6Time set to &c<time> ticks &6in: &c<world>");
                 fileConfig.addDefault("time-sunrise", "&6Time set to &cSunrise &6in: &c<world>");
                 fileConfig.addDefault("time-day", "&6Time set to &cDay &6in: &c<world>");
@@ -1312,6 +1313,10 @@ public class Lang {
 
                 if (fileConfig.getString("teleport-movement-cancel") == null) {
                     fileConfig.set("teleport-movement-cancel", "Teleportation cancelled due to Movement");
+                }
+
+                if (fileConfig.getString("time-message") == null) {
+                    fileConfig.set("time-message", "&6Current Time is: &c<24time> &6or &c<12time> &6or &c<time> ticks");
                 }
 
                 if (fileConfig.getString("time-set") == null) {
