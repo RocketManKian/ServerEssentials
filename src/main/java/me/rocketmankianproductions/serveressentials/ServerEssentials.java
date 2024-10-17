@@ -312,9 +312,11 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("ping").setExecutor(new Ping());
         // Near Command
         getCommand("near").setExecutor(new Near());
-        // Anvil Command
+        // Anvil, Cartography and Loom Command
         if (isVersionOrLater("1.21.1")) {
             getCommand("anvil").setExecutor(new Anvil());
+            getCommand("cartographytable").setExecutor(new CartographyTable());
+            getCommand("loom").setExecutor(new Loom());
         }
         // Seen Command
         getCommand("seen").setExecutor(new Seen());
@@ -458,5 +460,4 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         }
         return false;
     }
-
 }

@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 2.0.5
+version: 2.0.6
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -223,6 +223,11 @@ commands:
     description: Near Command
   anvil:
     description: Anvil Command
+  cartographytable:
+    description: Cartography Command
+    aliases: [cartography]
+  loom:
+    description: Loom Command
   seen:
     description: Seen Command
 permissions:
@@ -323,6 +328,8 @@ permissions:
       se.eco: true
       se.near: true
       se.anvil: true
+      se.cartography: true
+      se.loom: true
       se.seen: true
   se.reload:
     description: "Gives access to the /se reload command."
@@ -602,6 +609,12 @@ permissions:
     default: false
   se.anvil:
     description: "Anvil Command Permission"
+    default: false
+  se.cartography:
+    description: "Cartography Command Permission"
+    default: false
+  se.loom:
+    description: "Loom Command Permission"
     default: false
   se.seen:
     description: "Seen Command Permission"
