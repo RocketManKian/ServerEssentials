@@ -73,6 +73,8 @@ public class SE implements CommandExecutor {
                             + "\n/eco <give/take/set/reset> <player/all/*> - Admin Economy Command for managing money"
                             + "\n/craft - Opens the Crafting GUI"
                             + "\n/anvil - Opens the Anvil GUI"
+                            + "\n/cartography - Opens the Cartography Table GUI"
+                            + "\n/loom - Opens the Loom GUI"
                             + "\n/setwarp (name) - Sets a Warp with the Following Name"
                             + "\n/deletewarp (name) - Deletes the Warp with the Following Name"
                             + "\n/warp (name) - Warps to the Following Name"
