@@ -38,7 +38,7 @@ public class Warp implements CommandExecutor {
                     if (Setwarp.file.exists() && Setwarp.fileConfig.getString("Warp." + args[0] + ".World") != null) {
                         if (player.hasPermission("se.warps.all") || ServerEssentials.permissionChecker(player, "se.warps." + args[0])) {
                             Location loc = getLocation(args);
-                            if (ServerEssentials.plugin.getConfig().getInt("warp-teleport") == 0) {
+                            if (ServerEssentials.plugin.getConfig().getInt("warp-teleport") == 0 || player.hasPermission("se.warp.bypass")) {
                                 warpSave(player);
                                 warpTeleport(player, loc, "warp-message", subtitle, args[0]);
                             } else {

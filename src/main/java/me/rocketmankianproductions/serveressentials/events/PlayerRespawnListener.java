@@ -14,7 +14,6 @@ public class PlayerRespawnListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     void onPlayerDie(PlayerRespawnEvent re) {
         Location loc;
-
         if (ServerEssentials.getPlugin().getConfig().getBoolean("spawn-on-death") && Setspawn.fileConfig.getString("Location.World") != null) {
             // Gathering Location
             float yaw = Setspawn.fileConfig.getInt("Location.Yaw");

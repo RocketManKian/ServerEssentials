@@ -9,8 +9,14 @@ import org.bukkit.event.Listener;
 public class PlayerDeathEvent implements Listener {
 
     @EventHandler
-    void onPlayerDeath(org.bukkit.event.entity.PlayerDeathEvent d) {
+    public void onPlayerDeath(org.bukkit.event.entity.PlayerDeathEvent d) {
         Player player = d.getEntity();
+        if (player.hasPermission("se.keepinventory")){
+            d.setKeepInventory(true);
+            d.getDrops().clear();
+        }else{
+            d.setKeepInventory(false);
+        }
         if (ServerEssentials.plugin.getConfig().getBoolean("death-save")){
             if (Back.location.containsKey(player.getUniqueId())){
                 Back.location.remove(player.getUniqueId());

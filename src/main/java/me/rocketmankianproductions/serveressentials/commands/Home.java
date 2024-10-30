@@ -43,23 +43,9 @@ public class Home implements CommandExecutor {
                                 home = key;
                             }
                             Location loc = getLocation(player, home);
-                            if (ServerEssentials.plugin.getConfig().getInt("home-teleport") == 0) {
+                            if (ServerEssentials.plugin.getConfig().getInt("home-teleport") == 0 || player.hasPermission("se.home.bypass")) {
                                 homeSave(player);
-                                if (loc.isWorldLoaded()) {
-                                    player.teleport(loc);
-                                    if (subtitle) {
-                                        String msg = ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("home-subtitle").replace("<home>", home)));
-                                        player.sendTitle((msg), null);
-                                        return true;
-                                    } else {
-                                        String msg = Lang.fileConfig.getString("home-message");
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg).replace("<home>", home)));
-                                        return true;
-                                    }
-                                } else {
-                                    String msg = Lang.fileConfig.getString("home-world-invalid");
-                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                                }
+                                homeTeleport(player, loc, "home-message", subtitle, home);
                             } else {
                                 if (ServerEssentials.plugin.getConfig().getBoolean("home-movement-cancel")) {
                                     cancel.add(player.getUniqueId());
@@ -173,7 +159,7 @@ public class Home implements CommandExecutor {
                     if (Sethome.file.exists() && Sethome.fileConfig.getString("Home." + name + "." + args[0] + ".World") != null) {
                         Location loc = getLocation(player, args[0]);
                         if (args.length == 1) {
-                            if (ServerEssentials.plugin.getConfig().getInt("home-teleport") == 0) {
+                            if (ServerEssentials.plugin.getConfig().getInt("home-teleport") == 0 || player.hasPermission("se.home.bypass")) {
                                 homeSave(player);
                                 homeTeleport(player, loc, "home-message", subtitle, args[0]);
                             } else {
@@ -236,7 +222,7 @@ public class Home implements CommandExecutor {
                                         if (Sethome.file.exists() && Sethome.fileConfig.getString("Home." + targetname + "." + args[1] + ".World") != null) {
                                             // Gathering Location
                                             Location loc = getLocation(player, args[1]);
-                                            if (ServerEssentials.plugin.getConfig().getInt("home-teleport") == 0) {
+                                            if (ServerEssentials.plugin.getConfig().getInt("home-teleport") == 0 || player.hasPermission("se.home.bypass")) {
                                                 if (!loc.isWorldLoaded()) {
                                                     sendErrorMessage(player, "home-world-invalid");
                                                     return true;
