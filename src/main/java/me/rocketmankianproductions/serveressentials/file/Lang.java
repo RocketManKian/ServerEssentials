@@ -232,6 +232,8 @@ public class Lang {
                 fileConfig.addDefault("jump-message", "&6Bounce like a Bunny!");
                 fileConfig.addDefault("jump-remove-message", "&6You can &cno longer &6Bounce like a Bunny");
                 fileConfig.addDefault("thor-message", "&6You have been &cstruck &6by lightning");
+                fileConfig.addDefault("thor-location", "&6Striked lightning at location");
+                fileConfig.addDefault("thor-invalid", "&6Location is too far away");
                 fileConfig.addDefault("speed-invalid-number", "Please provide a speed from 1-10");
                 fileConfig.addDefault("speed-fly-success", "Flying speed is now <speed>");
                 fileConfig.addDefault("speed-walk-success", "Walking speed is now <speed>");
@@ -1105,6 +1107,14 @@ public class Lang {
 
                 if (fileConfig.getString("thor-message") == null) {
                     fileConfig.set("thor-message", "&6You have been &cstruck &6by lightning");
+                }
+
+                if (fileConfig.getString("thor-location") == null) {
+                    fileConfig.set("thor-location", "&6Striked lightning at location");
+                }
+
+                if (fileConfig.getString("thor-invalid") == null) {
+                    fileConfig.set("thor-invalid", "&6Location is too far away");
                 }
 
                 if (fileConfig.getString("speed-invalid-number") == null) {
