@@ -37,7 +37,7 @@ public class Spawn implements CommandExecutor {
                         if (command.getName().equalsIgnoreCase("tutorial")){
                             if (!checkNewbiesSpawn(sender)) {
                                 Location loc = getNewbiesLocation();
-                                if (ServerEssentials.plugin.getConfig().getInt("spawn-teleport") == 0){
+                                if (ServerEssentials.plugin.getConfig().getInt("spawn-teleport") == 0 || player.hasPermission("se.spawn.bypass")){
                                     spawnSave(player);
                                     spawnTeleport(player, loc, "newbies-spawn-successful");
                                 }else {
@@ -82,7 +82,7 @@ public class Spawn implements CommandExecutor {
                         }else if (command.getName().equalsIgnoreCase("spawn")) {
                             if (!checkSpawn(sender)){
                                 Location loc = getLocation();
-                                if (ServerEssentials.plugin.getConfig().getInt("spawn-teleport") == 0) {
+                                if (ServerEssentials.plugin.getConfig().getInt("spawn-teleport") == 0 || player.hasPermission("se.spawn.bypass")) {
                                     spawnSave(player);
                                     spawnTeleport(player, loc, "spawn-successful");
                                 } else {
@@ -130,7 +130,7 @@ public class Spawn implements CommandExecutor {
                         if (args[0].equalsIgnoreCase("newbies")) {
                             if (!checkNewbiesSpawn(sender)){
                                 Location loc = getNewbiesLocation();
-                                if (ServerEssentials.plugin.getConfig().getInt("spawn-teleport") == 0) {
+                                if (ServerEssentials.plugin.getConfig().getInt("spawn-teleport") == 0 || player.hasPermission("se.spawn.bypass")) {
                                     spawnSave(player);
                                     spawnTeleport(player, loc, "newbies-spawn-successful");
                                 } else {

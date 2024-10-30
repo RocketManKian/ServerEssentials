@@ -94,6 +94,9 @@ public class Lang {
                 fileConfig.addDefault("fly-target-enabled", "<target> can now fly");
                 fileConfig.addDefault("fly-target-disabled", "<target> can no longer fly");
                 fileConfig.addDefault("fly-blacklisted-world", "Cannot use Fly Command in a Blacklisted World");
+                fileConfig.addDefault("fire-success-self", "&6You have set yourself on fire for &c<time> seconds");
+                fileConfig.addDefault("fire-success-target", "&6You have set &c<target> &6on fire for &c<time> seconds");
+                fileConfig.addDefault("fire-receive-target", "&6You have been set on fire by &c<player> &6for &c<time> seconds");
                 fileConfig.addDefault("gamemode-creative-self", "You are now in Creative");
                 fileConfig.addDefault("gamemode-creative-target", "Set <target> into Creative");
                 fileConfig.addDefault("gamemode-survival-self", "You are now in Survival");
@@ -226,6 +229,9 @@ public class Lang {
                 fileConfig.addDefault("socialspy-enabled", "SocialSpy has been Enabled");
                 fileConfig.addDefault("socialspy-disabled", "SocialSpy has been Disabled");
                 fileConfig.addDefault("socialspy-message", "&c[SocialSpy] &f<sender> &6>> &f<target> &7: <message>");
+                fileConfig.addDefault("jump-message", "&6Bounce like a Bunny!");
+                fileConfig.addDefault("jump-remove-message", "&6You can &cno longer &6Bounce like a Bunny");
+                fileConfig.addDefault("thor-message", "&6You have been &cstruck &6by lightning");
                 fileConfig.addDefault("speed-invalid-number", "Please provide a speed from 1-10");
                 fileConfig.addDefault("speed-fly-success", "Flying speed is now <speed>");
                 fileConfig.addDefault("speed-walk-success", "Walking speed is now <speed>");
@@ -312,6 +318,8 @@ public class Lang {
                 fileConfig.addDefault("sudo-command-invalid", "Command <command> doesn't exist.");
                 fileConfig.addDefault("ping-self", "Ping: <ping>");
                 fileConfig.addDefault("ping-target", "<target>'s Ping: <ping>");
+                fileConfig.addDefault("world-success", "&6Teleported to World &c<world>");
+                fileConfig.addDefault("world-invalid", "&6World &c<world> &6isn't loaded!");
                 fileConfig.options().copyDefaults(true);
                 fileConfig.save(file);
                 LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "Lang.yml file created");
@@ -572,6 +580,18 @@ public class Lang {
 
                 if (fileConfig.getString("fly-blacklisted-world") == null) {
                     fileConfig.set("fly-blacklisted-world", "Cannot use Fly Command in a Blacklisted World");
+                }
+
+                if (fileConfig.getString("fire-success-self") == null) {
+                    fileConfig.set("fire-success-self", "&6You have set yourself on fire for &c<time> seconds");
+                }
+
+                if (fileConfig.getString("fire-success-target") == null) {
+                    fileConfig.set("fire-success-target", "&6You have set &c<target> &6on fire for &c<time> seconds");
+                }
+
+                if (fileConfig.getString("fire-receive-target") == null) {
+                    fileConfig.set("fire-receive-target", "&6You have been set on fire by &c<player> &6for &c<time> seconds");
                 }
 
                 if (fileConfig.getString("gamemode-creative-self") == null) {
@@ -1075,6 +1095,18 @@ public class Lang {
                     fileConfig.set("socialspy-message", "&c[SocialSpy] &f<sender> &6>> &f<target> &7: <message>");
                 }
 
+                if (fileConfig.getString("jump-message") == null) {
+                    fileConfig.set("jump-message", "&6Bounce like a Bunny!");
+                }
+
+                if (fileConfig.getString("jump-remove-message") == null) {
+                    fileConfig.set("jump-remove-message", "&6You can &cno longer &6Bounce like a Bunny");
+                }
+
+                if (fileConfig.getString("thor-message") == null) {
+                    fileConfig.set("thor-message", "&6You have been &cstruck &6by lightning");
+                }
+
                 if (fileConfig.getString("speed-invalid-number") == null) {
                     fileConfig.set("speed-invalid-number", "Please provide a speed from 1-10");
                 }
@@ -1411,6 +1443,14 @@ public class Lang {
 
                 if (fileConfig.getString("ping-target") == null) {
                     fileConfig.set("ping-target", "<target>'s Ping: <ping>");
+                }
+
+                if (fileConfig.getString("world-success") == null) {
+                    fileConfig.set("world-success", "&6Teleported to World &c<world>");
+                }
+
+                if (fileConfig.getString("world-invalid") == null) {
+                    fileConfig.set("world-invalid", "&6World &c<world> &6isn't loaded!");
                 }
                 fileConfig.options().copyDefaults(true);
                 fileConfig.save(file);

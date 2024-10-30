@@ -28,7 +28,7 @@ public class Vanish implements CommandExecutor {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     }else if(!ServerEssentials.getPlugin().invisible_list.contains(player)){
                         for (Player people : Bukkit.getOnlinePlayers()){
-                            if (!people.hasPermission("se.vanish")){
+                            if (!people.hasPermission("se.vanish.see")){
                                 people.hidePlayer(ServerEssentials.getPlugin(), player);
                             }
                         }
@@ -57,7 +57,7 @@ public class Vanish implements CommandExecutor {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
                     } else if (!ServerEssentials.getPlugin().invisible_list.contains(target)){
                         for (Player people : Bukkit.getOnlinePlayers()){
-                            if (!people.hasPermission("se.vanish")){
+                            if (!people.hasPermission("se.vanish.see")){
                                 people.hidePlayer(ServerEssentials.getPlugin(), target);
                             }
                         }

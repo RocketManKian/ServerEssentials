@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 2.0.6
+version: 2.0.7
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -162,6 +162,7 @@ commands:
     description: Test Permission Command
   clear:
     description: Clear Command
+    aliases: [ci]
   god:
     description: God Command
     aliases: [godmode]
@@ -228,8 +229,25 @@ commands:
     aliases: [cartography]
   loom:
     description: Loom Command
+  smithingtable:
+    description: Smithing Command
+    aliases: [smithing]
+  stonecutter:
+    description: Stonecutter Command
+  grindstone:
+    description: Grindstone Command
+    aliases: [grind]
   seen:
     description: Seen Command
+  thor:
+    description: Thor Command
+    aliases: [strike]
+  fireball:
+    description: Fireball Command
+  world:
+    description: World Command
+  burn:
+    description: Burn Command
 permissions:
   se.all:
     description: "Gives access to all commands."
@@ -247,6 +265,7 @@ permissions:
       se.setspawn: true
       se.spawn: true
       se.spawn.others: true
+      se.spawn.bypass: true
       se.deletespawn: true
       se.alert: true
       se.silentjoin: true
@@ -254,6 +273,7 @@ permissions:
       se.sethome.unlimited: true
       se.home: true
       se.home.others: true
+      se.home.bypass: true
       se.listhomes: true
       se.sendhome: true
       se.deletehome: true
@@ -289,12 +309,14 @@ permissions:
       se.setwarp: true
       se.setwarp.block: true
       se.warp: true
+      se.warp.bypass: true
       se.sendwarp: true
       se.deletewarp: true
       se.repair: true
       se.time: true
       se.weather: true
       se.vanish: true
+      se.vanish.see: true
       se.test: true
       se.clear: true
       se.god: true
@@ -330,7 +352,15 @@ permissions:
       se.anvil: true
       se.cartography: true
       se.loom: true
+      se.smithingtable: true
+      se.stonecutter: true
+      se.grindstone: true
       se.seen: true
+      se.thor: true
+      se.jump: true
+      se.fireball: true
+      se.world: true
+      se.burn: true
   se.reload:
     description: "Gives access to the /se reload command."
     default: false
@@ -364,6 +394,9 @@ permissions:
   se.spawn:
     description: "Gives access to the /spawn command"
     default: false
+  se.spawn.bypass:
+    description: "Spawn Bypass Permission"
+    default: false
   se.spawn.others:
     description: "Gives access to the teleporting other players to Spawn"
     default: false
@@ -382,6 +415,18 @@ permissions:
   se.home:
     description: "Teleport To Home"
     default: false
+  se.home.others:
+    description: "Home Others Command"
+    default: false
+  se.home.bypass:
+    description: "Home Teleport Bypass"
+    default: false
+  se.sendhome:
+    description: "Send Home Command"
+    default: false
+  se.listhomes:
+    description: "List Homes Command"
+    default: false
   se.deletehome:
     description: "Deletes Home"
     default: false
@@ -390,6 +435,9 @@ permissions:
     default: false
   se.teleport:
     description: "Teleport Command"
+    default: false
+  se.teleport.bypass:
+    description: "Teleport Bypass Permission"
     default: false
   se.teleport.coords:
     description: "Teleport Coords Command"
@@ -478,6 +526,9 @@ permissions:
   se.warp:
     description: "Warp Command"
     default: false
+  se.warp.bypass:
+    description: "Warp Bypass Permission"
+    default: false
   se.deletewarp:
     description: "Delete Warp Command"
     default: false
@@ -493,6 +544,9 @@ permissions:
   se.vanish:
     description: "Vanish Command"
     default: false
+  se.vanish.see:
+    description: "Vanish See Permission"
+    default: false
   se.test:
     description: "Test Command"
     default: false
@@ -504,15 +558,6 @@ permissions:
     default: false
   se.hat:
     description: "Hat Command"
-    default: false
-  se.home.others:
-    description: "Home Others Command"
-    default: false
-  se.sendhome:
-    description: "Send Home Command"
-    default: false
-  se.listhomes:
-    description: "List Homes Command"
     default: false
   se.tpacancel:
     description: "TPA Cancel Command"
@@ -568,9 +613,6 @@ permissions:
   se.back.bypass:
     description: "Back Bypass Permission"
     default: false
-  se.teleport.bypass:
-    description: "Teleport Bypass Permission"
-    default: false
   se.convert:
     description: "Convert Command Permission"
     default: false
@@ -616,6 +658,33 @@ permissions:
   se.loom:
     description: "Loom Command Permission"
     default: false
+  se.smithingtable:
+    description: "Smithing Table Command Permission"
+    default: false
+  se.stonecutter:
+    description: "Stonecutter Command Permission"
+    default: false
+  se.grindstone:
+    description: "Grindstone Command Permission"
+    default: false
   se.seen:
     description: "Seen Command Permission"
+    default: false
+  se.thor:
+    description: "Thor Command Permission"
+    default: false
+  se.jump:
+    description: "Jump Command Permission"
+    default: false
+  se.keepinventory:
+    description: "Keep Inventory Permission"
+    default: false
+  se.fireball:
+    description: "Fireball Command Permission"
+    default: false
+  se.world:
+    description: "World Command Permission"
+    default: false
+  se.burn:
+    description: "Burn Command Permission"
     default: false

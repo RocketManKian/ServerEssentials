@@ -5,6 +5,7 @@ import me.rocketmankianproductions.serveressentials.commands.Setspawn;
 import me.rocketmankianproductions.serveressentials.commands.Setwarp;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
@@ -91,6 +92,16 @@ public class TabCompletion implements TabCompleter {
                     return autoCompletes; // then return the list
                 }
             }
+        }
+        // World Command
+        if (command.getName().equalsIgnoreCase("world")){
+            List<String> autoCompletes = new ArrayList<>();
+            if (args.length == 1){
+                for (World world : Bukkit.getWorlds()){
+                    autoCompletes.add(world.getName());
+                }
+            }
+            return autoCompletes;
         }
         // Spawn Command
         if (command.getName().equalsIgnoreCase("spawn")){

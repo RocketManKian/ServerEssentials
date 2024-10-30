@@ -42,7 +42,7 @@ public class PlayerClickEvent implements Listener {
                     warp2 = warp;
                 }else if (e.getClick()==ClickType.LEFT) {
                     if (player.hasPermission("se.warps.all") || ServerEssentials.permissionChecker(player, "se.warps." + warp)) {
-                        if (ServerEssentials.plugin.getConfig().getInt("warp-teleport") == 0){
+                        if (ServerEssentials.plugin.getConfig().getInt("warp-teleport") == 0 || player.hasPermission("se.warp.bypass")){
                             Location loc = getWarpLocation(warp, player);
                             Warp.warpSave(player);
                             if (loc.isWorldLoaded()){
@@ -148,7 +148,7 @@ public class PlayerClickEvent implements Listener {
                     confirmDenyGUI(player, "home", home);
                     home2 = home;
                 } else if (e.getClick() == ClickType.LEFT) {
-                    if (ServerEssentials.plugin.getConfig().getInt("home-teleport") == 0) {
+                    if (ServerEssentials.plugin.getConfig().getInt("home-teleport") == 0 || player.hasPermission("se.home.bypass")) {
                         Location loc = getHomeLocation(home, player);
                         Home.homeSave(player);
                         if (loc != null){
@@ -241,7 +241,7 @@ public class PlayerClickEvent implements Listener {
                     player.openInventory(confirm);
                     targethome2 = home;
                 } else if (e.getClick() == ClickType.LEFT) {
-                    if (ServerEssentials.plugin.getConfig().getInt("home-teleport") == 0) {
+                    if (ServerEssentials.plugin.getConfig().getInt("home-teleport") == 0 || player.hasPermission("se.home.bypass")) {
                         Location loc = getHomeLocation(home, ListHomes.target);
                         Home.homeSave(player);
                         Home.homeTeleport(player, loc, "home-message", subtitle, home);

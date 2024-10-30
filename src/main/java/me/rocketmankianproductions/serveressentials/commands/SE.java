@@ -75,6 +75,9 @@ public class SE implements CommandExecutor {
                             + "\n/anvil - Opens the Anvil GUI"
                             + "\n/cartography - Opens the Cartography Table GUI"
                             + "\n/loom - Opens the Loom GUI"
+                            + "\n/smithingtable - Opens the Smithing Table GUI"
+                            + "\n/stonecutter - Opens the Stonecutter GUI"
+                            + "\n/grindstone - Opens the Grindstone GUI"
                             + "\n/setwarp (name) - Sets a Warp with the Following Name"
                             + "\n/deletewarp (name) - Deletes the Warp with the Following Name"
                             + "\n/warp (name) - Warps to the Following Name"
@@ -110,10 +113,15 @@ public class SE implements CommandExecutor {
                             + "\n/reportbug (bug) - Report specified Bug to Admins"
                             + "\n/back - Teleports to Previous Location"
                             + "\n/convert - Converts Items into Block Form"
-                            + "\n/sudo (player) <command> - Executes a Command as the Targeted Player."
-                            + "\n/sudo %console% <command> - Executes a Command as Console."
+                            + "\n/sudo (player) <command> - Executes a Command as the Targeted Player"
+                            + "\n/sudo %console% <command> - Executes a Command as Console"
+                            + "\n/thor <target> - Strike Lightning"
+                            + "\n/jump <target> - Activate Jump Boost"
+                            + "\n/fireball - Fire a Fireball"
+                            + "\n/burn <target> <seconds> - Burn Player"
+                            + "\n/world <world> - Teleport to specified World."
                             + "\n/near - Displays all Nearby Players."
-                            + "\n/seen <player> - Shows when the Player was last active alongside their UUID."
+                            + "\n/seen <player> - Shows when the Player was last active alongside their UUID"
                             + "\n/whois <player> - Lists various pieces of Player Info");
                     return true;
                 }

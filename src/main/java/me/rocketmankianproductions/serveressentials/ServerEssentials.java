@@ -317,9 +317,23 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
             getCommand("anvil").setExecutor(new Anvil());
             getCommand("cartographytable").setExecutor(new CartographyTable());
             getCommand("loom").setExecutor(new Loom());
+            getCommand("smithingtable").setExecutor(new SmithingTable());
+            getCommand("stonecutter").setExecutor(new Stonecutter());
+            getCommand("grindstone").setExecutor(new Grindstone());
         }
         // Seen Command
         getCommand("seen").setExecutor(new Seen());
+        // Thor Command
+        getCommand("thor").setExecutor(new Thor());
+        // Jump Command
+        getCommand("jump").setExecutor(new Jump());
+        // Fireball Command
+        getCommand("fireball").setExecutor(new Fireball());
+        // Burn Command
+        getCommand("burn").setExecutor(new Burn());
+        // World Command
+        getCommand("world").setExecutor(new World());
+        getCommand("world").setTabCompleter(new TabCompletion());
         // Economy
         if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
             getCommand("pay").setExecutor(new Pay());
