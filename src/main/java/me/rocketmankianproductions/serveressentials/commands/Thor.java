@@ -9,6 +9,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.util.RayTraceResult;
 import org.jetbrains.annotations.NotNull;
 
 import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
@@ -19,14 +20,21 @@ public class Thor implements CommandExecutor {
         if (commandSender instanceof Player){
             Player player = (Player) commandSender;
             if (ServerEssentials.permissionChecker(player, "se.thor")){
-                String thormsg = Lang.fileConfig.getString("thor-message");
                 if (args.length == 0){
-                    player.getWorld().strikeLightning(player.getLocation());
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(thormsg)));
+                    RayTraceResult result = player.getWorld().rayTraceBlocks(player.getEyeLocation(), player.getEyeLocation().getDirection(), 50);
+                    if (result != null && result.getHitBlock() != null) {
+                        player.getWorld().strikeLightning(result.getHitPosition().toLocation(player.getWorld()));
+                        String thormsg = Lang.fileConfig.getString("thor-location");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(thormsg)));
+                    }else{
+                        String thormsg = Lang.fileConfig.getString("thor-invalid");
+                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(thormsg)));
+                    }
                     return true;
                 }else if (args.length >= 1){
                     OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
                     if (target.isOnline()){
+                        String thormsg = Lang.fileConfig.getString("thor-message");
                         target.getPlayer().getWorld().strikeLightning(target.getPlayer().getLocation());
                         target.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', hex(thormsg)));
                         return true;
