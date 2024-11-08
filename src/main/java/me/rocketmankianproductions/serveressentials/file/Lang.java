@@ -83,7 +83,7 @@ public class Lang {
                 fileConfig.addDefault("eco-take-target", "&b<player> &ahas taken &e<amount>. New Balance: &e<balance>");
                 fileConfig.addDefault("eco-set", "&aSet &b<player>'s &abalance to &e<balance>");
                 fileConfig.addDefault("eco-set-all", "&aSet &beveryone's &abalance to &e<balance>");
-                fileConfig.addDefault("eco-set-target", "&aYour balance has been set to &e<balance>");
+                fileConfig.addDefault("eco-set-target", "&aYour balance has been set to &e<balance> &aby &b<player>");
                 fileConfig.addDefault("eco-reset", "&aReset &b<player>'s &abalance to &e<balance>");
                 fileConfig.addDefault("eco-reset-all", "&aReset everyone's &abalance to &e<balance>");
                 fileConfig.addDefault("eco-reset-target", "&aYour balance has been reset by &b<player> &ato &e<balance>");
@@ -544,7 +544,7 @@ public class Lang {
                 }
 
                 if (fileConfig.getString("eco-set-target") == null) {
-                    fileConfig.set("eco-set-target", "&aYour balance has been set to &e<balance>");
+                    fileConfig.set("eco-set-target", "&aYour balance has been set to &e<balance> &aby &b<player>");
                 }
 
                 if (fileConfig.getString("eco-reset") == null) {
