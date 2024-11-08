@@ -89,7 +89,7 @@ public class Home implements CommandExecutor {
                         } else {
                             if (ServerEssentials.plugin.getConfig().getBoolean("enable-home-gui")) {
                                 int index = 0;
-                                Integer size = ServerEssentials.plugin.getConfig().getInt("home-gui-size");
+                                int size = ServerEssentials.plugin.getConfig().getInt("home-gui-size");
                                 Inventory inv = Bukkit.createInventory(player, size, ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("home-gui-name")));
                                 String homeitem = ServerEssentials.plugin.getConfig().getString("home-item");
                                 ItemStack item = new ItemStack(Material.getMaterial(homeitem));

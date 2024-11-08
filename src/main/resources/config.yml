@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 2.0.8
+# This config was generated for version 2.0.9
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -74,6 +74,10 @@ feed-cooldown: 30
 # How many Blocks the /near command should search for nearby players
 # Default: 200 Blocks
 near-range: 200
+# Determine the amount of slots inside the Trash GUI
+# Minimum: '9'
+# Default: 27
+trash-gui-size: 27
 # List Commands Below that you would like to be Disabled
 # Make sure each command is on a new line with - at the start
 # See example below:
@@ -180,7 +184,7 @@ warp-name-colour: "&a"
 # Enable Subtitle Text on screen when teleporting to a Warp
 # Default: false
 enable-warp-subtitle: false
-# How many Seconds the Player has to wait before they are teleported to a Warp
+# How many Seconds the Player has to wait before they are teleported to a Warp (in Seconds)
 # Set to '0' to Disable
 # Default: 5
 warp-teleport: 5
@@ -217,7 +221,7 @@ enable-home-subtitle: false
 # Default Home Count
 # Default: 3
 default-home-count: 3
-# How many Seconds the Player has to wait before they are teleported to Home
+# How many Seconds the Player has to wait before they are teleported to Home (in Seconds)
 # Set to '0' to Disable
 # Default: 5
 home-teleport: 5
@@ -249,7 +253,7 @@ enable-teleport-in-world: false
 # How long until Teleport Requests Timeout (in Seconds)
 # Default: 30
 teleport-cancel: 30
-# How many Seconds the Player has to wait before they are teleported to someone
+# How many Seconds the Player has to wait before they are teleported to someone (in Seconds)
 # Set to '0' to Disable
 # Default: 5
 teleport-wait: 5
@@ -257,7 +261,7 @@ teleport-wait: 5
 # Only works if 'teleport-wait' is higher than 0
 # Default: true
 teleport-movement-cancel: true
-# How long Players have to wait until they can use the Teleport Command again
+# How long Players have to wait until they can use the Teleport Command again (in Seconds)
 # Set to 0 to Disable
 # Restart Required
 # Default: 30
@@ -291,12 +295,12 @@ enable-back-blacklist: false
 # Blacklist Worlds where Player's cannot use /back
 back-blacklist:
   - world
-# How long Players have to wait until they can use the Back Command again
+# How long Players have to wait until they can use the Back Command again (in Seconds)
 # Set to 0 to Disable
 # Restart Required
 # Default: 30
 back-cooldown: 30
-# How many Seconds the Player has to wait before they are returned to their previous location
+# How many Seconds the Player has to wait before they are returned to their previous location (in Seconds)
 # Set to '0' to Disable
 # Default: 5
 back-teleport: 5

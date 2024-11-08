@@ -19,7 +19,8 @@ public class Trash implements CommandExecutor {
         if (sender instanceof Player){
             Player player = (Player) sender;
             if (ServerEssentials.permissionChecker(player, "se.trash")) {
-                Inventory trash = Bukkit.createInventory(player, 27, ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("trash-gui-name")));
+                int size = ServerEssentials.plugin.getConfig().getInt("trash-gui-size");
+                Inventory trash = Bukkit.createInventory(player, size, ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("trash-gui-name")));
                 player.openInventory(trash);
                 return true;
             }

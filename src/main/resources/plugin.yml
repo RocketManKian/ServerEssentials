@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 2.0.8
+version: 2.0.9
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -214,6 +214,9 @@ commands:
   balance:
     description: Balance Command
     aliases: [bal, money]
+  hidebalance:
+    description: Hide Balance Command
+    aliases: [hidebal]
   baltop:
     description: Baltop Command
     aliases: [balancetop]
@@ -346,6 +349,7 @@ permissions:
       se.pay: true
       se.paytoggle: true
       se.balance: true
+      se.hidebalance: true
       se.baltop: true
       se.eco: true
       se.near: true
@@ -639,6 +643,9 @@ permissions:
     default: false
   se.balance:
     description: "Balance Command Permission"
+    default: false
+  se.hidebalance:
+    description: "Hide Balance Command Permission"
     default: false
   se.baltop:
     description: "Baltop Command Permission"
