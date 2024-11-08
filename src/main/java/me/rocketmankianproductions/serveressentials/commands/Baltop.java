@@ -13,6 +13,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class Baltop implements CommandExecutor {
     private ServerEssentials plugin = ServerEssentials.getInstance;
 
@@ -32,10 +34,12 @@ public class Baltop implements CommandExecutor {
                         break;
                     }
                     String playername = Bukkit.getOfflinePlayer(UUID.fromString(entry.getKey())).getName();
-                    String name = playername != null ? playername : entry.getKey();
-                    String msg3 = Lang.fileConfig.getString("eco-baltop-player").replace("<number>", "" + rank).replace("<player>", name).replace("<balance>", "" + plugin.economyImplementer.format(entry.getValue()));
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg3)));
-                    rank ++;
+                    if (!UserFile.fileConfig.getBoolean(entry.getKey() + ".balancehidden")) {
+                        String name = playername != null ? playername : entry.getKey();
+                        String msg3 = Lang.fileConfig.getString("eco-baltop-player").replace("<number>", "" + rank).replace("<player>", name).replace("<balance>", "" + plugin.economyImplementer.format(entry.getValue()));
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg3)));
+                        rank ++;
+                    }
                 }
             }
         }

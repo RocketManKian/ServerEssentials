@@ -339,6 +339,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
             getCommand("pay").setExecutor(new Pay());
             getCommand("paytoggle").setExecutor(new PayToggle());
             getCommand("balance").setExecutor(new Balance());
+            getCommand("hidebalance").setExecutor(new HideBalance());
             getCommand("baltop").setExecutor(new Baltop());
             getCommand("eco").setExecutor(new Eco());
             getCommand("eco").setTabCompleter(new TabCompletion());
@@ -399,7 +400,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         });
     }
 
-    public static boolean permissionChecker(Player player, String perm) {
+    public static boolean permissionChecker(CommandSender player, String perm) {
         boolean hasPerm = false;
         if (player.hasPermission(perm) || player.hasPermission("se.all")){
             hasPerm = true;

@@ -67,6 +67,7 @@ public class SE implements CommandExecutor {
                             + "\n/r (message) - Message the last person who Messaged you"
                             + "\n/msgtoggle - Toggles whether people can Message you or not"
                             + "\n/balance - Displays your balance"
+                            + "\n/hidebalance - Hide your balance from being viewed by players and on baltop"
                             + "\n/baltop - Displays the Top 10 Richest players on the server"
                             + "\n/pay (player) - Pay another player the specified amount of money"
                             + "\n/paytoggle - Toggles whether players can pay you money"

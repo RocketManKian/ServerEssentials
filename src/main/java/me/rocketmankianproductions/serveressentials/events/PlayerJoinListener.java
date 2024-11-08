@@ -63,8 +63,21 @@ public class PlayerJoinListener implements Listener {
         }
 
         // Sets default value if player has the permission.
+        if (player.hasPermission("se.hidebalance")) {
+            if (UserFile.fileConfig.getString(player.getUniqueId() + ".balancehidden") == null){
+                boolean b = UserFile.fileConfig.getBoolean((player.getUniqueId() + ".balancehidden"), false);
+                UserFile.fileConfig.set((player.getUniqueId() + ".balancehidden"), b);
+                try {
+                    UserFile.fileConfig.save(UserFile.file);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        // Sets default value if player has the permission.
         if (player.hasPermission("se.silentjoin")) {
-            if (UserFile.fileConfig.getString("silent." + player.getName()) == null){
+            if (UserFile.fileConfig.getString(player.getUniqueId() + ".silent") == null){
                 boolean b = UserFile.fileConfig.getBoolean((player.getUniqueId() + ".silent"), false);
                 UserFile.fileConfig.set((player.getUniqueId() + ".silent"), b);
                 try {

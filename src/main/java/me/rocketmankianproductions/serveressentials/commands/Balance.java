@@ -12,6 +12,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+
 public class Balance implements CommandExecutor {
     private ServerEssentials plugin = ServerEssentials.getInstance;
 
@@ -31,14 +33,20 @@ public class Balance implements CommandExecutor {
             }else if (args.length == 1){
                 OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
                 if (target.hasPlayedBefore()){
-                    if (UserFile.fileConfig.getString(String.valueOf(target.getUniqueId())) == null){
-                        UserFile.fileConfig.set(target.getUniqueId() + ".money", plugin.getConfig().getDouble("start-balance"));
-                        Eco.saveBalance();
+                    if (!UserFile.fileConfig.getBoolean(target.getUniqueId() + ".balancehidden")) {
+                        if (UserFile.fileConfig.getString(String.valueOf(target.getUniqueId())) == null){
+                            UserFile.fileConfig.set(target.getUniqueId() + ".money", plugin.getConfig().getDouble("start-balance"));
+                            Eco.saveBalance();
+                        }
+                        plugin.playerBank.put(target.getUniqueId(), UserFile.fileConfig.getDouble(target.getUniqueId() + ".money"));
+                        String msg = Lang.fileConfig.getString("eco-balance-target").replace("<balance>", plugin.economyImplementer.format((plugin.economyImplementer.getBalance(target)))).replace("<player>", target.getName());
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg)));
+                        return true;
+                    }else{
+                        String msg = Lang.fileConfig.getString("hidebalance-view");
+                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                        return true;
                     }
-                    plugin.playerBank.put(target.getUniqueId(), UserFile.fileConfig.getDouble(target.getUniqueId() + ".money"));
-                    String msg = Lang.fileConfig.getString("eco-balance-target").replace("<balance>", plugin.economyImplementer.format((plugin.economyImplementer.getBalance(target)))).replace("<player>", target.getName());
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg)));
-                    return true;
                 }else{
                     String msg = Lang.fileConfig.getString("player-offline");
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg)));

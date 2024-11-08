@@ -60,6 +60,12 @@ public class Lang {
                                 "&6|-------------------+====+-------------------|");
                 fileConfig.addDefault("clear-success", "Inventory cleared");
                 fileConfig.addDefault("clear-target-success", "<target>(s) inventory has been cleared");
+                fileConfig.addDefault("pay-toggle-enabled", "Players can no longer pay you");
+                fileConfig.addDefault("pay-toggle-disabled", "Players can now pay you");
+                fileConfig.addDefault("pay-disabled", "That player has paying disabled");
+                fileConfig.addDefault("hidebalance-toggle-enabled", "Players can no longer see your balance");
+                fileConfig.addDefault("hidebalance-toggle-disabled", "Players can now see your balance");
+                fileConfig.addDefault("hidebalance-view", "That player's balance cannot be viewed");
                 fileConfig.addDefault("eco-receive", "&aYou have received &e<amount> &afrom &b<player>");
                 fileConfig.addDefault("eco-insufficient", "&cYou do not have enough money to send.");
                 fileConfig.addDefault("eco-invalid", "&cAmount is &60 or less.");
@@ -67,9 +73,6 @@ public class Lang {
                 fileConfig.addDefault("eco-balance-target", "&b<player>'s &aBalance: &e<balance>");
                 fileConfig.addDefault("eco-receive", "&aYou have received &e<amount> &afrom &b<player>. &aYou now have: &e<balance>");
                 fileConfig.addDefault("eco-pay", "&aPaid &b<player> &e<amount>. &aThey now have: &e<balance>");
-                fileConfig.addDefault("pay-toggle-enabled", "Players can no longer pay you");
-                fileConfig.addDefault("pay-toggle-disabled", "Players can now pay you");
-                fileConfig.addDefault("pay-disabled", "That player has paying disabled");
                 fileConfig.addDefault("eco-baltop", "&6---- Top Balances ----");
                 fileConfig.addDefault("eco-baltop-empty", "&6No player balances can be found.");
                 fileConfig.addDefault("eco-baltop-player", "&e<number>. <player>: &a<balance>");
@@ -486,6 +489,18 @@ public class Lang {
 
                 if (fileConfig.getString("pay-disabled") == null) {
                     fileConfig.set("pay-disabled", "That player has paying disabled");
+                }
+
+                if (fileConfig.getString("hidebalance-toggle-enabled") == null) {
+                    fileConfig.addDefault("hidebalance-toggle-enabled", "Players can no longer see your balance");
+                }
+
+                if (fileConfig.getString("hidebalance-toggle-disabled") == null) {
+                    fileConfig.addDefault("hidebalance-toggle-disabled", "Players can now see your balance");
+                }
+
+                if (fileConfig.getString("hidebalance-view") == null) {
+                    fileConfig.addDefault("hidebalance-view", "That player's balance cannot be viewed");
                 }
 
                 if (fileConfig.getString("eco-baltop") == null) {
