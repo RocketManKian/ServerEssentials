@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 2.1.0
+version: 2.1.1
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -144,7 +144,7 @@ commands:
     aliases: [clear]
   storm:
     description: Storm Command
-    aliases: [thunder]
+    aliases: [thunder, rain]
   vanish:
     description: Vanish Command
     aliases: [v]

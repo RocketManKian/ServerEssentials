@@ -21,7 +21,7 @@ public class Weather implements CommandExecutor {
                     if (args[0].equalsIgnoreCase("sun")){
                         setWeather(player, player.getWorld(),false, "weather-sun");
                         return true;
-                    }else if (args[0].equalsIgnoreCase("storm") || args[0].equalsIgnoreCase("thunder")){
+                    }else if (args[0].equalsIgnoreCase("storm") || args[0].equalsIgnoreCase("thunder") || args[0].equalsIgnoreCase("rain")){
                         setWeather(player, player.getWorld(),true, "weather-storm");
                         return true;
                     }
@@ -42,7 +42,7 @@ public class Weather implements CommandExecutor {
                 if (args[0].equalsIgnoreCase("sun")){
                     setWeather(commandSender, null,false, "weather-sun");
                     return true;
-                }else if (args[0].equalsIgnoreCase("storm") || args[0].equalsIgnoreCase("thunder")){
+                }else if (args[0].equalsIgnoreCase("storm") || args[0].equalsIgnoreCase("thunder") || args[0].equalsIgnoreCase("rain")){
                     setWeather(commandSender, null,true, "weather-storm");
                     return true;
                 }
@@ -63,7 +63,7 @@ public class Weather implements CommandExecutor {
                 if (args[0].equalsIgnoreCase("sun")){
                     setWeather(block, block.getBlock().getWorld(),false, "weather-sun");
                     return true;
-                }else if (args[0].equalsIgnoreCase("storm") || args[0].equalsIgnoreCase("thunder")){
+                }else if (args[0].equalsIgnoreCase("storm") || args[0].equalsIgnoreCase("thunder") || args[0].equalsIgnoreCase("rain")){
                     setWeather(block, block.getBlock().getWorld(),true, "weather-storm");
                     return true;
                 }
