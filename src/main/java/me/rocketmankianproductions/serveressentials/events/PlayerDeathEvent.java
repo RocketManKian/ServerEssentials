@@ -13,9 +13,8 @@ public class PlayerDeathEvent implements Listener {
         Player player = d.getEntity();
         if (player.hasPermission("se.keepinventory")){
             d.setKeepInventory(true);
+            d.setKeepLevel(true);
             d.getDrops().clear();
-        }else{
-            d.setKeepInventory(false);
         }
         if (ServerEssentials.plugin.getConfig().getBoolean("death-save")){
             if (Back.location.containsKey(player.getUniqueId())){
