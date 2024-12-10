@@ -2,11 +2,14 @@ package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
+import me.rocketmankianproductions.serveressentials.file.UserFile;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
 
 import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
 
@@ -49,23 +52,35 @@ public class Fly implements CommandExecutor {
     }
     public void flyToggle(Player player, boolean target, CommandSender sender){
         if (player != null){
-            if (player.getAllowFlight() == true) {
-                player.setFlying(true);
+            if (UserFile.fileConfig.getBoolean(player.getUniqueId() + ".fly")) {
+                player.setAllowFlight(false);
+                player.setFlying(false);
                 String msg = Lang.fileConfig.getString("fly-disabled");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                 if (target){
                     String msg2 = Lang.fileConfig.getString("fly-target-disabled").replace("<target>", player.getName());
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
                 }
-                player.setAllowFlight(false);
+                UserFile.fileConfig.set(player.getUniqueId() + ".fly", false);
+                try {
+                    UserFile.fileConfig.save(UserFile.file);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else {
-                player.setFlying(false);
+                player.setAllowFlight(true);
+                player.setFlying(true);
                 String msg = Lang.fileConfig.getString("fly-enabled");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                player.setAllowFlight(true);
                 if (target){
                     String msg2 = Lang.fileConfig.getString("fly-target-enabled").replace("<target>", player.getName());
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
+                }
+                UserFile.fileConfig.set(player.getUniqueId() + ".fly", true);
+                try {
+                    UserFile.fileConfig.save(UserFile.file);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         }else{

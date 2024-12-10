@@ -2,6 +2,7 @@ package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
+import me.rocketmankianproductions.serveressentials.file.UserFile;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Statistic;
@@ -28,7 +29,7 @@ public class Whois implements CommandExecutor {
                         return true;
                     }else{
                         // Calculating Playtime
-                        int ticks = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
+                        int ticks = target.getStatistic(Statistic.PLAY_ONE_MINUTE);
                         int rest = 0;
                         // Ticks divided by 20 = seconds. Seconds x 60 = Minute. Minute x 60 = Hour. Hour x 24 = Day.
                         int days = ticks / (20 * 3600 * 24);
@@ -39,8 +40,12 @@ public class Whois implements CommandExecutor {
                         rest = rest % (20 * 60);
                         int seconds = rest / 20;
                         String god = "&4false";
-                        if (God.god_toggle.contains(target.getName())){
+                        if (UserFile.fileConfig.getBoolean(target.getUniqueId() + ".godmode")) {
                             god = "&atrue";
+                        }
+                        String vanish = "&4false";
+                        if (UserFile.fileConfig.getBoolean(target.getUniqueId() + ".vanish")) {
+                            vanish = "&atrue";
                         }
                         String op = "&4false";
                         if (target.isOp()){
@@ -48,7 +53,7 @@ public class Whois implements CommandExecutor {
                         }
                         String fly = "&4false";
                         String flyindicator = "";
-                        if (target.getAllowFlight()){
+                        if (UserFile.fileConfig.getBoolean(target.getUniqueId() + ".fly")) {
                             flyindicator = "&f(not flying)";
                             if (target.isFlying()){
                                 flyindicator = "&f(flying)";
@@ -74,7 +79,8 @@ public class Whois implements CommandExecutor {
                                 + "\n&6- Godmode: &f" + god
                                 + "\n&6- OP: &f" + op
                                 + "\n&6- Fly Mode: &f" + fly + " " + flyindicator
-                                + "\n&6- Speed: &f" + speed));
+                                + "\n&6- Speed: &f" + speed
+                                + "\n&6- Vanish &f" + vanish));
                     }
                 }else{
                     String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/whois <player>");

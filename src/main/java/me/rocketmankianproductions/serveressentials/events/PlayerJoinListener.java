@@ -28,6 +28,12 @@ public class PlayerJoinListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent pj) {
         Player player = pj.getPlayer();
 
+        // Fly
+        if (UserFile.fileConfig.getBoolean(player.getUniqueId() + ".fly")) {
+            player.setAllowFlight(true);
+            player.setFlying(true);
+        }
+
         // Seen Command
         long currentTime = System.currentTimeMillis();  // Capture current timestamp
         UserFile.fileConfig.set(player.getUniqueId() + ".login", currentTime);
@@ -37,12 +43,19 @@ public class PlayerJoinListener implements Listener {
             e.printStackTrace();
         }
 
-        // Economy
-        if (UserFile.fileConfig.getString(String.valueOf(player.getUniqueId())) == null){
-            UserFile.fileConfig.set(player.getUniqueId() + ".money", ServerEssentials.getPlugin().getConfig().getDouble("start-balance"));
-            Eco.saveBalance();
+        // Economy Initialization
+        if (!UserFile.fileConfig.contains(player.getUniqueId() + ".money")) {
+            double startingBalance = ServerEssentials.getPlugin().getConfig().getDouble("start-balance", 0.0);
+            UserFile.fileConfig.set(player.getUniqueId() + ".money", startingBalance);
+            try {
+                UserFile.fileConfig.save(UserFile.file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        ServerEssentials.getPlugin().playerBank.put(player.getUniqueId(), UserFile.fileConfig.getDouble(player.getUniqueId() + ".money"));
+        // Ensure player's current balance is loaded into memory
+        double playerBalance = UserFile.fileConfig.getDouble(player.getUniqueId() + ".money");
+        ServerEssentials.getPlugin().playerBank.put(player.getUniqueId(), playerBalance);
 
         // Check to see if Update Checker is enabled in Config
         if (ServerEssentials.getPlugin().getConfig().getBoolean("update-checker")){
@@ -181,21 +194,17 @@ public class PlayerJoinListener implements Listener {
             }
         }
 
-        if (player.hasPermission("se.vanish")) {
-            if (ServerEssentials.getPlugin().getConfig().getBoolean("vanish-on-join")) {
-                for (Player people : Bukkit.getOnlinePlayers()) {
+        // Vanish
+        if (UserFile.fileConfig.getBoolean(player.getUniqueId() + ".vanish")) {
+            for (Player people : Bukkit.getOnlinePlayers()){
+                if (!people.hasPermission("se.vanish.see")){
                     people.hidePlayer(ServerEssentials.getPlugin(), player);
                 }
-                ServerEssentials.getPlugin().invisible_list.add(player);
-                String msg = Lang.fileConfig.getString("vanish-enabled");
-                player.sendTitle(ChatColor.translateAlternateColorCodes('&', hex(msg)), null);
             }
+            String msg = Lang.fileConfig.getString("vanish-enabled");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
         }
 
-        // Vanish
-        for (int i = 0; i < ServerEssentials.plugin.invisible_list.size(); i++) {
-            player.hidePlayer(ServerEssentials.plugin, ServerEssentials.plugin.invisible_list.get(i));
-        }
         Long delay = ServerEssentials.getPlugin().getConfig().getLong("motd-delay");
         Long delay2 = delay * 20;
         Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {

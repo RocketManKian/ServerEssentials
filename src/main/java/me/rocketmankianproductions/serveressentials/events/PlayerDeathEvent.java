@@ -1,7 +1,10 @@
 package me.rocketmankianproductions.serveressentials.events;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.commands.AFK;
 import me.rocketmankianproductions.serveressentials.commands.Back;
+import me.rocketmankianproductions.serveressentials.file.Lang;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -30,6 +33,12 @@ public class PlayerDeathEvent implements Listener {
             }else{
                 Back.location.put(player.getUniqueId(), player.getLocation());
             }
+        }
+        // AFK Command
+        if (AFK.afk.containsKey(player)){
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("afk-inactive")));
+            player.setSleepingIgnored(false);
+            AFK.afk.remove(player);
         }
     }
 }
