@@ -28,6 +28,7 @@ public class SE implements CommandExecutor {
                             + ChatColor.GOLD + "\n/se reload - Reloads Configuration"
                             + "\n/se version - Shows Plugin Version"
                             + "\n/se silentjoin - Toggles joining and leaving message"
+                            + "\n/afk - Changes AFK Status"
                             + "\n/website - Shows Website Of Choice"
                             + "\n/discord - Shows Discord Of Choice"
                             + "\n/youtube - Shows YouTube Channel Of Choice"
