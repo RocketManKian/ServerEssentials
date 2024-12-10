@@ -117,6 +117,8 @@ public class SE implements CommandExecutor {
                             + "\n/sudo (player) <command> - Executes a Command as the Targeted Player"
                             + "\n/sudo %console% <command> - Executes a Command as Console"
                             + "\n/thor <target> - Strike Lightning"
+                            + "\n/freeze <target> - Freeze Target in place"
+                            + "\n/jump - Teleport to the Block you're looking at"
                             + "\n/jump <target> - Activate Jump Boost"
                             + "\n/fireball - Fire a Fireball"
                             + "\n/burn <target> <seconds> - Burn Player"
