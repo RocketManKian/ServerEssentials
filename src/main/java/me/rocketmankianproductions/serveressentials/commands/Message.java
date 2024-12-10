@@ -5,11 +5,13 @@ import me.rocketmankianproductions.serveressentials.file.Lang;
 import me.rocketmankianproductions.serveressentials.file.UserFile;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.plugin;
 
 public class Message implements CommandExecutor {
     @Override
@@ -78,6 +80,19 @@ public class Message implements CommandExecutor {
                     String msgrecipientconsole = Lang.fileConfig.getString("message-recipient-console").replace("<message>", sm);
                     Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msgsender)));
                     recipient.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msgrecipientconsole)));
+                    if (ServerEssentials.getPlugin().getConfig().getBoolean("msgsound")){
+                        // Get the sound name, volume, and pitch from the config
+                        String soundName = plugin.getConfig().getString("msgsoundName", "block.note_block.bell");
+                        double volume = plugin.getConfig().getDouble("msgsoundVolume", 1.0);
+                        double pitch = plugin.getConfig().getDouble("msgsoundPitch", 1.0);
+                        try {
+                            Sound sound = Sound.valueOf(soundName.toUpperCase().replace(".", "_"));
+                            recipient.playSound(recipient.getLocation(), sound, (float) volume, (float) pitch);
+                        } catch (IllegalArgumentException e) {
+                            // Handle invalid sound name
+                            Bukkit.getLogger().warning("Invalid sound name in config: " + soundName);
+                        }
+                    }
                     return true;
                 } else {
                     String msg = Lang.fileConfig.getString("message-disabled");
@@ -99,5 +114,19 @@ public class Message implements CommandExecutor {
         }
         messager.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msgsender)));
         recipient.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msgrecipient)));
+        if (ServerEssentials.getPlugin().getConfig().getBoolean("msgsound")){
+            // Get the sound name, volume, and pitch from the config
+            String soundName = plugin.getConfig().getString("msgsoundName", "block.note_block.bell");
+            double volume = plugin.getConfig().getDouble("msgsoundVolume", 1.0);
+            double pitch = plugin.getConfig().getDouble("msgsoundPitch", 1.0);
+            try {
+                Sound sound = Sound.valueOf(soundName.toUpperCase().replace(".", "_"));
+                recipient.playSound(recipient.getLocation(), sound, (float) volume, (float) pitch);
+                messager.playSound(messager.getLocation(), sound, (float) volume, (float) pitch);
+            } catch (IllegalArgumentException e) {
+                // Handle invalid sound name
+                Bukkit.getLogger().warning("Invalid sound name in config: " + soundName);
+            }
+        }
     }
 }

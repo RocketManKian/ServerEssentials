@@ -1,7 +1,6 @@
 package me.rocketmankianproductions.serveressentials.eco;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
-import me.rocketmankianproductions.serveressentials.commands.Eco;
 import me.rocketmankianproductions.serveressentials.file.UserFile;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -9,8 +8,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-import java.util.List;
-import java.util.UUID;
+import java.io.IOException;
+import java.util.*;
 
 public class EconomyImplementer implements Economy {
 
@@ -33,337 +32,271 @@ public class EconomyImplementer implements Economy {
 
     @Override
     public int fractionalDigits() {
-        return 0;
+        return 2; // Use 2 decimal places by default
     }
 
     @Override
-    public String format(double v) {
-        String currencySymbol = ServerEssentials.plugin.getConfig().getString("currency-symbol", "$");
-        String formattedBalance = String.format("%.2f", v);
-        return currencySymbol + formattedBalance;
+    public String format(double amount) {
+        String currencySymbol = plugin.getConfig().getString("currency-symbol", "$");
+        return currencySymbol + String.format("%.2f", amount);
     }
 
     @Override
     public String currencyNamePlural() {
-        return null;
+        return plugin.getConfig().getString("currency-name-plural", "Dollars");
     }
 
     @Override
     public String currencyNameSingular() {
-        return null;
+        return plugin.getConfig().getString("currency-name-singular", "Dollar");
+    }
+
+    private double initializeBalance(UUID uuid) {
+        double startingBalance = plugin.getConfig().getDouble("start-balance", 0.0);
+        if (!UserFile.fileConfig.contains(uuid.toString())) {
+            UserFile.fileConfig.set(uuid + ".money", startingBalance);
+            saveUserFile();
+        }
+        return UserFile.fileConfig.getDouble(uuid + ".money");
+    }
+
+    private void saveUserFile() {
+        try {
+            UserFile.fileConfig.save(UserFile.file);
+        } catch (IOException e) {
+            Bukkit.getLogger().severe("Could not save UserFile: " + e.getMessage());
+        }
+    }
+
+    private double getBalanceOrInitialize(UUID uuid) {
+        if (!plugin.playerBank.containsKey(uuid)) {
+            double balance = initializeBalance(uuid);
+            plugin.playerBank.put(uuid, balance);
+        }
+        return plugin.playerBank.get(uuid);
     }
 
     @Override
-    public boolean hasAccount(String s) {
-        return false;
+    public boolean hasAccount(String playerName) {
+        Player player = Bukkit.getPlayer(playerName);
+        return player != null && hasAccount(player.getUniqueId());
     }
 
     @Override
     public boolean hasAccount(OfflinePlayer offlinePlayer) {
-        return false;
+        return hasAccount(offlinePlayer.getUniqueId());
+    }
+
+    private boolean hasAccount(UUID uuid) {
+        return UserFile.fileConfig.contains(uuid.toString());
     }
 
     @Override
-    public boolean hasAccount(String s, String s1) {
-        return false;
+    public boolean hasAccount(String playerName, String worldName) {
+        return hasAccount(playerName);
     }
 
     @Override
-    public boolean hasAccount(OfflinePlayer offlinePlayer, String s) {
-        return false;
+    public boolean hasAccount(OfflinePlayer offlinePlayer, String worldName) {
+        return hasAccount(offlinePlayer);
     }
 
     @Override
-    public double getBalance(String s) {
-        Player player = Bukkit.getPlayer(s);
-        UUID uuid = player.getUniqueId();
-        return plugin.playerBank.get(uuid);
+    public double getBalance(String playerName) {
+        Player player = Bukkit.getPlayer(playerName);
+        return (player != null) ? getBalance(player.getUniqueId()) : 0.0;
     }
 
     @Override
     public double getBalance(OfflinePlayer offlinePlayer) {
-        UUID uuid = offlinePlayer.getUniqueId();
-        return plugin.playerBank.get(uuid);
+        return getBalance(offlinePlayer.getUniqueId());
+    }
+
+    private double getBalance(UUID uuid) {
+        return getBalanceOrInitialize(uuid);
     }
 
     @Override
-    public double getBalance(String s, String s1) {
-        Player player = Bukkit.getPlayer(s);
-        UUID uuid = player.getUniqueId();
-        return plugin.playerBank.get(uuid);
+    public double getBalance(String playerName, String worldName) {
+        return getBalance(playerName);
     }
 
     @Override
-    public double getBalance(OfflinePlayer offlinePlayer, String s) {
-        UUID uuid = offlinePlayer.getUniqueId();
-        return plugin.playerBank.get(uuid);
+    public double getBalance(OfflinePlayer offlinePlayer, String worldName) {
+        return getBalance(offlinePlayer);
     }
 
     @Override
-    public boolean has(String s, double v) {
-        boolean hasMoney = false;
-        Player player = Bukkit.getPlayer(s);
-        UUID uuid = player.getUniqueId();
-        Double balance = plugin.playerBank.get(uuid);
-        if (balance.doubleValue() >= v){
-            hasMoney = true;
+    public boolean has(String playerName, double amount) {
+        return getBalance(playerName) >= amount;
+    }
+
+    @Override
+    public boolean has(OfflinePlayer offlinePlayer, double amount) {
+        return getBalance(offlinePlayer) >= amount;
+    }
+
+    @Override
+    public boolean has(String playerName, String worldName, double amount) {
+        return has(playerName, amount);
+    }
+
+    @Override
+    public boolean has(OfflinePlayer offlinePlayer, String worldName, double amount) {
+        return has(offlinePlayer, amount);
+    }
+
+    @Override
+    public EconomyResponse withdrawPlayer(String playerName, double amount) {
+        Player player = Bukkit.getPlayer(playerName);
+        return (player != null) ? withdrawPlayer(player.getUniqueId(), amount) :
+                new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "Player not found");
+    }
+
+    @Override
+    public EconomyResponse withdrawPlayer(OfflinePlayer offlinePlayer, double amount) {
+        return withdrawPlayer(offlinePlayer.getUniqueId(), amount);
+    }
+
+    private EconomyResponse withdrawPlayer(UUID uuid, double amount) {
+        double currentBalance = getBalance(uuid);
+        if (currentBalance < amount) {
+            return new EconomyResponse(0, currentBalance, EconomyResponse.ResponseType.FAILURE, "Insufficient funds");
         }
-        return hasMoney;
+        double newBalance = currentBalance - amount;
+        plugin.playerBank.put(uuid, newBalance);
+        UserFile.fileConfig.set(uuid + ".money", newBalance);
+        saveUserFile();
+        return new EconomyResponse(amount, newBalance, EconomyResponse.ResponseType.SUCCESS, null);
     }
 
     @Override
-    public boolean has(OfflinePlayer offlinePlayer, double v) {
-        boolean hasMoney = false;
-        OfflinePlayer player = offlinePlayer;
-        UUID uuid = player.getUniqueId();
-        Double balance = plugin.playerBank.get(uuid);
-        if (balance.doubleValue() >= v){
-            hasMoney = true;
-        }
-        return hasMoney;
+    public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
+        return withdrawPlayer(playerName, amount);
     }
 
     @Override
-    public boolean has(String s, String s1, double v) {
-        boolean hasMoney = false;
-        Player player = Bukkit.getPlayer(s);
-        UUID uuid = player.getUniqueId();
-        Double balance = plugin.playerBank.get(uuid);
-        if (balance.doubleValue() >= v){
-            hasMoney = true;
-        }
-        return hasMoney;
+    public EconomyResponse withdrawPlayer(OfflinePlayer offlinePlayer, String worldName, double amount) {
+        return withdrawPlayer(offlinePlayer, amount);
     }
 
     @Override
-    public boolean has(OfflinePlayer offlinePlayer, String s, double v) {
-        boolean hasMoney = false;
-        OfflinePlayer player = offlinePlayer;
-        UUID uuid = player.getUniqueId();
-        Double balance = plugin.playerBank.get(uuid);
-        if (balance.doubleValue() >= v){
-            hasMoney = true;
-        }
-        return hasMoney;
+    public EconomyResponse depositPlayer(String playerName, double amount) {
+        Player player = Bukkit.getPlayer(playerName);
+        return (player != null) ? depositPlayer(player.getUniqueId(), amount) :
+                new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "Player not found");
     }
 
     @Override
-    public EconomyResponse withdrawPlayer(String s, double v) {
-        Player player = Bukkit.getPlayer(s);
-        if (player == null) {
-            return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "Player not found");
-        }
+    public EconomyResponse depositPlayer(OfflinePlayer offlinePlayer, double amount) {
+        return depositPlayer(offlinePlayer.getUniqueId(), amount);
+    }
 
-        UUID uuid = player.getUniqueId();
-        Double oldBalance = plugin.playerBank.get(uuid);
-
-        if (oldBalance == null) {
-            return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "No balance found for player");
-        }
-
-        plugin.playerBank.put(uuid, oldBalance - v);
-        UserFile.fileConfig.set(uuid + ".money", plugin.economyImplementer.getBalance(Bukkit.getPlayer(uuid)));
-        Eco.saveBalance();
-        return new EconomyResponse(v, oldBalance - v, EconomyResponse.ResponseType.SUCCESS, null);
+    private EconomyResponse depositPlayer(UUID uuid, double amount) {
+        double currentBalance = getBalance(uuid);
+        double newBalance = currentBalance + amount;
+        plugin.playerBank.put(uuid, newBalance);
+        UserFile.fileConfig.set(uuid + ".money", newBalance);
+        saveUserFile();
+        return new EconomyResponse(amount, newBalance, EconomyResponse.ResponseType.SUCCESS, null);
     }
 
     @Override
-    public EconomyResponse withdrawPlayer(OfflinePlayer offlinePlayer, double v) {
-        UUID uuid = offlinePlayer.getUniqueId();
-        Double oldBalance = plugin.playerBank.get(uuid);
-
-        if (oldBalance == null) {
-            return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "No balance found for player");
-        }
-
-        plugin.playerBank.put(uuid, oldBalance - v);
-        UserFile.fileConfig.set(uuid + ".money", plugin.economyImplementer.getBalance(Bukkit.getOfflinePlayer(uuid)));
-        Eco.saveBalance();
-        return new EconomyResponse(v, oldBalance - v, EconomyResponse.ResponseType.SUCCESS, null);
+    public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
+        return depositPlayer(playerName, amount);
     }
 
     @Override
-    public EconomyResponse withdrawPlayer(String s, String s1, double v) {
-        Player player = Bukkit.getPlayer(s);
-        if (player == null) {
-            return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "Player not found");
-        }
-
-        UUID uuid = player.getUniqueId();
-        Double oldBalance = plugin.playerBank.get(uuid);
-
-        if (oldBalance == null) {
-            return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "No balance found for player");
-        }
-
-        plugin.playerBank.put(uuid, oldBalance - v);
-        UserFile.fileConfig.set(uuid + ".money", plugin.economyImplementer.getBalance(Bukkit.getPlayer(uuid)));
-        Eco.saveBalance();
-        return new EconomyResponse(v, oldBalance - v, EconomyResponse.ResponseType.SUCCESS, null);
+    public EconomyResponse depositPlayer(OfflinePlayer offlinePlayer, String worldName, double amount) {
+        return depositPlayer(offlinePlayer, amount);
     }
 
     @Override
-    public EconomyResponse withdrawPlayer(OfflinePlayer offlinePlayer, String s, double v) {
-        UUID uuid = offlinePlayer.getUniqueId();
-        Double oldBalance = plugin.playerBank.get(uuid);
-
-        if (oldBalance == null) {
-            return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "No balance found for player");
-        }
-
-        plugin.playerBank.put(uuid, oldBalance - v);
-        UserFile.fileConfig.set(uuid + ".money", plugin.economyImplementer.getBalance(Bukkit.getOfflinePlayer(uuid)));
-        Eco.saveBalance();
-        return new EconomyResponse(v, oldBalance - v, EconomyResponse.ResponseType.SUCCESS, null);
-    }
-
-    @Override
-    public EconomyResponse depositPlayer(String s, double v) {
-        Player player = Bukkit.getPlayer(s);
-        if (player == null) {
-            return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "Player not found");
-        }
-
-        UUID uuid = player.getUniqueId();
-        Double oldBalance = plugin.playerBank.get(uuid);
-
-        if (oldBalance == null) {
-            return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "No balance found for player");
-        }
-
-        plugin.playerBank.put(uuid, oldBalance + v);
-        UserFile.fileConfig.set(uuid + ".money", plugin.economyImplementer.getBalance(Bukkit.getPlayer(uuid)));
-        Eco.saveBalance();
-        return new EconomyResponse(v, oldBalance + v, EconomyResponse.ResponseType.SUCCESS, null);
-    }
-
-    @Override
-    public EconomyResponse depositPlayer(OfflinePlayer offlinePlayer, double v) {
-        UUID uuid = offlinePlayer.getUniqueId();
-        Double oldBalance = plugin.playerBank.get(uuid);
-
-        if (oldBalance == null) {
-            return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "No balance found for player");
-        }
-
-        plugin.playerBank.put(uuid, oldBalance + v);
-        UserFile.fileConfig.set(uuid + ".money", plugin.economyImplementer.getBalance(Bukkit.getOfflinePlayer(uuid)));
-        Eco.saveBalance();
-        return new EconomyResponse(v, oldBalance + v, EconomyResponse.ResponseType.SUCCESS, null);
-    }
-
-    @Override
-    public EconomyResponse depositPlayer(String s, String s1, double v) {
-        Player player = Bukkit.getPlayer(s);
-        if (player == null) {
-            return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "Player not found");
-        }
-
-        UUID uuid = player.getUniqueId();
-        Double oldBalance = plugin.playerBank.get(uuid);
-
-        if (oldBalance == null) {
-            return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "No balance found for player");
-        }
-
-        plugin.playerBank.put(uuid, oldBalance + v);
-        UserFile.fileConfig.set(uuid + ".money", plugin.economyImplementer.getBalance(Bukkit.getPlayer(uuid)));
-        Eco.saveBalance();
-        return new EconomyResponse(v, oldBalance + v, EconomyResponse.ResponseType.SUCCESS, null);
-    }
-
-    @Override
-    public EconomyResponse depositPlayer(OfflinePlayer offlinePlayer, String s, double v) {
-        UUID uuid = offlinePlayer.getUniqueId();
-        Double oldBalance = plugin.playerBank.get(uuid);
-
-        if (oldBalance == null) {
-            return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "No balance found for player");
-        }
-
-        plugin.playerBank.put(uuid, oldBalance + v);
-        UserFile.fileConfig.set(uuid + ".money", plugin.economyImplementer.getBalance(Bukkit.getOfflinePlayer(uuid)));
-        Eco.saveBalance();
-        return new EconomyResponse(v, oldBalance + v, EconomyResponse.ResponseType.SUCCESS, null);
-    }
-
-    @Override
-    public EconomyResponse createBank(String s, String s1) {
-        return null;
-    }
-
-    @Override
-    public EconomyResponse createBank(String s, OfflinePlayer offlinePlayer) {
-        return null;
-    }
-
-    @Override
-    public EconomyResponse deleteBank(String s) {
-        return null;
-    }
-
-    @Override
-    public EconomyResponse bankBalance(String s) {
-        return null;
-    }
-
-    @Override
-    public EconomyResponse bankHas(String s, double v) {
-        return null;
-    }
-
-    @Override
-    public EconomyResponse bankWithdraw(String s, double v) {
-        return null;
-    }
-
-    @Override
-    public EconomyResponse bankDeposit(String s, double v) {
-        return null;
-    }
-
-    @Override
-    public EconomyResponse isBankOwner(String s, String s1) {
-        return null;
-    }
-
-    @Override
-    public EconomyResponse isBankOwner(String s, OfflinePlayer offlinePlayer) {
-        return null;
-    }
-
-    @Override
-    public EconomyResponse isBankMember(String s, String s1) {
-        return null;
-    }
-
-    @Override
-    public EconomyResponse isBankMember(String s, OfflinePlayer offlinePlayer) {
-        return null;
-    }
-
-    @Override
-    public List<String> getBanks() {
-        return null;
-    }
-
-    @Override
-    public boolean createPlayerAccount(String s) {
-        return false;
+    public boolean createPlayerAccount(String playerName) {
+        Player player = Bukkit.getPlayer(playerName);
+        return (player != null) && createPlayerAccount(player.getUniqueId());
     }
 
     @Override
     public boolean createPlayerAccount(OfflinePlayer offlinePlayer) {
-        return false;
+        return createPlayerAccount(offlinePlayer.getUniqueId());
+    }
+
+    private boolean createPlayerAccount(UUID uuid) {
+        if (hasAccount(uuid)) {
+            return false;
+        }
+        initializeBalance(uuid);
+        return true;
     }
 
     @Override
-    public boolean createPlayerAccount(String s, String s1) {
-        return false;
+    public boolean createPlayerAccount(String playerName, String worldName) {
+        return createPlayerAccount(playerName);
     }
 
     @Override
-    public boolean createPlayerAccount(OfflinePlayer offlinePlayer, String s) {
-        return false;
+    public boolean createPlayerAccount(OfflinePlayer offlinePlayer, String worldName) {
+        return createPlayerAccount(offlinePlayer);
+    }
+
+    @Override
+    public EconomyResponse createBank(String name, String owner) {
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "Bank support is not enabled");
+    }
+
+    @Override
+    public EconomyResponse createBank(String name, OfflinePlayer owner) {
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "Bank support is not enabled");
+    }
+
+    @Override
+    public EconomyResponse deleteBank(String name) {
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "Bank support is not enabled");
+    }
+
+    @Override
+    public EconomyResponse bankBalance(String name) {
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "Bank support is not enabled");
+    }
+
+    @Override
+    public EconomyResponse bankHas(String name, double amount) {
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "Bank support is not enabled");
+    }
+
+    @Override
+    public EconomyResponse bankWithdraw(String name, double amount) {
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "Bank support is not enabled");
+    }
+
+    @Override
+    public EconomyResponse bankDeposit(String name, double amount) {
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "Bank support is not enabled");
+    }
+
+    @Override
+    public EconomyResponse isBankOwner(String name, String playerName) {
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "Bank support is not enabled");
+    }
+
+    @Override
+    public EconomyResponse isBankOwner(String name, OfflinePlayer owner) {
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "Bank support is not enabled");
+    }
+
+    @Override
+    public EconomyResponse isBankMember(String name, String playerName) {
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "Bank support is not enabled");
+    }
+
+    @Override
+    public EconomyResponse isBankMember(String name, OfflinePlayer owner) {
+        return new EconomyResponse(0, 0, EconomyResponse.ResponseType.NOT_IMPLEMENTED, "Bank support is not enabled");
+    }
+
+    @Override
+    public List<String> getBanks() {
+        return Collections.emptyList(); // No banks supported
     }
 }

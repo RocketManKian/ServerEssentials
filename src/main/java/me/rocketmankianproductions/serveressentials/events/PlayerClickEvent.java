@@ -390,6 +390,12 @@ public class PlayerClickEvent implements Listener {
         if (inventoryTitle.equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', "&b&l" + Invsee.targetName.get(player) + "'s Inventory"))){
             e.setCancelled(true);
         }
+        // AFK Command
+        if (AFK.afk.containsKey(player)){
+            player.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("afk-inactive")));
+            player.getPlayer().setSleepingIgnored(false);
+            AFK.afk.remove(player);
+        }
     }
     public static Location getWarpLocation(String warp, OfflinePlayer player){
         // Gathering Location

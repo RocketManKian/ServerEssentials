@@ -19,6 +19,24 @@ public class PlayerMoveEvent implements Listener {
     public void onMove(org.bukkit.event.player.PlayerMoveEvent m) {
         Player player = m.getPlayer();
 
+        // Freeze
+        if (Freeze.freeze.containsKey(player)){
+            if (m.getFrom().getBlockX() != m.getTo().getBlockX() || m.getFrom().getBlockZ() != m.getTo().getBlockZ() || m.getFrom().getBlockY() != m.getTo().getBlockY()) {
+                player.teleport(m.getFrom());
+                String msg = Lang.fileConfig.getString("freeze-message");
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+            }
+        }
+
+        // AFK Command
+        if (AFK.afk.containsKey(player)){
+            if (m.getFrom().getBlockX() != m.getTo().getBlockX() || m.getFrom().getBlockZ() != m.getTo().getBlockZ() || m.getFrom().getBlockY() != m.getTo().getBlockY()) {
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("afk-inactive")));
+                player.setSleepingIgnored(false);
+                AFK.afk.remove(player);
+            }
+        }
+
         if (Home.cancel.contains(player.getUniqueId())) {
             if (m.getFrom().getBlockX() != m.getTo().getBlockX() || m.getFrom().getBlockZ() != m.getTo().getBlockZ() || m.getFrom().getBlockY() != m.getTo().getBlockY()) {
                 Home.cancel.remove(player.getUniqueId());

@@ -49,50 +49,46 @@ public class Eco implements CommandExecutor {
                                 }
                             }
                         } else {
-                            if (Bukkit.getPlayer(args[1]) != null) {
-                                double newBalance = plugin.economyImplementer.getBalance(args[1]);
-                                if (newBalance != 0.0) {
-                                    if (newBalance > 0.0) {
-                                        plugin.economyImplementer.withdrawPlayer(args[1], newBalance);
+                            double newBalance = plugin.economyImplementer.getBalance(args[1]);
+                            if (newBalance != 0.0) {
+                                if (newBalance > 0.0) {
+                                    plugin.economyImplementer.withdrawPlayer(args[1], newBalance);
+                                } else {
+                                    plugin.economyImplementer.depositPlayer(args[1], -newBalance);
+                                }
+                                double currentBalance = ServerEssentials.plugin.getConfig().getInt("start-balance");
+                                EconomyResponse r = plugin.economyImplementer.depositPlayer(args[1], currentBalance);
+                                if (r.transactionSuccess()) {
+                                    String msg = Lang.fileConfig.getString("eco-reset").replace("<player>", args[1]).replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(args[1])));
+                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg)));
+                                    if (Bukkit.getPlayer(args[1]) != null && Bukkit.getPlayer(args[1]) != sender) {
+                                        String msg2 = Lang.fileConfig.getString("eco-reset-target").replace("<player>", sender.getName()).replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(args[1])));
+                                        Bukkit.getPlayer(args[1]).sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg2)));
                                     } else {
-                                        plugin.economyImplementer.depositPlayer(args[1], -newBalance);
-                                    }
-                                    double currentBalance = ServerEssentials.plugin.getConfig().getInt("start-balance");
-                                    EconomyResponse r = plugin.economyImplementer.depositPlayer(args[1], currentBalance);
-                                    if (r.transactionSuccess()) {
-                                        String msg = Lang.fileConfig.getString("eco-reset").replace("<player>", args[1]).replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(args[1])));
-                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg)));
-                                        if (sender instanceof Player && Bukkit.getPlayer(args[1]) != ((Player) sender).getPlayer()) {
-                                            String msg2 = Lang.fileConfig.getString("eco-reset-target").replace("<player>", sender.getName()).replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(args[1])));
-                                            Bukkit.getPlayer(args[1]).sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg2)));
-                                        }else{
+                                        if (Bukkit.getPlayer(args[1]) != null) {
                                             String msg2 = Lang.fileConfig.getString("eco-reset-target").replace("<player>", sender.getName()).replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(args[1])));
                                             Bukkit.getPlayer(args[1]).sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg2)));
                                         }
-                                    } else {
-                                        sender.sendMessage(String.format(ChatColor.RED + "An error occurred: %s", r.errorMessage));
                                     }
                                 } else {
-                                    double currentBalance = ServerEssentials.plugin.getConfig().getInt("start-balance");
-                                    EconomyResponse r = plugin.economyImplementer.depositPlayer(args[1], currentBalance);
-                                    if (r.transactionSuccess()) {
-                                        String msg = Lang.fileConfig.getString("eco-reset").replace("<player>", args[1]).replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(args[1])));
-                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg)));
-                                        if (sender instanceof Player && Bukkit.getPlayer(args[1]) != ((Player) sender).getPlayer()) {
-                                            String msg2 = Lang.fileConfig.getString("eco-reset-target").replace("<player>", sender.getName()).replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(args[1])));
-                                            Bukkit.getPlayer(args[1]).sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg2)));
-                                        }else{
-                                            String msg2 = Lang.fileConfig.getString("eco-reset-target").replace("<player>", sender.getName()).replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(args[1])));
-                                            Bukkit.getPlayer(args[1]).sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg2)));
-                                        }
-                                    } else {
-                                        sender.sendMessage(String.format(ChatColor.RED + "An error occurred: %s", r.errorMessage));
-                                    }
+                                    sender.sendMessage(String.format(ChatColor.RED + "An error occurred: %s", r.errorMessage));
                                 }
                             } else {
-                                String msg = Lang.fileConfig.getString("target-offline");
-                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg)));
-                                return true;
+                                double currentBalance = ServerEssentials.plugin.getConfig().getInt("start-balance");
+                                EconomyResponse r = plugin.economyImplementer.depositPlayer(args[1], currentBalance);
+                                if (r.transactionSuccess()) {
+                                    String msg = Lang.fileConfig.getString("eco-reset").replace("<player>", args[1]).replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(args[1])));
+                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg)));
+                                    if (sender instanceof Player && Bukkit.getPlayer(args[1]) != ((Player) sender).getPlayer()) {
+                                        String msg2 = Lang.fileConfig.getString("eco-reset-target").replace("<player>", sender.getName()).replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(args[1])));
+                                        Bukkit.getPlayer(args[1]).sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg2)));
+                                    } else {
+                                        String msg2 = Lang.fileConfig.getString("eco-reset-target").replace("<player>", sender.getName()).replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(args[1])));
+                                        Bukkit.getPlayer(args[1]).sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg2)));
+                                    }
+                                } else {
+                                    sender.sendMessage(String.format(ChatColor.RED + "An error occurred: %s", r.errorMessage));
+                                }
                             }
                         }
                         return true;
@@ -120,29 +116,25 @@ public class Eco implements CommandExecutor {
                                 }
                             }
                         } else {
-                            if (Bukkit.getPlayer(args[1]) != null) {
-                                try {
-                                    EconomyResponse r = plugin.economyImplementer.depositPlayer(args[1], Integer.parseInt(args[2]));
-                                    if (r.transactionSuccess()) {
-                                        String msg = Lang.fileConfig.getString("eco-give").replace("<player>", args[1]).replace("<amount>", plugin.economyImplementer.format(Double.parseDouble(args[2]))).replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(args[1])));
-                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg)));
-                                        if (sender instanceof Player && Bukkit.getPlayer(args[1]) != ((Player) sender).getPlayer()) {
-                                            String msg2 = Lang.fileConfig.getString("eco-receive").replace("<amount>", plugin.economyImplementer.format(Double.parseDouble(args[2]))).replace("<player>", sender.getName()).replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(args[1])));
-                                            Bukkit.getPlayer(args[1]).sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg2)));
-                                        }else{
+                            try {
+                                EconomyResponse r = plugin.economyImplementer.depositPlayer(args[1], Integer.parseInt(args[2]));
+                                if (r.transactionSuccess()) {
+                                    String msg = Lang.fileConfig.getString("eco-give").replace("<player>", args[1]).replace("<amount>", plugin.economyImplementer.format(Double.parseDouble(args[2]))).replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(args[1])));
+                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg)));
+                                    if (Bukkit.getPlayer(args[1]) != null && Bukkit.getPlayer(args[1]) != sender) {
+                                        String msg2 = Lang.fileConfig.getString("eco-receive").replace("<amount>", plugin.economyImplementer.format(Double.parseDouble(args[2]))).replace("<player>", sender.getName()).replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(args[1])));
+                                        Bukkit.getPlayer(args[1]).sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg2)));
+                                    } else {
+                                        if (Bukkit.getPlayer(args[1]) != null){
                                             String msg2 = Lang.fileConfig.getString("eco-receive").replace("<amount>", plugin.economyImplementer.format(Double.parseDouble(args[2]))).replace("<player>", sender.getName()).replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(args[1])));
                                             Bukkit.getPlayer(args[1]).sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg2)));
                                         }
-                                    } else {
-                                        sender.sendMessage(String.format(ChatColor.RED + "An error occurred: %s", r.errorMessage));
                                     }
-                                } catch (NumberFormatException var12) {
-                                    sender.sendMessage(ChatColor.RED + "Invalid balance amount. Please enter a valid number.");
+                                } else {
+                                    sender.sendMessage(String.format(ChatColor.RED + "An error occurred: %s", r.errorMessage));
                                 }
-                            } else {
-                                String msg = Lang.fileConfig.getString("target-offline");
-                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg)));
-                                return true;
+                            } catch (NumberFormatException var12) {
+                                sender.sendMessage(ChatColor.RED + "Invalid balance amount. Please enter a valid number.");
                             }
                         }
                         return true;
@@ -168,31 +160,27 @@ public class Eco implements CommandExecutor {
                                 }
                             }
                         } else {
-                            if (Bukkit.getPlayer(args[1]) != null) {
-                                try {
-                                    EconomyResponse r = plugin.economyImplementer.withdrawPlayer(args[1], Integer.parseInt(args[2]));
-                                    if (r.transactionSuccess()) {
-                                        String msg = Lang.fileConfig.getString("eco-take").replace("<amount>", plugin.economyImplementer.format(Double.parseDouble(args[2]))).replace("<player>", args[1]).replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(args[1])));
-                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg)));
-                                        if (sender instanceof Player && Bukkit.getPlayer(args[1]) != ((Player) sender).getPlayer()) {
-                                            String msg2 = Lang.fileConfig.getString("eco-take-target").replace("<amount>", plugin.economyImplementer.format(Double.parseDouble(args[2]))).replace("<player>", sender.getName()).replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(args[1])));
-                                            Bukkit.getPlayer(args[1]).sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg2)));
-                                        }else{
+                            try {
+                                EconomyResponse r = plugin.economyImplementer.withdrawPlayer(args[1], Integer.parseInt(args[2]));
+                                if (r.transactionSuccess()) {
+                                    String msg = Lang.fileConfig.getString("eco-take").replace("<amount>", plugin.economyImplementer.format(Double.parseDouble(args[2]))).replace("<player>", args[1]).replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(args[1])));
+                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg)));
+                                    if (Bukkit.getPlayer(args[1]) != null && Bukkit.getPlayer(args[1]) != sender) {
+                                        String msg2 = Lang.fileConfig.getString("eco-take-target").replace("<amount>", plugin.economyImplementer.format(Double.parseDouble(args[2]))).replace("<player>", sender.getName()).replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(args[1])));
+                                        Bukkit.getPlayer(args[1]).sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg2)));
+                                    } else {
+                                        if (Bukkit.getPlayer(args[1]) != null) {
                                             String msg2 = Lang.fileConfig.getString("eco-take-target").replace("<amount>", plugin.economyImplementer.format(Double.parseDouble(args[2]))).replace("<player>", sender.getName()).replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(args[1])));
                                             Bukkit.getPlayer(args[1]).sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg2)));
                                         }
-                                    } else {
-                                        sender.sendMessage(String.format(ChatColor.RED + "An error occurred: %s", r.errorMessage));
                                     }
-                                    return true;
-                                } catch (NumberFormatException var14) {
-                                    sender.sendMessage(ChatColor.RED + "Invalid balance amount. Please enter a valid number.");
-                                    return false;
+                                } else {
+                                    sender.sendMessage(String.format(ChatColor.RED + "An error occurred: %s", r.errorMessage));
                                 }
-                            } else {
-                                String msg = Lang.fileConfig.getString("target-offline");
-                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg)));
                                 return true;
+                            } catch (NumberFormatException var14) {
+                                sender.sendMessage(ChatColor.RED + "Invalid balance amount. Please enter a valid number.");
+                                return false;
                             }
                         }
                     } else if (args[0].equalsIgnoreCase("set")) {
@@ -214,38 +202,34 @@ public class Eco implements CommandExecutor {
                                 }
                             }
                         } else {
-                            if (Bukkit.getPlayer(args[1]) != null) {
-                                try {
-                                    int newBalance = Integer.parseInt(args[2]);
-                                    double currentBalance = plugin.economyImplementer.getBalance(args[1]);
-                                    if (currentBalance > 0.0) {
-                                        plugin.economyImplementer.withdrawPlayer(args[1], currentBalance);
-                                    } else if (currentBalance < 0.0) {
-                                        plugin.economyImplementer.depositPlayer(args[1], -currentBalance);
-                                    }
-                                    EconomyResponse r = plugin.economyImplementer.depositPlayer(args[1], newBalance);
-                                    if (r.transactionSuccess()) {
-                                        String msg = Lang.fileConfig.getString("eco-set").replace("<player>", args[1]).replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(args[1])));
-                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg)));
-                                        if (sender instanceof Player && Bukkit.getPlayer(args[1]) != ((Player) sender).getPlayer()) {
-                                            String msg2 = Lang.fileConfig.getString("eco-set-target").replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(args[1]))).replace("<player>", sender.getName());
-                                            Bukkit.getPlayer(args[1]).sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg2)));
-                                        }else{
+                            try {
+                                int newBalance = Integer.parseInt(args[2]);
+                                double currentBalance = plugin.economyImplementer.getBalance(args[1]);
+                                if (currentBalance > 0.0) {
+                                    plugin.economyImplementer.withdrawPlayer(args[1], currentBalance);
+                                } else if (currentBalance < 0.0) {
+                                    plugin.economyImplementer.depositPlayer(args[1], -currentBalance);
+                                }
+                                EconomyResponse r = plugin.economyImplementer.depositPlayer(args[1], newBalance);
+                                if (r.transactionSuccess()) {
+                                    String msg = Lang.fileConfig.getString("eco-set").replace("<player>", args[1]).replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(args[1])));
+                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg)));
+                                    if (Bukkit.getPlayer(args[1]) != null && Bukkit.getPlayer(args[1]) != sender) {
+                                        String msg2 = Lang.fileConfig.getString("eco-set-target").replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(args[1]))).replace("<player>", sender.getName());
+                                        Bukkit.getPlayer(args[1]).sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg2)));
+                                    } else {
+                                        if (Bukkit.getPlayer(args[1]) != null) {
                                             String msg2 = Lang.fileConfig.getString("eco-set-target").replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(args[1]))).replace("<player>", sender.getName());
                                             Bukkit.getPlayer(args[1]).sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg2)));
                                         }
-                                    } else {
-                                        sender.sendMessage(String.format(ChatColor.RED + "An error occurred: %s", r.errorMessage));
                                     }
-                                    return true;
-                                } catch (NumberFormatException var13) {
-                                    sender.sendMessage(ChatColor.RED + "Invalid balance amount. Please enter a valid number.");
-                                    return false;
+                                } else {
+                                    sender.sendMessage(String.format(ChatColor.RED + "An error occurred: %s", r.errorMessage));
                                 }
-                            } else {
-                                String msg = Lang.fileConfig.getString("target-offline");
-                                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg)));
                                 return true;
+                            } catch (NumberFormatException var13) {
+                                sender.sendMessage(ChatColor.RED + "Invalid balance amount. Please enter a valid number.");
+                                return false;
                             }
                         }
                     } else {

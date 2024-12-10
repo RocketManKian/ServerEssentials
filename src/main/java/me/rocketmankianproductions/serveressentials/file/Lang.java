@@ -89,6 +89,9 @@ public class Lang {
                 fileConfig.addDefault("eco-reset-target", "&aYour balance has been reset by &b<player> &ato &e<balance>");
                 fileConfig.addDefault("enderchest-target-is-sender", "Do /ec to access your own Enderchest");
                 fileConfig.addDefault("enderchest-open-success", "Opened <target>(s) Enderchest");
+                fileConfig.addDefault("freeze-target", "<player> has been frozen");
+                fileConfig.addDefault("unfreeze-target", "<player> has been unfrozen");
+                fileConfig.addDefault("freeze-message", "You cannot move as you are frozen");
                 fileConfig.addDefault("feed-sender-message", "You have fed <target>");
                 fileConfig.addDefault("feed-target-message", "You have been fed by <sender>");
                 fileConfig.addDefault("feed-self", "You have fed yourself");
@@ -232,8 +235,10 @@ public class Lang {
                 fileConfig.addDefault("socialspy-enabled", "SocialSpy has been Enabled");
                 fileConfig.addDefault("socialspy-disabled", "SocialSpy has been Disabled");
                 fileConfig.addDefault("socialspy-message", "&c[SocialSpy] &f<sender> &6>> &f<target> &7: <message>");
-                fileConfig.addDefault("jump-message", "&6Bounce like a Bunny!");
-                fileConfig.addDefault("jump-remove-message", "&6You can &cno longer &6Bounce like a Bunny");
+                fileConfig.addDefault("jump-message", "&6You have been teleported to the block you're looking at!");
+                fileConfig.addDefault("jump-error-message", "&6No block in sight or too far away!");
+                fileConfig.addDefault("jumpboost-message", "&6Bounce like a Bunny!");
+                fileConfig.addDefault("jumpboost-remove-message", "&6You can &cno longer &6Bounce like a Bunny");
                 fileConfig.addDefault("thor-message", "&6You have been &cstruck &6by lightning");
                 fileConfig.addDefault("thor-location", "&6Striked lightning at location");
                 fileConfig.addDefault("thor-invalid", "&6Location is too far away");
@@ -323,6 +328,20 @@ public class Lang {
                 fileConfig.addDefault("sudo-command-invalid", "Command <command> doesn't exist.");
                 fileConfig.addDefault("ping-self", "Ping: <ping>");
                 fileConfig.addDefault("ping-target", "<target>'s Ping: <ping>");
+                fileConfig.addDefault("placeholder_afk_isenabled_yes", "yes");
+                fileConfig.addDefault("placeholder_afk_isenabled_no", "no");
+                fileConfig.addDefault("placeholder_freeze_isenabled_yes", "yes");
+                fileConfig.addDefault("placeholder_freeze_isenabled_no", "no");
+                fileConfig.addDefault("placeholder_godmode_isenabled_yes", "yes");
+                fileConfig.addDefault("placeholder_godmode_isenabled_no", "no");
+                fileConfig.addDefault("placeholder_vanish_isenabled_yes", "yes");
+                fileConfig.addDefault("placeholder_vanish_isenabled_no", "no");
+                fileConfig.addDefault("placeholder_fly_isenabled_yes", "yes");
+                fileConfig.addDefault("placeholder_fly_isenabled_no", "no");
+                fileConfig.addDefault("placeholder_msgtoggle_isenabled_yes", "yes");
+                fileConfig.addDefault("placeholder_msgtoggle_isenabled_no", "no");
+                fileConfig.addDefault("placeholder_tptoggle_isenabled_yes", "yes");
+                fileConfig.addDefault("placeholder_tptoggle_isenabled_no", "no");
                 fileConfig.addDefault("world-success", "&6Teleported to World &c<world>");
                 fileConfig.addDefault("world-invalid", "&6World &c<world> &6isn't loaded!");
                 fileConfig.options().copyDefaults(true);
@@ -565,6 +584,18 @@ public class Lang {
 
                 if (fileConfig.getString("enderchest-open-success") == null) {
                     fileConfig.set("enderchest-open-success", "Opened <target>(s) Enderchest");
+                }
+
+                if (fileConfig.getString("freeze-target") == null) {
+                    fileConfig.set("freeze-target", "<player> has been frozen");
+                }
+
+                if (fileConfig.getString("unfreeze-target") == null) {
+                    fileConfig.set("unfreeze-target", "<player> has been unfrozen");
+                }
+
+                if (fileConfig.getString("freeze-message") == null) {
+                    fileConfig.set("freeze-message", "You cannot move as you are frozen");
                 }
 
                 if (fileConfig.getString("feed-sender-message") == null) {
@@ -1113,11 +1144,19 @@ public class Lang {
                 }
 
                 if (fileConfig.getString("jump-message") == null) {
-                    fileConfig.set("jump-message", "&6Bounce like a Bunny!");
+                    fileConfig.set("jump-message", "&6You have been teleported to the block you're looking at!");
                 }
 
-                if (fileConfig.getString("jump-remove-message") == null) {
-                    fileConfig.set("jump-remove-message", "&6You can &cno longer &6Bounce like a Bunny");
+                if (fileConfig.getString("jump-error-message") == null) {
+                    fileConfig.set("jump-error-message", "&6No block in sight or too far away!");
+                }
+
+                if (fileConfig.getString("jumpboost-message") == null) {
+                    fileConfig.set("jumpboost-message", "&6Bounce like a Bunny!");
+                }
+
+                if (fileConfig.getString("jumpboost-remove-message") == null) {
+                    fileConfig.set("jumpboost-remove-message", "&6You can &cno longer &6Bounce like a Bunny");
                 }
 
                 if (fileConfig.getString("thor-message") == null) {
@@ -1468,6 +1507,62 @@ public class Lang {
 
                 if (fileConfig.getString("ping-target") == null) {
                     fileConfig.set("ping-target", "<target>'s Ping: <ping>");
+                }
+
+                if (fileConfig.getString("placeholder_afk_isenabled_yes") == null) {
+                    fileConfig.set("placeholder_afk_isenabled_yes", "yes");
+                }
+
+                if (fileConfig.getString("placeholder_afk_isenabled_no") == null) {
+                    fileConfig.set("placeholder_afk_isenabled_no", "no");
+                }
+
+                if (fileConfig.getString("placeholder_freeze_isenabled_yes") == null) {
+                    fileConfig.set("placeholder_freeze_isenabled_yes", "yes");
+                }
+
+                if (fileConfig.getString("placeholder_freeze_isenabled_no") == null) {
+                    fileConfig.set("placeholder_freeze_isenabled_no", "no");
+                }
+
+                if (fileConfig.getString("placeholder_godmode_isenabled_yes") == null) {
+                    fileConfig.set("placeholder_godmode_isenabled_yes", "yes");
+                }
+
+                if (fileConfig.getString("placeholder_godmode_isenabled_no") == null) {
+                    fileConfig.set("placeholder_godmode_isenabled_no", "no");
+                }
+
+                if (fileConfig.getString("placeholder_vanish_isenabled_yes") == null) {
+                    fileConfig.set("placeholder_vanish_isenabled_yes", "yes");
+                }
+
+                if (fileConfig.getString("placeholder_vanish_isenabled_no") == null) {
+                    fileConfig.set("placeholder_vanish_isenabled_no", "no");
+                }
+
+                if (fileConfig.getString("placeholder_fly_isenabled_yes") == null) {
+                    fileConfig.set("placeholder_fly_isenabled_yes", "yes");
+                }
+
+                if (fileConfig.getString("placeholder_fly_isenabled_no") == null) {
+                    fileConfig.set("placeholder_fly_isenabled_no", "no");
+                }
+
+                if (fileConfig.getString("placeholder_msgtoggle_isenabled_yes") == null) {
+                    fileConfig.set("placeholder_msgtoggle_isenabled_yes", "yes");
+                }
+
+                if (fileConfig.getString("placeholder_msgtoggle_isenabled_no") == null) {
+                    fileConfig.set("placeholder_msgtoggle_isenabled_no", "no");
+                }
+
+                if (fileConfig.getString("placeholder_tptoggle_isenabled_yes") == null) {
+                    fileConfig.set("placeholder_tptoggle_isenabled_yes", "yes");
+                }
+
+                if (fileConfig.getString("placeholder_tptoggle_isenabled_no") == null) {
+                    fileConfig.set("placeholder_tptoggle_isenabled_no", "no");
                 }
 
                 if (fileConfig.getString("world-success") == null) {

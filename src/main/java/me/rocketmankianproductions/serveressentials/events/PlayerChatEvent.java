@@ -4,6 +4,7 @@ import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import me.rocketmankianproductions.serveressentials.LoggerMessage;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.commands.AFK;
 import me.rocketmankianproductions.serveressentials.commands.StaffChat;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
@@ -21,6 +22,12 @@ public class PlayerChatEvent implements Listener {
     @EventHandler (priority = EventPriority.HIGHEST)
     public void onChat(AsyncPlayerChatEvent c) {
         Player player = c.getPlayer();
+        // AFK Command
+        if (AFK.afk.containsKey(player)){
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("afk-inactive")));
+            player.setSleepingIgnored(false);
+            AFK.afk.remove(player);
+        }
         if (StaffChat.staffchat.contains(player)) {
             String scmessage = ChatColor.stripColor(c.getMessage());
             String msg = Lang.fileConfig.getString("staffchat-message").replace("<player>", player.getName()).replace("<message>", ChatColor.GRAY + scmessage);

@@ -12,9 +12,7 @@ import me.rocketmankianproductions.serveressentials.file.Lang;
 import me.rocketmankianproductions.serveressentials.tasks.Broadcast;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -22,7 +20,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
@@ -42,8 +39,6 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
     public EconomyImplementer economyImplementer;
     private VaultHook vaultHook;
     public final HashMap<UUID,Double> playerBank = new HashMap<>();
-
-    public ArrayList<Player> invisible_list = new ArrayList<>();
 
     private DiscordMessageReceived discordsrvListener = new DiscordMessageReceived(this);
 
@@ -141,6 +136,8 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         // SE Command
         getCommand("se").setExecutor(new SE());
         getCommand("se").setTabCompleter(new TabCompletion());
+        // AFK Command
+        getCommand("afk").setExecutor(new AFK());
         // Discord Command
         getCommand("discord").setExecutor(new Discord());
         // Website Command
@@ -325,8 +322,12 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("seen").setExecutor(new Seen());
         // Thor Command
         getCommand("thor").setExecutor(new Thor());
+        // Freeze Command
+        getCommand("freeze").setExecutor(new Freeze());
         // Jump Command
         getCommand("jump").setExecutor(new Jump());
+        // Jump Boost Command
+        getCommand("jumpboost").setExecutor(new JumpBoost());
         // Fireball Command
         getCommand("fireball").setExecutor(new Fireball());
         // Burn Command
@@ -344,8 +345,6 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
             getCommand("eco").setExecutor(new Eco());
             getCommand("eco").setTabCompleter(new TabCompletion());
         }
-        // AFK Command
-        //getCommand("afk").setExecutor(new AFK());
     }
 
     public void registerEvents() {
