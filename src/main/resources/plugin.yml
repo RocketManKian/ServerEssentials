@@ -1,11 +1,11 @@
 name: ServerEssentials
-version: 2.1.3
+version: 2.1.4
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
 description: A Plugin for all Server Owners!
-softdepend: [PlaceholderAPI, DiscordSRV, DiscordSRV-Staff-Chat, AcceptTheRules, HuskHomes, LibsDisguises, Vault] # Plugins that load before ServerEssentials
-loadbefore: [Essentials, getClan, zAuctionHouse, Towny]
+softdepend: [PlaceholderAPI, DiscordSRV, AcceptTheRules, HuskHomes, LibsDisguises, Vault] # Plugins that load before ServerEssentials
+loadbefore: [Essentials, getClan, zAuctionHouse, Towny, DiscordSRV-Staff-Chat]
 commands:
   se:
     description: Server Essentials Root Command
