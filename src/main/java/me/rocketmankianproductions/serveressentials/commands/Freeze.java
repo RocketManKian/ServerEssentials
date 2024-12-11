@@ -17,7 +17,7 @@ import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
 
 public class Freeze implements CommandExecutor {
 
-    public static HashMap<Player, Boolean> freeze = new HashMap<>();
+    public static HashMap<OfflinePlayer, Boolean> freeze = new HashMap<>();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
@@ -27,14 +27,14 @@ public class Freeze implements CommandExecutor {
                 if (args.length == 1){
                     OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
                     if (target.isOnline()){
-                        if (freeze.containsKey(player)){
-                            freeze.remove(player);
-                            String msg = Lang.fileConfig.getString("unfreeze-target").replace("<player>", player.getName());
+                        if (freeze.containsKey(target)){
+                            freeze.remove(target);
+                            String msg = Lang.fileConfig.getString("unfreeze-target").replace("<player>", target.getName());
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
                         }else{
-                            freeze.put(player,  true);
-                            String msg = Lang.fileConfig.getString("freeze-target").replace("<player>", player.getName());
+                            freeze.put(target,  true);
+                            String msg = Lang.fileConfig.getString("freeze-target").replace("<player>", target.getName());
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
                         }
