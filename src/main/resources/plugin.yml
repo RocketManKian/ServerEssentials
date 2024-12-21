@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 2.1.4
+version: 2.1.5
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -291,6 +291,7 @@ permissions:
       se.tpaccept: true
       se.tpdeny: true
       se.teleport: true
+      se.offlinetp: true
       se.teleport.coords: true
       se.tpall: true
       se.silenttp: true
@@ -447,6 +448,9 @@ permissions:
     default: false
   se.teleport:
     description: "Teleport Command"
+    default: false
+  se.offlinetp:
+    description: "Offline Teleport Command"
     default: false
   se.teleport.bypass:
     description: "Teleport Bypass Permission"

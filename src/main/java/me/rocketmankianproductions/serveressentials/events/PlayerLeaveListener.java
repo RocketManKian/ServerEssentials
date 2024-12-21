@@ -8,6 +8,7 @@ import me.rocketmankianproductions.serveressentials.file.Lang;
 import me.rocketmankianproductions.serveressentials.file.UserFile;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -57,6 +58,15 @@ public class PlayerLeaveListener implements Listener {
         // Seen Command
         long currentTime = System.currentTimeMillis();  // Capture current timestamp
         UserFile.fileConfig.set(player.getUniqueId() + ".logout", currentTime);
+        try {
+            UserFile.fileConfig.save(UserFile.file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Save Logout Location
+        Location location = player.getLocation();
+        UserFile.fileConfig.set(player.getUniqueId() + ".logoutLocation", location);
         try {
             UserFile.fileConfig.save(UserFile.file);
         } catch (IOException e) {
