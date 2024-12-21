@@ -2,9 +2,8 @@ package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
+import me.rocketmankianproductions.serveressentials.file.UserFile;
+import org.bukkit.*;
 import org.bukkit.World;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
@@ -30,11 +29,30 @@ public class Teleport implements CommandExecutor {
             } else if (args.length == 1 || args.length == 2) {
                 if (ServerEssentials.permissionChecker(player, "se.teleport")) {
                     if (args.length == 1) {
-                        Player target = Bukkit.getPlayer(args[0]);
-                        if (target == null) {
+                        OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
+                        if (!target.hasPlayedBefore()) {
                             String msg = Lang.fileConfig.getString("target-offline");
                             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
+                        }
+                        if (!target.isOnline()) {
+                            if (player.hasPermission("se.offlinetp")) {
+                                Location location = UserFile.fileConfig.getLocation(target.getUniqueId() + ".logoutLocation");
+                                if (location != null) {
+                                    player.teleport(location);
+                                    String msg = Lang.fileConfig.getString("teleport-target-offline-success").replace("<target>", target.getName());
+                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                                    return true;
+                                } else {
+                                    String msg = Lang.fileConfig.getString("target-offline");
+                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                                    return true;
+                                }
+                            }else{
+                                String permmsg = Lang.fileConfig.getString("no-permission-message").replace("<permission>", "se.offlinetp");
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', permmsg));
+                                return true;
+                            }
                         } else if (target == player) {
                             String msg = Lang.fileConfig.getString("teleport-self");
                             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
@@ -42,7 +60,7 @@ public class Teleport implements CommandExecutor {
                         } else {
                             String target2 = target.getName();
                             if (sender.hasPermission("se.silenttp") || sender.hasPermission("se.all")) {
-                                if (target == null) {
+                                if (!target.hasPlayedBefore()) {
                                     String msg = Lang.fileConfig.getString("target-offline");
                                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                     return true;
@@ -53,7 +71,7 @@ public class Teleport implements CommandExecutor {
                                 player.teleport(target.getLocation());
                                 return true;
                             } else if (!sender.hasPermission("se.silenttp")) {
-                                if (target == null) {
+                                if (!target.hasPlayedBefore()) {
                                     String msg = Lang.fileConfig.getString("target-offline");
                                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                     return true;
@@ -62,7 +80,7 @@ public class Teleport implements CommandExecutor {
                                 String msg = Lang.fileConfig.getString("teleport-success").replace("<target>", target2);
                                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                 String msg2 = Lang.fileConfig.getString("teleport-target-success").replace("<sender>", sender.getName());
-                                target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
+                                target.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
                                 player.teleport(target.getLocation());
                                 return true;
                             }

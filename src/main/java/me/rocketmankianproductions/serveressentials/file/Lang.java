@@ -258,6 +258,7 @@ public class Lang {
                 fileConfig.addDefault("teleport-self", "You cannot teleport to yourself");
                 fileConfig.addDefault("teleport-success", "Teleported to <target>");
                 fileConfig.addDefault("teleport-target-success", "<sender> has teleported to you");
+                fileConfig.addDefault("teleport-target-offline-success", "Teleported to <target>'s Logout Location");
                 fileConfig.addDefault("teleport-target-to-self", "You cannot teleport someone to themself");
                 fileConfig.addDefault("teleport-others", "Teleported <target> to <target2>");
                 fileConfig.addDefault("teleport-force-target", "You have been teleported to <target>");
@@ -1233,6 +1234,10 @@ public class Lang {
 
                 if (fileConfig.getString("teleport-target-success") == null) {
                     fileConfig.set("teleport-target-success", "<sender> has teleported to you");
+                }
+
+                if (fileConfig.getString("teleport-target-offline-success") == null) {
+                    fileConfig.set("teleport-target-offline-success", "Teleported to <target>'s Logout Location");
                 }
 
                 if (fileConfig.getString("teleport-target-to-self") == null) {
