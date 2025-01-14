@@ -19,17 +19,29 @@ public class Weather implements CommandExecutor {
             if (ServerEssentials.permissionChecker(player, "se.weather")) {
                 if (command.getName().equalsIgnoreCase("weather") && args.length == 1){
                     if (args[0].equalsIgnoreCase("sun")){
-                        setWeather(player, player.getWorld(),false, "weather-sun");
+                        setWeather(player, player.getWorld(),false, false, "weather-sun");
                         return true;
-                    }else if (args[0].equalsIgnoreCase("storm") || args[0].equalsIgnoreCase("thunder") || args[0].equalsIgnoreCase("rain")){
-                        setWeather(player, player.getWorld(),true, "weather-storm");
+                    }else if (args[0].equalsIgnoreCase("storm")){
+                        setWeather(player, player.getWorld(),true, true, "weather-storm");
+                        return true;
+                    }else if (args[0].equalsIgnoreCase("thunder")){
+                        setWeather(player, player.getWorld(),true, true, "weather-thunder");
+                        return true;
+                    }else if (args[0].equalsIgnoreCase("rain")){
+                        setWeather(player, player.getWorld(),true, false, "weather-rain");
                         return true;
                     }
                 }else if (command.getName().equalsIgnoreCase("sun")){
-                    setWeather(player, player.getWorld(),false, "weather-sun");
+                    setWeather(player, player.getWorld(),false, false, "weather-sun");
                     return true;
                 }else if (command.getName().equalsIgnoreCase("storm")){
-                    setWeather(player, player.getWorld(),true, "weather-storm");
+                    setWeather(player, player.getWorld(),true, true, "weather-storm");
+                    return true;
+                }else if (command.getName().equalsIgnoreCase("thunder")){
+                    setWeather(player, player.getWorld(),true, true, "weather-thunder");
+                    return true;
+                }else if (command.getName().equalsIgnoreCase("rain")){
+                    setWeather(player, player.getWorld(),true, false, "weather-rain");
                     return true;
                 }else{
                     String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/weather <sun/storm>");
@@ -40,17 +52,29 @@ public class Weather implements CommandExecutor {
         }else if (commandSender instanceof ConsoleCommandSender){
             if (command.getName().equalsIgnoreCase("weather") && args.length == 1){
                 if (args[0].equalsIgnoreCase("sun")){
-                    setWeather(commandSender, null,false, "weather-sun");
+                    setWeather(commandSender, null,false, false, "weather-sun");
                     return true;
-                }else if (args[0].equalsIgnoreCase("storm") || args[0].equalsIgnoreCase("thunder") || args[0].equalsIgnoreCase("rain")){
-                    setWeather(commandSender, null,true, "weather-storm");
+                }else if (args[0].equalsIgnoreCase("storm")){
+                    setWeather(commandSender, null,true, true, "weather-storm");
+                    return true;
+                }else if (args[0].equalsIgnoreCase("thunder")){
+                    setWeather(commandSender, null,true, true, "weather-thunder");
+                    return true;
+                }else if (args[0].equalsIgnoreCase("rain")){
+                    setWeather(commandSender, null,true, false, "weather-rain");
                     return true;
                 }
             }else if (command.getName().equalsIgnoreCase("sun")){
-                setWeather(commandSender, null,false, "weather-sun");
+                setWeather(commandSender, null,false, false, "weather-sun");
                 return true;
             }else if (command.getName().equalsIgnoreCase("storm")){
-                setWeather(commandSender, null,true, "weather-storm");
+                setWeather(commandSender, null,true, true, "weather-storm");
+                return true;
+            }else if (command.getName().equalsIgnoreCase("thunder")){
+                setWeather(commandSender, null,true, true, "weather-thunder");
+                return true;
+            }else if (command.getName().equalsIgnoreCase("rain")){
+                setWeather(commandSender, null,true, false, "weather-rain");
                 return true;
             }else{
                 String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/weather <sun/storm>");
@@ -61,17 +85,29 @@ public class Weather implements CommandExecutor {
             BlockCommandSender block = (BlockCommandSender) commandSender;
             if (command.getName().equalsIgnoreCase("weather") && args.length == 1){
                 if (args[0].equalsIgnoreCase("sun")){
-                    setWeather(block, block.getBlock().getWorld(),false, "weather-sun");
+                    setWeather(block, block.getBlock().getWorld(),false, false, "weather-sun");
                     return true;
-                }else if (args[0].equalsIgnoreCase("storm") || args[0].equalsIgnoreCase("thunder") || args[0].equalsIgnoreCase("rain")){
-                    setWeather(block, block.getBlock().getWorld(),true, "weather-storm");
+                }else if (args[0].equalsIgnoreCase("storm")){
+                    setWeather(block, block.getBlock().getWorld(),true, true, "weather-storm");
+                    return true;
+                }else if (args[0].equalsIgnoreCase("thunder")){
+                    setWeather(block, block.getBlock().getWorld(),true, true, "weather-thunder");
+                    return true;
+                }else if (args[0].equalsIgnoreCase("rain")){
+                    setWeather(block, block.getBlock().getWorld(),true, false, "weather-rain");
                     return true;
                 }
             }else if (command.getName().equalsIgnoreCase("sun")){
-                setWeather(block, block.getBlock().getWorld(),false, "weather-sun");
+                setWeather(block, block.getBlock().getWorld(),false, false, "weather-sun");
                 return true;
             }else if (command.getName().equalsIgnoreCase("storm")){
-                setWeather(block, block.getBlock().getWorld(),true, "weather-storm");
+                setWeather(block, block.getBlock().getWorld(),true, true, "weather-storm");
+                return true;
+            }else if (command.getName().equalsIgnoreCase("thunder")){
+                setWeather(block, block.getBlock().getWorld(),true, true, "weather-thunder");
+                return true;
+            }else if (command.getName().equalsIgnoreCase("rain")){
+                setWeather(block, block.getBlock().getWorld(),true, false, "weather-rain");
                 return true;
             }else{
                 String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/weather <sun/storm>");
@@ -82,7 +118,7 @@ public class Weather implements CommandExecutor {
         return false;
     }
 
-    public void setWeather(CommandSender sender, World world, boolean weather, String msg){
+    public void setWeather(CommandSender sender, World world, boolean weather, boolean thunder, String msg){
         String message;
         if (world == null){
             StringBuilder worldString = new StringBuilder();
@@ -92,10 +128,12 @@ public class Weather implements CommandExecutor {
                 }
                 worldString.append(allworld.getName());
                 allworld.setStorm(weather);
+                allworld.setThundering(thunder);
             }
             message = Lang.fileConfig.getString(msg).replace("<world>", worldString.toString());
         }else{
             sender.getServer().getWorld(world.getUID()).setStorm(weather);
+            sender.getServer().getWorld(world.getUID()).setThundering(thunder);
             message = Lang.fileConfig.getString(msg).replace("<world>", world.getName());
         }
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(message)));

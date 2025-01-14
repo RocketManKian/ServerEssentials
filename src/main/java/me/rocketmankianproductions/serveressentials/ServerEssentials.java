@@ -168,6 +168,8 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("deletehome").setTabCompleter(new TabCompletion());
         // Teleport Toggle Command
         getCommand("tptoggle").setExecutor(new TPToggle());
+        // Teleport Override Command
+        getCommand("tpo").setExecutor(new TPO());
         // Teleport Command
         getCommand("teleport").setExecutor(new Teleport());
         // TeleportHere Command
@@ -180,6 +182,8 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("tpaccept").setExecutor(new TeleportRequest());
         // Teleport Deny Command
         getCommand("tpdeny").setExecutor(new TeleportRequest());
+        // TPA Cancel Command
+        getCommand("tpacancel").setExecutor(new TeleportRequest());
         // Teleport Here Command
         getCommand("tpahere").setExecutor(new TeleportRequest());
         // Heal Command
@@ -242,6 +246,10 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("sun").setExecutor(new Weather());
         // Storm Weather Command
         getCommand("storm").setExecutor(new Weather());
+        // Thunder Weather Command
+        getCommand("thunder").setExecutor(new Weather());
+        // Rain Weather Command
+        getCommand("rain").setExecutor(new Weather());
         // Time Command
         getCommand("time").setExecutor(new Time());
         getCommand("time").setTabCompleter(new TabCompletion());
@@ -271,8 +279,6 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("sendhome").setTabCompleter(new TabCompletion());
         // List Home Command
         getCommand("listhomes").setExecutor(new ListHomes());
-        // TPA Cancel Command
-        getCommand("tpacancel").setExecutor(new TeleportRequest());
         // Rename Command
         getCommand("rename").setExecutor(new Rename());
         // Set Lore Command
