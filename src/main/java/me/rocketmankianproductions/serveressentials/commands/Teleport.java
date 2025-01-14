@@ -29,10 +29,20 @@ public class Teleport implements CommandExecutor {
             } else if (args.length == 1 || args.length == 2) {
                 if (ServerEssentials.permissionChecker(player, "se.teleport")) {
                     if (args.length == 1) {
-                        OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
-                        if (!target.hasPlayedBefore()) {
+                        Player target = Bukkit.getPlayer(args[0]);
+                        if (target == null) {
                             String msg = Lang.fileConfig.getString("target-offline");
                             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                            return true;
+                        }
+                        if (target == player) {
+                            String msg = Lang.fileConfig.getString("teleport-self");
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                            return true;
+                        }
+                        if (UserFile.fileConfig.getBoolean(target.getUniqueId() + ".tptoggle")) {
+                            String msg = Lang.fileConfig.getString("teleport-disabled");
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
                         }
                         if (!target.isOnline()) {
@@ -53,29 +63,15 @@ public class Teleport implements CommandExecutor {
                                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', permmsg));
                                 return true;
                             }
-                        } else if (target == player) {
-                            String msg = Lang.fileConfig.getString("teleport-self");
-                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                            return true;
                         } else {
                             String target2 = target.getName();
                             if (sender.hasPermission("se.silenttp") || sender.hasPermission("se.all")) {
-                                if (!target.hasPlayedBefore()) {
-                                    String msg = Lang.fileConfig.getString("target-offline");
-                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                                    return true;
-                                }
                                 String msg = Lang.fileConfig.getString("teleport-success").replace("<target>", target2);
                                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                 teleportSave(player);
                                 player.teleport(target.getLocation());
                                 return true;
                             } else if (!sender.hasPermission("se.silenttp")) {
-                                if (!target.hasPlayedBefore()) {
-                                    String msg = Lang.fileConfig.getString("target-offline");
-                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                                    return true;
-                                }
                                 teleportSave(player);
                                 String msg = Lang.fileConfig.getString("teleport-success").replace("<target>", target2);
                                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
@@ -88,7 +84,7 @@ public class Teleport implements CommandExecutor {
                     } else if (args.length == 2) {
                         Player playerToSend = Bukkit.getPlayer(args[0]);
                         Player target = Bukkit.getPlayer(args[1]);
-                        if (target == null) {
+                        if (target == null || playerToSend == null) {
                             String msg = Lang.fileConfig.getString("target-offline");
                             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
@@ -96,14 +92,13 @@ public class Teleport implements CommandExecutor {
                             String msg = Lang.fileConfig.getString("teleport-target-to-self");
                             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
+                        } else if (UserFile.fileConfig.getBoolean(target.getUniqueId() + ".tptoggle") || UserFile.fileConfig.getBoolean(playerToSend.getUniqueId() + ".tptoggle")) {
+                            String msg = Lang.fileConfig.getString("teleport-disabled");
+                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                            return true;
                         } else {
                             String target2 = target.getName();
                             if (sender.hasPermission("se.silenttp") || sender.hasPermission("se.all")) {
-                                if (playerToSend == null) {
-                                    String msg = Lang.fileConfig.getString("target-offline");
-                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                                    return true;
-                                }
                                 if (target == sender) {
                                     String msg = Lang.fileConfig.getString("teleport-target-success").replace("<sender>", playerToSend.getName());
                                     target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
@@ -128,11 +123,6 @@ public class Teleport implements CommandExecutor {
                                     return true;
                                 }
                             } else if (!sender.hasPermission("se.silenttp")) {
-                                if (playerToSend == null) {
-                                    String msg = Lang.fileConfig.getString("target-offline");
-                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                                    return true;
-                                }
                                 if (target == sender) {
                                     String msg = Lang.fileConfig.getString("teleport-force-target").replace("<target>", target.getName());
                                     playerToSend.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
@@ -199,7 +189,11 @@ public class Teleport implements CommandExecutor {
                                 String msg = Lang.fileConfig.getString("target-offline");
                                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                 return true;
-                            }else {
+                            } else if (UserFile.fileConfig.getBoolean(target.getUniqueId() + ".tptoggle")) {
+                                String msg = Lang.fileConfig.getString("teleport-disabled");
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                                return true;
+                            }else{
                                 //String dimension = args[4];
                                 String dimension = args[4];
                                 World myworld = dimension == null ? target.getWorld() : Bukkit.getWorld(dimension);
@@ -232,7 +226,17 @@ public class Teleport implements CommandExecutor {
             if (args.length == 2) {
                 Player playerToSend = Bukkit.getPlayer(args[0]);
                 Player target = Bukkit.getPlayer(args[1]);
-                if (playerToSend != target && target != null) {
+                if (target == null || playerToSend == null){
+                    String msg = Lang.fileConfig.getString("target-offline");
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                    return true;
+                }
+                if (UserFile.fileConfig.getBoolean(target.getUniqueId() + ".tptoggle") || UserFile.fileConfig.getBoolean(playerToSend.getUniqueId() + ".tptoggle")) {
+                    String msg = Lang.fileConfig.getString("teleport-disabled");
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                    return true;
+                }
+                if (playerToSend != target) {
                     teleportSave(playerToSend);
                     playerToSend.teleport(target.getLocation());
                     String msg = Lang.fileConfig.getString("teleport-others").replace("<target>", playerToSend.getName()).replace("<target2>", target.getName());
@@ -242,16 +246,16 @@ public class Teleport implements CommandExecutor {
                     String msg3 = Lang.fileConfig.getString("teleport-target-success").replace("<sender>", playerToSend.getName());
                     target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg3)));
                     return true;
-                } else {
-                    String msg = Lang.fileConfig.getString("target-offline");
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                    return true;
                 }
             } else if (args.length >= 4){
                 Player target = Bukkit.getPlayerExact(args[0]);
                 String dimension = args[4];
-                if (target == null){
+                if (target == null) {
                     String msg = Lang.fileConfig.getString("target-offline");
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                    return true;
+                } else if (UserFile.fileConfig.getBoolean(target.getUniqueId() + ".tptoggle")) {
+                    String msg = Lang.fileConfig.getString("teleport-disabled");
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }else {
@@ -274,6 +278,11 @@ public class Teleport implements CommandExecutor {
             if (args.length == 2){
                 Player playerToSend = Bukkit.getPlayer(args[0]);
                 Player target = Bukkit.getPlayer(args[1]);
+                if (UserFile.fileConfig.getBoolean(target.getUniqueId() + ".tptoggle") || UserFile.fileConfig.getBoolean(playerToSend.getUniqueId() + ".tptoggle")) {
+                    String msg = Lang.fileConfig.getString("teleport-disabled");
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                    return true;
+                }
                 if (playerToSend != target) {
                     try {
                         teleportSave(playerToSend);
@@ -294,8 +303,12 @@ public class Teleport implements CommandExecutor {
             } else if (args.length >= 4){
                 Player target = Bukkit.getPlayerExact(args[0]);
                 String dimension = args[4];
-                if (target == null){
+                if (target == null) {
                     String msg = Lang.fileConfig.getString("target-offline");
+                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                    return true;
+                }else if (UserFile.fileConfig.getBoolean(target.getUniqueId() + ".tptoggle")) {
+                    String msg = Lang.fileConfig.getString("teleport-disabled");
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }else if (args[0].equalsIgnoreCase(target.getName())) {

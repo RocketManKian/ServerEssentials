@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 2.1.5
+version: 2.1.6
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -50,6 +50,8 @@ commands:
   deletehome:
     description: Deletes your Home
     aliases: [delhome]
+  tpo:
+    description: Teleport Override
   teleport:
     description: Teleport Function
     aliases: [tp]
@@ -150,7 +152,10 @@ commands:
     aliases: [clear]
   storm:
     description: Storm Command
-    aliases: [thunder, rain]
+  thunder:
+    description: Thunder Command
+  rain:
+    description: Rain Command
   vanish:
     description: Vanish Command
     aliases: [v]
@@ -290,6 +295,7 @@ permissions:
       se.tpa: true
       se.tpaccept: true
       se.tpdeny: true
+      se.tpo: true
       se.teleport: true
       se.offlinetp: true
       se.teleport.coords: true
@@ -445,6 +451,9 @@ permissions:
     default: false
   se.deletehome.others:
     description: "Deletes Other Player's Homes"
+    default: false
+  se.tpo:
+    description: "Teleport Override Command"
     default: false
   se.teleport:
     description: "Teleport Command"

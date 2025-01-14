@@ -32,6 +32,7 @@ public class Lang {
                 fileConfig.addDefault("command-timeout", "You cannot use this command for another <time> Seconds");
                 fileConfig.addDefault("player-offline", "Player does not exist!");
                 fileConfig.addDefault("target-offline", "Target is offline");
+                fileConfig.addDefault("all-offline", "There are no players online");
                 fileConfig.addDefault("console-invalid", "You cannot execute this command in Console");
                 fileConfig.addDefault("invalid-player", "You are not a player");
                 fileConfig.addDefault("incorrect-format", "Incorrect format! Please use &6<command>");
@@ -312,6 +313,8 @@ public class Lang {
                 fileConfig.addDefault("time-midnight", "&6Time set to &cMidnight &6in: &c<world>");
                 fileConfig.addDefault("weather-sun", "&6Weather set to &cSun &6in: &c<world>");
                 fileConfig.addDefault("weather-storm", "&6Weather set to &cStorm &6in: &c<world>");
+                fileConfig.addDefault("weather-thunder", "&6Weather set to &cThunder &6in: &c<world>");
+                fileConfig.addDefault("weather-rain", "&6Weather set to &cRain &6in: &c<world>");
                 fileConfig.addDefault("trash-gui-name", "Trash Chute");
                 fileConfig.addDefault("vanish-enabled", "You are now invisible!");
                 fileConfig.addDefault("vanish-disabled", "You are now visible to other players on the server");
@@ -372,6 +375,10 @@ public class Lang {
 
                 if (fileConfig.getString("target-offline") == null) {
                     fileConfig.set("target-offline", "Target is offline");
+                }
+
+                if (fileConfig.getString("all-offline") == null) {
+                    fileConfig.set("all-offline", "There are no players online");
                 }
 
                 if (fileConfig.getString("console-invalid") == null) {
@@ -1450,6 +1457,14 @@ public class Lang {
 
                 if (fileConfig.getString("weather-storm") == null) {
                     fileConfig.set("weather-storm", "&6Weather set to &cStorm &6in: &c<world>");
+                }
+
+                if (fileConfig.getString("weather-thunder") == null) {
+                    fileConfig.set("weather-thunder", "&6Weather set to &cThunder &6in: &c<world>");
+                }
+
+                if (fileConfig.getString("weather-rain") == null) {
+                    fileConfig.set("weather-rain", "&6Weather set to &cRain &6in: &c<world>");
                 }
 
                 if (fileConfig.getString("trash-gui-name") == null) {

@@ -52,10 +52,11 @@ public class PlayerJoinListener implements Listener {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }else{
+            // Ensure player's current balance is loaded into memory
+            double playerBalance = UserFile.fileConfig.getDouble(player.getUniqueId() + ".money");
+            ServerEssentials.getPlugin().playerBank.put(player.getUniqueId(), playerBalance);
         }
-        // Ensure player's current balance is loaded into memory
-        double playerBalance = UserFile.fileConfig.getDouble(player.getUniqueId() + ".money");
-        ServerEssentials.getPlugin().playerBank.put(player.getUniqueId(), playerBalance);
 
         // Check to see if Update Checker is enabled in Config
         if (ServerEssentials.getPlugin().getConfig().getBoolean("update-checker")){
