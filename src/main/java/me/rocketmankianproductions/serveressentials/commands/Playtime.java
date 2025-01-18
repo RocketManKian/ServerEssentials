@@ -71,7 +71,7 @@ public class Playtime implements CommandExecutor {
 
     public void playtimeChecker(Player player, String stringmsg, Player target){
         // Converting the playtime stored as 20 ticks per second into Days, Hours, Minutes and Seconds.
-        int ticks = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
+        int ticks = (target == null) ? player.getStatistic(Statistic.PLAY_ONE_MINUTE) : target.getStatistic(Statistic.PLAY_ONE_MINUTE);
         int rest = 0;
         // Ticks divided by 20 = seconds. Seconds x 60 = Minute. Minute x 60 = Hour. Hour x 24 = Day.
         int days = ticks / (20 * 3600 * 24);
