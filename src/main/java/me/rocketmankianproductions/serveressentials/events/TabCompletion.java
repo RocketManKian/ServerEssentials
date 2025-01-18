@@ -14,7 +14,6 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class TabCompletion implements TabCompleter {
@@ -167,7 +166,67 @@ public class TabCompletion implements TabCompleter {
             }
         }
 
-        // Apply dynamic filtering
+        // Delete Spawn Command
+        if (command.getName().equalsIgnoreCase("deletespawn")) {
+            if (args.length == 1) autoCompletes.add("newbies");
+        }
+
+        // Sendwarp Command
+        if (command.getName().equalsIgnoreCase("sendwarp")) {
+            if (args.length == 1) autoCompletes.add("<player>");
+            if (args.length == 2) autoCompletes.add("<warp>");
+        }
+
+        // Sendhome Command
+        if (command.getName().equalsIgnoreCase("sendhome")) {
+            if (args.length == 1) autoCompletes.add("<player>");
+            if (args.length == 2) autoCompletes.add("<home>");
+        }
+
+        // Message Command
+        if (command.getName().equalsIgnoreCase("message")) {
+            if (args.length == 1) autoCompletes.add("<player>");
+        }
+
+        // Reply Command
+        if (command.getName().equalsIgnoreCase("reply")) {
+            if (args.length == 1) autoCompletes.add("<message>");
+        }
+
+        // Report Bug Command
+        if (command.getName().equalsIgnoreCase("reportbug")) {
+            if (args.length == 1) autoCompletes.add("<bug>");
+        }
+
+        // Eco Command
+        if (command.getName().equalsIgnoreCase("eco")) {
+            if (args.length == 1) {
+                autoCompletes.add("give");
+                autoCompletes.add("take");
+                autoCompletes.add("set");
+            }
+            if (args.length == 2) autoCompletes.add("<amount>");
+            if (args.length == 3){
+                return null;
+            }
+        }
+
+        // Delwarp Command
+        if (command.getName().equalsIgnoreCase("delwarp")) {
+            Player player = (Player) sender;
+            if (args.length == 1) {
+                if (Setwarp.fileConfig.getConfigurationSection("Warp.") != null) {
+                    ConfigurationSection warps = Setwarp.fileConfig.getConfigurationSection("Warp.");
+                    for (String warp : warps.getKeys(false)) {
+                        if (player.hasPermission("se.warps." + warp) || player.hasPermission("se.warps.all")) {
+                            autoCompletes.add(warp);
+                        }
+                    }
+                }
+            }
+        }
+
+        // Check autoCompletes list and dynamically filter based on input
         if (!autoCompletes.isEmpty()) {
             String input = args[args.length - 1].toLowerCase();
             return autoCompletes.stream()
