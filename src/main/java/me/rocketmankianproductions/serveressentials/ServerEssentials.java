@@ -341,6 +341,8 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         // World Command
         getCommand("world").setExecutor(new World());
         getCommand("world").setTabCompleter(new TabCompletion());
+        // Clear Entity
+        getCommand("clearentity").setExecutor(new EntityRemover());
         // Economy
         if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
             getCommand("pay").setExecutor(new Pay());

@@ -61,6 +61,7 @@ public class Lang {
                                 "&6|-------------------+====+-------------------|");
                 fileConfig.addDefault("clear-success", "Inventory cleared");
                 fileConfig.addDefault("clear-target-success", "<target>(s) inventory has been cleared");
+                fileConfig.addDefault("clear-entity", "&cCleared <amount> entities!");
                 fileConfig.addDefault("pay-toggle-enabled", "Players can no longer pay you");
                 fileConfig.addDefault("pay-toggle-disabled", "Players can now pay you");
                 fileConfig.addDefault("pay-disabled", "That player has paying disabled");
@@ -480,6 +481,10 @@ public class Lang {
 
                 if (fileConfig.getString("clear-target-success") == null) {
                     fileConfig.set("clear-target-success", "<target>(s) inventory has been cleared");
+                }
+
+                if (fileConfig.getString("clear-entity") == null) {
+                    fileConfig.set("clear-entity", "&cCleared <amount> entities!");
                 }
 
                 if (fileConfig.getString("eco-receive") == null) {

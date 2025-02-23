@@ -9,6 +9,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -32,7 +33,7 @@ public class Balance implements CommandExecutor {
                 return true;
             }else if (args.length == 1){
                 OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
-                if (target.hasPlayedBefore()){
+                if (target.hasPlayedBefore() || target.isOnline()){
                     if (!UserFile.fileConfig.getBoolean(target.getUniqueId() + ".balancehidden")) {
                         if (UserFile.fileConfig.getString(String.valueOf(target.getUniqueId())) == null){
                             UserFile.fileConfig.set(target.getUniqueId() + ".money", plugin.getConfig().getDouble("start-balance"));
