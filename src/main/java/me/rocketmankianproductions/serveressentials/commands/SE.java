@@ -127,7 +127,8 @@ public class SE implements CommandExecutor {
                             + "\n/world <world> - Teleport to specified World."
                             + "\n/near - Displays all Nearby Players."
                             + "\n/seen <player> - Shows when the Player was last active alongside their UUID"
-                            + "\n/whois <player> - Lists various pieces of Player Info");
+                            + "\n/whois <player> - Lists various pieces of Player Info"
+                            + "\n/clearentity - Clears all Entities");
                     return true;
                 }
             }else if (args.length == 1){

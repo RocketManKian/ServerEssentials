@@ -262,6 +262,8 @@ commands:
     description: World Command
   burn:
     description: Burn Command
+  clearentity:
+    description: Entity Clear Command
 permissions:
   se.all:
     description: "Gives access to all commands."
@@ -380,6 +382,7 @@ permissions:
       se.world: true
       se.burn: true
       se.freeze: true
+      se.clearentity: true
   se.reload:
     description: "Gives access to the /se reload command."
     default: false
@@ -721,4 +724,7 @@ permissions:
     default: false
   se.freeze:
     description: "Freeze and Unfreeze Command Permission"
+    default: false
+  se.clearentity:
+    description: "Clear Entity Command Permission"
     default: false

@@ -205,10 +205,7 @@ public class TabCompletion implements TabCompleter {
                 autoCompletes.add("take");
                 autoCompletes.add("set");
             }
-            if (args.length == 2) autoCompletes.add("<amount>");
-            if (args.length == 3){
-                return null;
-            }
+            if (args.length == 3) autoCompletes.add("<amount>");
         }
 
         // Delwarp Command
