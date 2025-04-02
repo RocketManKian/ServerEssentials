@@ -317,6 +317,12 @@ public class Lang {
                 fileConfig.addDefault("weather-thunder", "&6Weather set to &cThunder &6in: &c<world>");
                 fileConfig.addDefault("weather-rain", "&6Weather set to &cRain &6in: &c<world>");
                 fileConfig.addDefault("trash-gui-name", "Trash Chute");
+                fileConfig.addDefault("top-successful", "Teleported to the highest block");
+                fileConfig.addDefault("top-unsuccessful", "You are already at the highest block");
+                fileConfig.addDefault("top-invalid", "No valid top block found");
+                fileConfig.addDefault("bottom-successful", "Teleported to the lowest block");
+                fileConfig.addDefault("bottom-unsuccessful", "You are already at the lowest block");
+                fileConfig.addDefault("bottom-invalid", "No valid bottom block found");
                 fileConfig.addDefault("vanish-enabled", "You are now invisible!");
                 fileConfig.addDefault("vanish-disabled", "You are now visible to other players on the server");
                 fileConfig.addDefault("vanish-target-enabled", "<target> is now invisible");
@@ -331,6 +337,8 @@ public class Lang {
                 fileConfig.addDefault("seen-invalid", "&6Player &e<player> &6has no available data.");
                 fileConfig.addDefault("sudo-successful", "Successfully ran command <command> for <target>");
                 fileConfig.addDefault("sudo-command-invalid", "Command <command> doesn't exist.");
+                fileConfig.addDefault("spawner-successful", "You received a &6<mob> Spawner");
+                fileConfig.addDefault("spawner-invalid", "Invalid mob type! Examples: zombie, skeleton, creeper.");
                 fileConfig.addDefault("ping-self", "Ping: <ping>");
                 fileConfig.addDefault("ping-target", "<target>'s Ping: <ping>");
                 fileConfig.addDefault("placeholder_afk_isenabled_yes", "yes");
@@ -1476,6 +1484,30 @@ public class Lang {
                     fileConfig.set("trash-gui-name", "Trash Chute");
                 }
 
+                if (fileConfig.getString("top-successful") == null) {
+                    fileConfig.set("top-successful", "Teleported to the highest block");
+                }
+
+                if (fileConfig.getString("top-unsuccessful") == null) {
+                    fileConfig.set("top-unsuccessful", "You are already at the highest block");
+                }
+
+                if (fileConfig.getString("top-invalid") == null) {
+                    fileConfig.set("top-invalid", "No valid top block found");
+                }
+
+                if (fileConfig.getString("bottom-successful") == null) {
+                    fileConfig.set("bottom-successful", "Teleported to the lowest block");
+                }
+
+                if (fileConfig.getString("bottom-unsuccessful") == null) {
+                    fileConfig.set("bottom-unsuccessful", "You are already at the lowest block");
+                }
+
+                if (fileConfig.getString("bottom-invalid") == null) {
+                    fileConfig.set("bottom-invalid", "No valid bottom block found");
+                }
+
                 if (fileConfig.getString("vanish-enabled") == null) {
                     fileConfig.set("vanish-enabled", "You are now invisible!");
                 }
@@ -1524,6 +1556,14 @@ public class Lang {
 
                 if (fileConfig.getString("sudo-command-invalid") == null) {
                     fileConfig.set("sudo-command-invalid", "Command [<command>] doesn't exist.");
+                }
+
+                if (fileConfig.getString("spawner-successful") == null) {
+                    fileConfig.set("spawner-successful", "You received a &6<mob> Spawner");
+                }
+
+                if (fileConfig.getString("spawner-invalid") == null) {
+                    fileConfig.set("spawner-invalid", "Invalid mob type! Examples: zombie, skeleton, creeper.");
                 }
 
                 if (fileConfig.getString("ping-self") == null) {

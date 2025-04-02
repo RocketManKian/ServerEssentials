@@ -64,7 +64,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         // DiscordSRV
         registerDiscordSRV();
         // Setup Economy
-        if (Bukkit.getPluginManager().getPlugin("Vault") != null){
+        if (Bukkit.getPluginManager().getPlugin("Vault") != null && ServerEssentials.getPlugin().getConfig().getBoolean("enable-eco")){
             instanceClasses();
             vaultHook.hook();
         }else{
@@ -341,10 +341,16 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         // World Command
         getCommand("world").setExecutor(new World());
         getCommand("world").setTabCompleter(new TabCompletion());
-        // Clear Entity
+        // Clear Entity Command
         getCommand("clearentity").setExecutor(new EntityRemover());
+        // Top Command
+        getCommand("top").setExecutor(new Top());
+        // Bottom Command
+        getCommand("bottom").setExecutor(new Bottom());
+        // Spawner Command
+        getCommand("spawner").setExecutor(new Spawner());
         // Economy
-        if (Bukkit.getPluginManager().getPlugin("Vault") != null) {
+        if (Bukkit.getPluginManager().getPlugin("Vault") != null && ServerEssentials.getPlugin().getConfig().getBoolean("enable-eco")) {
             getCommand("pay").setExecutor(new Pay());
             getCommand("paytoggle").setExecutor(new PayToggle());
             getCommand("balance").setExecutor(new Balance());

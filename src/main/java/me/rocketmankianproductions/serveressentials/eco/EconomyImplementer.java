@@ -82,7 +82,7 @@ public class EconomyImplementer implements Economy {
         if (player != null && player.hasMetadata("NPC")) {
             return false; // NPC detected
         }
-        return Bukkit.getOfflinePlayer(uuid).hasPlayedBefore(); // Ensures UUID belongs to a real player
+        return Bukkit.getOfflinePlayer(uuid).hasPlayedBefore() ||  Bukkit.getOfflinePlayer(uuid).isOnline(); // Ensures UUID belongs to a real player
     }
 
     @Override

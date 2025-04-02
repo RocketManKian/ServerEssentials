@@ -204,6 +204,7 @@ public class TabCompletion implements TabCompleter {
                 autoCompletes.add("give");
                 autoCompletes.add("take");
                 autoCompletes.add("set");
+                autoCompletes.add("reset");
             }
             if (args.length == 3) autoCompletes.add("<amount>");
         }
