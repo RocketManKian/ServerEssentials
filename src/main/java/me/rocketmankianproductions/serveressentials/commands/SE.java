@@ -128,6 +128,9 @@ public class SE implements CommandExecutor {
                             + "\n/near - Displays all Nearby Players."
                             + "\n/seen <player> - Shows when the Player was last active alongside their UUID"
                             + "\n/whois <player> - Lists various pieces of Player Info"
+                            + "\n/top - Teleports to highest available block"
+                            + "\n/bottom - Teleports to bottom most available block"
+                            + "\n/spawner - Gives spawner of specified type"
                             + "\n/clearentity - Clears all Entities");
                     return true;
                 }

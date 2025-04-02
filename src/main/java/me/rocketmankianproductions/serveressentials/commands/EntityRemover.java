@@ -4,6 +4,7 @@ import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -28,10 +29,12 @@ public class EntityRemover implements CommandExecutor {
 
     private void clearEntities(CommandSender sender) {
         int count = 0;
-        for (Entity entity : Bukkit.getWorlds().get(0).getEntities()) { // Only clearing in first world
-            if (!(entity instanceof Player)) { // Don't remove players
-                entity.remove();
-                count++;
+        for (World world : Bukkit.getWorlds()){
+            for (Entity entity : world.getEntities()) { // Only clearing in first world
+                if (!(entity instanceof Player)) { // Don't remove players
+                    entity.remove();
+                    count++;
+                }
             }
         }
         String msg = Lang.fileConfig.getString("clear-entity").replace("<amount>", String.valueOf(count));

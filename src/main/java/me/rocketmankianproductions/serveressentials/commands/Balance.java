@@ -9,7 +9,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,7 +21,8 @@ public class Balance implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
         Player player = (Player)sender;
         if (ServerEssentials.permissionChecker(player, "se.balance")) {
-            if (args.length == 0 || args[0].equalsIgnoreCase(player.getName())){
+            //if (args.length == 0 || args[0].equalsIgnoreCase(player.getName())){
+            if (args.length == 0){
                 if (UserFile.fileConfig.getString(String.valueOf(player.getUniqueId())) == null){
                     UserFile.fileConfig.set(player.getUniqueId() + ".money", plugin.getConfig().getDouble("start-balance"));
                     Eco.saveBalance();
@@ -33,7 +33,7 @@ public class Balance implements CommandExecutor {
                 return true;
             }else if (args.length == 1){
                 OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
-                if (target.hasPlayedBefore() || target.isOnline()){
+                if (target != null && (target.isOnline() || UserFile.fileConfig.contains(target.getUniqueId().toString()))) {
                     if (!UserFile.fileConfig.getBoolean(target.getUniqueId() + ".balancehidden")) {
                         if (UserFile.fileConfig.getString(String.valueOf(target.getUniqueId())) == null){
                             UserFile.fileConfig.set(target.getUniqueId() + ".money", plugin.getConfig().getDouble("start-balance"));

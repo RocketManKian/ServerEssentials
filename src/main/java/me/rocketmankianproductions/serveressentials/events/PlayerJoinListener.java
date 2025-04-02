@@ -47,11 +47,8 @@ public class PlayerJoinListener implements Listener {
         if (!UserFile.fileConfig.contains(player.getUniqueId() + ".money")) {
             double startingBalance = ServerEssentials.getPlugin().getConfig().getDouble("start-balance", 0.0);
             UserFile.fileConfig.set(player.getUniqueId() + ".money", startingBalance);
-            try {
-                UserFile.fileConfig.save(UserFile.file);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            ServerEssentials.getPlugin().playerBank.put(player.getUniqueId(), startingBalance);
+            Eco.saveBalance();
         }else{
             // Ensure player's current balance is loaded into memory
             double playerBalance = UserFile.fileConfig.getDouble(player.getUniqueId() + ".money");

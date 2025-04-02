@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 2.1.7
+version: 2.1.9
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -264,6 +264,12 @@ commands:
     description: Burn Command
   clearentity:
     description: Entity Clear Command
+  top:
+    description: Top Command
+  bottom:
+    description: Bottom Command
+  spawner:
+    description: Spawner Command
 permissions:
   se.all:
     description: "Gives access to all commands."
@@ -383,6 +389,9 @@ permissions:
       se.burn: true
       se.freeze: true
       se.clearentity: true
+      se.top: true
+      se.bottom: true
+      se.spawner: true
   se.reload:
     description: "Gives access to the /se reload command."
     default: false
@@ -727,4 +736,13 @@ permissions:
     default: false
   se.clearentity:
     description: "Clear Entity Command Permission"
+    default: false
+  se.top:
+    description: "Top Command Permission"
+    default: false
+  se.bottom:
+    description: "Bottom Command Permission"
+    default: false
+  se.spawner:
+    description: "Spawner Command Permission"
     default: false

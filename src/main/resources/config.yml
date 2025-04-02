@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 2.1.8
+# This config was generated for version 2.1.9
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -330,6 +330,10 @@ fly-blacklist:
 # +              Server Essentials (Eco)                 + #
 # +------------------------------------------------------+ #
 ############################################################
+# Enable or Disable the ServerEssentials Economy Implementation (Requires Restart)
+# Requires Vault
+# Default: true
+enable-eco: true
 # The Balance that all Players will have upon joining the server, also affecting the </eco reset> command.
 # Default: 0
 start-balance: 0

@@ -4,6 +4,7 @@ import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.commands.Eco;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import me.rocketmankianproductions.serveressentials.file.UserFile;
 import org.bukkit.Bukkit;
@@ -27,11 +28,7 @@ public class PlayerLeaveListener implements Listener {
         // Economy
         double balance = ServerEssentials.getPlugin().playerBank.getOrDefault(player.getUniqueId(), 0.0);
         UserFile.fileConfig.set(player.getUniqueId() + ".money", balance);
-        try {
-            UserFile.fileConfig.save(UserFile.file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Eco.saveBalance();
 
         if (ServerEssentials.getPlugin().getConfig().getBoolean("enable-leave-message")) {
             if (!UserFile.fileConfig.getBoolean(player.getUniqueId() + ".silent")) {
