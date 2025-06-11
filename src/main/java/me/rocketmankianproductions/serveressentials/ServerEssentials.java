@@ -5,16 +5,19 @@ import me.rocketmankianproductions.serveressentials.Metrics.MetricsLite;
 import me.rocketmankianproductions.serveressentials.UpdateChecker.Update;
 import me.rocketmankianproductions.serveressentials.commands.*;
 import me.rocketmankianproductions.serveressentials.eco.EconomyImplementer;
-import me.rocketmankianproductions.serveressentials.eco.VaultHook;
 import me.rocketmankianproductions.serveressentials.events.*;
+import me.rocketmankianproductions.serveressentials.file.BankFile;
 import me.rocketmankianproductions.serveressentials.file.UserFile;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import me.rocketmankianproductions.serveressentials.tasks.Broadcast;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -37,7 +40,6 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
     public static String prefix;
     public static ServerEssentials getInstance;
     public EconomyImplementer economyImplementer;
-    private VaultHook vaultHook;
     public final HashMap<UUID,Double> playerBank = new HashMap<>();
 
     private DiscordMessageReceived discordsrvListener = new DiscordMessageReceived(this);
@@ -66,13 +68,13 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         // Setup Economy
         if (Bukkit.getPluginManager().getPlugin("Vault") != null && ServerEssentials.getPlugin().getConfig().getBoolean("enable-eco")){
             instanceClasses();
-            vaultHook.hook();
         }else{
             LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "Vault is not installed!");
         }
         // Setup Commands
         registerCommands();
         new UserFile(plugin);
+        BankFile.setup();
         LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "Commands have been enabled.");
         // Register Update
         registerUpdate();
@@ -372,10 +374,11 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         pm.registerEvents(new PlayerClickEvent(), this);
         pm.registerEvents(new PlayerChatEvent(), this);
         pm.registerEvents(new PlayerDeathEvent(), this);
-        pm.registerEvents(new PlayerMoveEvent(), this);
+        pm.registerEvents(new PlayerMoveListener(), this);
         pm.registerEvents(new PlayerWorldCheck(), this);
         pm.registerEvents(new Plugins(), this);
         pm.registerEvents(new God(), this);
+        pm.registerEvents(new TownBankListener(), this);
         //pm.registerEvents(new AFK(), this);
     }
 
@@ -446,8 +449,18 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
     private void instanceClasses() {
         LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "Vault has been enabled.");
         getInstance = this;
+
         economyImplementer = new EconomyImplementer();
-        vaultHook = new VaultHook();
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        getServer().getServicesManager().register(Economy.class, economyImplementer, this, ServicePriority.High);
+
+        LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS,
+                "Registered ServerEssentials as Vault Economy provider.");
+        Economy econ = Bukkit.getServicesManager().load(Economy.class);
+        Bukkit.getLogger().info("[ServerEssentials] Economy provider loaded: " + econ.getName());
+        if (rsp != null) {
+            Bukkit.getLogger().info("Current Vault Economy provider: " + rsp.getProvider().getClass().getName());
+        }
     }
 
     public static ServerEssentials getPlugin() {

@@ -1,11 +1,12 @@
 name: ServerEssentials
-version: 2.1.9
+version: 2.2.0
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
 description: A Plugin for all Server Owners!
-softdepend: [PlaceholderAPI, DiscordSRV, AcceptTheRules, HuskHomes, LibsDisguises, Vault] # Plugins that load before ServerEssentials
-loadbefore: [Essentials, getClan, zAuctionHouse, Towny, DiscordSRV-Staff-Chat]
+depend: [Vault]
+softdepend: [PlaceholderAPI, DiscordSRV, AcceptTheRules, HuskHomes, LibsDisguises] # Plugins that load before ServerEssentials
+loadbefore: [Essentials, getClan, zAuctionHouse, DiscordSRV-Staff-Chat, Roulette, EconomyShopGUI-Premium, EconomyShopGUI, Towny]
 commands:
   se:
     description: Server Essentials Root Command
@@ -311,7 +312,9 @@ permissions:
       se.silenttp: true
       se.info: true
       se.heal: true
+      se.heal.bypass: true
       se.feed: true
+      se.feed.bypass: true
       se.announce: true
       se.tptoggle: true
       se.invsee: true
@@ -506,8 +509,14 @@ permissions:
   se.heal:
     description: "Heal Command"
     default: false
+  se.heal.bypass:
+    description: "Heal Bypass Permission"
+    default: false
   se.feed:
     description: "Feed Command"
+    default: false
+  se.feed.bypasss:
+    description: "Feed Bypass Permission"
     default: false
   se.announce:
     description: "Announce Command"

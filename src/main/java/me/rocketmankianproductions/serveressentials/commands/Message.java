@@ -37,14 +37,14 @@ public class Message implements CommandExecutor {
                     else if (!UserFile.fileConfig.getBoolean(recipient.getUniqueId() + ".msgtoggle")) {
                         // set players to hashmap
                         Reply.reply.put(recipient.getUniqueId(), messager.getUniqueId());
-                        String targetname = recipient.getName();
-                        String sendername = sender.getName();
+                        String targetname = recipient.getDisplayName();
+                        String sendername = ((Player) sender).getDisplayName();
                         for (int i = 1; i < args.length; i++) {
                             String arg = (args[i] + " ");
                             sm = (sm + arg);
                         }
-                        String msgsender = Lang.fileConfig.getString("message-sender").replace("<target>", targetname).replace("<message>", sm);
-                        String msgrecipient = Lang.fileConfig.getString("message-recipient").replace("<sender>", sendername).replace("<message>", sm);
+                        String msgsender = Lang.fileConfig.getString("message-sender").replace("<target>", targetname).replace("<message>", sm).replace("<sender>", sendername);
+                        String msgrecipient = Lang.fileConfig.getString("message-recipient").replace("<sender>", sendername).replace("<message>", sm).replace("<target>", targetname);
                         String msgsocialspy = Lang.fileConfig.getString("socialspy-message").replace("<sender>", sendername).replace("<target>", targetname).replace("<message>", sm);
                         socialSpy(messager, recipient, msgsocialspy, msgsender, msgrecipient);
                         return true;
@@ -71,13 +71,13 @@ public class Message implements CommandExecutor {
                     return false;
                 }
                 if (!UserFile.fileConfig.getBoolean(recipient.getUniqueId() + ".msgtoggle")) {
-                    String targetname = recipient.getName();
+                    String targetname = recipient.getDisplayName();
                     for (int i = 1; i < args.length; i++) {
                         String arg = (args[i] + " ");
                         sm = (sm + arg);
                     }
-                    String msgsender = Lang.fileConfig.getString("message-sender").replace("<target>", targetname).replace("<message>", sm);
-                    String msgrecipientconsole = Lang.fileConfig.getString("message-recipient-console").replace("<message>", sm);
+                    String msgsender = Lang.fileConfig.getString("message-sender").replace("<target>", targetname).replace("<message>", sm).replace("<sender>", sender.getName());
+                    String msgrecipientconsole = Lang.fileConfig.getString("message-recipient-console").replace("<message>", sm).replace("<target>", targetname);
                     Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msgsender)));
                     recipient.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msgrecipientconsole)));
                     if (ServerEssentials.getPlugin().getConfig().getBoolean("msgsound")){

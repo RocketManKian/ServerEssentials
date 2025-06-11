@@ -31,7 +31,7 @@ public class Heal implements CommandExecutor {
             if (ServerEssentials.permissionChecker(player, "se.heal")) {
                 if (args.length <= 1) {
                     // Check to see if Player has command cooldown active
-                    if (!healcancel.containsKey(player.getUniqueId())) {
+                    if (!healcancel.containsKey(player.getUniqueId()) || player.hasPermission("se.heal.bypass")) {
                         if (args.length == 1) {
                             target = Bukkit.getServer().getPlayer(args[0]);
                             if (target == null) {
@@ -39,32 +39,24 @@ public class Heal implements CommandExecutor {
                                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                 return true;
                             } else {
+                                target = Bukkit.getServer().getPlayer(args[0]);
+                                target.setHealth(target.getMaxHealth());
+                                if (ServerEssentials.getPlugin().getConfig().getBoolean("feed-on-heal")) {
+                                    target.setFoodLevel(20);
+                                    target.setSaturation(5);
+                                }
                                 if (ServerEssentials.getPlugin().getConfig().getBoolean("remove-effects-on-heal")) {
-                                    target = Bukkit.getServer().getPlayer(args[0]);
-                                    target.setHealth(target.getMaxHealth());
                                     for (PotionEffect effect : target.getActivePotionEffects())
                                         target.removePotionEffect(effect.getType());
-                                    if (target != player) {
-                                        String msg = Lang.fileConfig.getString("heal-target").replace("<target>", target.getName());
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                                        String msg2 = Lang.fileConfig.getString("heal-target-message").replace("<sender>", player.getName());
-                                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
-                                    }else{
-                                        String msg = Lang.fileConfig.getString("heal-self");
-                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                                    }
-                                } else {
-                                    target = Bukkit.getServer().getPlayer(args[0]);
-                                    target.setHealth(target.getMaxHealth());
-                                    if (target != player) {
-                                        String msg = Lang.fileConfig.getString("heal-target").replace("<target>", target.getName());
-                                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                                        String msg2 = Lang.fileConfig.getString("heal-target-message").replace("<sender>", player.getName());
-                                        target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
-                                    }else{
-                                        String msg = Lang.fileConfig.getString("heal-self");
-                                        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                                    }
+                                }
+                                if (target != player) {
+                                    String msg = Lang.fileConfig.getString("heal-target").replace("<target>", target.getName());
+                                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                                    String msg2 = Lang.fileConfig.getString("heal-target-message").replace("<sender>", player.getName());
+                                    target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
+                                }else{
+                                    String msg = Lang.fileConfig.getString("heal-self");
+                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                 }
                                 // Command Cooldown
                                 healcancel.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
@@ -77,26 +69,16 @@ public class Heal implements CommandExecutor {
                                 return true;
                             }
                         } else if (args.length == 0) {
+                            String msg = Lang.fileConfig.getString("heal-self");
+                            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                            player.setHealth(player.getMaxHealth());
+                            if (ServerEssentials.getPlugin().getConfig().getBoolean("feed-on-heal")) {
+                                player.setFoodLevel(20);
+                                player.setSaturation(5);
+                            }
                             if (ServerEssentials.getPlugin().getConfig().getBoolean("remove-effects-on-heal")){
-                                try{
-                                    String msg = Lang.fileConfig.getString("heal-target");
-                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                                    target = Bukkit.getServer().getPlayer(sender.getName());
-                                    target.setHealth(target.getMaxHealth());
-                                    for (PotionEffect effect : player.getActivePotionEffects())
-                                        player.removePotionEffect(effect.getType());
-                                    return true;
-                                } catch (ArrayIndexOutOfBoundsException a){
-                                    return true;
-                                }
-                            }else {
-                                try{
-                                    String msg = Lang.fileConfig.getString("heal-self");
-                                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                                    target = Bukkit.getServer().getPlayer(sender.getName());
-                                    target.setHealth(target.getMaxHealth());
-                                } catch (ArrayIndexOutOfBoundsException a){
-                                }
+                                for (PotionEffect effect : player.getActivePotionEffects())
+                                    player.removePotionEffect(effect.getType());
                             }
                             // Command Cooldown
                             healcancel.put(player.getUniqueId(), Bukkit.getServer().getScheduler().scheduleSyncDelayedTask((ServerEssentials.getPlugin()), new Runnable() {
