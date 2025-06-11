@@ -257,54 +257,58 @@ public class Lang {
                 fileConfig.addDefault("staffchat-disabled", "StaffChat has been Disabled");
                 fileConfig.addDefault("staffchat-message", "&d(&5&lStaff&d) <player>: &7<message>");
                 fileConfig.addDefault("staffchat-discord-message", "&b&lDiscord &f» &d(&5&lStaff&d) <player>&7: &f<message>");
-                fileConfig.addDefault("teleport-self", "You cannot teleport to yourself");
-                fileConfig.addDefault("teleport-success", "Teleported to <target>");
-                fileConfig.addDefault("teleport-target-success", "<sender> has teleported to you");
-                fileConfig.addDefault("teleport-target-offline-success", "Teleported to <target>'s Logout Location");
-                fileConfig.addDefault("teleport-target-to-self", "You cannot teleport someone to themself");
-                fileConfig.addDefault("teleport-others", "Teleported <target> to <target2>");
-                fileConfig.addDefault("teleport-force-target", "You have been teleported to <target>");
-                fileConfig.addDefault("teleport-no-players-online", "No other players are online right now");
-                fileConfig.addDefault("teleport-all-message", "Teleported <amount> player(s) to you");
-                fileConfig.addDefault("teleport-pos-success", "Teleported to chosen coordinates");
-                fileConfig.addDefault("teleport-pos-invalid", "Please enter valid coordinates...");
-                fileConfig.addDefault("teleport-pos-target-success", "You have been teleported");
-                fileConfig.addDefault("teleport-pos-target-message", "Teleported <target> to chosen coordinates");
-                fileConfig.addDefault("teleport-request-blacklisted-world", "Target is in a Blacklisted World");
-                fileConfig.addDefault("teleport-request-sent", "You sent a teleport request to <target>");
-                fileConfig.addDefault("teleport-request-cancel-warning", "To cancel this request, type /tpacancel");
+                fileConfig.addDefault("teleport-self", "&7You &ccannot &7teleport to yourself");
+                fileConfig.addDefault("teleport-success", "&7Teleported to &e<target>");
+                fileConfig.addDefault("teleport-target-success", "&e<sender> &7has teleported to &eyou");
+                fileConfig.addDefault("teleport-target-offline-success", "&7Teleported to &e<target>'s Logout Location");
+                fileConfig.addDefault("teleport-target-to-self", "&7You &ccannot &7teleport someone to themself");
+                fileConfig.addDefault("teleport-others", "&7Teleported &e<target> &7to &e<target2>");
+                fileConfig.addDefault("teleport-force-target", "&7You have been teleported to &e<target>");
+                fileConfig.addDefault("teleport-no-players-online", "&7Teleport Failed: &cNo other players are online right now");
+                fileConfig.addDefault("teleport-all-message", "&7Teleported &e<amount> player(s) &7to you");
+                fileConfig.addDefault("teleport-pos-success", "&7Teleported to &echosen coordinates");
+                fileConfig.addDefault("teleport-pos-invalid", "&cTeleport Failed: &cPlease enter valid coordinates.");
+                fileConfig.addDefault("teleport-pos-target-success", "&7You have been teleported");
+                fileConfig.addDefault("teleport-pos-target-message", "&7Teleported &e<target> &7to &echosen coordinates");
+                fileConfig.addDefault("teleport-request-blacklisted-world", "&7Target is in a &cBlacklisted World");
+                fileConfig.addDefault("teleport-request-sent", "&7You sent a teleport request to &e<target>");
+                fileConfig.addDefault("teleport-request-cancel-warning", "&7To cancel this request, type &e/tpacancel");
                 fileConfig.addDefault("teleport-request-cancel-button", "&e&l&n[Cancel]&r");
-                fileConfig.addDefault("teleport-request-target-receive", "<sender> sent a teleport request to you");
-                fileConfig.addDefault("teleport-request-accept", "To accept, type /tpaccept");
-                fileConfig.addDefault("teleport-request-deny", "To deny, type /tpdeny");
+                fileConfig.addDefault("teleport-request-target-receive", "&e<sender> &7sent a teleport request to you");
+                fileConfig.addDefault("teleport-request-accept", "&7To &aaccept&7, type &a/tpaccept");
+                fileConfig.addDefault("teleport-request-deny", "&7To &cdeny&7, type &c/tpdeny");
                 fileConfig.addDefault("teleport-request-accept-button", "&a&l&n[Accept]&r");
                 fileConfig.addDefault("teleport-request-deny-button", "&c&l&n[Deny]&r");
-                fileConfig.addDefault("teleport-request-timeout-warning", "This request will timeout in <time> Seconds");
-                fileConfig.addDefault("teleport-request-timeout", "Teleport request timed out");
-                fileConfig.addDefault("teleport-disabled", "That player has teleporting disabled");
-                fileConfig.addDefault("teleport-here-blacklisted-world", "Cannot send Teleport Here Request because you are in a Blacklisted World");
-                fileConfig.addDefault("teleport-here-request-sent", "You sent a teleport here request to <target>");
-                fileConfig.addDefault("teleport-here-request-cancel-warning", "To cancel this request, type /tpacancel");
+                fileConfig.addDefault("teleport-request-timeout-warning", "&7This request will timeout in &e<time> Seconds");
+                fileConfig.addDefault("teleport-request-timeout", "&e<target>'s &7Teleport Request has &ctimed out.");
+                fileConfig.addDefault("teleport-request-sender-timeout", "&7Your teleport request to &e<target>&7 has &ctimed out.");
+                fileConfig.addDefault("teleport-request-cancelled-by-sender", "&7Pending teleport request from &e<target>&7 was &ccancelled &7by them.");
+                fileConfig.addDefault("teleport-request-already-sent", "&7You already have a &epending &7teleport request to &e<target>&7.");
+                fileConfig.addDefault("teleport-failed-offline", "&7Teleportation failed: &cOne of the players went offline.");
+                fileConfig.addDefault("teleport-disabled", "&7That player has teleporting &cdisabled");
+                fileConfig.addDefault("teleport-here-blacklisted-world", "&7Cannot send Teleport Here Request because you are in a &cBlacklisted World");
+                fileConfig.addDefault("teleport-here-request-sent", "&7You sent a teleport here request to &e<target>");
+                fileConfig.addDefault("teleport-here-request-cancel-warning", "&7To cancel this request, type &c/tpacancel");
                 fileConfig.addDefault("teleport-here-request-cancel-button", "&e&l&n[Cancel]&r");
-                fileConfig.addDefault("teleport-here-request-target-receive", "<sender> would like you to teleport to them");
-                fileConfig.addDefault("teleport-here-request-accept", "To accept, type /tpaccept");
-                fileConfig.addDefault("teleport-here-request-deny", "To deny, type /tpdeny");
+                fileConfig.addDefault("teleport-here-request-target-receive", "&e<sender> &7would like you to teleport to them");
+                fileConfig.addDefault("teleport-here-request-accept", "&7To accept, type &a/tpaccept");
+                fileConfig.addDefault("teleport-here-request-deny", "&7To deny, type &c/tpdeny");
                 fileConfig.addDefault("teleport-here-request-accept-button", "&a&l&n[Accept]&r");
                 fileConfig.addDefault("teleport-here-request-deny-button", "&c&l&n[Deny]&r");
-                fileConfig.addDefault("teleport-here-request-timeout-warning", "This request will timeout in <time> Seconds");
-                fileConfig.addDefault("teleport-here-request-timeout", "Teleport here request timed out");
-                fileConfig.addDefault("teleport-cancel", "You have cancelled all outgoing Teleport Requests");
-                fileConfig.addDefault("teleport-no-request", "There's no request to cancel");
-                fileConfig.addDefault("teleport-no-request-accept", "There's no request to accept");
-                fileConfig.addDefault("teleport-no-request-deny", "There's no request to deny");
-                fileConfig.addDefault("teleport-accept-request", "<sender> has accepted the teleport request");
-                fileConfig.addDefault("teleport-deny-request", "<sender> has denied the teleport request");
-                fileConfig.addDefault("teleport-accept-request-target", "Successfully accepted <target>(s) Teleport Request");
-                fileConfig.addDefault("teleport-deny-request-target", "Successfully denied <target>(s) Teleport Request");
-                fileConfig.addDefault("teleport-wait-message", "Teleporting to <player> in <time> Seconds");
-                fileConfig.addDefault("teleport-toggle-enabled", "Teleport Requests have been Disabled");
-                fileConfig.addDefault("teleport-toggle-disabled", "Teleport Requests have been Enabled");
-                fileConfig.addDefault("teleport-movement-cancel", "Teleportation cancelled due to Movement");
+                fileConfig.addDefault("teleport-here-request-timeout-warning", "&7This request will timeout in &e<time> Seconds");
+                fileConfig.addDefault("teleport-here-request-timeout", "&7Teleport here request &etimed out");
+                fileConfig.addDefault("teleport-cancel", "&7You have &ccancelled &7all outgoing Teleport Requests");
+                fileConfig.addDefault("teleport-no-request", "&7There's no request to &ccancel");
+                fileConfig.addDefault("teleport-no-request-accept", "&7There's no request to &aaccept");
+                fileConfig.addDefault("teleport-no-request-deny", "&7There's no request to &cdeny");
+                fileConfig.addDefault("teleport-accept-request", "&e<sender> &7has &aaccepted &7the teleport request");
+                fileConfig.addDefault("teleport-deny-request", "&e<sender> &7has &cdenied &7the teleport request");
+                fileConfig.addDefault("teleport-accept-request-target", "&7Successfully &aaccepted &e<target>(s) &7Teleport Request");
+                fileConfig.addDefault("teleport-deny-request-target", "&7Successfully &cdenied &e<target>(s) &7Teleport Request");
+                fileConfig.addDefault("teleport-wait-message", "&7Teleporting to &e<player> &7in &e<time> Seconds");
+                fileConfig.addDefault("teleport-toggle-enabled", "&7Teleport Requests have been &cDisabled");
+                fileConfig.addDefault("teleport-toggle-disabled", "&7Teleport Requests have been &aEnabled");
+                fileConfig.addDefault("teleport-movement-cancel", "&7Teleportation &ccancelled &7due to Movement");
                 fileConfig.addDefault("time-message", "&6Current Time in &c<world> &6is: &c<24time> &6or &c<12time> &6or &c<time> ticks");
                 fileConfig.addDefault("time-set", "&6Time set to &c<time> ticks &6in: &c<world>");
                 fileConfig.addDefault("time-sunrise", "&6Time set to &cSunrise &6in: &c<world>");
@@ -1245,67 +1249,67 @@ public class Lang {
                 }
 
                 if (fileConfig.getString("teleport-self") == null) {
-                    fileConfig.set("teleport-self", "You cannot teleport to yourself");
+                    fileConfig.set("teleport-self", "&7You &ccannot &7teleport to yourself");
                 }
 
                 if (fileConfig.getString("teleport-success") == null) {
-                    fileConfig.set("teleport-success", "Teleported to <target>");
+                    fileConfig.set("teleport-success", "&7Teleported to &e<target>");
                 }
 
                 if (fileConfig.getString("teleport-target-success") == null) {
-                    fileConfig.set("teleport-target-success", "<sender> has teleported to you");
+                    fileConfig.set("teleport-target-success", "&e<sender> &7has teleported to &eyou");
                 }
 
                 if (fileConfig.getString("teleport-target-offline-success") == null) {
-                    fileConfig.set("teleport-target-offline-success", "Teleported to <target>'s Logout Location");
+                    fileConfig.set("teleport-target-offline-success", "&7Teleported to &e<target>'s Logout Location");
                 }
 
                 if (fileConfig.getString("teleport-target-to-self") == null) {
-                    fileConfig.set("teleport-target-to-self", "You cannot teleport someone to themself");
+                    fileConfig.set("teleport-target-to-self", "&7You &ccannot &7teleport someone to themself");
                 }
 
                 if (fileConfig.getString("teleport-others") == null) {
-                    fileConfig.set("teleport-others", "Teleported <target> to <target2>");
+                    fileConfig.set("teleport-others", "&7Teleported &e<target> &7to &e<target2>");
                 }
 
                 if (fileConfig.getString("teleport-force-target") == null) {
-                    fileConfig.set("teleport-force-target", "You have been teleported to <target>");
+                    fileConfig.set("teleport-force-target", "&7You have been teleported to &e<target>");
                 }
 
                 if (fileConfig.getString("teleport-no-players-online") == null) {
-                    fileConfig.set("teleport-no-players-online", "No other players are online right now");
+                    fileConfig.set("teleport-no-players-online", "&7Teleport Failed: &cNo other players are online right now");
                 }
 
                 if (fileConfig.getString("teleport-all-message") == null) {
-                    fileConfig.set("teleport-all-message", "Teleported <amount> player(s) to you");
+                    fileConfig.set("teleport-all-message", "&7Teleported &e<amount> player(s) &7to you");
                 }
 
                 if (fileConfig.getString("teleport-pos-success") == null) {
-                    fileConfig.set("teleport-pos-success", "Teleported to chosen coordinates");
+                    fileConfig.set("teleport-pos-success", "&7Teleported to &echosen coordinates");
                 }
 
                 if (fileConfig.getString("teleport-pos-invalid") == null) {
-                    fileConfig.set("teleport-pos-invalid", "Please enter valid coordinates...");
+                    fileConfig.set("teleport-pos-invalid", "&7Teleport Failed: &cPlease enter valid coordinates.");
                 }
 
                 if (fileConfig.getString("teleport-pos-target-success") == null) {
-                    fileConfig.set("teleport-pos-target-success", "You have been teleported");
+                    fileConfig.set("teleport-pos-target-success", "&7You have been &eteleported");
                 }
 
                 if (fileConfig.getString("teleport-pos-target-message") == null) {
-                    fileConfig.set("teleport-pos-target-message", "Teleported <target> to chosen coordinates");
+                    fileConfig.set("teleport-pos-target-message", "&7Teleported &e<target> &7to &echosen coordinates");
                 }
 
                 if (fileConfig.getString("teleport-request-blacklisted-world") == null) {
-                    fileConfig.set("teleport-request-blacklisted-world", "Target is in a Blacklisted World");
+                    fileConfig.set("teleport-request-blacklisted-world", "&7Target is in a &cBlacklisted World");
                 }
 
                 if (fileConfig.getString("teleport-request-sent") == null) {
-                    fileConfig.set("teleport-request-sent", "You sent a teleport request to <target>");
+                    fileConfig.set("teleport-request-sent", "&7You sent a teleport request to &e<target>");
                 }
 
                 if (fileConfig.getString("teleport-request-cancel-warning") == null) {
-                    fileConfig.set("teleport-request-cancel-warning", "To cancel this request, type /tpacancel");
+                    fileConfig.set("teleport-request-cancel-warning", "&7To cancel this request, type &e/tpacancel");
                 }
 
                 if (fileConfig.getString("teleport-request-cancel-button") == null) {
@@ -1313,15 +1317,15 @@ public class Lang {
                 }
 
                 if (fileConfig.getString("teleport-request-target-receive") == null) {
-                    fileConfig.set("teleport-request-target-receive", "<sender> sent a teleport request to you");
+                    fileConfig.set("teleport-request-target-receive", "&e<sender> &7sent a teleport request to you");
                 }
 
                 if (fileConfig.getString("teleport-request-accept") == null) {
-                    fileConfig.set("teleport-request-accept", "To accept, type /tpaccept");
+                    fileConfig.set("teleport-request-accept", "&7To &aaccept&7, type &a/tpaccept");
                 }
 
                 if (fileConfig.getString("teleport-request-deny") == null) {
-                    fileConfig.set("teleport-request-deny", "To deny, type /tpdeny");
+                    fileConfig.set("teleport-request-deny", "&7To &cdeny&7, type &c/tpdeny");
                 }
 
                 if (fileConfig.getString("teleport-request-accept-button") == null) {
@@ -1333,27 +1337,43 @@ public class Lang {
                 }
 
                 if (fileConfig.getString("teleport-request-timeout-warning") == null) {
-                    fileConfig.set("teleport-request-timeout-warning", "This request will timeout in <time> Seconds");
+                    fileConfig.set("teleport-request-timeout-warning", "&7This request will timeout in &e<time> Seconds");
                 }
 
                 if (fileConfig.getString("teleport-request-timeout") == null) {
-                    fileConfig.set("teleport-request-timeout", "Teleport request timed out");
+                    fileConfig.set("teleport-request-timeout", "&e<target>'s &7Teleport Request has &ctimed out.");
+                }
+
+                if (fileConfig.getString("teleport-request-sender-timeout") == null) {
+                    fileConfig.set("teleport-request-sender-timeout", "&7Your teleport request to &e<target>&7 has &ctimed out.");
+                }
+
+                if (fileConfig.getString("teleport-request-cancelled-by-sender") == null) {
+                    fileConfig.set("teleport-request-cancelled-by-sender", "&7Pending teleport request from &e<target>&7 was &ccancelled &7by them.");
+                }
+
+                if (fileConfig.getString("teleport-request-already-sent") == null) {
+                    fileConfig.set("teleport-request-already-sent", "&7You already have a &epending &7teleport request to &e<target>&7.");
+                }
+
+                if (fileConfig.getString("teleport-failed-offline") == null) {
+                    fileConfig.set("teleport-failed-offline", "&7Teleportation failed: &cOne of the players went offline.");
                 }
 
                 if (fileConfig.getString("teleport-disabled") == null) {
-                    fileConfig.set("teleport-disabled", "That person has teleporting disabled");
+                    fileConfig.set("teleport-disabled", "&7That player has teleporting &cdisabled");
                 }
 
                 if (fileConfig.getString("teleport-here-blacklisted-world") == null) {
-                    fileConfig.set("teleport-here-blacklisted-world", "Cannot send Teleport Here Request because you are in a Blacklisted World");
+                    fileConfig.set("teleport-here-blacklisted-world", "&7Cannot send Teleport Here Request because you are in a &cBlacklisted World");
                 }
 
                 if (fileConfig.getString("teleport-here-request-sent") == null) {
-                    fileConfig.set("teleport-here-request-sent", "You sent a teleport here request to <target>");
+                    fileConfig.set("teleport-here-request-sent", "&7You sent a teleport here request to &e<target>");
                 }
 
                 if (fileConfig.getString("teleport-here-request-cancel-warning") == null) {
-                    fileConfig.set("teleport-here-request-cancel-warning", "To cancel this request, type /tpacancel");
+                    fileConfig.set("teleport-here-request-cancel-warning", "&7To cancel this request, type &c/tpacancel");
                 }
 
                 if (fileConfig.getString("teleport-here-request-cancel-button") == null) {
@@ -1361,15 +1381,15 @@ public class Lang {
                 }
 
                 if (fileConfig.getString("teleport-here-request-target-receive") == null) {
-                    fileConfig.set("teleport-here-request-target-receive", "<sender> would like you to teleport to them");
+                    fileConfig.set("teleport-here-request-target-receive", "&e<sender> &7would like you to teleport to them");
                 }
 
                 if (fileConfig.getString("teleport-here-request-accept") == null) {
-                    fileConfig.set("teleport-here-request-accept", "To accept, type /tpaccept");
+                    fileConfig.set("teleport-here-request-accept", "&7To accept, type &a/tpaccept");
                 }
 
                 if (fileConfig.getString("teleport-here-request-deny") == null) {
-                    fileConfig.set("teleport-here-request-deny", "To deny, type /tpdeny");
+                    fileConfig.set("teleport-here-request-deny", "&7To deny, type &c/tpdeny");
                 }
 
                 if (fileConfig.getString("teleport-here-request-accept-button") == null) {
@@ -1381,59 +1401,59 @@ public class Lang {
                 }
 
                 if (fileConfig.getString("teleport-here-request-timeout-warning") == null) {
-                    fileConfig.set("teleport-here-request-timeout-warning", "This request will timeout in <time> Seconds");
+                    fileConfig.set("teleport-here-request-timeout-warning", "&7This request will timeout in &e<time> Seconds");
                 }
 
                 if (fileConfig.getString("teleport-here-request-timeout") == null) {
-                    fileConfig.set("teleport-here-request-timeout", "Teleport here request timed out");
+                    fileConfig.set("teleport-here-request-timeout", "&7Teleport here request &etimed out");
                 }
 
                 if (fileConfig.getString("teleport-cancel") == null) {
-                    fileConfig.set("teleport-cancel", "You have cancelled all outgoing Teleport Requests");
+                    fileConfig.set("teleport-cancel", "&7You have &ccancelled &7all outgoing Teleport Requests");
                 }
 
                 if (fileConfig.getString("teleport-no-request") == null) {
-                    fileConfig.set("teleport-no-request", "There's no request to cancel");
+                    fileConfig.set("teleport-no-request", "&7There's no request to &ccancel");
                 }
 
                 if (fileConfig.getString("teleport-no-request-accept") == null) {
-                    fileConfig.set("teleport-no-request-accept", "There's no request to accept");
+                    fileConfig.set("teleport-no-request-accept", "&7There's no request to &aaccept");
                 }
 
                 if (fileConfig.getString("teleport-no-request-deny") == null) {
-                    fileConfig.set("teleport-no-request-deny", "There's no request to deny");
+                    fileConfig.set("teleport-no-request-deny", "&7There's no request to &cdeny");
                 }
 
                 if (fileConfig.getString("teleport-accept-request") == null) {
-                    fileConfig.set("teleport-accept-request", "<sender> has accepted the teleport request");
+                    fileConfig.set("teleport-accept-request", "&e<sender> &7has &aaccepted &7the teleport request");
                 }
 
                 if (fileConfig.getString("teleport-deny-request") == null) {
-                    fileConfig.set("teleport-deny-request", "<sender> has denied the teleport request");
+                    fileConfig.set("teleport-deny-request", "&e<sender> &7has &cdenied &7the teleport request");
                 }
 
                 if (fileConfig.getString("teleport-accept-request-target") == null) {
-                    fileConfig.set("teleport-accept-request-target", "Successfully accepted <target>(s) Teleport Request");
+                    fileConfig.set("teleport-accept-request-target", "&7Successfully &aaccepted &e<target>(s) &7Teleport Request");
                 }
 
                 if (fileConfig.getString("teleport-deny-request-target") == null) {
-                    fileConfig.set("teleport-deny-request-target", "Successfully denied <target>(s) Teleport Request");
+                    fileConfig.set("teleport-deny-request-target", "&7Successfully &cdenied &e<target>(s) &7Teleport Request");
                 }
 
                 if (fileConfig.getString("teleport-wait-message") == null) {
-                    fileConfig.set("teleport-wait-message", "Teleporting to <player> in <time> Seconds");
+                    fileConfig.set("teleport-wait-message", "&7Teleporting to &e<player> &7in &e<time> Seconds");
                 }
 
                 if (fileConfig.getString("teleport-toggle-enabled") == null) {
-                    fileConfig.set("teleport-toggle-enabled", "Teleport Requests have been Disabled");
+                    fileConfig.set("teleport-toggle-enabled", "&7Teleport Requests have been &cDisabled");
                 }
 
                 if (fileConfig.getString("teleport-toggle-disabled") == null) {
-                    fileConfig.set("teleport-toggle-disabled", "Teleport Requests have been Enabled");
+                    fileConfig.set("teleport-toggle-disabled", "&7Teleport Requests have been &aEnabled");
                 }
 
                 if (fileConfig.getString("teleport-movement-cancel") == null) {
-                    fileConfig.set("teleport-movement-cancel", "Teleportation cancelled due to Movement");
+                    fileConfig.set("teleport-movement-cancel", "&7Teleportation &ccancelled &7due to Movement");
                 }
 
                 if (fileConfig.getString("time-message") == null) {

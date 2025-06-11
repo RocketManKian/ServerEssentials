@@ -46,9 +46,9 @@ public class Reply implements CommandExecutor {
                     } else if (Bukkit.getServer().getOnlinePlayers().contains(Bukkit.getPlayer(reply.get(player.getUniqueId())))) {
                         Reply.reply.put(reply.get(player.getUniqueId()), player.getUniqueId()); // put again to hashmap
                         String name = Bukkit.getPlayer(reply.get(player.getUniqueId())).getName();
-                        String msgsender = Lang.fileConfig.getString("reply-sender").replace("<target>", name).replace("<message>", sm);
-                        String msgrecipient = Lang.fileConfig.getString("reply-recipient").replace("<sender>", player.getName()).replace("<message>", sm);
-                        String msgsocialspy = Lang.fileConfig.getString("socialspy-message").replace("<sender>", player.getName()).replace("<target>", name).replace("<message>", sm);
+                        String msgsender = Lang.fileConfig.getString("reply-sender").replace("<target>", name).replace("<message>", sm).replace("<sender>", player.getDisplayName());
+                        String msgrecipient = Lang.fileConfig.getString("reply-recipient").replace("<sender>", player.getDisplayName()).replace("<message>", sm).replace("<target>", name);
+                        String msgsocialspy = Lang.fileConfig.getString("socialspy-message").replace("<sender>", player.getDisplayName()).replace("<target>", name).replace("<message>", sm);
                         socialSpy(player, Bukkit.getPlayer(reply.get(player.getUniqueId())), msgsocialspy, msgsender, msgrecipient);
                         return true;
                     } else {

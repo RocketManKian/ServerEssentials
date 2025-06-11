@@ -27,7 +27,7 @@ public class Feed implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (ServerEssentials.permissionChecker(player, "se.feed")) {
-                if (!feedcancel.containsKey(player.getUniqueId())){
+                if (!feedcancel.containsKey(player.getUniqueId()) || player.hasPermission("se.feed.bypass")){
                     if (args.length == 1) {
                         Player target = Bukkit.getPlayer(args[0]);
                         if (target == null) {

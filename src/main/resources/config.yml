@@ -5,7 +5,7 @@
 ############################################################
 
 # This is the config file for Server Essentials.
-# This config was generated for version 2.1.9
+# This config was generated for version 2.2.0
 
 # If you experience any issues please make sure that:-
 #     - Numeric values don't include any quotation marks or apostrophes.
@@ -49,6 +49,9 @@ spawn-on-death: true
 # Remove all Potion Effects when using /heal
 # Default: false
 remove-effects-on-heal: false
+# Feed Player when using /heal
+# Default: false
+feed-on-heal: false
 # Enter a name in between the quotations to enable or leave empty to disable
 # This will be used to send a message in the 'staff-chat-channel-name', 'report-user-channel-name' and 'report-bug-channel-name' on Discord
 server-name: ""
@@ -267,6 +270,11 @@ teleport-wait: 5
 # Only works if 'teleport-wait' is higher than 0
 # Default: true
 teleport-movement-cancel: true
+# Choose whether Player should teleport to location after 'teleport-wait' timer has finished
+# or if the Player should teleport to location as soon as the Teleport Request was accepted
+# Only works if `teleport-wait` is higher than 0
+# Default: true
+teleport-after-wait-location: true
 # How long Players have to wait until they can use the Teleport Command again (in Seconds)
 # Set to 0 to Disable
 # Restart Required

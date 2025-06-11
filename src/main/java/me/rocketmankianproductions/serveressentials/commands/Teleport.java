@@ -65,13 +65,13 @@ public class Teleport implements CommandExecutor {
                             }
                         } else {
                             String target2 = target.getName();
-                            if (sender.hasPermission("se.silenttp") || sender.hasPermission("se.all")) {
+                            if (sender.hasPermission("se.silenttp")) {
                                 String msg = Lang.fileConfig.getString("teleport-success").replace("<target>", target2);
                                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                 teleportSave(player);
                                 player.teleport(target.getLocation());
                                 return true;
-                            } else if (!sender.hasPermission("se.silenttp")) {
+                            } else {
                                 teleportSave(player);
                                 String msg = Lang.fileConfig.getString("teleport-success").replace("<target>", target2);
                                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
@@ -98,7 +98,7 @@ public class Teleport implements CommandExecutor {
                             return true;
                         } else {
                             String target2 = target.getName();
-                            if (sender.hasPermission("se.silenttp") || sender.hasPermission("se.all")) {
+                            if (sender.hasPermission("se.silenttp")) {
                                 if (target == sender) {
                                     String msg = Lang.fileConfig.getString("teleport-target-success").replace("<sender>", playerToSend.getName());
                                     target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
@@ -122,7 +122,7 @@ public class Teleport implements CommandExecutor {
                                     playerToSend.teleport(target.getLocation());
                                     return true;
                                 }
-                            } else if (!sender.hasPermission("se.silenttp")) {
+                            } else{
                                 if (target == sender) {
                                     String msg = Lang.fileConfig.getString("teleport-force-target").replace("<target>", target.getName());
                                     playerToSend.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));

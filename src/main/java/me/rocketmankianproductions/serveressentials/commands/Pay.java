@@ -44,10 +44,10 @@ public class Pay implements CommandExecutor {
                             if (amount > 0){
                                 if (plugin.economyImplementer.has(player, amount)){
                                     EconomyResponse r = plugin.economyImplementer.depositPlayer(args[0], amount);
-                                    plugin.economyImplementer.withdrawPlayer(player, amount);
                                     if (r.transactionSuccess()) {
+                                        plugin.economyImplementer.withdrawPlayer(player, amount);
                                         if (target.isOnline()){
-                                            String msg = Lang.fileConfig.getString("eco-receive").replace("<amount>", plugin.economyImplementer.format(amount)).replace("<player>", args[0]).replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(target)));
+                                            String msg = Lang.fileConfig.getString("eco-receive").replace("<amount>", plugin.economyImplementer.format(amount)).replace("<player>", player.getDisplayName()).replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(target)));
                                             target.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg)));
                                         }
                                         String msg2 = Lang.fileConfig.getString("eco-pay").replace("<amount>", plugin.economyImplementer.format(amount)).replace("<player>", args[0]).replace("<balance>", plugin.economyImplementer.format(plugin.economyImplementer.getBalance(target)));

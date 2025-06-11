@@ -9,6 +9,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,20 +22,17 @@ public class EntityRemover implements CommandExecutor {
             if (ServerEssentials.permissionChecker(player, "se.clearentity")){
                 clearEntities(player);
             }
-        }else{
-            clearEntities(commandSender);
         }
         return false;
     }
 
     private void clearEntities(CommandSender sender) {
         int count = 0;
-        for (World world : Bukkit.getWorlds()){
-            for (Entity entity : world.getEntities()) { // Only clearing in first world
-                if (!(entity instanceof Player)) { // Don't remove players
-                    entity.remove();
-                    count++;
-                }
+        Player player = (Player) sender;
+        for (Entity entity : player.getWorld().getEntities()) { // Only clearing in first world
+            if (entity instanceof Item) { // Don't remove players
+                entity.remove();
+                count++;
             }
         }
         String msg = Lang.fileConfig.getString("clear-entity").replace("<amount>", String.valueOf(count));
