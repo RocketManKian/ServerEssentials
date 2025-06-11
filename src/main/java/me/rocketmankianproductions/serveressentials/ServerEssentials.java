@@ -10,6 +10,7 @@ import me.rocketmankianproductions.serveressentials.file.BankFile;
 import me.rocketmankianproductions.serveressentials.file.UserFile;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import me.rocketmankianproductions.serveressentials.tasks.Broadcast;
+import me.rocketmankianproductions.serveressentials.utils.GUIPaginationHelper;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -368,6 +369,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         // Scheduler
         Long delay = plugin.getConfig().getLong("broadcast-delay");
         broadcastLoop = new Broadcast(this).runTaskTimer(this, delay, delay);
+        GUIPaginationHelper.setPlugin(this);
         pm.registerEvents(new PlayerJoinListener(), this);
         pm.registerEvents(new PlayerLeaveListener(), this);
         pm.registerEvents(new PlayerRespawnListener(), this);
