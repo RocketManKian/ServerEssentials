@@ -58,6 +58,7 @@ public class Pay implements CommandExecutor {
                                         return true;
                                     } else {
                                         sender.sendMessage(String.format(ChatColor.RED + "An error occurred: %s", r.errorMessage));
+                                        return false;
                                     }
                                 }else {
                                     String msg = Lang.fileConfig.getString("eco-insufficient");
@@ -71,13 +72,13 @@ public class Pay implements CommandExecutor {
                             }
                         } catch (NumberFormatException var12) {
                             sender.sendMessage(ChatColor.RED + "Invalid balance amount. Please enter a valid number.");
+                            return false;
                         }
                     }else{
                         String msg = Lang.fileConfig.getString("pay-disabled");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                        return true;
+                        return false;
                     }
-                    return true;
                 }else{
                     String msg = Lang.fileConfig.getString("target-offline");
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));

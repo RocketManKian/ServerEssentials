@@ -35,13 +35,12 @@ public class ListHomes implements CommandExecutor {
         if (!(sender instanceof Player)) {
             String console = Lang.fileConfig.getString("console-invalid");
             Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
-            return true;
+            return false;
         }
 
         Player player = (Player) sender;
         if (!ServerEssentials.permissionChecker(player, "se.listhomes")) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("no-permission"))));
-            return true;
+            return false;
         }
 
         if (args.length == 1) {
@@ -50,13 +49,13 @@ public class ListHomes implements CommandExecutor {
             if (!target.hasPlayedBefore()) {
                 String msg = Lang.fileConfig.getString("player-offline");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                return true;
+                return false;
             }
 
             if (target.equals(player)) { // Check if target is the player themselves
                 String msg = Lang.fileConfig.getString("listhomes-self");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                return true;
+                return false;
             }
 
             if (ServerEssentials.plugin.getConfig().getBoolean("enable-home-gui")) {
@@ -71,7 +70,7 @@ public class ListHomes implements CommandExecutor {
                 if (inventorySection == null || inventorySection.getKeys(false).isEmpty()) {
                     String msg = Lang.fileConfig.getString("no-homes-set-target").replace("<target>", target.getName());
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                    return true;
+                    return false;
                 }
 
                 player.sendMessage(ChatColor.GREEN + "---------------------------"
@@ -85,7 +84,7 @@ public class ListHomes implements CommandExecutor {
         } else {
             String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/listhomes (player)");
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-            return true;
+            return false;
         }
     }
 

@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 2.2.1
+version: 2.2.2
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -271,6 +271,10 @@ commands:
     description: Bottom Command
   spawner:
     description: Spawner Command
+  mute:
+    description: Mute Command
+  unmute:
+    description: Unmute Command
 permissions:
   se.all:
     description: "Gives access to all commands."
@@ -395,6 +399,8 @@ permissions:
       se.top: true
       se.bottom: true
       se.spawner: true
+      se.mute: true
+      se.unmute: true
   se.reload:
     description: "Gives access to the /se reload command."
     default: false
@@ -754,4 +760,10 @@ permissions:
     default: false
   se.spawner:
     description: "Spawner Command Permission"
+    default: false
+  se.mute:
+    description: "Mute Command Permission"
+    default: false
+  se.unmute:
+    description: "Unmute Command Permission"
     default: false

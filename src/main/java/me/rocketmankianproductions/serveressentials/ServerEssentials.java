@@ -352,6 +352,9 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("bottom").setExecutor(new Bottom());
         // Spawner Command
         getCommand("spawner").setExecutor(new Spawner());
+        // Mute Commands
+        getCommand("mute").setExecutor(new Mute());
+        getCommand("unmute").setExecutor(new Mute());
         // Economy
         if (Bukkit.getPluginManager().getPlugin("Vault") != null && ServerEssentials.getPlugin().getConfig().getBoolean("enable-eco")) {
             getCommand("pay").setExecutor(new Pay());
@@ -380,7 +383,9 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         pm.registerEvents(new PlayerWorldCheck(), this);
         pm.registerEvents(new Plugins(), this);
         pm.registerEvents(new God(), this);
-        pm.registerEvents(new TownBankListener(), this);
+        if (Bukkit.getPluginManager().getPlugin("Towny") != null) {
+            pm.registerEvents(new TownBankListener(), this);
+        }
         //pm.registerEvents(new AFK(), this);
     }
 

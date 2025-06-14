@@ -40,13 +40,12 @@ public class Home implements CommandExecutor {
         if (!(sender instanceof Player)) {
             String console = Lang.fileConfig.getString("console-invalid");
             Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(console)));
-            return true;
+            return false;
         }
 
         Player player = (Player) sender;
         if (!ServerEssentials.permissionChecker(player, "se.home")) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("no-permission"))));
-            return true;
+            return false;
         }
 
         UUID playerUUID = player.getUniqueId();
@@ -63,7 +62,7 @@ public class Home implements CommandExecutor {
                 ConfigurationSection inventorySection = Sethome.fileConfig.getConfigurationSection("Home." + playerUUID);
                 if (inventorySection == null || inventorySection.getKeys(false).isEmpty()) {
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("no-homes-set"))));
-                    return true;
+                    return false;
                 }
 
                 player.sendMessage(ChatColor.GREEN + "---------------------------"
@@ -81,7 +80,7 @@ public class Home implements CommandExecutor {
 
             if (loc == null || !loc.isWorldLoaded()) {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("home-invalid").replace("<home>", homeName))));
-                return true;
+                return false;
             }
 
             // Use PlayerClickEvent's centralized teleportation method
@@ -92,8 +91,7 @@ public class Home implements CommandExecutor {
         } else if (args.length == 2) {
             // Teleport to another player's home (requires 'se.home.others' permission)
             if (!ServerEssentials.permissionChecker(player, "se.home.others")) {
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("no-permission"))));
-                return true;
+                return false;
             }
 
             OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
@@ -101,7 +99,7 @@ public class Home implements CommandExecutor {
 
             if (!target.hasPlayedBefore() || target == null) {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("player-offline"))));
-                return true;
+                return false;
             }
 
             // Get location for the target player's home
@@ -109,7 +107,7 @@ public class Home implements CommandExecutor {
 
             if (loc == null || !loc.isWorldLoaded()) {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("home-invalid").replace("<home>", homeName))));
-                return true;
+                return false;
             }
 
             // Use PlayerClickEvent's centralized teleportation method with target
@@ -119,7 +117,7 @@ public class Home implements CommandExecutor {
         } else {
             String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/home (home) OR /home (player) (home)");
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-            return true;
+            return false;
         }
     }
 

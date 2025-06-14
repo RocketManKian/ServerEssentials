@@ -7,6 +7,7 @@ import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.commands.AFK;
 import me.rocketmankianproductions.serveressentials.commands.StaffChat;
 import me.rocketmankianproductions.serveressentials.file.Lang;
+import me.rocketmankianproductions.serveressentials.file.UserFile;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -22,9 +23,15 @@ public class PlayerChatEvent implements Listener {
     @EventHandler (priority = EventPriority.HIGHEST)
     public void onChat(AsyncPlayerChatEvent c) {
         Player player = c.getPlayer();
+        // Get Mute Status
+        boolean isMuted = UserFile.fileConfig.getBoolean(player.getUniqueId() + ".muted");
+        if (isMuted){
+            c.setCancelled(true);
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("mute-message"))));
+        }
         // AFK Command
         if (AFK.afk.containsKey(player)){
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("afk-inactive")));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("afk-inactive"))));
             player.setSleepingIgnored(false);
             AFK.afk.remove(player);
         }

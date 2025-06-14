@@ -160,6 +160,11 @@ public class Lang {
                 fileConfig.addDefault("lore-reset-invalid-item", "Please hold a valid item to reset the lore");
                 fileConfig.addDefault("lore-successful", "Successfully set item lore as <lore>");
                 fileConfig.addDefault("lore-reset-successful", "Successfully reset item lore");
+                fileConfig.addDefault("mute-sender", "&7You just &cmuted &e<target>");
+                fileConfig.addDefault("mute-target", "&7You just got &cmuted &7by &e<target>");
+                fileConfig.addDefault("unmute-sender", "&7You just &aunmuted &e<target>");
+                fileConfig.addDefault("unmute-target", "&7You just got &aunmuted &7by &e<target>");
+                fileConfig.addDefault("mute-message", "&7You cannot speak since you are &cmuted");
                 fileConfig.addDefault("message-self", "You cannot message yourself");
                 fileConfig.addDefault("message-disabled", "That person has messaging disabled");
                 fileConfig.addDefault("message-toggle-enabled", "Incoming Messages have been Disabled");
@@ -885,6 +890,26 @@ public class Lang {
 
                 if (fileConfig.getString("lore-reset-successful") == null) {
                     fileConfig.set("lore-reset-successful", "Successfully reset item lore");
+                }
+
+                if (fileConfig.getString("mute-sender") == null) {
+                    fileConfig.set("mute-sender-enabled", "&7You just &cmuted &e<target>");
+                }
+
+                if (fileConfig.getString("mute-target") == null) {
+                    fileConfig.set("mute-target-enabled", "&7You just got &cmuted &7by &e<target>");
+                }
+
+                if (fileConfig.getString("mute-message") == null) {
+                    fileConfig.set("mute-message", "&7You cannot speak since you are &cmuted");
+                }
+
+                if (fileConfig.getString("unmute-sender") == null) {
+                    fileConfig.set("unmute-sender-disabled", "&7You just &aunmuted &e<target>");
+                }
+
+                if (fileConfig.getString("unmute-target") == null) {
+                    fileConfig.set("unmute-target-disabled", "&7You just got &aunmuted &7by &e<target>");
                 }
 
                 if (fileConfig.getString("message-self") == null) {
