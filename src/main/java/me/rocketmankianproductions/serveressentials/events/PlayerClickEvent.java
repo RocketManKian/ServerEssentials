@@ -18,7 +18,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List; // Import List
 import java.util.Map;
 import java.util.Objects;
@@ -64,7 +63,7 @@ public class PlayerClickEvent implements Listener {
         // If clicked item is null or air, cancel event and return for non-confirmation GUIs
         if (clickedItem == null || clickedItem.getType() == Material.AIR) {
             // Only cancel if it's not a confirmation GUI, which might have empty slots
-            if (!isConfirmationGUI(inventoryTitle)) {
+            if (isConfirmationGUI(inventoryTitle)) {
                 event.setCancelled(true);
             }
             return;

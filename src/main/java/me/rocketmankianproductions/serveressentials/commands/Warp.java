@@ -42,8 +42,7 @@ public class Warp implements CommandExecutor {
 
         Player player = (Player) sender;
         if (!ServerEssentials.permissionChecker(player, "se.warp")) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("no-permission"))));
-            return true;
+            return false;
         }
 
         if (args.length == 1) {
@@ -51,19 +50,19 @@ public class Warp implements CommandExecutor {
             if (!Setwarp.file.exists() || Setwarp.fileConfig.getString("Warp." + warpName + ".World") == null) {
                 String msg = Lang.fileConfig.getString("warp-not-found").replace("<warp>", warpName);
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                return true;
+                return false;
             }
 
             if (!player.hasPermission("se.warps.all") && !ServerEssentials.permissionChecker(player, "se.warps." + warpName)) {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("no-permission"))));
-                return true;
+                return false;
             }
 
             Location loc = getLocation(args);
             if (loc == null || !loc.isWorldLoaded()) {
                 String msg = Lang.fileConfig.getString("warp-world-invalid");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                return true;
+                return false;
             }
 
             int delay = ServerEssentials.plugin.getConfig().getInt("warp-teleport");
@@ -106,7 +105,7 @@ public class Warp implements CommandExecutor {
                 if (warpSection == null || warpSection.getKeys(false).isEmpty()) {
                     String msg = Lang.fileConfig.getString("no-warps-set");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                    return true;
+                    return false;
                 }
 
                 player.sendMessage(ChatColor.GREEN + "---------------------------"
@@ -120,22 +119,21 @@ public class Warp implements CommandExecutor {
         } else if (args.length == 2) {
             if (args[0].equalsIgnoreCase("setblock")) {
                 if (!ServerEssentials.permissionChecker(player, "se.setwarp.block")) {
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("no-permission"))));
-                    return true;
+                    return false;
                 }
 
                 String warpName = args[1];
                 if (!Setwarp.fileConfig.contains("Warp." + warpName)) {
                     String msg = Lang.fileConfig.getString("warp-not-found").replace("<warp>", warpName);
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                    return true;
+                    return false;
                 }
 
                 Material material = player.getInventory().getItemInMainHand().getType();
                 if (material == Material.AIR) {
                     String perm = Lang.fileConfig.getString("warp-block-invalid").replace("<item>", "AIR");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(perm)));
-                    return true;
+                    return false;
                 } else {
                     Setwarp.fileConfig.set("Warp." + warpName + ".Block", material.toString());
                     try {
@@ -152,12 +150,12 @@ public class Warp implements CommandExecutor {
             } else {
                 String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/warp setblock (warp)");
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                return true;
+                return false;
             }
         } else {
             String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/warp (warp)");
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-            return true;
+            return false;
         }
     }
 
