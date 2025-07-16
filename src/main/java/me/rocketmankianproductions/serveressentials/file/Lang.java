@@ -162,6 +162,7 @@ public class Lang {
                 fileConfig.addDefault("lore-reset-successful", "Successfully reset item lore");
                 fileConfig.addDefault("mute-sender", "&7You just &cmuted &e<target>");
                 fileConfig.addDefault("mute-target", "&7You just got &cmuted &7by &e<target>");
+                fileConfig.addDefault("mute-bypass", "&7This player cannot be muted.");
                 fileConfig.addDefault("unmute-sender", "&7You just &aunmuted &e<target>");
                 fileConfig.addDefault("unmute-target", "&7You just got &aunmuted &7by &e<target>");
                 fileConfig.addDefault("mute-message", "&7You cannot speak since you are &cmuted");
@@ -358,6 +359,8 @@ public class Lang {
                 fileConfig.addDefault("placeholder_godmode_isenabled_no", "no");
                 fileConfig.addDefault("placeholder_vanish_isenabled_yes", "yes");
                 fileConfig.addDefault("placeholder_vanish_isenabled_no", "no");
+                fileConfig.addDefault("placeholder_mute_isenabled_yes", "yes");
+                fileConfig.addDefault("placeholder_mute_isenabled_no", "no");
                 fileConfig.addDefault("placeholder_fly_isenabled_yes", "yes");
                 fileConfig.addDefault("placeholder_fly_isenabled_no", "no");
                 fileConfig.addDefault("placeholder_msgtoggle_isenabled_yes", "yes");
@@ -898,6 +901,10 @@ public class Lang {
 
                 if (fileConfig.getString("mute-target") == null) {
                     fileConfig.set("mute-target-enabled", "&7You just got &cmuted &7by &e<target>");
+                }
+
+                if (fileConfig.getString("mute-bypass") == null) {
+                    fileConfig.set("mute-bypass", "&7This player cannot be muted.");
                 }
 
                 if (fileConfig.getString("mute-message") == null) {
@@ -1649,6 +1656,14 @@ public class Lang {
 
                 if (fileConfig.getString("placeholder_vanish_isenabled_no") == null) {
                     fileConfig.set("placeholder_vanish_isenabled_no", "no");
+                }
+
+                if (fileConfig.getString("placeholder_mute_isenabled_yes") == null) {
+                    fileConfig.set("placeholder_mute_isenabled_yes", "yes");
+                }
+
+                if (fileConfig.getString("placeholder_mute_isenabled_no") == null) {
+                    fileConfig.set("placeholder_mute_isenabled_no", "no");
                 }
 
                 if (fileConfig.getString("placeholder_fly_isenabled_yes") == null) {

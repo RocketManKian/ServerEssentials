@@ -64,11 +64,17 @@ public class PlaceholderExpansion extends me.clip.placeholderapi.expansion.Place
             }else{
                 return Lang.fileConfig.getString("placeholder_vanish_isenabled_no");
             }
-        }else if (params.equalsIgnoreCase("fly_isenabled")){
+        }else if (params.equalsIgnoreCase("fly_isenabled")) {
             if (UserFile.fileConfig.getBoolean(player.getUniqueId() + ".fly")) {
                 return Lang.fileConfig.getString("placeholder_fly_isenabled_yes");
-            }else{
+            } else {
                 return Lang.fileConfig.getString("placeholder_fly_isenabled_no");
+            }
+        }else if (params.equalsIgnoreCase("mute_isenabled")){
+            if (UserFile.fileConfig.getBoolean(player.getUniqueId() + ".muted")) {
+                return Lang.fileConfig.getString("placeholder_mute_isenabled_yes");
+            }else{
+                return Lang.fileConfig.getString("placeholder_mute_isenabled_no");
             }
         }else if (params.equalsIgnoreCase("msgtoggle_isenabled")){
             if (UserFile.fileConfig.getBoolean(player.getUniqueId() + ".msgtoggle")) {

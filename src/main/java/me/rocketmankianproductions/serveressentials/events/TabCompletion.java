@@ -139,6 +139,18 @@ public class TabCompletion implements TabCompleter {
                 }
             }
         }
+        // Delwarp Command
+        if (command.getName().equalsIgnoreCase("deletewarp")) {
+            Player player = (Player) sender;
+            if (args.length == 1) {
+                if (Setwarp.fileConfig.getConfigurationSection("Warp.") != null) {
+                    ConfigurationSection warps = Setwarp.fileConfig.getConfigurationSection("Warp.");
+                    for (String warp : warps.getKeys(false)) {
+                        autoCompletes.add(warp);
+                    }
+                }
+            }
+        }
 
         // Home Command
         if (command.getName().equalsIgnoreCase("home")) {

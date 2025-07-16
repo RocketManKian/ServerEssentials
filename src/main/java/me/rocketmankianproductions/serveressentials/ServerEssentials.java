@@ -237,7 +237,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         // Warp Command
         getCommand("warp").setExecutor(new Warp());
         getCommand("warp").setTabCompleter(new TabCompletion());
-        // Warp Command
+        // DeleteWarp Command
         getCommand("deletewarp").setExecutor(new DeleteWarp());
         getCommand("deletewarp").setTabCompleter(new TabCompletion());
         // Repair Command
@@ -353,8 +353,8 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         // Spawner Command
         getCommand("spawner").setExecutor(new Spawner());
         // Mute Commands
-        //getCommand("mute").setExecutor(new Mute());
-        //getCommand("unmute").setExecutor(new Mute());
+        getCommand("mute").setExecutor(new Mute());
+        getCommand("unmute").setExecutor(new Mute());
         // Economy
         if (Bukkit.getPluginManager().getPlugin("Vault") != null && ServerEssentials.getPlugin().getConfig().getBoolean("enable-eco")) {
             getCommand("pay").setExecutor(new Pay());

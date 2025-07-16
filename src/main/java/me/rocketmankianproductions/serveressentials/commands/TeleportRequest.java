@@ -3,8 +3,14 @@ package me.rocketmankianproductions.serveressentials.commands;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import me.rocketmankianproductions.serveressentials.file.UserFile;
+import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -440,16 +446,25 @@ public class TeleportRequest implements CommandExecutor {
         sendMessage(acceptor, "teleport-accept-request-target", "<target>", initiator.getName());
         sendMessage(initiator, "teleport-wait-message", "<player>", acceptor.getName(), "<time>", String.valueOf(waitTime));
 
+
+        Location teleportLoc;
+        if ("tpa".equals(requestType)) {
+            teleportLoc = acceptor.getLocation();
+        }else {
+            teleportLoc = initiator.getLocation();
+        }
+
+        Location finalTeleportLoc = teleportLoc;
         int scheduledTask = Bukkit.getScheduler().scheduleSyncDelayedTask(ServerEssentials.plugin, () -> {
             boolean cancelledByMovement = false;
             UUID playerToTeleportUUID;
             Player playerWhoTeleports;
             Player otherPlayer; // The player who is NOT teleporting (the destination)
+            otherPlayer = acceptor;
+            playerToTeleportUUID = initiator.getUniqueId(); // Initiator is the one who will teleport
+            playerWhoTeleports = initiator;
 
             if ("tpa".equals(requestType)) {
-                playerToTeleportUUID = initiator.getUniqueId(); // Initiator is the one who will teleport
-                playerWhoTeleports = initiator;
-                otherPlayer = acceptor;
                 if (movementCancellation && !movementCancelTPA.contains(playerToTeleportUUID)) {
                     // This means the player *was* in the list, but the PlayerMoveEvent removed them because they moved.
                     cancelledByMovement = true;
@@ -498,12 +513,20 @@ public class TeleportRequest implements CommandExecutor {
             // Perform teleport
             if ("tpa".equals(requestType)) {
                 Teleport.teleportSave(initiator); // initiator is teleporting
-                initiator.teleport(acceptor.getLocation()); // initiator teleports to acceptor's current location
+                if (!ServerEssentials.plugin.getConfig().getBoolean("teleport-after-wait-location")){
+                    initiator.teleport(finalTeleportLoc); // initiator teleports to acceptor's current location
+                }else{
+                    initiator.teleport(acceptor.getLocation()); // initiator teleports to acceptor's current location
+                }
                 teleportSuccessMessage(initiator, acceptor, "tpa");
                 //ServerEssentials.getPlugin().getLogger().log(Level.INFO, "[TELEPORT] Delayed TPA Completed: Initiator=" + initiator.getName() + ", Acceptor=" + acceptor.getName());
             } else { // tpahere
                 Teleport.teleportSave(acceptor); // acceptor is teleporting
-                acceptor.teleport(initiator.getLocation()); // acceptor teleports to initiator's current location
+                if (!ServerEssentials.plugin.getConfig().getBoolean("teleport-after-wait-location")){
+                    acceptor.teleport(finalTeleportLoc); // initiator teleports to acceptor's current location
+                }else{
+                    acceptor.teleport(initiator.getLocation()); // initiator teleports to acceptor's current location
+                }
                 teleportSuccessMessage(acceptor, initiator, "tpahere");
                 //ServerEssentials.getPlugin().getLogger().log(Level.INFO, "[TELEPORT] Delayed TPAHERE Completed: Acceptor=" + acceptor.getName() + ", Initiator=" + initiator.getName());
             }
@@ -557,15 +580,34 @@ public class TeleportRequest implements CommandExecutor {
         sendMessage(sender, requestSentPath, "<target>", target.getName());
         sendMessage(sender, timeoutWarningPath, "<time>", String.valueOf(timeoutDelay));
         sendMessage(sender, cancelWarningPath);
+        String cancelText = Lang.fileConfig.getString(cancelButtonTextPath); // For /tpacancel option
+        TextComponent cancelButton = new TextComponent(ChatColor.translateAlternateColorCodes('&', hex(cancelText)));
+        cancelButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpacancel"));
+        cancelButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString(cancelButtonPath))))));
+        sender.spigot().sendMessage(cancelButton);
 
         // Message to the target (with clickable buttons)
-        String receiveMessage = Lang.fileConfig.getString(targetReceivePath).replace("<sender>", sender.getName());
+        String receiveMessage = Lang.fileConfig.getString(targetReceivePath);
+        if (receiveMessage != null) {
+            receiveMessage = receiveMessage.replace("<sender>", sender.getName());
+            receiveMessage = ChatColor.translateAlternateColorCodes('&', hex(receiveMessage));
+            target.spigot().sendMessage(new TextComponent(receiveMessage));
+        }
+
         String acceptText = Lang.fileConfig.getString(acceptButtonTextPath);
         String denyText = Lang.fileConfig.getString(denyButtonTextPath);
 
-        target.sendMessage(hex(receiveMessage));
-        target.sendMessage(hex(acceptText));
-        target.sendMessage(hex(denyText));
+        TextComponent acceptButton = new TextComponent(ChatColor.translateAlternateColorCodes('&', hex(acceptText)));
+        acceptButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaccept"));
+        acceptButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString(acceptButtonPath))))));
+
+        TextComponent denyButton = new TextComponent(ChatColor.translateAlternateColorCodes('&', hex(denyText)));
+        denyButton.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpdeny"));
+        denyButton.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString(denyButtonPath))))));
+
+        TextComponent separator = new TextComponent(ChatColor.DARK_GRAY + " | ");
+
+        target.spigot().sendMessage(acceptButton, separator, denyButton, separator); // Send to target
     }
 
     private void cancelTimeout(UUID playerUUID) {

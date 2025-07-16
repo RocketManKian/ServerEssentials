@@ -49,6 +49,10 @@ public class Mute implements CommandExecutor {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("target-self"))));
             return false;
         }
+        if (target.getPlayer().hasPermission("se.mute.bypass")){
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("mute-bypass"))));
+            return false;
+        }
         UserFile.fileConfig.set(target.getUniqueId() + ".muted", mute);
         try {
             UserFile.fileConfig.save(UserFile.file);

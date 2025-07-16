@@ -247,8 +247,6 @@ public class EconomyImplementer implements Economy {
     }
 
     private EconomyResponse withdrawPlayer(UUID uuid, double amount) {
-        Bukkit.getLogger().info("[EconomyImplementer] withdrawPlayer(UUID, double) called for UUID=" + uuid + ", amount=" + amount);
-
         if (!isPlayer(uuid)) {
             return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "Invalid player UUID or not a player");
         }
@@ -312,8 +310,6 @@ public class EconomyImplementer implements Economy {
     }
 
     private EconomyResponse depositPlayer(UUID uuid, double amount) {
-        Bukkit.getLogger().info("[EconomyImplementer] depositPlayer(UUID, double) called for UUID=" + uuid + ", amount=" + amount);
-
         if (!isPlayer(uuid)) { // Ensure it's a valid player UUID for player accounts
             return new EconomyResponse(0, 0, EconomyResponse.ResponseType.FAILURE, "Invalid player UUID or not a player");
         }
