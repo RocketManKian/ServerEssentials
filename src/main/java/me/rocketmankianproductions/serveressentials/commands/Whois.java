@@ -84,8 +84,8 @@ public class Whois implements CommandExecutor {
                                 + "\n&6- OP: &f" + op
                                 + "\n&6- Fly Mode: &f" + fly + " " + flyindicator
                                 + "\n&6- Speed: &f" + speed
-                                + "\n&6- Vanish &f" + vanish)
-                                + "\n&6- Muted &f" + muted);
+                                + "\n&6- Vanish &f" + vanish
+                                + "\n&6- Muted &f" + muted));
                     }
                 }else{
                     String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/whois <player>");
