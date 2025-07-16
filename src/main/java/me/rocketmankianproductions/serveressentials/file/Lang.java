@@ -896,11 +896,11 @@ public class Lang {
                 }
 
                 if (fileConfig.getString("mute-sender") == null) {
-                    fileConfig.set("mute-sender-enabled", "&7You just &cmuted &e<target>");
+                    fileConfig.set("mute-sender", "&7You just &cmuted &e<target>");
                 }
 
                 if (fileConfig.getString("mute-target") == null) {
-                    fileConfig.set("mute-target-enabled", "&7You just got &cmuted &7by &e<target>");
+                    fileConfig.set("mute-target", "&7You just got &cmuted &7by &e<target>");
                 }
 
                 if (fileConfig.getString("mute-bypass") == null) {
@@ -912,11 +912,11 @@ public class Lang {
                 }
 
                 if (fileConfig.getString("unmute-sender") == null) {
-                    fileConfig.set("unmute-sender-disabled", "&7You just &aunmuted &e<target>");
+                    fileConfig.set("unmute-sender", "&7You just &aunmuted &e<target>");
                 }
 
                 if (fileConfig.getString("unmute-target") == null) {
-                    fileConfig.set("unmute-target-disabled", "&7You just got &aunmuted &7by &e<target>");
+                    fileConfig.set("unmute-target", "&7You just got &aunmuted &7by &e<target>");
                 }
 
                 if (fileConfig.getString("message-self") == null) {
