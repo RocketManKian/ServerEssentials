@@ -131,7 +131,9 @@ public class SE implements CommandExecutor {
                             + "\n/top - Teleports to highest available block"
                             + "\n/bottom - Teleports to bottom most available block"
                             + "\n/spawner - Gives spawner of specified type"
-                            + "\n/clearentity - Clears all Entities");
+                            + "\n/clearentity - Clears all Entities"
+                            + "\n/mute - Mutes a Player"
+                            + "\n/unmute - Unmutes a Muted Player");
                     return true;
                 }
             }else if (args.length == 1){

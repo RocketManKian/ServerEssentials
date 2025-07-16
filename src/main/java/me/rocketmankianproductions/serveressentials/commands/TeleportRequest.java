@@ -446,16 +446,25 @@ public class TeleportRequest implements CommandExecutor {
         sendMessage(acceptor, "teleport-accept-request-target", "<target>", initiator.getName());
         sendMessage(initiator, "teleport-wait-message", "<player>", acceptor.getName(), "<time>", String.valueOf(waitTime));
 
+
+        Location teleportLoc;
+        if ("tpa".equals(requestType)) {
+            teleportLoc = acceptor.getLocation();
+        }else {
+            teleportLoc = initiator.getLocation();
+        }
+
+        Location finalTeleportLoc = teleportLoc;
         int scheduledTask = Bukkit.getScheduler().scheduleSyncDelayedTask(ServerEssentials.plugin, () -> {
             boolean cancelledByMovement = false;
             UUID playerToTeleportUUID;
             Player playerWhoTeleports;
             Player otherPlayer; // The player who is NOT teleporting (the destination)
+            otherPlayer = acceptor;
+            playerToTeleportUUID = initiator.getUniqueId(); // Initiator is the one who will teleport
+            playerWhoTeleports = initiator;
 
             if ("tpa".equals(requestType)) {
-                playerToTeleportUUID = initiator.getUniqueId(); // Initiator is the one who will teleport
-                playerWhoTeleports = initiator;
-                otherPlayer = acceptor;
                 if (movementCancellation && !movementCancelTPA.contains(playerToTeleportUUID)) {
                     // This means the player *was* in the list, but the PlayerMoveEvent removed them because they moved.
                     cancelledByMovement = true;
@@ -504,12 +513,20 @@ public class TeleportRequest implements CommandExecutor {
             // Perform teleport
             if ("tpa".equals(requestType)) {
                 Teleport.teleportSave(initiator); // initiator is teleporting
-                initiator.teleport(acceptor.getLocation()); // initiator teleports to acceptor's current location
+                if (!ServerEssentials.plugin.getConfig().getBoolean("teleport-after-wait-location")){
+                    initiator.teleport(finalTeleportLoc); // initiator teleports to acceptor's current location
+                }else{
+                    initiator.teleport(acceptor.getLocation()); // initiator teleports to acceptor's current location
+                }
                 teleportSuccessMessage(initiator, acceptor, "tpa");
                 //ServerEssentials.getPlugin().getLogger().log(Level.INFO, "[TELEPORT] Delayed TPA Completed: Initiator=" + initiator.getName() + ", Acceptor=" + acceptor.getName());
             } else { // tpahere
                 Teleport.teleportSave(acceptor); // acceptor is teleporting
-                acceptor.teleport(initiator.getLocation()); // acceptor teleports to initiator's current location
+                if (!ServerEssentials.plugin.getConfig().getBoolean("teleport-after-wait-location")){
+                    acceptor.teleport(finalTeleportLoc); // initiator teleports to acceptor's current location
+                }else{
+                    acceptor.teleport(initiator.getLocation()); // initiator teleports to acceptor's current location
+                }
                 teleportSuccessMessage(acceptor, initiator, "tpahere");
                 //ServerEssentials.getPlugin().getLogger().log(Level.INFO, "[TELEPORT] Delayed TPAHERE Completed: Acceptor=" + acceptor.getName() + ", Initiator=" + initiator.getName());
             }

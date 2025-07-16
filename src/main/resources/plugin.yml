@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 2.2.2
+version: 2.2.3
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -329,6 +329,7 @@ permissions:
       se.gamemode.spectator: true
       se.fly: true
       se.fly.others: true
+      se.fly.login: true
       se.tpahere: true
       se.kill: true
       se.message: true
@@ -401,6 +402,7 @@ permissions:
       se.spawner: true
       se.mute: true
       se.unmute: true
+      se.mute.bypass: true
   se.reload:
     description: "Gives access to the /se reload command."
     default: false
@@ -547,6 +549,9 @@ permissions:
     default: false
   se.fly.others:
     description: "Fly Others Command"
+    default: false
+  se.fly.login:
+    description: "Fly on Login"
     default: false
   se.tpahere:
     description: "Tpahere Command"
@@ -766,4 +771,7 @@ permissions:
     default: false
   se.unmute:
     description: "Unmute Command Permission"
+    default: false
+  se.mute.bypass:
+    description: "Mute Bypass Permission"
     default: false

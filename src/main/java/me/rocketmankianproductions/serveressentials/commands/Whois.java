@@ -47,13 +47,17 @@ public class Whois implements CommandExecutor {
                         if (UserFile.fileConfig.getBoolean(target.getUniqueId() + ".vanish")) {
                             vanish = "&atrue";
                         }
+                        String muted = "&4false";
+                        if (UserFile.fileConfig.getBoolean(target.getUniqueId() + ".muted")) {
+                            muted = "&atrue";
+                        }
                         String op = "&4false";
                         if (target.isOp()){
                             op = "&atrue";
                         }
                         String fly = "&4false";
                         String flyindicator = "";
-                        if (UserFile.fileConfig.getBoolean(target.getUniqueId() + ".fly")) {
+                        if (player.getAllowFlight()) {
                             flyindicator = "&f(not flying)";
                             if (target.isFlying()){
                                 flyindicator = "&f(flying)";
@@ -80,7 +84,8 @@ public class Whois implements CommandExecutor {
                                 + "\n&6- OP: &f" + op
                                 + "\n&6- Fly Mode: &f" + fly + " " + flyindicator
                                 + "\n&6- Speed: &f" + speed
-                                + "\n&6- Vanish &f" + vanish));
+                                + "\n&6- Vanish &f" + vanish)
+                                + "\n&6- Muted &f" + muted);
                     }
                 }else{
                     String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/whois <player>");

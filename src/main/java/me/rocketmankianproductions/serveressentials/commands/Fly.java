@@ -52,7 +52,7 @@ public class Fly implements CommandExecutor {
     }
     public void flyToggle(Player player, boolean target, CommandSender sender){
         if (player != null){
-            if (UserFile.fileConfig.getBoolean(player.getUniqueId() + ".fly")) {
+            if (player.getAllowFlight()) {
                 player.setAllowFlight(false);
                 player.setFlying(false);
                 String msg = Lang.fileConfig.getString("fly-disabled");
@@ -60,12 +60,6 @@ public class Fly implements CommandExecutor {
                 if (target){
                     String msg2 = Lang.fileConfig.getString("fly-target-disabled").replace("<target>", player.getName());
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
-                }
-                UserFile.fileConfig.set(player.getUniqueId() + ".fly", false);
-                try {
-                    UserFile.fileConfig.save(UserFile.file);
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
             } else {
                 player.setAllowFlight(true);
@@ -75,12 +69,6 @@ public class Fly implements CommandExecutor {
                 if (target){
                     String msg2 = Lang.fileConfig.getString("fly-target-enabled").replace("<target>", player.getName());
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
-                }
-                UserFile.fileConfig.set(player.getUniqueId() + ".fly", true);
-                try {
-                    UserFile.fileConfig.save(UserFile.file);
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
             }
         }else{

@@ -29,7 +29,7 @@ public class PlayerJoinListener implements Listener {
         Player player = pj.getPlayer();
 
         // Fly
-        if (UserFile.fileConfig.getBoolean(player.getUniqueId() + ".fly")) {
+        if (player.hasPermission("se.fly.login")) {
             player.setAllowFlight(true);
             player.setFlying(true);
         }

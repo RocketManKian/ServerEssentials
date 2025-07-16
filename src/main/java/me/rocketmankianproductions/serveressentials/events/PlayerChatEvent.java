@@ -25,7 +25,7 @@ public class PlayerChatEvent implements Listener {
         Player player = c.getPlayer();
         // Get Mute Status
         boolean isMuted = UserFile.fileConfig.getBoolean(player.getUniqueId() + ".muted");
-        if (isMuted){
+        if (isMuted && !player.hasPermission("se.mute.bypass")){
             c.setCancelled(true);
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("mute-message"))));
         }

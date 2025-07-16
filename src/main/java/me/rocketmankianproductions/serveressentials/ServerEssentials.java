@@ -237,7 +237,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         // Warp Command
         getCommand("warp").setExecutor(new Warp());
         getCommand("warp").setTabCompleter(new TabCompletion());
-        // Warp Command
+        // DeleteWarp Command
         getCommand("deletewarp").setExecutor(new DeleteWarp());
         getCommand("deletewarp").setTabCompleter(new TabCompletion());
         // Repair Command
