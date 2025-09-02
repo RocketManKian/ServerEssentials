@@ -23,14 +23,14 @@ public class Kill implements CommandExecutor {
                     String msg = Lang.fileConfig.getString("kill-self");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
-                } else if (args.length == 1) {
+                } else if (args.length == 1 ) {
                     Player target = Bukkit.getPlayer(args[0]);
                     if (target == sender){
                         player.setHealth(0);
                         String msg = Lang.fileConfig.getString("kill-self");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
-                    }else{
+                    }else if (target != sender && ServerEssentials.permissionChecker(player, "se.kill.others")){
                         target.setHealth(0);
                         String msg = Lang.fileConfig.getString("kill-target").replace("<target>", target.getName());
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
