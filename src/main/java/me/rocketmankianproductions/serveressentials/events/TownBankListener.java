@@ -8,15 +8,19 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 public class TownBankListener implements Listener {
-    private ServerEssentials plugin = ServerEssentials.getInstance;
 
     @EventHandler
     public void onTownRemove(TownyDestroyEvent event) {
+        if (event.getTownBlock() == null) {
+            Bukkit.getLogger().warning("[ServerEssentials] TownyDestroyEvent had a null TownBlock — skipping bank removal.");
+            return;
+        }
+
         String townName = event.getTownBlock().getName(); // Get the name of the deleted town
         String bankName = "town-" + townName; // Construct the full bank name as stored in BankFile
 
         // Call your deleteBank method
-        EconomyResponse response = plugin.economyImplementer.deleteBank(bankName);
+        EconomyResponse response = ServerEssentials.getPlugin().economyImplementer.deleteBank(bankName);
 
         if (response.transactionSuccess()) {
             Bukkit.getLogger().info("Successfully removed bank account for deleted town: " + townName);
