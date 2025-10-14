@@ -247,7 +247,7 @@ public class Teleport implements CommandExecutor {
                     target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg3)));
                     return true;
                 }
-            } else if (args.length >= 4){
+            } else if (args.length >= 5){
                 Player target = Bukkit.getPlayerExact(args[0]);
                 String dimension = args[4];
                 if (target == null) {
@@ -273,6 +273,10 @@ public class Teleport implements CommandExecutor {
                     }
                     return true;
                 }
+            }else{
+                String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/teleport <x> <y> <z> <dimension>");
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                return true;
             }
         } else if (sender instanceof BlockCommandSender) {
             if (args.length == 2){
