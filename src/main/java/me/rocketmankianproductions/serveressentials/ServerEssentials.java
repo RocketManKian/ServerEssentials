@@ -173,6 +173,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("tptoggle").setExecutor(new TPToggle());
         // Teleport Override Command
         getCommand("tpo").setExecutor(new TPO());
+        getCommand("tpohere").setExecutor(new TPOHere());
         // Teleport Command
         getCommand("teleport").setExecutor(new Teleport());
         // TeleportHere Command

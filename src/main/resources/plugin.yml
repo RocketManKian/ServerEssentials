@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 2.2.6
+version: 2.2.7
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -53,6 +53,8 @@ commands:
     aliases: [delhome]
   tpo:
     description: Teleport Override
+  tpohere:
+    description: Teleport Here Override
   teleport:
     description: Teleport Function
     aliases: [tp]
@@ -309,6 +311,7 @@ permissions:
       se.tpaccept: true
       se.tpdeny: true
       se.tpo: true
+      se.tpohere: true
       se.teleport: true
       se.offlinetp: true
       se.teleport.coords: true
@@ -478,6 +481,9 @@ permissions:
     default: false
   se.tpo:
     description: "Teleport Override Command"
+    default: false
+  se.tpohere:
+    description: "Teleport Here Override Command"
     default: false
   se.teleport:
     description: "Teleport Command"
