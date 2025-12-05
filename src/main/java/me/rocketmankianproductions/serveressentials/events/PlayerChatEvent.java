@@ -4,10 +4,10 @@ import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import me.rocketmankianproductions.serveressentials.LoggerMessage;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
-import me.rocketmankianproductions.serveressentials.commands.AFK;
 import me.rocketmankianproductions.serveressentials.commands.StaffChat;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import me.rocketmankianproductions.serveressentials.file.UserFile;
+import me.rocketmankianproductions.serveressentials.utils.AFKManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -30,10 +30,10 @@ public class PlayerChatEvent implements Listener {
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("mute-message"))));
         }
         // AFK Command
-        if (AFK.afk.containsKey(player)){
+        if (AFKManager.isAFK(player)){
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("afk-inactive"))));
             player.setSleepingIgnored(false);
-            AFK.afk.remove(player);
+            AFKManager.setAFK(player, false);
         }
         if (StaffChat.staffchat.contains(player)) {
             String scmessage = ChatColor.stripColor(c.getMessage());
