@@ -3,6 +3,7 @@ package me.rocketmankianproductions.serveressentials.events;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.commands.*; // Assuming Home, Warp, ListHomes, Sethome, Setwarp, Invsee, AFK are here
 import me.rocketmankianproductions.serveressentials.file.Lang;
+import me.rocketmankianproductions.serveressentials.utils.AFKManager;
 import me.rocketmankianproductions.serveressentials.utils.CompatibilityUtil;
 import me.rocketmankianproductions.serveressentials.utils.GUIPaginationHelper; // Import the pagination helper
 import org.bukkit.*;
@@ -86,10 +87,10 @@ public class PlayerClickEvent implements Listener {
         // rather than specifically tied to GUI interaction. If a player clicks anywhere
         // while AFK, it sets them as active. Consider moving this to a more general
         // PlayerInteractEvent or PlayerMoveEvent for better logic separation if desired.
-        if (AFK.afk.containsKey(player)) {
+        if (AFKManager.isAFK(player)){
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("afk-inactive")));
             player.setSleepingIgnored(false); // Assuming this is for AFK status
-            AFK.afk.remove(player);
+            AFKManager.setAFK(player, false);
         }
     }
 

@@ -1,7 +1,6 @@
 package me.rocketmankianproductions.serveressentials.events;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
-import me.rocketmankianproductions.serveressentials.commands.AFK;
 import me.rocketmankianproductions.serveressentials.commands.Back;
 import me.rocketmankianproductions.serveressentials.commands.Freeze;
 import me.rocketmankianproductions.serveressentials.commands.Home;
@@ -9,7 +8,7 @@ import me.rocketmankianproductions.serveressentials.commands.Spawn;
 import me.rocketmankianproductions.serveressentials.commands.TeleportRequest;
 import me.rocketmankianproductions.serveressentials.commands.Warp;
 import me.rocketmankianproductions.serveressentials.file.Lang;
-import org.bukkit.Bukkit;
+import me.rocketmankianproductions.serveressentials.utils.AFKManager;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -39,17 +38,25 @@ public class PlayerMoveListener implements Listener {
         }
 
         // AFK Command
-        if (AFK.afk.containsKey(player)) {
+        if (AFKManager.isAFK(player)){
             sendMessage(player, "afk-inactive");
             player.setSleepingIgnored(false); // Reset ignored sleeping state
-            AFK.afk.remove(player);
+            AFKManager.setAFK(player, false);
         }
 
         // Handle generic movement cancellations for various commands
-        handleMovementCancellation(player, Home.cancel, "home-movement-cancel");
-        handleMovementCancellation(player, Warp.cancel, "warp-movement-cancel");
-        handleMovementCancellation(player, Spawn.cancel, "spawn-movement-cancel");
-        handleMovementCancellation(player, Back.cancel, "back-movement-cancel");
+        if (Home.cancel.contains(player.getUniqueId())){
+            handleMovementCancellation(player, Home.cancel, "home-movement-cancel");
+        }
+        if (Warp.cancel.contains(player.getUniqueId())){
+            handleMovementCancellation(player, Warp.cancel, "warp-movement-cancel");
+        }
+        if (Spawn.cancel.contains(player.getUniqueId())){
+            handleMovementCancellation(player, Spawn.cancel, "spawn-movement-cancel");
+        }
+        if (Back.cancel.contains(player.getUniqueId())){
+            handleMovementCancellation(player, Back.cancel, "back-movement-cancel");
+        }
 
         // Special handling for TeleportRequest movement cancellation lists.
         // This event listener ONLY removes the player from the list.

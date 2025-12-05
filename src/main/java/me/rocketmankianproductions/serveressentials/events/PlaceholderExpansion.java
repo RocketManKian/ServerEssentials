@@ -1,11 +1,11 @@
 package me.rocketmankianproductions.serveressentials.events;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
-import me.rocketmankianproductions.serveressentials.commands.AFK;
 import me.rocketmankianproductions.serveressentials.commands.Freeze;
 import me.rocketmankianproductions.serveressentials.commands.Sethome;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import me.rocketmankianproductions.serveressentials.file.UserFile;
+import me.rocketmankianproductions.serveressentials.utils.AFKManager;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.jetbrains.annotations.NotNull;
@@ -41,7 +41,7 @@ public class PlaceholderExpansion extends me.clip.placeholderapi.expansion.Place
     @Override
     public String onRequest(OfflinePlayer player, String params) {
         if(params.equalsIgnoreCase("afk")) {
-            if (AFK.afk.containsKey(player)) {
+            if (AFKManager.isAFK(player)){
                 return Lang.fileConfig.getString("placeholder_afk_isenabled_yes");
             } else {
                 return Lang.fileConfig.getString("placeholder_afk_isenabled_no");

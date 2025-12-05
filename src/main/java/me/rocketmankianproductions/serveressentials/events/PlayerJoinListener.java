@@ -9,6 +9,7 @@ import me.rocketmankianproductions.serveressentials.UpdateChecker.Update;
 import me.rocketmankianproductions.serveressentials.commands.*;
 import me.rocketmankianproductions.serveressentials.file.UserFile;
 import me.rocketmankianproductions.serveressentials.file.Lang;
+import me.rocketmankianproductions.serveressentials.utils.AFKManager;
 import net.md_5.bungee.api.chat.*;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -27,6 +28,12 @@ public class PlayerJoinListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent pj) {
         Player player = pj.getPlayer();
+
+        // AFK Command
+        if (AFKManager.isAFK(player)){
+            player.setSleepingIgnored(false); // Reset ignored sleeping state
+            AFKManager.setAFK(player, false);
+        }
 
         // Fly
         if (player.hasPermission("se.fly.login")) {

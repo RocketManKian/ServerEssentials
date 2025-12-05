@@ -7,6 +7,7 @@ import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.commands.Eco;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import me.rocketmankianproductions.serveressentials.file.UserFile;
+import me.rocketmankianproductions.serveressentials.utils.AFKManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -24,6 +25,12 @@ public class PlayerLeaveListener implements Listener {
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent pj) {
         Player player = pj.getPlayer();
+
+        // AFK Command
+        if (AFKManager.isAFK(player)){
+            player.setSleepingIgnored(false); // Reset ignored sleeping state
+            AFKManager.setAFK(player, false);
+        }
 
         // Economy
         double balance = ServerEssentials.getPlugin().playerBank.getOrDefault(player.getUniqueId(), 0.0);

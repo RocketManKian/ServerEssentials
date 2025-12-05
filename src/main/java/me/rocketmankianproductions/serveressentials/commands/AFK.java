@@ -2,6 +2,7 @@ package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
+import me.rocketmankianproductions.serveressentials.utils.AFKManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -16,22 +17,19 @@ import org.jetbrains.annotations.NotNull;
 import java.util.HashMap;
 
 public class AFK implements CommandExecutor, Listener {
-
-    public static HashMap<Player, Boolean> afk = new HashMap<>();
-
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (sender instanceof Player){
             Player player = (Player) sender;
             if (ServerEssentials.permissionChecker(player, "se.afk")){
-                if (!afk.containsKey(player)){
+                if (!AFKManager.isAFK(player)){
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("afk-active")));
                     player.setSleepingIgnored(true);
-                    afk.put(player, true);
+                    AFKManager.setAFK(player, true);
                 }else{
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("afk-inactive")));
                     player.setSleepingIgnored(false);
-                    afk.remove(player);
+                    AFKManager.setAFK(player, false);
                 }
             }
         }
@@ -39,22 +37,28 @@ public class AFK implements CommandExecutor, Listener {
     }
 
     @EventHandler
-    public void onPlayerClick(PlayerInteractEvent player){
+    public void onPlayerClick(PlayerInteractEvent event){
         // AFK Command
-        if (AFK.afk.containsKey(player)){
-            player.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("afk-inactive")));
-            player.getPlayer().setSleepingIgnored(false);
-            AFK.afk.remove(player);
+        if (event instanceof Player){
+            Player player = event.getPlayer();
+            if (AFKManager.isAFK(player)){
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("afk-inactive")));
+                player.setSleepingIgnored(false);
+                AFKManager.setAFK(player, false);
+            }
         }
     }
 
     @EventHandler
-    public void onBlockBreak (BlockBreakEvent e){
+    public void onBlockBreak (BlockBreakEvent event){
         // AFK Command
-        if (AFK.afk.containsKey(e.getPlayer())){
-            e.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("afk-inactive")));
-            e.getPlayer().setSleepingIgnored(false);
-            AFK.afk.remove(e.getPlayer());
+        if (event instanceof Player){
+            Player player = event.getPlayer();
+            if (AFKManager.isAFK(player)){
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("afk-inactive")));
+                player.setSleepingIgnored(false);
+                AFKManager.setAFK(player, false);
+            }
         }
     }
 }
