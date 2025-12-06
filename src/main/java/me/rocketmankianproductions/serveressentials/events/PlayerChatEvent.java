@@ -4,6 +4,7 @@ import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import me.rocketmankianproductions.serveressentials.LoggerMessage;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.commands.Mute;
 import me.rocketmankianproductions.serveressentials.commands.StaffChat;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import me.rocketmankianproductions.serveressentials.file.UserFile;
@@ -24,10 +25,21 @@ public class PlayerChatEvent implements Listener {
     public void onChat(AsyncPlayerChatEvent c) {
         Player player = c.getPlayer();
         // Get Mute Status
-        boolean isMuted = UserFile.fileConfig.getBoolean(player.getUniqueId() + ".muted");
-        if (isMuted && !player.hasPermission("se.mute.bypass")){
+        String muteTime = Mute.getPlayerMuteTime(player);
+
+        if (muteTime != null && !player.hasPermission("se.mute.bypass")) {
             c.setCancelled(true);
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("mute-message"))));
+
+            String raw = Lang.fileConfig.getString("mute-message");
+
+            // Add <time> placeholder support
+            if (muteTime.equalsIgnoreCase("Permanent")) {
+                raw = raw.replace("<time>", "Permanent");
+            } else {
+                raw = raw.replace("<time>", muteTime);
+            }
+
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(raw)));
         }
         // AFK Command
         if (AFKManager.isAFK(player)){

@@ -165,7 +165,7 @@ public class Lang {
                 fileConfig.addDefault("mute-bypass", "&7This player cannot be muted.");
                 fileConfig.addDefault("unmute-sender", "&7You just &aunmuted &e<target>");
                 fileConfig.addDefault("unmute-target", "&7You just got &aunmuted &7by &e<target>");
-                fileConfig.addDefault("mute-message", "&7You cannot speak since you are &cmuted");
+                fileConfig.addDefault("mute-message", "&cYou are muted! Time left: <time>");
                 fileConfig.addDefault("message-self", "You cannot message yourself");
                 fileConfig.addDefault("message-disabled", "That person has messaging disabled");
                 fileConfig.addDefault("message-toggle-enabled", "Incoming Messages have been Disabled");
@@ -908,7 +908,7 @@ public class Lang {
                 }
 
                 if (fileConfig.getString("mute-message") == null) {
-                    fileConfig.set("mute-message", "&7You cannot speak since you are &cmuted");
+                    fileConfig.set("mute-message", "&cYou are muted! Time left: <time>");
                 }
 
                 if (fileConfig.getString("unmute-sender") == null) {
