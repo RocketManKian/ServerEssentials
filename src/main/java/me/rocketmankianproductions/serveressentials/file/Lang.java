@@ -35,6 +35,7 @@ public class Lang {
                 fileConfig.addDefault("all-offline", "There are no players online");
                 fileConfig.addDefault("console-invalid", "You cannot execute this command in Console");
                 fileConfig.addDefault("invalid-player", "You are not a player");
+                fileConfig.addDefault("invalid-time", "&cThis duration is invalid");
                 fileConfig.addDefault("incorrect-format", "Incorrect format! Please use &6<command>");
                 fileConfig.addDefault("target-self", "You cannot target yourself.");
                 fileConfig.addDefault("first-time-join", "Welcome <player> to the Server!");
@@ -160,8 +161,8 @@ public class Lang {
                 fileConfig.addDefault("lore-reset-invalid-item", "Please hold a valid item to reset the lore");
                 fileConfig.addDefault("lore-successful", "Successfully set item lore as <lore>");
                 fileConfig.addDefault("lore-reset-successful", "Successfully reset item lore");
-                fileConfig.addDefault("mute-sender", "&7You just &cmuted &e<target>");
-                fileConfig.addDefault("mute-target", "&7You just got &cmuted &7by &e<target>");
+                fileConfig.addDefault("mute-sender", "&7You just &cmuted &e<target> &7for &6<time>");
+                fileConfig.addDefault("mute-target", "&7You just got &cmuted &7by &e<target> &7for &6<time>");
                 fileConfig.addDefault("mute-bypass", "&7This player cannot be muted.");
                 fileConfig.addDefault("unmute-sender", "&7You just &aunmuted &e<target>");
                 fileConfig.addDefault("unmute-target", "&7You just got &aunmuted &7by &e<target>");
@@ -408,6 +409,10 @@ public class Lang {
 
                 if (fileConfig.getString("invalid-player") == null) {
                     fileConfig.set("invalid-player", "You are not a player");
+                }
+
+                if (fileConfig.getString("invalid-time") == null) {
+                    fileConfig.set("invalid-time", "&cThis duration is invalid.");
                 }
 
                 if (fileConfig.getString("incorrect-format") == null) {
@@ -896,11 +901,11 @@ public class Lang {
                 }
 
                 if (fileConfig.getString("mute-sender") == null) {
-                    fileConfig.set("mute-sender", "&7You just &cmuted &e<target>");
+                    fileConfig.set("mute-sender", "&7You just &cmuted &e<target> &7for &6<time>");
                 }
 
                 if (fileConfig.getString("mute-target") == null) {
-                    fileConfig.set("mute-target", "&7You just got &cmuted &7by &e<target>");
+                    fileConfig.set("mute-target", "&7You just got &cmuted &7by &e<target> &7for &6<time>");
                 }
 
                 if (fileConfig.getString("mute-bypass") == null) {

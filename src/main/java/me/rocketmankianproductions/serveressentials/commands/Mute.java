@@ -81,6 +81,7 @@ public class Mute implements CommandExecutor {
         // ------------------
         //     MUTE LOGIC
         // ------------------
+        int timeSeconds = 0;
         if (mute) {
             // ensure we have a duration argument
             if (args.length < 2) {
@@ -90,14 +91,12 @@ public class Mute implements CommandExecutor {
                 return false;
             }
 
-            int timeSeconds = parseDuration(args[1]);
+            timeSeconds = parseDuration(args[1]);
 
             // parseDuration returns -1 for perma, 0 for invalid/no-duration
             if (timeSeconds == 0) {
                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        hex(Lang.fileConfig.getString("invalid-time") != null
-                                ? Lang.fileConfig.getString("invalid-time")
-                                : "This duration is invalid.")));
+                        hex(Lang.fileConfig.getString("invalid-time"))));
                 return false;
             }
 
@@ -110,9 +109,13 @@ public class Mute implements CommandExecutor {
             removeMute(target);
         }
 
-        // Sender feedback
         String msg = Lang.fileConfig.getString(type + "-sender")
                 .replace("<target>", target.getName());
+
+        if (mute) {
+            msg = msg.replace("<time>", formatDuration(timeSeconds));
+        }
+
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
 
         // Target feedback (only if online)
@@ -120,6 +123,10 @@ public class Mute implements CommandExecutor {
             Player online = target.getPlayer();
             String msg2 = Lang.fileConfig.getString(type + "-target")
                     .replace("<target>", sender.getName());
+
+            if (mute) {
+                msg2 = msg2.replace("<time>", formatDuration(timeSeconds));
+            }
             online.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
         }
 
@@ -150,7 +157,7 @@ public class Mute implements CommandExecutor {
         }
     }
 
-    public static String getPlayerMuteTime(Player player) {
+    public static String getPlayerMuteTime(OfflinePlayer player) {
         UUID uuid = player.getUniqueId();
         Long expire = playerMuteTime.get(uuid);
 
@@ -241,7 +248,7 @@ public class Mute implements CommandExecutor {
     public static int parseDuration(String input) {
 
         if (input == null) return 0;
-        if (input.equalsIgnoreCase("perma") || input.equalsIgnoreCase("permanent") || input.equalsIgnoreCase("-1"))
+        if (input.equalsIgnoreCase("perm") || input.equalsIgnoreCase("perma") || input.equalsIgnoreCase("permanent") || input.equalsIgnoreCase("-1"))
             return -1;
 
         input = input.trim().toLowerCase();
@@ -269,4 +276,25 @@ public class Mute implements CommandExecutor {
 
         return total;
     }
+
+    public static String formatDuration(int seconds) {
+        if (seconds == -1) {
+            return "Permanent";
+        }
+
+        int days = seconds / 86400;
+        int hours = (seconds % 86400) / 3600;
+        int minutes = (seconds % 3600) / 60;
+        int sec = seconds % 60;
+
+        StringBuilder sb = new StringBuilder();
+
+        if (days > 0) sb.append(days).append("d ");
+        if (hours > 0) sb.append(hours).append("h ");
+        if (minutes > 0) sb.append(minutes).append("m ");
+        if (sec > 0 || sb.isEmpty()) sb.append(sec).append("s");
+
+        return sb.toString().trim();
+    }
+
 }
