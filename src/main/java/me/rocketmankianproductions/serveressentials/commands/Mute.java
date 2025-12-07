@@ -9,13 +9,11 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -65,36 +63,42 @@ public class Mute implements CommandExecutor {
             return false;
         }
 
-        if (target == sender){
+        // Prevent trying to mute/unmute yourself
+        if (sender instanceof Player && target.isOnline() && ((Player) sender).getUniqueId().equals(target.getUniqueId())) {
             sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("target-self"))));
             return false;
         }
 
-        // Bypass check (only for mute)
-        if (mute && target.isOnline() && target.getPlayer().hasPermission("se.mute.bypass")) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("mute-bypass"))));
-            return false;
+        // Bypass check (only for mute) — only if player is online
+        if (mute && target.isOnline()) {
+            Player onlineTarget = target.getPlayer();
+            if (onlineTarget != null && onlineTarget.hasPermission("se.mute.bypass")) {
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("mute-bypass"))));
+                return false;
+            }
         }
 
         // ------------------
         //     MUTE LOGIC
         // ------------------
         if (mute) {
-            int timeSeconds;
+            // ensure we have a duration argument
+            if (args.length < 2) {
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                        hex(Lang.fileConfig.getString("incorrect-format")
+                                .replace("<command>", "/mute <target> <time>"))));
+                return false;
+            }
 
-            // Permanent mute keyword
-            if (args[1].equalsIgnoreCase("perma") || args[1].equalsIgnoreCase("permanent") || args[1].equalsIgnoreCase("-1")) {
-                timeSeconds = -1;
+            int timeSeconds = parseDuration(args[1]);
 
-            } else {
-                // Numeric mute time
-                try {
-                    timeSeconds = Integer.parseInt(args[1]);
-                    if (timeSeconds <= 0) timeSeconds = 0;
-                } catch (NumberFormatException e) {
-                    sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "This duration is invalid."));
-                    return false;
-                }
+            // parseDuration returns -1 for perma, 0 for invalid/no-duration
+            if (timeSeconds == 0) {
+                sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                        hex(Lang.fileConfig.getString("invalid-time") != null
+                                ? Lang.fileConfig.getString("invalid-time")
+                                : "This duration is invalid.")));
+                return false;
             }
 
             addMute(target, timeSeconds);
@@ -103,7 +107,7 @@ public class Mute implements CommandExecutor {
             // ------------------
             //    UNMUTE LOGIC
             // ------------------
-            removeMute(target); // you should have this method; I can write it if needed
+            removeMute(target);
         }
 
         // Sender feedback
@@ -112,7 +116,7 @@ public class Mute implements CommandExecutor {
         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
 
         // Target feedback (only if online)
-        if (target.isOnline()) {
+        if (target.isOnline() && target.getPlayer() != null) {
             Player online = target.getPlayer();
             String msg2 = Lang.fileConfig.getString(type + "-target")
                     .replace("<target>", sender.getName());
@@ -236,8 +240,11 @@ public class Mute implements CommandExecutor {
 
     public static int parseDuration(String input) {
 
-        if (input.equalsIgnoreCase("perma") || input.equalsIgnoreCase("permanent"))
+        if (input == null) return 0;
+        if (input.equalsIgnoreCase("perma") || input.equalsIgnoreCase("permanent") || input.equalsIgnoreCase("-1"))
             return -1;
+
+        input = input.trim().toLowerCase();
 
         // Pure number -> seconds
         if (input.matches("\\d+"))
@@ -246,7 +253,7 @@ public class Mute implements CommandExecutor {
         int total = 0;
 
         // Regex supports: 2d, 10h, 30m, 45s
-        Matcher matcher = Pattern.compile("(\\d+)([smhd])").matcher(input.toLowerCase());
+        Matcher matcher = Pattern.compile("(\\d+)([smhd])").matcher(input);
 
         while (matcher.find()) {
             int value = Integer.parseInt(matcher.group(1));
