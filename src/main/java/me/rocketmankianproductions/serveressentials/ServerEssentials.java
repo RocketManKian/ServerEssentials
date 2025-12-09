@@ -75,6 +75,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         // Setup Commands
         registerCommands();
         new UserFile(plugin);
+        Mute.loadAllMutedPlayers();
         BankFile.setup();
         LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "Commands have been enabled.");
         // Register Update
