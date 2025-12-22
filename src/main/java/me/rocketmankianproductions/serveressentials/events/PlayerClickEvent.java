@@ -82,16 +82,6 @@ public class PlayerClickEvent implements Listener {
         else if (isConfirmationGUI(inventoryTitle)) {
             handleConfirmDeletion(player, inventoryTitle, clickedItem, event);
         }
-
-        // AFK Command: This part of the code seems to be a general click handler
-        // rather than specifically tied to GUI interaction. If a player clicks anywhere
-        // while AFK, it sets them as active. Consider moving this to a more general
-        // PlayerInteractEvent or PlayerMoveEvent for better logic separation if desired.
-        if (AFKManager.isAFK(player)){
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("afk-inactive")));
-            player.setSleepingIgnored(false); // Assuming this is for AFK status
-            AFKManager.setAFK(player, false);
-        }
     }
 
     /**

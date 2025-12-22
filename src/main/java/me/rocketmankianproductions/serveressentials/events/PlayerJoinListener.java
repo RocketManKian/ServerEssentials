@@ -29,12 +29,6 @@ public class PlayerJoinListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent pj) {
         Player player = pj.getPlayer();
 
-        // AFK Command
-        if (AFKManager.isAFK(player)){
-            player.setSleepingIgnored(false); // Reset ignored sleeping state
-            AFKManager.setAFK(player, false);
-        }
-
         // Fly
         if (player.hasPermission("se.fly.login")) {
             player.setAllowFlight(true);
