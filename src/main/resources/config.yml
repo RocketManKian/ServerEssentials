@@ -71,8 +71,8 @@ heal-cooldown: 30
 # Default: 30
 feed-cooldown: 30
 # How Long Players have to be inactive before automatically turning AFK
-# Default: 300_000 (5 Minutes)
-afk-timer: 300_000;
+# Default: 300 (5 Minutes in Seconds)
+afk-timer: 300;
 # Near Range
 # How many Blocks the /near command should search for nearby players
 # Default: 200 Blocks

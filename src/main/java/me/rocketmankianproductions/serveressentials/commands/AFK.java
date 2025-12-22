@@ -73,7 +73,10 @@ public class AFK implements CommandExecutor, Listener {
         player.setSleepingIgnored(false);
         AFKManager.setAFK(player, false);
 
-        Bukkit.getPluginManager().callEvent(new PlayerUnAFKEvent(player));
+        // Fire the event safely
+        Bukkit.getScheduler().runTask(ServerEssentials.getPlugin(),
+                () -> Bukkit.getPluginManager().callEvent(new PlayerUnAFKEvent(player))
+        );
     }
 
     /* ===============================
@@ -82,11 +85,13 @@ public class AFK implements CommandExecutor, Listener {
     private void checkAFKPlayers() {
         long now = System.currentTimeMillis();
 
+        long afkTimeoutSeconds = ServerEssentials.plugin.getConfig().getLong("afk-timer", 300); // default 300 seconds
+        long AFK_TIMEOUT = afkTimeoutSeconds * 1000L; // milliseconds
+
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (AFKManager.isAFK(player)) continue;
 
             long last = AFKManager.getLastActivity(player);
-            long AFK_TIMEOUT = ServerEssentials.plugin.getConfig().getLong("afk-timer"); // 5 minutes
             if (now - last >= AFK_TIMEOUT) {
                 setAFK(player);
             }
@@ -96,44 +101,48 @@ public class AFK implements CommandExecutor, Listener {
     /* ===============================
        Activity Listeners
        =============================== */
-
-    private void handleActivity(Player player) {
+    private void handleActivity(Player player, boolean asyncSafe) {
         AFKManager.updateActivity(player);
+
         if (AFKManager.isAFK(player)) {
-            removeAFK(player);
+            if (asyncSafe) {
+                Bukkit.getScheduler().runTask(ServerEssentials.getPlugin(), () -> removeAFK(player));
+            } else {
+                removeAFK(player);
+            }
         }
     }
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
-        handleActivity(event.getPlayer());
+        handleActivity(event.getPlayer(), false);
     }
 
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event) {
-        handleActivity(event.getPlayer());
+        handleActivity(event.getPlayer(), true); // async event
     }
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        handleActivity((Player) event.getWhoClicked());
+        handleActivity((Player) event.getWhoClicked(), false);
     }
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
-        handleActivity(event.getPlayer());
+        handleActivity(event.getPlayer(), false);
     }
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
         if (!event.getFrom().getBlock().equals(event.getTo().getBlock())) {
-            handleActivity(event.getPlayer());
+            handleActivity(event.getPlayer(), false);
         }
     }
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
-        handleActivity(event.getEntity());
+        handleActivity(event.getEntity(), false);
     }
 
     @EventHandler
