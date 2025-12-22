@@ -34,11 +34,5 @@ public class PlayerDeathEvent implements Listener {
                 Back.location.put(player.getUniqueId(), player.getLocation());
             }
         }
-        // AFK Command
-        if (AFKManager.isAFK(player)){
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("afk-inactive")));
-            player.setSleepingIgnored(false);
-            AFKManager.setAFK(player, false);
-        }
     }
 }

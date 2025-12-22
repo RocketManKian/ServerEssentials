@@ -40,8 +40,8 @@ public class PlaceholderExpansion extends me.clip.placeholderapi.expansion.Place
 
     @Override
     public String onRequest(OfflinePlayer player, String params) {
-        if(params.equalsIgnoreCase("afk")) {
-            if (AFKManager.isAFK(player)){
+        if(params.equalsIgnoreCase("afk") && player.isOnline()) {
+            if (AFKManager.isAFK(player.getPlayer())){
                 return Lang.fileConfig.getString("placeholder_afk_isenabled_yes");
             } else {
                 return Lang.fileConfig.getString("placeholder_afk_isenabled_no");

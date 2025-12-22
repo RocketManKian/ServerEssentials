@@ -26,12 +26,6 @@ public class PlayerLeaveListener implements Listener {
     public void onPlayerLeave(PlayerQuitEvent pj) {
         Player player = pj.getPlayer();
 
-        // AFK Command
-        if (AFKManager.isAFK(player)){
-            player.setSleepingIgnored(false); // Reset ignored sleeping state
-            AFKManager.setAFK(player, false);
-        }
-
         // Economy
         double balance = ServerEssentials.getPlugin().playerBank.getOrDefault(player.getUniqueId(), 0.0);
         UserFile.fileConfig.set(player.getUniqueId() + ".money", balance);

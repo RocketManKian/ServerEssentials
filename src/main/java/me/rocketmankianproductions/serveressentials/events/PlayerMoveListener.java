@@ -37,13 +37,6 @@ public class PlayerMoveListener implements Listener {
             sendMessage(player, "freeze-message");
         }
 
-        // AFK Command
-        if (AFKManager.isAFK(player)){
-            sendMessage(player, "afk-inactive");
-            player.setSleepingIgnored(false); // Reset ignored sleeping state
-            AFKManager.setAFK(player, false);
-        }
-
         // Handle generic movement cancellations for various commands
         if (Home.cancel.contains(player.getUniqueId())){
             handleMovementCancellation(player, Home.cancel, "home-movement-cancel");

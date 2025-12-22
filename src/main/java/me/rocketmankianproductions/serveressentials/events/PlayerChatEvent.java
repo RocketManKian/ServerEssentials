@@ -41,12 +41,6 @@ public class PlayerChatEvent implements Listener {
 
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(raw)));
         }
-        // AFK Command
-        if (AFKManager.isAFK(player)){
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("afk-inactive"))));
-            player.setSleepingIgnored(false);
-            AFKManager.setAFK(player, false);
-        }
         if (StaffChat.staffchat.contains(player)) {
             String scmessage = ChatColor.stripColor(c.getMessage());
             String msg = Lang.fileConfig.getString("staffchat-message").replace("<player>", player.getName()).replace("<message>", ChatColor.GRAY + scmessage);
