@@ -358,6 +358,8 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         // Mute Commands
         getCommand("mute").setExecutor(new Mute());
         getCommand("unmute").setExecutor(new Mute());
+        // List Command
+        getCommand("list").setExecutor(new List());
         // Economy
         if (Bukkit.getPluginManager().getPlugin("Vault") != null && ServerEssentials.getPlugin().getConfig().getBoolean("enable-eco")) {
             getCommand("pay").setExecutor(new Pay());

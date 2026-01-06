@@ -1,11 +1,11 @@
 name: ServerEssentials
-version: 2.3.1
+version: 2.3.2
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
 description: A Plugin for all Server Owners!
 depend: [Vault]
-softdepend: [PlaceholderAPI, AcceptTheRules, HuskHomes, LibsDisguises, RewardsLite] # Plugins that load before ServerEssentials
+softdepend: [LuckPerms, PlaceholderAPI, AcceptTheRules, HuskHomes, LibsDisguises, RewardsLite] # Plugins that load before ServerEssentials
 loadbefore: [Essentials, getClan, zAuctionHouse, DiscordSRV-Staff-Chat, Roulette, EconomyShopGUI-Premium, EconomyShopGUI, Towny]
 commands:
   se:
@@ -188,6 +188,8 @@ commands:
     description: Send Home Command
   listhomes:
     description: List Home Command
+  list:
+    description: List Command
   tpacancel:
     description: TPA Cancel Command
   rename:
@@ -409,6 +411,7 @@ permissions:
       se.mute: true
       se.unmute: true
       se.mute.bypass: true
+      se.list: true
   se.reload:
     description: "Gives access to the /se reload command."
     default: false
@@ -480,6 +483,9 @@ permissions:
     default: false
   se.deletehome.others:
     description: "Deletes Other Player's Homes"
+    default: false
+  se.list:
+    description: "List Command"
     default: false
   se.tpo:
     description: "Teleport Override Command"
