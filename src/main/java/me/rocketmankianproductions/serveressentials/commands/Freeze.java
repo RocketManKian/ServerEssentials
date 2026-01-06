@@ -27,16 +27,26 @@ public class Freeze implements CommandExecutor {
                 if (args.length == 1){
                     OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
                     if (target.isOnline()){
-                        if (freeze.containsKey(target)){
-                            freeze.remove(target);
-                            String msg = Lang.fileConfig.getString("unfreeze-target").replace("<player>", target.getName());
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                            return true;
-                        }else{
-                            freeze.put(target,  true);
-                            String msg = Lang.fileConfig.getString("freeze-target").replace("<player>", target.getName());
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                            return true;
+                        if (command.getName().equalsIgnoreCase("freeze")){
+                            if (!freeze.containsKey(target)){
+                                freeze.put(target,  true);
+                                String msg = Lang.fileConfig.getString("freeze-target").replace("<player>", target.getName());
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                                return true;
+                            }else{
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex("Player is already frozen.")));
+                                return true;
+                            }
+                        }else if (command.getName().equalsIgnoreCase("unfreeze")){
+                            if (freeze.containsKey(target)){
+                                freeze.remove(target);
+                                String msg = Lang.fileConfig.getString("unfreeze-target").replace("<player>", target.getName());
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                                return true;
+                            }else{
+                                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex("Player isn't frozen.")));
+                                return true;
+                            }
                         }
                     }else{
                         String msg = Lang.fileConfig.getString("target-offline");

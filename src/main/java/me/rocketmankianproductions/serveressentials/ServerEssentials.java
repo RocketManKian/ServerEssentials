@@ -335,6 +335,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("thor").setExecutor(new Thor());
         // Freeze Command
         getCommand("freeze").setExecutor(new Freeze());
+        getCommand("unfreeze").setExecutor(new Freeze());
         // Jump Command
         getCommand("jump").setExecutor(new Jump());
         // Jump Boost Command

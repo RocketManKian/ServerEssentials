@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 2.3.0
+version: 2.3.1
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -25,6 +25,8 @@ commands:
     description: Twitch
   freeze:
     description: Freeze Command
+  unfreeze:
+    description: UnFreeze Command
   jump:
     description: Teleport to Block
   jumpboost:
