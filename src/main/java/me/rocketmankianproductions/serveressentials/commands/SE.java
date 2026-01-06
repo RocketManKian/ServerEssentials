@@ -120,6 +120,7 @@ public class SE implements CommandExecutor {
                             + "\n/sudo %console% <command> - Executes a Command as Console"
                             + "\n/thor <target> - Strike Lightning"
                             + "\n/freeze <target> - Freeze Target in place"
+                            + "\n/unfreeze <target> - Unfreeze Target"
                             + "\n/jump - Teleport to the Block you're looking at"
                             + "\n/jump <target> - Activate Jump Boost"
                             + "\n/fireball - Fire a Fireball"
@@ -133,7 +134,8 @@ public class SE implements CommandExecutor {
                             + "\n/spawner - Gives spawner of specified type"
                             + "\n/clearentity - Clears all Entities"
                             + "\n/mute - Mutes a Player"
-                            + "\n/unmute - Unmutes a Muted Player");
+                            + "\n/unmute - Unmutes a Muted Player"
+                            + "\n/list - List All Online Players");
                     return true;
                 }
             }else if (args.length == 1){
