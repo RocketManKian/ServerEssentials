@@ -156,7 +156,7 @@ public class Lang {
                 fileConfig.addDefault("invsee-armor-gui", "Equipped Armor");
                 fileConfig.addDefault("kill-self", "You just killed yourself");
                 fileConfig.addDefault("kill-target", "You just killed <target>");
-                fileConfig.addDefault("list-message", "&6There are &c<amount> &6out of maximum &c<total> &6players online.");
+                fileConfig.addDefault("list-message", "&6There are &c<amount> &6out of a maximum &c<total> &6players online.");
                 fileConfig.addDefault("lore-invalid-item", "Please hold a valid item to set the lore");
                 fileConfig.addDefault("lore-reset-invalid-item", "Please hold a valid item to reset the lore");
                 fileConfig.addDefault("lore-successful", "Successfully set item lore as <lore>");
@@ -883,7 +883,7 @@ public class Lang {
                 }
 
                 if (fileConfig.getString("list-message") == null) {
-                    fileConfig.set("list-message", "&6There are &c<amount> &6out of maximum &c<total> &6players online.");
+                    fileConfig.set("list-message", "&6There are &c<amount> &6out of a maximum &c<total> &6players online.");
                 }
 
                 if (fileConfig.getString("lore-invalid-item") == null) {
