@@ -88,6 +88,12 @@ public class PlaceholderExpansion extends me.clip.placeholderapi.expansion.Place
             }else{
                 return Lang.fileConfig.getString("placeholder_tptoggle_isenabled_no");
             }
+        }else if (params.equalsIgnoreCase("paytoggle_isenabled")){
+            if (UserFile.fileConfig.getBoolean(player.getUniqueId() + ".paytoggle")) {
+                return Lang.fileConfig.getString("placeholder_paytoggle_isenabled_yes");
+            }else{
+                return Lang.fileConfig.getString("placeholder_paytoggle_isenabled_no");
+            }
         }else if (params.equalsIgnoreCase("home_amount")){
             ConfigurationSection inventorySection = Sethome.fileConfig.getConfigurationSection("Home." + player.getUniqueId());
             if (inventorySection == null || inventorySection.getKeys(true).isEmpty()) {

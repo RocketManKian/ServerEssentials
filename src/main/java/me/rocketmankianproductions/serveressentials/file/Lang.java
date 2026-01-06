@@ -368,6 +368,8 @@ public class Lang {
                 fileConfig.addDefault("placeholder_msgtoggle_isenabled_no", "no");
                 fileConfig.addDefault("placeholder_tptoggle_isenabled_yes", "yes");
                 fileConfig.addDefault("placeholder_tptoggle_isenabled_no", "no");
+                fileConfig.addDefault("placeholder_paytoggle_isenabled_yes", "yes");
+                fileConfig.addDefault("placeholder_paytoggle_isenabled_no", "no");
                 fileConfig.addDefault("world-success", "&6Teleported to World &c<world>");
                 fileConfig.addDefault("world-invalid", "&6World &c<world> &6isn't loaded!");
                 fileConfig.options().copyDefaults(true);
@@ -1693,6 +1695,14 @@ public class Lang {
 
                 if (fileConfig.getString("placeholder_tptoggle_isenabled_no") == null) {
                     fileConfig.set("placeholder_tptoggle_isenabled_no", "no");
+                }
+
+                if (fileConfig.getString("placeholder_paytoggle_isenabled_yes") == null) {
+                    fileConfig.set("placeholder_paytoggle_isenabled_yes", "yes");
+                }
+
+                if (fileConfig.getString("placeholder_paytoggle_isenabled_no") == null) {
+                    fileConfig.set("placeholder_paytoggle_isenabled_no", "no");
                 }
 
                 if (fileConfig.getString("world-success") == null) {
