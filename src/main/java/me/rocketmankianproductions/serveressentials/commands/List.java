@@ -32,17 +32,13 @@ public class List implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command,
                              @NotNull String label, @NotNull String[] args) {
 
-        if (!(sender instanceof Player player)) {
-            sender.sendMessage("This command can only be used by players.");
-            return true;
-        }
-
-        if (!ServerEssentials.permissionChecker(player, "se.list")) {
+        if (sender instanceof Player player &&
+                !ServerEssentials.permissionChecker(player, "se.list")) {
             return true;
         }
 
         if (!setupPermissions()) {
-            player.sendMessage(ChatColor.RED + "Permissions system not found.");
+            sender.sendMessage(ChatColor.RED + "Permissions system not found.");
             return true;
         }
 
@@ -52,7 +48,7 @@ public class List implements CommandExecutor {
                 .replace("<amount>", String.valueOf(Bukkit.getOnlinePlayers().size()))
                 .replace("<total>", String.valueOf(Bukkit.getMaxPlayers()));
 
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&',
+        sender.sendMessage(ChatColor.translateAlternateColorCodes('&',
                 ServerEssentials.hex(header)));
 
         java.util.List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
@@ -81,7 +77,7 @@ public class List implements CommandExecutor {
             list.setLength(list.length() - 2);
         }
 
-        player.sendMessage(list.toString());
+        sender.sendMessage(list.toString());
         return true;
     }
 
