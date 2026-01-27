@@ -2,6 +2,7 @@ package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
+import me.rocketmankianproductions.serveressentials.utils.AFKManager;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.model.group.Group;
@@ -63,6 +64,8 @@ public class List implements CommandExecutor {
             String group = perms.getPrimaryGroup(online);
             if (group == null || group.isEmpty()) group = "default";
 
+            String afkStatus = AFKManager.isAFK(online) ? " &c[AFK]" : "&7";
+
             list.append(ChatColor.GOLD)
                     .append("[")
                     .append(capitalize(group))
@@ -70,6 +73,7 @@ public class List implements CommandExecutor {
                     .append(ChatColor.YELLOW)
                     .append(online.getName())
                     .append(ChatColor.GRAY)
+                    .append(ChatColor.translateAlternateColorCodes('&', afkStatus))
                     .append(", ");
         }
 
