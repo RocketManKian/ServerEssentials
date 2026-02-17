@@ -387,6 +387,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         pm.registerEvents(new PlayerDeathEvent(), this);
         pm.registerEvents(new PlayerMoveListener(), this);
         pm.registerEvents(new PlayerWorldCheck(), this);
+        pm.registerEvents(new SignChange(), this);
         pm.registerEvents(new Plugins(), this);
         pm.registerEvents(new God(), this);
         if (Bukkit.getPluginManager().getPlugin("Towny") != null) {
