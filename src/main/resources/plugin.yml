@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 2.3.4
+version: 2.3.5
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -412,6 +412,7 @@ permissions:
       se.unmute: true
       se.mute.bypass: true
       se.list: true
+      se.sign.colour: true
   se.reload:
     description: "Gives access to the /se reload command."
     default: false
@@ -792,4 +793,7 @@ permissions:
     default: false
   se.mute.bypass:
     description: "Mute Bypass Permission"
+    default: false
+  se.sign.colour:
+    description: "Coloured Signs Permission"
     default: false
