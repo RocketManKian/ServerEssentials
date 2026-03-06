@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 2.3.6
+version: 2.3.7
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -297,6 +297,7 @@ permissions:
       se.version: true
       se.setspawn: true
       se.spawn: true
+      se.spawn.newbies: true
       se.spawn.others: true
       se.spawn.bypass: true
       se.deletespawn: true
@@ -445,6 +446,9 @@ permissions:
     default: false
   se.spawn:
     description: "Gives access to the /spawn command"
+    default: false
+  se.spawn.newbies:
+    description: "Gives access to the /spawn newbies command"
     default: false
   se.spawn.bypass:
     description: "Spawn Bypass Permission"
