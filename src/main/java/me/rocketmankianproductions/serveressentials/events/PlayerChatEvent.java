@@ -7,8 +7,6 @@ import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.commands.Mute;
 import me.rocketmankianproductions.serveressentials.commands.StaffChat;
 import me.rocketmankianproductions.serveressentials.file.Lang;
-import me.rocketmankianproductions.serveressentials.file.UserFile;
-import me.rocketmankianproductions.serveressentials.utils.AFKManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

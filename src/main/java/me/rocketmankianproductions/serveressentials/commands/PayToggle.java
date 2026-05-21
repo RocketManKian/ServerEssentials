@@ -23,10 +23,10 @@ public class PayToggle implements CommandExecutor {
             Player player = (Player) sender;
             if (ServerEssentials.permissionChecker(player, "se.paytoggle")) {
                 if (args.length == 0) {
-                    if (!UserFile.fileConfig.getBoolean(player.getUniqueId() + ".paytoggle")) {
-                        UserFile.fileConfig.set(player.getUniqueId() + ".paytoggle", true);
+                    if (!UserFile.config.getBoolean(player.getUniqueId() + ".paytoggle")) {
+                        UserFile.config.set(player.getUniqueId() + ".paytoggle", true);
                         try {
-                            UserFile.fileConfig.save(UserFile.file);
+                            UserFile.config.save(UserFile.file);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -34,9 +34,9 @@ public class PayToggle implements CommandExecutor {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     } else {
-                        UserFile.fileConfig.set(player.getUniqueId() + ".paytoggle", false);
+                        UserFile.config.set(player.getUniqueId() + ".paytoggle", false);
                         try {
-                            UserFile.fileConfig.save(UserFile.file);
+                            UserFile.config.save(UserFile.file);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

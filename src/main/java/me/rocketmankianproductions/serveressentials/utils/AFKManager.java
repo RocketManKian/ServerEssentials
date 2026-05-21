@@ -1,5 +1,7 @@
 package me.rocketmankianproductions.serveressentials.utils;
 
+import me.rocketmankianproductions.serveressentials.api.AFKEvent;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -8,28 +10,29 @@ import java.util.UUID;
 
 public class AFKManager {
 
-    // AFK state
     private static final Map<UUID, Boolean> afkPlayers = new HashMap<>();
-
-    // Last activity timestamp (ms)
     private static final Map<UUID, Long> lastActivity = new HashMap<>();
 
-    /* ===============================
-       AFK State
-       =============================== */
-
     public static void setAFK(Player player, boolean afk) {
+
+        boolean oldState = isAFK(player);
+
+        // Prevent duplicate events
+        if (oldState == afk) {
+            return;
+        }
+
         afkPlayers.put(player.getUniqueId(), afk);
         updateActivity(player);
+
+        Bukkit.getPluginManager().callEvent(
+                new AFKEvent(player, afk)
+        );
     }
 
     public static boolean isAFK(Player player) {
         return afkPlayers.getOrDefault(player.getUniqueId(), false);
     }
-
-    /* ===============================
-       Activity Tracking
-       =============================== */
 
     public static void updateActivity(Player player) {
         lastActivity.put(player.getUniqueId(), System.currentTimeMillis());
@@ -41,10 +44,6 @@ public class AFKManager {
                 System.currentTimeMillis()
         );
     }
-
-    /* ===============================
-       Cleanup
-       =============================== */
 
     public static void remove(Player player) {
         afkPlayers.remove(player.getUniqueId());

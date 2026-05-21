@@ -1,11 +1,10 @@
 package me.rocketmankianproductions.serveressentials.events;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
-import me.rocketmankianproductions.serveressentials.commands.*; // Assuming Home, Warp, ListHomes, Sethome, Setwarp, Invsee, AFK are here
+import me.rocketmankianproductions.serveressentials.commands.*;
 import me.rocketmankianproductions.serveressentials.file.Lang;
-import me.rocketmankianproductions.serveressentials.utils.AFKManager;
 import me.rocketmankianproductions.serveressentials.utils.CompatibilityUtil;
-import me.rocketmankianproductions.serveressentials.utils.GUIPaginationHelper; // Import the pagination helper
+import me.rocketmankianproductions.serveressentials.utils.GUIPaginationHelper;
 import org.bukkit.*;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -19,11 +18,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
-import java.util.List; // Import List
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap; // Use ConcurrentHashMap for thread safety if accessed from other threads
+import java.util.concurrent.ConcurrentHashMap;
 
 import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
 

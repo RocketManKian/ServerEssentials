@@ -2,9 +2,6 @@ package me.rocketmankianproductions.serveressentials.events;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.commands.Back;
-import me.rocketmankianproductions.serveressentials.file.Lang;
-import me.rocketmankianproductions.serveressentials.utils.AFKManager;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

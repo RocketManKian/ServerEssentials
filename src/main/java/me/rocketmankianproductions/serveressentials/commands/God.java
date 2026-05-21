@@ -30,22 +30,22 @@ public class God implements CommandExecutor, Listener {
             Player player = (Player) sender;
             if (ServerEssentials.permissionChecker(player, "se.god")) {
                 if (args.length == 0) {
-                    if (UserFile.fileConfig.getBoolean(player.getUniqueId() + ".godmode")) {
+                    if (UserFile.config.getBoolean(player.getUniqueId() + ".godmode")) {
                         String msg = Lang.fileConfig.getString("god-disabled");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                        UserFile.fileConfig.set(player.getUniqueId() + ".godmode", false);
+                        UserFile.config.set(player.getUniqueId() + ".godmode", false);
                         try {
-                            UserFile.fileConfig.save(UserFile.file);
+                            UserFile.config.save(UserFile.file);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                         return true;
-                    } else if (!UserFile.fileConfig.getBoolean(player.getUniqueId() + ".godmode")) {
+                    } else if (!UserFile.config.getBoolean(player.getUniqueId() + ".godmode")) {
                         String msg = Lang.fileConfig.getString("god-enabled");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                        UserFile.fileConfig.set(player.getUniqueId() + ".godmode", true);
+                        UserFile.config.set(player.getUniqueId() + ".godmode", true);
                         try {
-                            UserFile.fileConfig.save(UserFile.file);
+                            UserFile.config.save(UserFile.file);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -61,26 +61,26 @@ public class God implements CommandExecutor, Listener {
                         String msg = Lang.fileConfig.getString("player-offline");
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
-                    } else if (UserFile.fileConfig.getBoolean(target.getUniqueId() + ".godmode")) {
+                    } else if (UserFile.config.getBoolean(target.getUniqueId() + ".godmode")) {
                         String msg = Lang.fileConfig.getString("god-disabled-target").replace("<target>", target.getName());
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         String msg2 = Lang.fileConfig.getString("god-disabled");
                         target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
-                        UserFile.fileConfig.set(target.getUniqueId() + ".godmode", false);
+                        UserFile.config.set(target.getUniqueId() + ".godmode", false);
                         try {
-                            UserFile.fileConfig.save(UserFile.file);
+                            UserFile.config.save(UserFile.file);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                         return true;
-                    } else if (!UserFile.fileConfig.getBoolean(target.getUniqueId() + ".godmode")) {
+                    } else if (!UserFile.config.getBoolean(target.getUniqueId() + ".godmode")) {
                         String msg = Lang.fileConfig.getString("god-enabled-target").replace("<target>", target.getName());
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', msg));
                         String msg2 = Lang.fileConfig.getString("god-enabled");
                         target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
-                        UserFile.fileConfig.set(target.getUniqueId() + ".godmode", true);
+                        UserFile.config.set(target.getUniqueId() + ".godmode", true);
                         try {
-                            UserFile.fileConfig.save(UserFile.file);
+                            UserFile.config.save(UserFile.file);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -98,26 +98,26 @@ public class God implements CommandExecutor, Listener {
                 String msg = Lang.fileConfig.getString("player-offline");
                 Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                 return true;
-            } else if (UserFile.fileConfig.getBoolean(target.getUniqueId() + ".godmode")) {
+            } else if (UserFile.config.getBoolean(target.getUniqueId() + ".godmode")) {
                 String msg = Lang.fileConfig.getString("god-disabled-target").replace("<target>", target.getName());
                 Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
                 String msg2 = Lang.fileConfig.getString("god-disabled");
                 target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
-                UserFile.fileConfig.set(target.getUniqueId() + ".godmode", false);
+                UserFile.config.set(target.getUniqueId() + ".godmode", false);
                 try {
-                    UserFile.fileConfig.save(UserFile.file);
+                    UserFile.config.save(UserFile.file);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 return true;
-            } else if (!UserFile.fileConfig.getBoolean(target.getUniqueId() + ".godmode")) {
+            } else if (!UserFile.config.getBoolean(target.getUniqueId() + ".godmode")) {
                 String msg = Lang.fileConfig.getString("god-enabled-target").replace("<target>", target.getName());
                 Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', msg));
                 String msg2 = Lang.fileConfig.getString("god-enabled");
                 target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
-                UserFile.fileConfig.set(target.getUniqueId() + ".godmode", true);
+                UserFile.config.set(target.getUniqueId() + ".godmode", true);
                 try {
-                    UserFile.fileConfig.save(UserFile.file);
+                    UserFile.config.save(UserFile.file);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -131,7 +131,7 @@ public class God implements CommandExecutor, Listener {
         Entity ent = e.getEntity();
         if (ent instanceof Player) {
             Player p = (Player) ent;
-            if (UserFile.fileConfig.getBoolean(p.getUniqueId() + ".godmode")) {
+            if (UserFile.config.getBoolean(p.getUniqueId() + ".godmode")) {
                 e.setCancelled(true);
             }
         }
@@ -142,7 +142,7 @@ public class God implements CommandExecutor, Listener {
         Entity ent = e.getEntity();
         if (ent instanceof Player) {
             Player p = (Player) ent;
-            if (UserFile.fileConfig.getBoolean(p.getUniqueId() + ".godmode")) {
+            if (UserFile.config.getBoolean(p.getUniqueId() + ".godmode")) {
                 e.setFoodLevel(20);
                 e.setCancelled(true);
             }

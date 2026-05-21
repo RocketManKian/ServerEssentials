@@ -372,6 +372,19 @@ public class Lang {
                 fileConfig.addDefault("placeholder_paytoggle_isenabled_no", "no");
                 fileConfig.addDefault("world-success", "&6Teleported to World &c<world>");
                 fileConfig.addDefault("world-invalid", "&6World &c<world> &6isn't loaded!");
+                fileConfig.addDefault("jail-self", "&cYou cannot jail yourself.");
+                fileConfig.addDefault("jail-self-invalid", "&cYou are not jailed.");
+                fileConfig.addDefault("jail-success", "&6Sent &e<player> &6to &e<jail> Jail &6for &e<duration> seconds.");
+                fileConfig.addDefault("jail-target", "&cYou have been jailed for &e<duration> seconds.");
+                fileConfig.addDefault("already-jailed", "&e<player< &cis already jailed.");
+                fileConfig.addDefault("jail-release", "&6You have released &e<player> &6from jail.");
+                fileConfig.addDefault("jail-target-release", "&6You have been &ereleased &6from jail.");
+                fileConfig.addDefault("jail-release-invalid", "&e<player> &6is not jailed.");
+                fileConfig.addDefault("jail-target-attempt", "&6You are still &cjailed. &6Time left: &e<duration>");
+                fileConfig.addDefault("jail-created", "&6Jail &e<jail> &6has been created.");
+                fileConfig.addDefault("jail-updated", "&6Jail &e<jail>'s &6position has been &eupdated.");
+                fileConfig.addDefault("jail-deleted", "&6Jail &e<jail> &6has been &cdeleted.");
+                fileConfig.addDefault("jail-invalid", "&cJail <jail> does not exist.");
                 fileConfig.options().copyDefaults(true);
                 fileConfig.save(file);
                 LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "Lang.yml file created");
@@ -1711,6 +1724,58 @@ public class Lang {
 
                 if (fileConfig.getString("world-invalid") == null) {
                     fileConfig.set("world-invalid", "&6World &c<world> &6isn't loaded!");
+                }
+
+                if (fileConfig.getString("jail-self") == null) {
+                    fileConfig.set("jail-self", "&cYou cannot jail yourself.");
+                }
+
+                if (fileConfig.getString("jail-self-invalid") == null) {
+                    fileConfig.set("jail-self-invalid", "&cYou are not jailed.");
+                }
+
+                if (fileConfig.getString("jail-success") == null) {
+                    fileConfig.set("jail-success", "&6Sent &e<player> &6to &e<jail> Jail &6for &e<duration> seconds.");
+                }
+
+                if (fileConfig.getString("jail-target") == null) {
+                    fileConfig.set("jail-target", "&cYou have been jailed for &e<duration> seconds.");
+                }
+
+                if (fileConfig.getString("already-jailed") == null) {
+                    fileConfig.set("already-jailed", "&e<player< &cis already jailed.");
+                }
+
+                if (fileConfig.getString("jail-release") == null) {
+                    fileConfig.set("jail-release", "&6You have released &e<player> &6from jail.");
+                }
+
+                if (fileConfig.getString("jail-target-release") == null) {
+                    fileConfig.set("jail-target-release", "&6You have been &ereleased &6from jail.");
+                }
+
+                if (fileConfig.getString("jail-release-invalid") == null) {
+                    fileConfig.set("jail-release-invalid", "&e<player> &6is not jailed.");
+                }
+
+                if (fileConfig.getString("jail-target-attempt") == null) {
+                    fileConfig.set("jail-target-attempt", "&6You are still &cjailed. &6Time left: &e<duration>");
+                }
+
+                if (fileConfig.getString("jail-created") == null) {
+                    fileConfig.set("jail-created", "&6Jail &e<jail> &6has been created.");
+                }
+
+                if (fileConfig.getString("jail-updated") == null) {
+                    fileConfig.set("jail-updated", "&6Jail &e<jail>'s &6position has been &eupdated.");
+                }
+
+                if (fileConfig.getString("jail-deleted") == null) {
+                    fileConfig.set("jail-deleted", "&6Jail &e<jail> &6has been &cdeleted.");
+                }
+
+                if (fileConfig.getString("jail-invalid") == null) {
+                    fileConfig.set("jail-invalid", "&cJail <jail> does not exist.");
                 }
                 fileConfig.options().copyDefaults(true);
                 fileConfig.save(file);

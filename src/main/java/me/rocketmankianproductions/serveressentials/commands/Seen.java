@@ -25,7 +25,7 @@ public class Seen implements CommandExecutor {
                 OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
                 if (target.isOnline()) {
                     long currentTime = System.currentTimeMillis();
-                    long lastLogin = UserFile.fileConfig.getLong(target.getUniqueId() + ".login");
+                    long lastLogin = UserFile.config.getLong(target.getUniqueId() + ".login");
                     long timeElapsed = currentTime - lastLogin;
                     String readableTime = formatTimeElapsed(timeElapsed);
 
@@ -33,9 +33,9 @@ public class Seen implements CommandExecutor {
                     return true;
                 }
 
-                if (UserFile.fileConfig.get(target.getUniqueId() + ".logout") != null) {
+                if (UserFile.config.get(target.getUniqueId() + ".logout") != null) {
                     long currentTime = System.currentTimeMillis();
-                    long lastLogout = UserFile.fileConfig.getLong(target.getUniqueId() + ".logout");
+                    long lastLogout = UserFile.config.getLong(target.getUniqueId() + ".logout");
                     long timeElapsed = currentTime - lastLogout;
                     String readableTime = formatTimeElapsed(timeElapsed);
 

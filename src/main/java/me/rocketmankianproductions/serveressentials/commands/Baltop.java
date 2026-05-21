@@ -34,7 +34,7 @@ public class Baltop implements CommandExecutor {
                         break;
                     }
                     String playername = Bukkit.getOfflinePlayer(UUID.fromString(entry.getKey())).getName();
-                    if (!UserFile.fileConfig.getBoolean(entry.getKey() + ".balancehidden")) {
+                    if (!UserFile.config.getBoolean(entry.getKey() + ".balancehidden")) {
                         String name = playername != null ? playername : entry.getKey();
                         String msg3 = Lang.fileConfig.getString("eco-baltop-player").replace("<number>", "" + rank).replace("<player>", name).replace("<balance>", "" + plugin.economyImplementer.format(entry.getValue()));
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', ServerEssentials.hex(msg3)));
@@ -50,8 +50,8 @@ public class Baltop implements CommandExecutor {
         Map<String, Double> balances = new HashMap<>();
 
         // Iterate over the configuration section to extract UUIDs and money values
-        for (String uuid : UserFile.fileConfig.getKeys(false)) {
-            double money = UserFile.fileConfig.getDouble(uuid + ".money", 0.0);
+        for (String uuid : UserFile.config.getKeys(false)) {
+            double money = UserFile.config.getDouble(uuid + ".money", 0.0);
             balances.put(uuid, money);
         }
 

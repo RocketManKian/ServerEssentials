@@ -34,7 +34,7 @@ public class Message implements CommandExecutor {
                         return true;
                     }
                     // Check if recipient has messaging enabled
-                    else if (!UserFile.fileConfig.getBoolean(recipient.getUniqueId() + ".msgtoggle")) {
+                    else if (!UserFile.config.getBoolean(recipient.getUniqueId() + ".msgtoggle")) {
                         // set players to hashmap
                         Reply.reply.put(recipient.getUniqueId(), messager.getUniqueId());
                         String targetname = recipient.getDisplayName();
@@ -70,7 +70,7 @@ public class Message implements CommandExecutor {
                     Bukkit.getLogger().info(ChatColor.RED + "Player does not exist");
                     return false;
                 }
-                if (!UserFile.fileConfig.getBoolean(recipient.getUniqueId() + ".msgtoggle")) {
+                if (!UserFile.config.getBoolean(recipient.getUniqueId() + ".msgtoggle")) {
                     String targetname = recipient.getDisplayName();
                     for (int i = 1; i < args.length; i++) {
                         String arg = (args[i] + " ");
@@ -106,7 +106,7 @@ public class Message implements CommandExecutor {
 
     public void socialSpy(Player messager, Player recipient, String msgsocialspy, String msgsender, String msgrecipient){
         for (Player admin : Bukkit.getOnlinePlayers()) {
-            if (UserFile.fileConfig.getBoolean(admin.getUniqueId() + ".spy")) {
+            if (UserFile.config.getBoolean(admin.getUniqueId() + ".spy")) {
                 if (admin != messager && admin != recipient) {
                     admin.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msgsocialspy)));
                 }

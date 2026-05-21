@@ -344,7 +344,7 @@ public class TeleportRequest implements CommandExecutor {
             return true;
         }
 
-        if (UserFile.fileConfig.getBoolean(target.getUniqueId() + ".tptoggle")) {
+        if (UserFile.config.getBoolean(target.getUniqueId() + ".tptoggle")) {
             sendMessage(sender, "teleport-disabled");
             // If target has TPToggle enabled, remove the cooldown (optional, but cleaner)
             if (!sender.hasPermission("se.teleport.bypass")) {

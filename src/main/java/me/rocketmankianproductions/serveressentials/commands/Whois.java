@@ -40,15 +40,15 @@ public class Whois implements CommandExecutor {
                         rest = rest % (20 * 60);
                         int seconds = rest / 20;
                         String god = "&4false";
-                        if (UserFile.fileConfig.getBoolean(target.getUniqueId() + ".godmode")) {
+                        if (UserFile.config.getBoolean(target.getUniqueId() + ".godmode")) {
                             god = "&atrue";
                         }
                         String vanish = "&4false";
-                        if (UserFile.fileConfig.getBoolean(target.getUniqueId() + ".vanish")) {
+                        if (UserFile.config.getBoolean(target.getUniqueId() + ".vanish")) {
                             vanish = "&atrue";
                         }
                         String muted = "&4false";
-                        if (UserFile.fileConfig.getBoolean(target.getUniqueId() + ".muted")) {
+                        if (UserFile.config.getBoolean(target.getUniqueId() + ".muted")) {
                             muted = "&atrue";
                         }
                         String op = "&4false";

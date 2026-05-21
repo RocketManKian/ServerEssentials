@@ -1,14 +1,8 @@
 package me.rocketmankianproductions.serveressentials.events;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
-import me.rocketmankianproductions.serveressentials.commands.Back;
-import me.rocketmankianproductions.serveressentials.commands.Freeze;
-import me.rocketmankianproductions.serveressentials.commands.Home;
-import me.rocketmankianproductions.serveressentials.commands.Spawn;
-import me.rocketmankianproductions.serveressentials.commands.TeleportRequest;
-import me.rocketmankianproductions.serveressentials.commands.Warp;
+import me.rocketmankianproductions.serveressentials.commands.*;
 import me.rocketmankianproductions.serveressentials.file.Lang;
-import me.rocketmankianproductions.serveressentials.utils.AFKManager;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

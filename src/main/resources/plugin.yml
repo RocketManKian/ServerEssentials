@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 2.3.8
+version: 2.3.9
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -281,6 +281,18 @@ commands:
     description: Mute Command
   unmute:
     description: Unmute Command
+  jail:
+    description: Jail Player Command
+  unjail:
+    description: Unjail Player Command
+  jailtime:
+    description: Jail Time Player Command
+  createjail:
+    description: Create Jail Command
+    aliases: [setjail]
+  deletejail:
+    description: Delete Jail Command
+    aliases: [deljail]
 permissions:
   se.all:
     description: "Gives access to all commands."
@@ -297,6 +309,7 @@ permissions:
       se.version: true
       se.setspawn: true
       se.spawn: true
+      se.spawn.newbies: true
       se.spawn.others: true
       se.spawn.bypass: true
       se.deletespawn: true
@@ -413,6 +426,11 @@ permissions:
       se.mute.bypass: true
       se.list: true
       se.sign.colour: true
+      se.jail: true
+      se.unjail: true
+      se.jailtime: true
+      se.createjail: true
+      se.deletejail: true
   se.reload:
     description: "Gives access to the /se reload command."
     default: false
@@ -445,6 +463,9 @@ permissions:
     default: false
   se.spawn:
     description: "Gives access to the /spawn command"
+    default: false
+  se.spawn.newbies:
+    description: "Gives access to the /spawn newbies command"
     default: false
   se.spawn.bypass:
     description: "Spawn Bypass Permission"
@@ -796,4 +817,19 @@ permissions:
     default: false
   se.sign.colour:
     description: "Coloured Signs Permission"
+    default: false
+  se.jail:
+    description: "Jail Permission"
+    default: false
+  se.unjail:
+    description: "Unjail Permission"
+    default: false
+  se.jailtime:
+    description: "Jail Time Permission"
+    default: false
+  se.createjail:
+    description: "Create Jail Permission"
+    default: false
+  se.deletejail:
+    description: "Delete Jail Permission"
     default: false

@@ -30,17 +30,17 @@ public class SocialSpy implements CommandExecutor {
             Player player = (Player) sender;
             if (command.getName().equalsIgnoreCase("socialspy")){
                 if (ServerEssentials.permissionChecker(player, "se.socialspy")) {
-                    if (!UserFile.fileConfig.getBoolean(player.getUniqueId() + ".spy")) {
-                        UserFile.fileConfig.set(player.getUniqueId() + ".spy", true);
+                    if (!UserFile.config.getBoolean(player.getUniqueId() + ".spy")) {
+                        UserFile.config.set(player.getUniqueId() + ".spy", true);
                         String msg = Lang.fileConfig.getString("socialspy-enabled");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     } else {
-                        UserFile.fileConfig.set(player.getUniqueId() + ".spy", false);
+                        UserFile.config.set(player.getUniqueId() + ".spy", false);
                         String msg = Lang.fileConfig.getString("socialspy-disabled");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     }
                     try {
-                        UserFile.fileConfig.save(UserFile.file);
+                        UserFile.config.save(UserFile.file);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

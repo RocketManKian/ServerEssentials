@@ -4,7 +4,6 @@ import me.rocketmankianproductions.serveressentials.commands.Sethome;
 import me.rocketmankianproductions.serveressentials.commands.Setspawn;
 import me.rocketmankianproductions.serveressentials.commands.Setwarp;
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;

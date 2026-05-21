@@ -53,43 +53,43 @@ public class PlaceholderExpansion extends me.clip.placeholderapi.expansion.Place
                 return Lang.fileConfig.getString("placeholder_freeze_isenabled_no");
             }
         }else if (params.equalsIgnoreCase("godmode_isenabled")){
-            if (UserFile.fileConfig.getBoolean(player.getUniqueId() + ".godmode")) {
+            if (UserFile.config.getBoolean(player.getUniqueId() + ".godmode")) {
                 return Lang.fileConfig.getString("placeholder_godmode_isenabled_yes");
             }else{
                 return Lang.fileConfig.getString("placeholder_godmode_isenabled_no");
             }
         }else if (params.equalsIgnoreCase("vanish_isenabled")){
-            if (UserFile.fileConfig.getBoolean(player.getUniqueId() + ".vanish")) {
+            if (UserFile.config.getBoolean(player.getUniqueId() + ".vanish")) {
                 return Lang.fileConfig.getString("placeholder_vanish_isenabled_yes");
             }else{
                 return Lang.fileConfig.getString("placeholder_vanish_isenabled_no");
             }
         }else if (params.equalsIgnoreCase("fly_isenabled")) {
-            if (UserFile.fileConfig.getBoolean(player.getUniqueId() + ".fly")) {
+            if (UserFile.config.getBoolean(player.getUniqueId() + ".fly")) {
                 return Lang.fileConfig.getString("placeholder_fly_isenabled_yes");
             } else {
                 return Lang.fileConfig.getString("placeholder_fly_isenabled_no");
             }
         }else if (params.equalsIgnoreCase("mute_isenabled")){
-            if (UserFile.fileConfig.getBoolean(player.getUniqueId() + ".muted")) {
+            if (UserFile.config.getBoolean(player.getUniqueId() + ".muted")) {
                 return Lang.fileConfig.getString("placeholder_mute_isenabled_yes");
             }else{
                 return Lang.fileConfig.getString("placeholder_mute_isenabled_no");
             }
         }else if (params.equalsIgnoreCase("msgtoggle_isenabled")){
-            if (UserFile.fileConfig.getBoolean(player.getUniqueId() + ".msgtoggle")) {
+            if (UserFile.config.getBoolean(player.getUniqueId() + ".msgtoggle")) {
                 return Lang.fileConfig.getString("placeholder_msgtoggle_isenabled_yes");
             }else{
                 return Lang.fileConfig.getString("placeholder_msgtoggle_isenabled_no");
             }
         }else if (params.equalsIgnoreCase("tptoggle_isenabled")){
-            if (UserFile.fileConfig.getBoolean(player.getUniqueId() + ".tptoggle")) {
+            if (UserFile.config.getBoolean(player.getUniqueId() + ".tptoggle")) {
                 return Lang.fileConfig.getString("placeholder_tptoggle_isenabled_yes");
             }else{
                 return Lang.fileConfig.getString("placeholder_tptoggle_isenabled_no");
             }
         }else if (params.equalsIgnoreCase("paytoggle_isenabled")){
-            if (UserFile.fileConfig.getBoolean(player.getUniqueId() + ".paytoggle")) {
+            if (UserFile.config.getBoolean(player.getUniqueId() + ".paytoggle")) {
                 return Lang.fileConfig.getString("placeholder_paytoggle_isenabled_yes");
             }else{
                 return Lang.fileConfig.getString("placeholder_paytoggle_isenabled_no");

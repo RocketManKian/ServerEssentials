@@ -33,7 +33,7 @@ public class TeleportHere implements CommandExecutor {
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     }
-                    if (UserFile.fileConfig.getBoolean(target.getUniqueId() + ".tptoggle")) {
+                    if (UserFile.config.getBoolean(target.getUniqueId() + ".tptoggle")) {
                         String msg = Lang.fileConfig.getString("teleport-disabled");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
