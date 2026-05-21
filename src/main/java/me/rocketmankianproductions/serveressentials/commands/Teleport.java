@@ -40,14 +40,14 @@ public class Teleport implements CommandExecutor {
                                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                 return true;
                             }
-                            if (UserFile.fileConfig.getBoolean(target.getUniqueId() + ".tptoggle")) {
+                            if (UserFile.config.getBoolean(target.getUniqueId() + ".tptoggle")) {
                                 String msg = Lang.fileConfig.getString("teleport-disabled");
                                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                 return true;
                             }
                             if (!target.isOnline()) {
                                 if (player.hasPermission("se.offlinetp")) {
-                                    Location location = UserFile.fileConfig.getLocation(target.getUniqueId() + ".logoutLocation");
+                                    Location location = UserFile.config.getLocation(target.getUniqueId() + ".logoutLocation");
                                     if (location != null) {
                                         player.teleport(location);
                                         String msg = Lang.fileConfig.getString("teleport-target-offline-success").replace("<target>", target.getName());
@@ -92,7 +92,7 @@ public class Teleport implements CommandExecutor {
                                 String msg = Lang.fileConfig.getString("teleport-target-to-self");
                                 sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                 return true;
-                            } else if (UserFile.fileConfig.getBoolean(target.getUniqueId() + ".tptoggle") || UserFile.fileConfig.getBoolean(playerToSend.getUniqueId() + ".tptoggle")) {
+                            } else if (UserFile.config.getBoolean(target.getUniqueId() + ".tptoggle") || UserFile.config.getBoolean(playerToSend.getUniqueId() + ".tptoggle")) {
                                 String msg = Lang.fileConfig.getString("teleport-disabled");
                                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                 return true;
@@ -189,7 +189,7 @@ public class Teleport implements CommandExecutor {
                                     String msg = Lang.fileConfig.getString("target-offline");
                                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                     return true;
-                                } else if (UserFile.fileConfig.getBoolean(target.getUniqueId() + ".tptoggle")) {
+                                } else if (UserFile.config.getBoolean(target.getUniqueId() + ".tptoggle")) {
                                     String msg = Lang.fileConfig.getString("teleport-disabled");
                                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                                     return true;
@@ -231,7 +231,7 @@ public class Teleport implements CommandExecutor {
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
                 }
-                if (UserFile.fileConfig.getBoolean(target.getUniqueId() + ".tptoggle") || UserFile.fileConfig.getBoolean(playerToSend.getUniqueId() + ".tptoggle")) {
+                if (UserFile.config.getBoolean(target.getUniqueId() + ".tptoggle") || UserFile.config.getBoolean(playerToSend.getUniqueId() + ".tptoggle")) {
                     String msg = Lang.fileConfig.getString("teleport-disabled");
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
@@ -254,7 +254,7 @@ public class Teleport implements CommandExecutor {
                     String msg = Lang.fileConfig.getString("target-offline");
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
-                } else if (UserFile.fileConfig.getBoolean(target.getUniqueId() + ".tptoggle")) {
+                } else if (UserFile.config.getBoolean(target.getUniqueId() + ".tptoggle")) {
                     String msg = Lang.fileConfig.getString("teleport-disabled");
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
@@ -282,7 +282,7 @@ public class Teleport implements CommandExecutor {
             if (args.length == 2){
                 Player playerToSend = Bukkit.getPlayer(args[0]);
                 Player target = Bukkit.getPlayer(args[1]);
-                if (UserFile.fileConfig.getBoolean(target.getUniqueId() + ".tptoggle") || UserFile.fileConfig.getBoolean(playerToSend.getUniqueId() + ".tptoggle")) {
+                if (UserFile.config.getBoolean(target.getUniqueId() + ".tptoggle") || UserFile.config.getBoolean(playerToSend.getUniqueId() + ".tptoggle")) {
                     String msg = Lang.fileConfig.getString("teleport-disabled");
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
@@ -311,7 +311,7 @@ public class Teleport implements CommandExecutor {
                     String msg = Lang.fileConfig.getString("target-offline");
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;
-                }else if (UserFile.fileConfig.getBoolean(target.getUniqueId() + ".tptoggle")) {
+                }else if (UserFile.config.getBoolean(target.getUniqueId() + ".tptoggle")) {
                     String msg = Lang.fileConfig.getString("teleport-disabled");
                     sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                     return true;

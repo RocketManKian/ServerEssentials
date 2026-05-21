@@ -22,19 +22,19 @@ public class Vanish implements CommandExecutor {
             Player player = (Player) sender;
             if (ServerEssentials.permissionChecker(player, "se.vanish")) {
                 if (args.length == 0){
-                    if (UserFile.fileConfig.getBoolean(player.getUniqueId() + ".vanish")) {
+                    if (UserFile.config.getBoolean(player.getUniqueId() + ".vanish")) {
                         for (Player people : Bukkit.getOnlinePlayers()){
                             people.showPlayer(ServerEssentials.getPlugin(), player);
                         }
                         String msg = Lang.fileConfig.getString("vanish-disabled");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                        UserFile.fileConfig.set(player.getUniqueId() + ".vanish", false);
+                        UserFile.config.set(player.getUniqueId() + ".vanish", false);
                         try {
-                            UserFile.fileConfig.save(UserFile.file);
+                            UserFile.config.save(UserFile.file);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                    }else if (!UserFile.fileConfig.getBoolean(player.getUniqueId() + ".vanish")) {
+                    }else if (!UserFile.config.getBoolean(player.getUniqueId() + ".vanish")) {
                         for (Player people : Bukkit.getOnlinePlayers()){
                             if (!people.hasPermission("se.vanish.see")){
                                 people.hidePlayer(ServerEssentials.getPlugin(), player);
@@ -42,9 +42,9 @@ public class Vanish implements CommandExecutor {
                         }
                         String msg = Lang.fileConfig.getString("vanish-enabled");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                        UserFile.fileConfig.set(player.getUniqueId() + ".vanish", true);
+                        UserFile.config.set(player.getUniqueId() + ".vanish", true);
                         try {
-                            UserFile.fileConfig.save(UserFile.file);
+                            UserFile.config.save(UserFile.file);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -59,7 +59,7 @@ public class Vanish implements CommandExecutor {
                         String msg = Lang.fileConfig.getString("target-offline");
                         sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
-                    } else if (UserFile.fileConfig.getBoolean(target.getUniqueId() + ".vanish")) {
+                    } else if (UserFile.config.getBoolean(target.getUniqueId() + ".vanish")) {
                         for (Player people : Bukkit.getOnlinePlayers()){
                             people.showPlayer(ServerEssentials.getPlugin(), target);
                         }
@@ -67,13 +67,13 @@ public class Vanish implements CommandExecutor {
                         target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         String msg2 = Lang.fileConfig.getString("vanish-target-disabled").replace("<target>", target.getName());
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
-                        UserFile.fileConfig.set(target.getUniqueId() + ".vanish", false);
+                        UserFile.config.set(target.getUniqueId() + ".vanish", false);
                         try {
-                            UserFile.fileConfig.save(UserFile.file);
+                            UserFile.config.save(UserFile.file);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                    } else if (!UserFile.fileConfig.getBoolean(target.getUniqueId() + ".vanish")) {
+                    } else if (!UserFile.config.getBoolean(target.getUniqueId() + ".vanish")) {
                         for (Player people : Bukkit.getOnlinePlayers()){
                             if (!people.hasPermission("se.vanish.see")){
                                 people.hidePlayer(ServerEssentials.getPlugin(), target);
@@ -83,9 +83,9 @@ public class Vanish implements CommandExecutor {
                         target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         String msg2 = Lang.fileConfig.getString("vanish-target-enabled").replace("<target>", target.getName());
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
-                        UserFile.fileConfig.set(target.getUniqueId() + ".vanish", true);
+                        UserFile.config.set(target.getUniqueId() + ".vanish", true);
                         try {
-                            UserFile.fileConfig.save(UserFile.file);
+                            UserFile.config.save(UserFile.file);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

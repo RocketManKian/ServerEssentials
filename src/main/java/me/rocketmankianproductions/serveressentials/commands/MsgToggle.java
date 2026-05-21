@@ -26,10 +26,10 @@ public class MsgToggle implements CommandExecutor {
             if (command.getName().equalsIgnoreCase("msgtoggle")) {
                 if (ServerEssentials.permissionChecker(player, "se.msgtoggle")) {
                     if (args.length == 0) {
-                        if (!UserFile.fileConfig.getBoolean(player.getUniqueId() + ".msgtoggle")) {
-                            UserFile.fileConfig.set(player.getUniqueId() + ".msgtoggle", true);
+                        if (!UserFile.config.getBoolean(player.getUniqueId() + ".msgtoggle")) {
+                            UserFile.config.set(player.getUniqueId() + ".msgtoggle", true);
                             try {
-                                UserFile.fileConfig.save(UserFile.file);
+                                UserFile.config.save(UserFile.file);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -37,9 +37,9 @@ public class MsgToggle implements CommandExecutor {
                             player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                             return true;
                         } else {
-                            UserFile.fileConfig.set(player.getUniqueId() + ".msgtoggle", false);
+                            UserFile.config.set(player.getUniqueId() + ".msgtoggle", false);
                             try {
-                                UserFile.fileConfig.save(UserFile.file);
+                                UserFile.config.save(UserFile.file);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }

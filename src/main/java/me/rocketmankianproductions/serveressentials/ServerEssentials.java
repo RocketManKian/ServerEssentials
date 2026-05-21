@@ -7,10 +7,12 @@ import me.rocketmankianproductions.serveressentials.commands.*;
 import me.rocketmankianproductions.serveressentials.eco.EconomyImplementer;
 import me.rocketmankianproductions.serveressentials.events.*;
 import me.rocketmankianproductions.serveressentials.file.BankFile;
+import me.rocketmankianproductions.serveressentials.file.JailFile;
 import me.rocketmankianproductions.serveressentials.file.UserFile;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import me.rocketmankianproductions.serveressentials.tasks.Broadcast;
 import me.rocketmankianproductions.serveressentials.utils.GUIPaginationHelper;
+import me.rocketmankianproductions.serveressentials.utils.JailManagerService;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -41,6 +43,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
     public static String prefix;
     public static ServerEssentials getInstance;
     public EconomyImplementer economyImplementer;
+    public JailManagerService jailManager;
     public final HashMap<UUID,Double> playerBank = new HashMap<>();
 
     private DiscordMessageReceived discordsrvListener = new DiscordMessageReceived(this);
@@ -51,6 +54,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
+        getInstance = this;
         plugin = this;
         LoggerMessage.log(LoggerMessage.LogLevel.OUTLINE, "*********************");
         // Plugin startup logic
@@ -66,17 +70,17 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         registerPlaceholder();
         // DiscordSRV
         registerDiscordSRV();
+        // Setup Commands
+        UserFile.setup();
+        Mute.loadAllMutedPlayers();
+        BankFile.setup();
+        registerCommands();
         // Setup Economy
         if (Bukkit.getPluginManager().getPlugin("Vault") != null && ServerEssentials.getPlugin().getConfig().getBoolean("enable-eco")){
             instanceClasses();
         }else{
             LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "Vault is not installed!");
         }
-        // Setup Commands
-        registerCommands();
-        new UserFile(plugin);
-        Mute.loadAllMutedPlayers();
-        BankFile.setup();
         LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "Commands have been enabled.");
         // Register Update
         registerUpdate();
@@ -110,10 +114,13 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null){
             LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "PlaceholderAPI has been disabled.");
         }
-        // Disable Economy
+        // Disable Vault
         if (Bukkit.getPluginManager().getPlugin("Vault") != null){
             LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "Vault has been disabled.");
         }
+        economyImplementer.shutdown();
+        JailFile.saveAsync(jailManager);
+        LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "Economy has been disabled.");
         // Metrics
         MetricsLite metricsLite = new MetricsLite(this);
         // Disable Commands
@@ -360,6 +367,17 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("unmute").setExecutor(new Mute());
         // List Command
         getCommand("list").setExecutor(new List());
+        // Jail Commands
+        JailFile.setup();
+        jailManager = new JailManagerService();
+        JailFile.load(jailManager);
+        jailManager.startAutoReleaseTask();
+        Bukkit.getServer().getPluginManager().registerEvents(jailManager, this);
+        getCommand("jail").setExecutor(new Jail());
+        getCommand("unjail").setExecutor(new Jail());
+        getCommand("jailtime").setExecutor(new Jail());
+        getCommand("createjail").setExecutor(new Jail());
+        getCommand("deletejail").setExecutor(new Jail());
         // Economy
         if (Bukkit.getPluginManager().getPlugin("Vault") != null && ServerEssentials.getPlugin().getConfig().getBoolean("enable-eco")) {
             getCommand("pay").setExecutor(new Pay());
@@ -462,7 +480,6 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
 
     private void instanceClasses() {
         LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "Vault has been enabled.");
-        getInstance = this;
 
         economyImplementer = new EconomyImplementer();
         RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);

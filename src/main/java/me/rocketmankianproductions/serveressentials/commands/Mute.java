@@ -136,22 +136,22 @@ public class Mute implements CommandExecutor {
     public void addMute(OfflinePlayer target, int timeSeconds) {
         UUID uuid = target.getUniqueId();
 
-        UserFile.fileConfig.set(uuid + ".muted", true);
+        UserFile.config.set(uuid + ".muted", true);
 
         if (timeSeconds == -1) {
             // permanent mute
-            UserFile.fileConfig.set(uuid + ".muteDuration", -1L);
+            UserFile.config.set(uuid + ".muteDuration", -1L);
             playerMuteTime.put(uuid, -1L);
 
         } else if (timeSeconds > 0) {
             // timed mute
             long expire = System.currentTimeMillis() + (timeSeconds * 1000L);
-            UserFile.fileConfig.set(uuid + ".muteDuration", expire);
+            UserFile.config.set(uuid + ".muteDuration", expire);
             playerMuteTime.put(uuid, expire);
         }
 
         try {
-            UserFile.fileConfig.save(UserFile.file);
+            UserFile.config.save(UserFile.file);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -188,10 +188,10 @@ public class Mute implements CommandExecutor {
 
         // expired
         playerMuteTime.remove(uuid);
-        UserFile.fileConfig.set(uuid + ".muteDuration", null);
+        UserFile.config.set(uuid + ".muteDuration", null);
 
         try {
-            UserFile.fileConfig.save(UserFile.file);
+            UserFile.config.save(UserFile.file);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -200,7 +200,7 @@ public class Mute implements CommandExecutor {
     }
 
     public static void loadAllMutedPlayers() {
-        FileConfiguration config = UserFile.fileConfig;
+        FileConfiguration config = UserFile.config;
 
         for (String key : config.getKeys(false)) {
             try {
@@ -235,11 +235,11 @@ public class Mute implements CommandExecutor {
         playerMuteTime.remove(uuid);
 
         // Remove from config
-        UserFile.fileConfig.set(uuid + ".muted", null);
-        UserFile.fileConfig.set(uuid + ".muteDuration", null);
+        UserFile.config.set(uuid + ".muted", null);
+        UserFile.config.set(uuid + ".muteDuration", null);
 
         try {
-            UserFile.fileConfig.save(UserFile.file);
+            UserFile.config.save(UserFile.file);
         } catch (IOException e) {
             e.printStackTrace();
         }

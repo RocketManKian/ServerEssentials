@@ -24,17 +24,17 @@ public class SilentJoin {
         if (sender instanceof Player){
             Player player = (Player) sender;
             if (ServerEssentials.permissionChecker(player, "se.silentjoin")) {
-                if (!UserFile.fileConfig.getBoolean(player.getUniqueId() + ".silent")) {
-                    UserFile.fileConfig.set(player.getUniqueId() + ".silent", true);
+                if (!UserFile.config.getBoolean(player.getUniqueId() + ".silent")) {
+                    UserFile.config.set(player.getUniqueId() + ".silent", true);
                     String msg = Lang.fileConfig.getString("silentjoin-enabled");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                 } else {
-                    UserFile.fileConfig.set(player.getUniqueId() + ".silent", false);
+                    UserFile.config.set(player.getUniqueId() + ".silent", false);
                     String msg = Lang.fileConfig.getString("silentjoin-disabled");
                     player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                 }
                 try {
-                    UserFile.fileConfig.save(UserFile.file);
+                    UserFile.config.save(UserFile.file);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

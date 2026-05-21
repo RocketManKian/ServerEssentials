@@ -26,13 +26,8 @@ public class PlayerLeaveListener implements Listener {
     public void onPlayerLeave(PlayerQuitEvent pj) {
         Player player = pj.getPlayer();
 
-        // Economy
-        double balance = ServerEssentials.getPlugin().playerBank.getOrDefault(player.getUniqueId(), 0.0);
-        UserFile.fileConfig.set(player.getUniqueId() + ".money", balance);
-        Eco.saveBalance();
-
         if (ServerEssentials.getPlugin().getConfig().getBoolean("enable-leave-message")) {
-            if (!UserFile.fileConfig.getBoolean(player.getUniqueId() + ".silent")) {
+            if (!UserFile.config.getBoolean(player.getUniqueId() + ".silent")) {
                 String msg = hex(Lang.fileConfig.getString("leave-symbol")).replace("<player>", player.getName());
                 if (Lang.fileConfig.getString("leave-symbol").isEmpty()){
                     pj.setQuitMessage("");
@@ -48,25 +43,25 @@ public class PlayerLeaveListener implements Listener {
                 pj.setQuitMessage("");
             }
         }else{
-            if (UserFile.fileConfig.getBoolean(player.getUniqueId() + ".silent")){
+            if (UserFile.config.getBoolean(player.getUniqueId() + ".silent")){
                 pj.setQuitMessage("");
             }
         }
 
         // Seen Command
         long currentTime = System.currentTimeMillis();  // Capture current timestamp
-        UserFile.fileConfig.set(player.getUniqueId() + ".logout", currentTime);
+        UserFile.config.set(player.getUniqueId() + ".logout", currentTime);
         try {
-            UserFile.fileConfig.save(UserFile.file);
+            UserFile.config.save(UserFile.file);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         // Save Logout Location
         Location location = player.getLocation();
-        UserFile.fileConfig.set(player.getUniqueId() + ".logoutLocation", location);
+        UserFile.config.set(player.getUniqueId() + ".logoutLocation", location);
         try {
-            UserFile.fileConfig.save(UserFile.file);
+            UserFile.config.save(UserFile.file);
         } catch (IOException e) {
             e.printStackTrace();
         }

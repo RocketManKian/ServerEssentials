@@ -23,10 +23,10 @@ public class HideBalance implements CommandExecutor {
             Player player = (Player) sender;
             if (ServerEssentials.permissionChecker(player, "se.hidebalance")) {
                 if (args.length == 0) {
-                    if (!UserFile.fileConfig.getBoolean(player.getUniqueId() + ".balancehidden")) {
-                        UserFile.fileConfig.set(player.getUniqueId() + ".balancehidden", true);
+                    if (!UserFile.config.getBoolean(player.getUniqueId() + ".balancehidden")) {
+                        UserFile.config.set(player.getUniqueId() + ".balancehidden", true);
                         try {
-                            UserFile.fileConfig.save(UserFile.file);
+                            UserFile.config.save(UserFile.file);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -34,9 +34,9 @@ public class HideBalance implements CommandExecutor {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     } else {
-                        UserFile.fileConfig.set(player.getUniqueId() + ".balancehidden", false);
+                        UserFile.config.set(player.getUniqueId() + ".balancehidden", false);
                         try {
-                            UserFile.fileConfig.save(UserFile.file);
+                            UserFile.config.save(UserFile.file);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

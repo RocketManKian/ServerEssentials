@@ -10,6 +10,7 @@ import me.rocketmankianproductions.serveressentials.commands.*;
 import me.rocketmankianproductions.serveressentials.file.UserFile;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import me.rocketmankianproductions.serveressentials.utils.AFKManager;
+import me.rocketmankianproductions.serveressentials.utils.JailManagerService;
 import net.md_5.bungee.api.chat.*;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
@@ -29,6 +30,9 @@ public class PlayerJoinListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent pj) {
         Player player = pj.getPlayer();
 
+        //Jail
+        ServerEssentials.getInstance.jailManager.handlePlayerJoin(player);
+
         // Fly
         if (player.hasPermission("se.fly.login")) {
             player.setAllowFlight(true);
@@ -37,23 +41,11 @@ public class PlayerJoinListener implements Listener {
 
         // Seen Command
         long currentTime = System.currentTimeMillis();  // Capture current timestamp
-        UserFile.fileConfig.set(player.getUniqueId() + ".login", currentTime);
+        UserFile.config.set(player.getUniqueId() + ".login", currentTime);
         try {
-            UserFile.fileConfig.save(UserFile.file);
+            UserFile.config.save(UserFile.file);
         } catch (IOException e) {
             e.printStackTrace();
-        }
-
-        // Economy Initialization
-        if (!UserFile.fileConfig.contains(player.getUniqueId() + ".money")) {
-            double startingBalance = ServerEssentials.getPlugin().getConfig().getDouble("start-balance", 0.0);
-            UserFile.fileConfig.set(player.getUniqueId() + ".money", startingBalance);
-            ServerEssentials.getPlugin().playerBank.put(player.getUniqueId(), startingBalance);
-            Eco.saveBalance();
-        }else{
-            // Ensure player's current balance is loaded into memory
-            double playerBalance = UserFile.fileConfig.getDouble(player.getUniqueId() + ".money");
-            ServerEssentials.getPlugin().playerBank.put(player.getUniqueId(), playerBalance);
         }
 
         // Check to see if Update Checker is enabled in Config
@@ -76,11 +68,11 @@ public class PlayerJoinListener implements Listener {
 
         // Sets default value if player has the permission.
         if (player.hasPermission("se.hidebalance")) {
-            if (UserFile.fileConfig.getString(player.getUniqueId() + ".balancehidden") == null){
-                boolean b = UserFile.fileConfig.getBoolean((player.getUniqueId() + ".balancehidden"), false);
-                UserFile.fileConfig.set((player.getUniqueId() + ".balancehidden"), b);
+            if (UserFile.config.getString(player.getUniqueId() + ".balancehidden") == null){
+                boolean b = UserFile.config.getBoolean((player.getUniqueId() + ".balancehidden"), false);
+                UserFile.config.set((player.getUniqueId() + ".balancehidden"), b);
                 try {
-                    UserFile.fileConfig.save(UserFile.file);
+                    UserFile.config.save(UserFile.file);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -89,11 +81,11 @@ public class PlayerJoinListener implements Listener {
 
         // Sets default value if player has the permission.
         if (player.hasPermission("se.silentjoin")) {
-            if (UserFile.fileConfig.getString(player.getUniqueId() + ".silent") == null){
-                boolean b = UserFile.fileConfig.getBoolean((player.getUniqueId() + ".silent"), false);
-                UserFile.fileConfig.set((player.getUniqueId() + ".silent"), b);
+            if (UserFile.config.getString(player.getUniqueId() + ".silent") == null){
+                boolean b = UserFile.config.getBoolean((player.getUniqueId() + ".silent"), false);
+                UserFile.config.set((player.getUniqueId() + ".silent"), b);
                 try {
-                    UserFile.fileConfig.save(UserFile.file);
+                    UserFile.config.save(UserFile.file);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -103,7 +95,7 @@ public class PlayerJoinListener implements Listener {
         // Decide if Join Message gets posted or not.
         if (player.hasPlayedBefore()) {
             if (ServerEssentials.getPlugin().getConfig().getBoolean("enable-join-message")) {
-                if (!UserFile.fileConfig.getBoolean(player.getUniqueId() + ".silent")) {
+                if (!UserFile.config.getBoolean(player.getUniqueId() + ".silent")) {
                     String msg = ServerEssentials.hex(Lang.fileConfig.getString("join-symbol")).replace("<player>", player.getName());
                     if (Lang.fileConfig.getString("join-symbol").isEmpty()){
                         pj.setJoinMessage("");
@@ -119,7 +111,7 @@ public class PlayerJoinListener implements Listener {
                     pj.setJoinMessage("");
                 }
             } else {
-                if (UserFile.fileConfig.getBoolean(player.getUniqueId() + ".silent")) {
+                if (UserFile.config.getBoolean(player.getUniqueId() + ".silent")) {
                     pj.setJoinMessage("");
                 }
             }
@@ -194,7 +186,7 @@ public class PlayerJoinListener implements Listener {
         }
 
         // Vanish
-        if (UserFile.fileConfig.getBoolean(player.getUniqueId() + ".vanish")) {
+        if (UserFile.config.getBoolean(player.getUniqueId() + ".vanish")) {
             for (Player people : Bukkit.getOnlinePlayers()){
                 if (!people.hasPermission("se.vanish.see")){
                     people.hidePlayer(ServerEssentials.getPlugin(), player);

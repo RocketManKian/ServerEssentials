@@ -1,5 +1,7 @@
 package me.rocketmankianproductions.serveressentials.file;
 
+import me.rocketmankianproductions.serveressentials.LoggerMessage;
+import org.bukkit.configuration.MemoryConfiguration;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -15,6 +17,7 @@ public class BankFile {
         if (!file.exists()) {
             try {
                 file.createNewFile();
+                LoggerMessage.log(LoggerMessage.LogLevel.INFO, "bankdata.yml file doesn't exist, creating now...");
             } catch (IOException e) {
                 e.printStackTrace();
             }

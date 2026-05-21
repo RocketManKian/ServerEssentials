@@ -68,7 +68,7 @@ public class Reply implements CommandExecutor {
 
     public void socialSpy(Player messager, Player recipient, String msgsocialspy, String msgsender, String msgrecipient){
         for (Player admin : Bukkit.getOnlinePlayers()) {
-            if (UserFile.fileConfig.getBoolean(admin.getUniqueId() + ".spy")) {
+            if (UserFile.config.getBoolean(admin.getUniqueId() + ".spy")) {
                 if (admin != messager && admin != recipient) {
                     admin.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msgsocialspy)));
                 }

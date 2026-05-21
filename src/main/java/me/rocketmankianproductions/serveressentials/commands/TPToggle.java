@@ -25,10 +25,10 @@ public class TPToggle implements CommandExecutor {
             Player player = (Player) sender;
             if (ServerEssentials.permissionChecker(player, "se.tptoggle")) {
                 if (args.length == 0) {
-                    if (!UserFile.fileConfig.getBoolean(player.getUniqueId() + ".tptoggle")) {
-                        UserFile.fileConfig.set(player.getUniqueId() + ".tptoggle", true);
+                    if (!UserFile.config.getBoolean(player.getUniqueId() + ".tptoggle")) {
+                        UserFile.config.set(player.getUniqueId() + ".tptoggle", true);
                         try {
-                            UserFile.fileConfig.save(UserFile.file);
+                            UserFile.config.save(UserFile.file);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -36,9 +36,9 @@ public class TPToggle implements CommandExecutor {
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         return true;
                     } else {
-                        UserFile.fileConfig.set(player.getUniqueId() + ".tptoggle", false);
+                        UserFile.config.set(player.getUniqueId() + ".tptoggle", false);
                         try {
-                            UserFile.fileConfig.save(UserFile.file);
+                            UserFile.config.save(UserFile.file);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
