@@ -1,14 +1,28 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.events.PlayerClickEvent;
 import me.rocketmankianproductions.serveressentials.file.Lang;
+import me.rocketmankianproductions.serveressentials.utils.GUIPaginationHelper;
+import me.rocketmankianproductions.serveressentials.utils.JailPlayerUtil;
 import me.rocketmankianproductions.serveressentials.utils.JailUtil;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
+import java.util.List;
 
 public class Jail implements CommandExecutor {
 
@@ -26,6 +40,8 @@ public class Jail implements CommandExecutor {
             case "createjail" -> handleCreateJail(sender, args);
 
             case "deletejail" -> handleDeleteJail(sender, args);
+
+            case "jaillist" -> handleJailList(sender, args);
 
             default -> sender.sendMessage("Unknown command.");
         }
@@ -59,12 +75,12 @@ public class Jail implements CommandExecutor {
                 return;
             }
 
-            int seconds;
+            long time;
 
             try {
-                seconds = Integer.parseInt(args[1]);
-            } catch (NumberFormatException e) {
-                sender.sendMessage("§cInvalid time.");
+                time = parseDuration(args[1]);
+            } catch (IllegalArgumentException e) {
+                sender.sendMessage("§cInvalid duration. Example: 10s, 5m, 2h30m, 1d12h");
                 return;
             }
 
@@ -79,12 +95,12 @@ public class Jail implements CommandExecutor {
 
             ServerEssentials.getInstance
                     .jailManager
-                    .jailPlayer(target, jailName, seconds);
+                    .jailPlayer(target, jailName, (int) time, args[1]);
 
             sender.sendMessage(ServerEssentials.hex(Lang.fileConfig.getString("jail-success")
                     .replace("<player>", target.getName())
                     .replace("<jail>", jailName)
-                    .replace("<duration>", String.valueOf(seconds))));
+                    .replace("<duration>", args[1])));
         }
     }
 
@@ -134,7 +150,8 @@ public class Jail implements CommandExecutor {
                 return;
             }
 
-            player.sendMessage(ServerEssentials.hex(Lang.fileConfig.getString("jail-target-attempt").replace("<duration>", ServerEssentials.getInstance.jailManager.getTimeLeft(player))));
+            JailPlayerUtil entry = ServerEssentials.getInstance.jailManager.getJailedPlayers().get(player.getUniqueId());
+            player.sendMessage(ServerEssentials.hex(Lang.fileConfig.getString("jail-target-attempt").replace("<duration>", ServerEssentials.getInstance.jailManager.getTimeLeft(entry))));
         }
     }
 
@@ -196,5 +213,190 @@ public class Jail implements CommandExecutor {
 
             sender.sendMessage(ServerEssentials.hex(Lang.fileConfig.getString("jail-deleted").replace("<jail>", name)));
         }
+    }
+
+    private void handleJailList(CommandSender sender, String[] args) {
+        if (!(sender instanceof Player player)) {
+            sender.sendMessage("§cThis command must be used in-game.");
+            return;
+        }
+
+        if (ServerEssentials.permissionChecker(sender, "se.jaillist")){
+            if (args.length != 0) {
+                sender.sendMessage("§cUsage: /jaillist");
+                return;
+            }
+            openJailGUI(player, 1);
+        }
+    }
+
+    public static void openJailGUI(Player player, int page) {
+
+        List<ItemStack> allJailItems = new ArrayList<>();
+
+        Collection<JailUtil> allJails =
+                ServerEssentials.getInstance.jailManager.getAllJails();
+
+        // =========================
+        // BUILD ITEMS
+        // =========================
+        if (!allJails.isEmpty()) {
+
+            allJailItems = allJails.stream()
+
+                    .sorted(Comparator.comparing(
+                            JailUtil::getName,
+                            String.CASE_INSENSITIVE_ORDER
+                    ))
+
+                    .map(jail -> {
+
+                        ItemStack item = new ItemStack(Material.IRON_BARS);
+
+                        ItemMeta meta = item.getItemMeta();
+
+                        if (meta != null) {
+
+                            meta.setDisplayName(
+                                    ChatColor.translateAlternateColorCodes(
+                                            '&',
+                                            "&c" + jail.getName()
+                                    )
+                            );
+
+                            List<String> lore = new ArrayList<>();
+
+                            lore.add("§7Click to teleport to jail.");
+                            lore.add("");
+
+                            Location loc = jail.getLocation();
+
+                            lore.add("§fWorld: §7" + loc.getWorld().getName());
+                            lore.add("§fX: §7" + loc.getBlockX());
+                            lore.add("§fY: §7" + loc.getBlockY());
+                            lore.add("§fZ: §7" + loc.getBlockZ());
+
+                            meta.setLore(lore);
+
+                            item.setItemMeta(meta);
+                        }
+
+                        return item;
+                    })
+
+                    .toList();
+        }else{
+            player.sendMessage(ServerEssentials.hex(Lang.fileConfig.getString("no-jails")));
+            return;
+        }
+
+        // =========================
+        // PAGINATION
+        // =========================
+        int itemsPerPage = 7;
+
+        int totalItems = allJailItems.size();
+
+        int totalPages =
+                (int) Math.ceil((double) totalItems / itemsPerPage);
+
+        if (totalPages <= 0) {
+            totalPages = 1;
+        }
+
+        if (page < 1) {
+            page = 1;
+        }
+
+        if (page > totalPages) {
+            page = totalPages;
+        }
+
+        int startIndex = (page - 1) * itemsPerPage;
+
+        int endIndex =
+                Math.min(startIndex + itemsPerPage, totalItems);
+
+        List<ItemStack> itemsOnPage =
+                allJailItems.subList(startIndex, endIndex);
+
+        // =========================
+        // CREATE INVENTORY
+        // =========================
+        Inventory gui = Bukkit.createInventory(
+                null,
+                9,
+                "§c§lJails"
+        );
+        // 54
+
+        // =========================
+        // PLACE ITEMS
+        // =========================
+        for (int i = 0; i < itemsOnPage.size(); i++) {
+            gui.setItem(i, itemsOnPage.get(i));
+        }
+
+        // =========================
+        // PAGINATION BUTTONS
+        // =========================
+        GUIPaginationHelper.updatePaginationButtons(
+                gui,
+                page,
+                totalPages,
+                itemsOnPage
+        );
+
+        // =========================
+        // OPEN GUI
+        // =========================
+        player.openInventory(gui);
+
+        PlayerClickEvent.jailPages.put(
+                player.getUniqueId(),
+                page
+        );
+    }
+
+    private long parseDuration(String input) {
+
+        input = input.toLowerCase();
+
+        long totalSeconds = 0;
+
+        StringBuilder number = new StringBuilder();
+
+        for (char c : input.toCharArray()) {
+
+            if (Character.isDigit(c)) {
+                number.append(c);
+                continue;
+            }
+
+            if (number.isEmpty()) {
+                throw new IllegalArgumentException("Invalid duration format.");
+            }
+
+            long value = Long.parseLong(number.toString());
+
+            switch (c) {
+                case 's' -> totalSeconds += value;
+                case 'm' -> totalSeconds += value * 60;
+                case 'h' -> totalSeconds += value * 60 * 60;
+                case 'd' -> totalSeconds += value * 60 * 60 * 24;
+                case 'w' -> totalSeconds += value * 60 * 60 * 24 * 7;
+
+                default -> throw new IllegalArgumentException("Invalid time unit: " + c);
+            }
+
+            number.setLength(0);
+        }
+
+        // catches "10" with no unit
+        if (!number.isEmpty()) {
+            throw new IllegalArgumentException("Missing time unit.");
+        }
+
+        return totalSeconds;
     }
 }

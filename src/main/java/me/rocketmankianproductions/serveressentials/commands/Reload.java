@@ -2,6 +2,7 @@ package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.BankFile;
+import me.rocketmankianproductions.serveressentials.file.JailFile;
 import me.rocketmankianproductions.serveressentials.file.UserFile;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import me.rocketmankianproductions.serveressentials.tasks.Broadcast;
@@ -34,6 +35,7 @@ public class Reload {
                 Lang.reload();
                 UserFile.reload();
                 BankFile.reload();
+                JailFile.reload();
                 // Applying Broadcast Changes
                 ServerEssentials.broadcastLoop.cancel();
                 long delay = ServerEssentials.getPlugin().getConfig().getLong("broadcast-delay");
@@ -49,6 +51,7 @@ public class Reload {
             Lang.reload();
             UserFile.reload();
             BankFile.reload();
+            JailFile.reload();
             ServerEssentials.broadcastLoop.cancel();
             long delay = ServerEssentials.getPlugin().getConfig().getLong("broadcast-delay");
             ServerEssentials.broadcastLoop = new Broadcast(ServerEssentials.plugin).runTaskTimer(ServerEssentials.plugin, delay, delay);

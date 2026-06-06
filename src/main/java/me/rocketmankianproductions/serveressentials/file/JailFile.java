@@ -134,5 +134,7 @@ public class JailFile {
 
     public static void reload() {
         config = YamlConfiguration.loadConfiguration(file);
+        ServerEssentials.getInstance.jailManager.clear();
+        load(ServerEssentials.getInstance.jailManager);
     }
 }

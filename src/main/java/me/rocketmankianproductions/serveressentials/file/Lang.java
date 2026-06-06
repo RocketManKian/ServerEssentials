@@ -374,8 +374,8 @@ public class Lang {
                 fileConfig.addDefault("world-invalid", "&6World &c<world> &6isn't loaded!");
                 fileConfig.addDefault("jail-self", "&cYou cannot jail yourself.");
                 fileConfig.addDefault("jail-self-invalid", "&cYou are not jailed.");
-                fileConfig.addDefault("jail-success", "&6Sent &e<player> &6to &e<jail> Jail &6for &e<duration> seconds.");
-                fileConfig.addDefault("jail-target", "&cYou have been jailed for &e<duration> seconds.");
+                fileConfig.addDefault("jail-success", "&6Sent &e<player> &6to &e<jail> Jail &6for &e<duration>.");
+                fileConfig.addDefault("jail-target", "&cYou have been jailed for &e<duration>.");
                 fileConfig.addDefault("already-jailed", "&e<player< &cis already jailed.");
                 fileConfig.addDefault("jail-release", "&6You have released &e<player> &6from jail.");
                 fileConfig.addDefault("jail-target-release", "&6You have been &ereleased &6from jail.");
@@ -385,6 +385,7 @@ public class Lang {
                 fileConfig.addDefault("jail-updated", "&6Jail &e<jail>'s &6position has been &eupdated.");
                 fileConfig.addDefault("jail-deleted", "&6Jail &e<jail> &6has been &cdeleted.");
                 fileConfig.addDefault("jail-invalid", "&cJail <jail> does not exist.");
+                fileConfig.addDefault("no-jails", "&cThere are no jails");
                 fileConfig.options().copyDefaults(true);
                 fileConfig.save(file);
                 LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "Lang.yml file created");
@@ -1735,11 +1736,11 @@ public class Lang {
                 }
 
                 if (fileConfig.getString("jail-success") == null) {
-                    fileConfig.set("jail-success", "&6Sent &e<player> &6to &e<jail> Jail &6for &e<duration> seconds.");
+                    fileConfig.set("jail-success", "&6Sent &e<player> &6to &e<jail> Jail &6for &e<duration>.");
                 }
 
                 if (fileConfig.getString("jail-target") == null) {
-                    fileConfig.set("jail-target", "&cYou have been jailed for &e<duration> seconds.");
+                    fileConfig.set("jail-target", "&cYou have been jailed for &e<duration>.");
                 }
 
                 if (fileConfig.getString("already-jailed") == null) {
@@ -1776,6 +1777,10 @@ public class Lang {
 
                 if (fileConfig.getString("jail-invalid") == null) {
                     fileConfig.set("jail-invalid", "&cJail <jail> does not exist.");
+                }
+
+                if (fileConfig.getString("no-jails") == null) {
+                    fileConfig.set("no-jails", "&cThere are no jails");
                 }
                 fileConfig.options().copyDefaults(true);
                 fileConfig.save(file);

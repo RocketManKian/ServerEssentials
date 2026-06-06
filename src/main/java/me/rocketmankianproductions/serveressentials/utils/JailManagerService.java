@@ -34,7 +34,17 @@ public class JailManagerService implements Listener {
     }
 
     public boolean isJailed(Player player) {
-        return jailedPlayers.containsKey(player.getUniqueId());
+
+        JailPlayerUtil entry = jailedPlayers.get(player.getUniqueId());
+
+        if (entry == null) return false;
+
+        if (entry.isExpired()) {
+            releasePlayer(player.getUniqueId());
+            return false;
+        }
+
+        return true;
     }
 
     public void addJail(JailUtil jail) {
@@ -54,15 +64,17 @@ public class JailManagerService implements Listener {
     // =========================
     // JAIL PLAYER
     // =========================
-    public void jailPlayer(Player player, String jailName, int durationSeconds) {
+    public void jailPlayer(Player player, String jailName, int durationSeconds, String durationUnconverted) {
 
         JailUtil jail = getJail(jailName);
+        if (jail == null) {
+            player.sendMessage("§cJail not found.");
+            return;
+        }
 
         JailEvent event = new JailEvent(player, jailName, durationSeconds);
-
         Bukkit.getPluginManager().callEvent(event);
 
-        // ✔ CHECK IF CANCELLED
         if (event.isCancelled()) {
             player.sendMessage("§cYour jail was cancelled by a plugin.");
             return;
@@ -70,15 +82,24 @@ public class JailManagerService implements Listener {
 
         long releaseTime = System.currentTimeMillis() + (durationSeconds * 1000L);
 
-        jailedPlayers.put(
+        JailPlayerUtil util = new JailPlayerUtil(
                 player.getUniqueId(),
-                new JailPlayerUtil(player.getUniqueId(), jailName, releaseTime)
+                jailName,
+                releaseTime
         );
+
+        jailedPlayers.put(player.getUniqueId(), util);
 
         JailFile.saveAsync(this);
 
         player.teleport(jail.getLocation());
-        player.sendMessage(ServerEssentials.hex(Lang.fileConfig.getString("jail-target").replace("<duration>", String.valueOf(durationSeconds))));
+
+        player.sendMessage(
+                ServerEssentials.hex(
+                        Lang.fileConfig.getString("jail-target")
+                                .replace("<duration>", String.valueOf(durationUnconverted))
+                )
+        );
     }
 
     // =========================
@@ -128,15 +149,41 @@ public class JailManagerService implements Listener {
     // =========================
     // TIME LEFT
     // =========================
-    public String getTimeLeft(Player player) {
+    public String getTimeLeft(JailPlayerUtil util) {
 
-        JailPlayerUtil entry = jailedPlayers.get(player.getUniqueId());
-
-        if (entry == null) {
+        if (util == null) {
             return "0s";
         }
 
-        return formatTimeLeft(entry);
+        long millis = util.getReleaseTime() - System.currentTimeMillis();
+
+        if (millis <= 0) {
+            return "0s";
+        }
+
+        long totalSeconds = millis / 1000;
+
+        long weeks = totalSeconds / (60 * 60 * 24 * 7);
+        totalSeconds %= (60 * 60 * 24 * 7);
+
+        long days = totalSeconds / (60 * 60 * 24);
+        totalSeconds %= (60 * 60 * 24);
+
+        long hours = totalSeconds / (60 * 60);
+        totalSeconds %= (60 * 60);
+
+        long minutes = totalSeconds / 60;
+        long seconds = totalSeconds % 60;
+
+        StringBuilder builder = new StringBuilder();
+
+        if (weeks > 0) builder.append(weeks).append("w ");
+        if (days > 0) builder.append(days).append("d ");
+        if (hours > 0) builder.append(hours).append("h ");
+        if (minutes > 0) builder.append(minutes).append("m ");
+        if (seconds > 0 || builder.isEmpty()) builder.append(seconds).append("s");
+
+        return builder.toString().trim();
     }
 
     // =========================
@@ -188,7 +235,7 @@ public class JailManagerService implements Listener {
         if (jail == null) return;
 
         player.teleport(jail.getLocation());
-        player.sendMessage(ServerEssentials.hex(Lang.fileConfig.getString("jail-target-attempt").replace("<duration>", formatTimeLeft(entry))));
+        player.sendMessage(ServerEssentials.hex(Lang.fileConfig.getString("jail-target-attempt").replace("<duration>", getTimeLeft(entry))));
     }
 
     // =========================
@@ -230,7 +277,7 @@ public class JailManagerService implements Listener {
 
         event.setCancelled(true);
         JailPlayerUtil entry = jailedPlayers.get(event.getPlayer().getUniqueId());
-        event.getPlayer().sendMessage(ServerEssentials.hex(Lang.fileConfig.getString("jail-target-attempt").replace("<duration>", formatTimeLeft(entry))));
+        event.getPlayer().sendMessage(ServerEssentials.hex(Lang.fileConfig.getString("jail-target-attempt").replace("<duration>", getTimeLeft(entry))));
     }
 
     // =========================
@@ -243,7 +290,7 @@ public class JailManagerService implements Listener {
 
         event.setCancelled(true);
         JailPlayerUtil entry = jailedPlayers.get(event.getPlayer().getUniqueId());
-        event.getPlayer().sendMessage(ServerEssentials.hex(Lang.fileConfig.getString("jail-target-attempt").replace("<duration>", formatTimeLeft(entry))));
+        event.getPlayer().sendMessage(ServerEssentials.hex(Lang.fileConfig.getString("jail-target-attempt").replace("<duration>", getTimeLeft(entry))));
     }
 
     // =========================
@@ -271,8 +318,8 @@ public class JailManagerService implements Listener {
         }
 
         event.setCancelled(true);
-        JailPlayerUtil entry = jailedPlayers.get(event.getPlayer().getUniqueId());
-        event.getPlayer().sendMessage(ServerEssentials.hex(Lang.fileConfig.getString("jail-target-attempt").replace("<duration>", formatTimeLeft(entry))));
+        JailPlayerUtil entry = jailedPlayers.get(player.getUniqueId());
+        event.getPlayer().sendMessage(ServerEssentials.hex(Lang.fileConfig.getString("jail-target-attempt").replace("<duration>", getTimeLeft(entry))));
     }
 
     // =========================
@@ -311,7 +358,7 @@ public class JailManagerService implements Listener {
 
         event.setCancelled(true);
         JailPlayerUtil entry = jailedPlayers.get(player.getUniqueId());
-        player.sendMessage(ServerEssentials.hex(Lang.fileConfig.getString("jail-target-attempt").replace("<duration>", formatTimeLeft(entry))));
+        player.sendMessage(ServerEssentials.hex(Lang.fileConfig.getString("jail-target-attempt").replace("<duration>", getTimeLeft(entry))));
     }
 
     // =========================
@@ -344,31 +391,10 @@ public class JailManagerService implements Listener {
             player.sendMessage(
                     ServerEssentials.hex(
                             Lang.fileConfig.getString("jail-target-attempt")
-                                    .replace("<duration>", formatTimeLeft(entry))
+                                    .replace("<duration>", getTimeLeft(entry))
                     )
             );
         }
-    }
-
-    // =========================
-    // UTILS
-    // =========================
-    private String formatTimeLeft(JailPlayerUtil entry) {
-
-        long millis = entry.getReleaseTime() - System.currentTimeMillis();
-
-        long seconds = millis / 1000;
-        long minutes = seconds / 60;
-        long hours = minutes / 60;
-
-        seconds %= 60;
-        minutes %= 60;
-
-        if (hours > 0) {
-            return hours + "h " + minutes + "m " + seconds + "s";
-        }
-
-        return minutes + "m " + seconds + "s";
     }
 
     // =========================

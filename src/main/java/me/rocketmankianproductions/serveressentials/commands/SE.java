@@ -135,7 +135,13 @@ public class SE implements CommandExecutor {
                             + "\n/clearentity - Clears all Entities"
                             + "\n/mute - Mutes a Player"
                             + "\n/unmute - Unmutes a Muted Player"
-                            + "\n/list - List All Online Players");
+                            + "\n/list - List All Online Players"
+                            + "\n/jail <player> <duration> <jail> - Sends Player to Specified Jail"
+                            + "\n/unjail - Unjails Player"
+                            + "\n/jailtime - Lists How Long You Have Left in Jail"
+                            + "\n/createjail <jail> - Creates Specified Jail"
+                            + "\n/deletejail <jail> - Deletes Specified Jail"
+                            + "\n/jaillist - List All Jails");
                     return true;
                 }
             }else if (args.length == 1){
