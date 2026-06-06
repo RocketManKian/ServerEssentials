@@ -1,10 +1,12 @@
 package me.rocketmankianproductions.serveressentials.events;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
-import me.rocketmankianproductions.serveressentials.commands.*;
+import me.rocketmankianproductions.serveressentials.commands.*; // Assuming Home, Warp, ListHomes, Sethome, Setwarp, Invsee, AFK are here
 import me.rocketmankianproductions.serveressentials.file.Lang;
+import me.rocketmankianproductions.serveressentials.utils.AFKManager;
 import me.rocketmankianproductions.serveressentials.utils.CompatibilityUtil;
-import me.rocketmankianproductions.serveressentials.utils.GUIPaginationHelper;
+import me.rocketmankianproductions.serveressentials.utils.GUIPaginationHelper; // Import the pagination helper
+import me.rocketmankianproductions.serveressentials.utils.JailUtil;
 import org.bukkit.*;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -18,11 +20,11 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.List; // Import List
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentHashMap; // Use ConcurrentHashMap for thread safety if accessed from other threads
 
 import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
 
@@ -33,6 +35,7 @@ public class PlayerClickEvent implements Listener {
     public static final Map<UUID, Integer> playerWarpPages = new ConcurrentHashMap<>();
     public static final Map<UUID, Integer> playerHomePages = new ConcurrentHashMap<>();
     public static final Map<UUID, Integer> playerTargetHomePages = new ConcurrentHashMap<>(); // For other players' homes
+    public static final Map<UUID, Integer> jailPages = new ConcurrentHashMap<>();
 
     // Define how many items can be displayed per page (excluding pagination buttons)
     // For a 27-slot inventory (3 rows), with 2 slots for previous/next buttons.
@@ -76,6 +79,8 @@ public class PlayerClickEvent implements Listener {
             handleHomeClick(player, clickedItem, event);
         } else if (ListHomes.target != null && inventoryTitle.equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', Lang.fileConfig.getString("target-home-gui-name").replace("<target>", ListHomes.target.getName())))) {
             handleTargetHomeClick(player, clickedItem, event);
+        } else if (inventoryTitle.equalsIgnoreCase(ChatColor.translateAlternateColorCodes('&', "&c&lJails"))) {
+            handleJailClick(player, clickedItem, event);
         }
         // --- Handle Confirmation GUIs ---
         else if (isConfirmationGUI(inventoryTitle)) {
@@ -145,6 +150,38 @@ public class PlayerClickEvent implements Listener {
                         Warp.cancel, Warp.warpteleport);
             } else {
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("no-permission"))));
+            }
+            player.closeInventory();
+        }
+    }
+
+    /**
+     * Handles clicks within the Jail GUI, including pagination.
+     */
+    private void handleJailClick(Player player, ItemStack clickedItem, InventoryClickEvent event) {
+        event.setCancelled(true);
+
+        int currentPage = jailPages.getOrDefault(player.getUniqueId(), 1); // Get current page, default to 1
+
+        // Check for pagination buttons first
+        int targetPage = GUIPaginationHelper.getNextPageFromButton(clickedItem);
+        if (targetPage == -1) { // Not a next page button, check for previous
+            targetPage = GUIPaginationHelper.getPreviousPageFromButton(clickedItem);
+        }
+
+        if (targetPage != -1) { // It's a pagination button
+            jailPages.put(player.getUniqueId(), targetPage); // Update current page
+            Jail.openJailGUI(player, targetPage);
+            return;
+        }
+
+        // If not a pagination button, proceed with original warp item logic
+        String jailName = ChatColor.stripColor(Objects.requireNonNull(clickedItem.getItemMeta()).getDisplayName());
+        JailUtil jailUtil = ServerEssentials.getInstance.jailManager.getJail(jailName);
+
+        if (event.getClick() == ClickType.LEFT) {
+            if (ServerEssentials.permissionChecker(player, "se.jail")) {
+                player.teleport(jailUtil.getLocation());
             }
             player.closeInventory();
         }

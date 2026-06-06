@@ -1,17 +1,22 @@
 package me.rocketmankianproductions.serveressentials.events;
 
+import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.commands.Sethome;
 import me.rocketmankianproductions.serveressentials.commands.Setspawn;
 import me.rocketmankianproductions.serveressentials.commands.Setwarp;
-import org.bukkit.Bukkit;
-import org.bukkit.World;
+import me.rocketmankianproductions.serveressentials.utils.JailUtil;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +39,30 @@ public class TabCompletion implements TabCompleter {
         // Sudo Command
         if (command.getName().equalsIgnoreCase("sudo")) {
             if (args.length == 2) autoCompletes.add("<command>");
+        }
+
+        // Jail Command
+        if (command.getName().equalsIgnoreCase("jail")) {
+            if (args.length == 3){
+                autoCompletes.addAll(
+
+                        ServerEssentials.getInstance.jailManager
+                                .getAllJails()
+
+                                .stream()
+
+                                .sorted(Comparator.comparing(
+                                        JailUtil::getName,
+                                        String.CASE_INSENSITIVE_ORDER
+                                ))
+
+                                .map(JailUtil::getName)
+
+                                .toList()
+                );
+            }else if (args.length == 2){
+                autoCompletes.add("<duration>");
+            }
         }
 
         // Gamemode Command

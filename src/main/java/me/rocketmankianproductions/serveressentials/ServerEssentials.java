@@ -8,8 +8,8 @@ import me.rocketmankianproductions.serveressentials.eco.EconomyImplementer;
 import me.rocketmankianproductions.serveressentials.events.*;
 import me.rocketmankianproductions.serveressentials.file.BankFile;
 import me.rocketmankianproductions.serveressentials.file.JailFile;
-import me.rocketmankianproductions.serveressentials.file.Lang;
 import me.rocketmankianproductions.serveressentials.file.UserFile;
+import me.rocketmankianproductions.serveressentials.file.Lang;
 import me.rocketmankianproductions.serveressentials.tasks.Broadcast;
 import me.rocketmankianproductions.serveressentials.utils.GUIPaginationHelper;
 import me.rocketmankianproductions.serveressentials.utils.JailManagerService;
@@ -25,7 +25,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.io.File;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
@@ -374,10 +374,12 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         jailManager.startAutoReleaseTask();
         Bukkit.getServer().getPluginManager().registerEvents(jailManager, this);
         getCommand("jail").setExecutor(new Jail());
+        getCommand("jail").setTabCompleter(new TabCompletion());
         getCommand("unjail").setExecutor(new Jail());
         getCommand("jailtime").setExecutor(new Jail());
         getCommand("createjail").setExecutor(new Jail());
         getCommand("deletejail").setExecutor(new Jail());
+        getCommand("jaillist").setExecutor(new Jail());
         // Economy
         if (Bukkit.getPluginManager().getPlugin("Vault") != null && ServerEssentials.getPlugin().getConfig().getBoolean("enable-eco")) {
             getCommand("pay").setExecutor(new Pay());

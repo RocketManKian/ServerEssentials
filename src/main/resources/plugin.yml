@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 2.3.9
+version: 2.4.0
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -293,6 +293,9 @@ commands:
   deletejail:
     description: Delete Jail Command
     aliases: [deljail]
+  jaillist:
+    description: Jail List Command
+    aliases: [ jails ]
 permissions:
   se.all:
     description: "Gives access to all commands."
@@ -431,6 +434,7 @@ permissions:
       se.jailtime: true
       se.createjail: true
       se.deletejail: true
+      se.jaillist: true
   se.reload:
     description: "Gives access to the /se reload command."
     default: false
@@ -832,4 +836,7 @@ permissions:
     default: false
   se.deletejail:
     description: "Delete Jail Permission"
+    default: false
+  se.jaillist:
+    description: "Jail List Permission"
     default: false
