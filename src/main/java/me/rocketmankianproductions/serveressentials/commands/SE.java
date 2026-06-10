@@ -136,7 +136,7 @@ public class SE implements CommandExecutor {
                             + "\n/mute - Mutes a Player"
                             + "\n/unmute - Unmutes a Muted Player"
                             + "\n/list - List All Online Players"
-                            + "\n/jail <player> <duration> <jail> - Sends Player to Specified Jail"
+                            + "\n/jail <player> <duration> <jail> <reason> - Sends Player to Specified Jail"
                             + "\n/unjail - Unjails Player"
                             + "\n/jailtime - Lists How Long You Have Left in Jail"
                             + "\n/createjail <jail> - Creates Specified Jail"
