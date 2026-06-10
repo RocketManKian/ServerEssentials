@@ -43,7 +43,9 @@ public class TabCompletion implements TabCompleter {
 
         // Jail Command
         if (command.getName().equalsIgnoreCase("jail")) {
-            if (args.length == 3){
+            if (args.length >= 4){
+                autoCompletes.add("<reason>");
+            }else if (args.length == 3){
                 autoCompletes.addAll(
 
                         ServerEssentials.getInstance.jailManager

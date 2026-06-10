@@ -77,11 +77,13 @@ public class JailFile {
                 UUID uuid = UUID.fromString(uuidStr);
 
                 String jailName = config.getString(path + ".jailName");
+                Location location = config.getLocation(path + ".previousLocation");
+                String reason = config.getString(path + ".reason");
                 long releaseTime = config.getLong(path + ".releaseTime");
 
                 manager.getJailedPlayers().put(
                         uuid,
-                        new JailPlayerUtil(uuid, jailName, releaseTime)
+                        new JailPlayerUtil(uuid, jailName, location, releaseTime, reason)
                 );
             }
         }
@@ -92,36 +94,26 @@ public class JailFile {
     }
 
     public static void saveAsync(JailManagerService manager) {
-
+        // 1. Snapshot the maps on the main thread
         Map<String, JailUtil> jails = new HashMap<>(manager.getCache());
         Map<UUID, JailPlayerUtil> players = new HashMap<>(manager.getJailedPlayers());
+
+        // 2. Pre-extract the world names on the main thread into a safe lookup map
+        Map<String, String> jailWorldNames = new HashMap<>();
+        for (JailUtil jail : jails.values()) {
+            if (jail.getLocation() != null && jail.getLocation().getWorld() != null) {
+                jailWorldNames.put(jail.getName().toLowerCase(), jail.getLocation().getWorld().getName());
+            } else {
+                jailWorldNames.put(jail.getName().toLowerCase(), "world"); // fallback default
+            }
+        }
 
         Bukkit.getScheduler().runTaskAsynchronously(
                 ServerEssentials.getPlugin(),
                 () -> {
-
                     FileConfiguration newConfig = new YamlConfiguration();
-
-                    for (JailUtil jail : jails.values()) {
-
-                        String path = "jails." + jail.getName().toLowerCase();
-                        Location loc = jail.getLocation();
-
-                        newConfig.set(path + ".world", loc.getWorld().getName());
-                        newConfig.set(path + ".x", loc.getX());
-                        newConfig.set(path + ".y", loc.getY());
-                        newConfig.set(path + ".z", loc.getZ());
-                        newConfig.set(path + ".yaw", loc.getYaw());
-                        newConfig.set(path + ".pitch", loc.getPitch());
-                    }
-
-                    for (JailPlayerUtil entry : players.values()) {
-
-                        String path = "jailedPlayers." + entry.getPlayerId();
-
-                        newConfig.set(path + ".jailName", entry.getJailName());
-                        newConfig.set(path + ".releaseTime", entry.getReleaseTime());
-                    }
+                    // Pass the pre-extracted world names into the data builder
+                    populateConfig(newConfig, jails, jailWorldNames, players);
 
                     try {
                         newConfig.save(file);
@@ -130,6 +122,51 @@ public class JailFile {
                     }
                 }
         );
+    }
+
+    public static void saveSync(JailManagerService manager) {
+        Map<String, JailUtil> jails = new HashMap<>(manager.getCache());
+        Map<UUID, JailPlayerUtil> players = new HashMap<>(manager.getJailedPlayers());
+
+        // Main thread can safely fetch world names directly, but we map it for the shared method
+        Map<String, String> jailWorldNames = new HashMap<>();
+        for (JailUtil jail : jails.values()) {
+            jailWorldNames.put(jail.getName().toLowerCase(), jail.getLocation().getWorld().getName());
+        }
+
+        FileConfiguration newConfig = new YamlConfiguration();
+        populateConfig(newConfig, jails, jailWorldNames, players);
+
+        try {
+            newConfig.save(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Shared thread-safe helper method for handling the data structures
+    private static void populateConfig(FileConfiguration config, Map<String, JailUtil> jails, Map<String, String> worldNames, Map<UUID, JailPlayerUtil> players) {
+        for (JailUtil jail : jails.values()) {
+            String jailKey = jail.getName().toLowerCase();
+            String path = "jails." + jailKey;
+            Location loc = jail.getLocation();
+
+            // Safe: pulling the String name from our thread-safe map instead of loc.getWorld()
+            config.set(path + ".world", worldNames.get(jailKey));
+            config.set(path + ".x", loc.getX());
+            config.set(path + ".y", loc.getY());
+            config.set(path + ".z", loc.getZ());
+            config.set(path + ".yaw", loc.getYaw());
+            config.set(path + ".pitch", loc.getPitch());
+        }
+
+        for (JailPlayerUtil entry : players.values()) {
+            String path = "jailedPlayers." + entry.getPlayerId();
+            config.set(path + ".jailName", entry.getJailName());
+            config.set(path + ".previousLocation", entry.getPlayerPreviousLocation());
+            config.set(path + ".reason", entry.getReason());
+            config.set(path + ".releaseTime", entry.getReleaseTime());
+        }
     }
 
     public static void reload() {

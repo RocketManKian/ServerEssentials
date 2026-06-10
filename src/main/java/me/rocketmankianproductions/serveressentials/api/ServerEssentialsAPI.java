@@ -43,11 +43,11 @@ public final class ServerEssentialsAPI {
      * Jails a player
      */
 
-    public static boolean setJailed(Player player, String jailName, int durationSeconds, String durationUnconverted) {
+    public static boolean setJailed(Player player, String jailName, int durationSeconds, String durationUnconverted, String reason) {
         if (ServerEssentials.getInstance.jailManager.getJail(jailName) == null){
             return false;
         }
-        ServerEssentials.getInstance.jailManager.jailPlayer(player, jailName, durationSeconds, durationUnconverted);
+        ServerEssentials.getInstance.jailManager.jailPlayer(player, jailName, durationSeconds, durationUnconverted, reason);
         return true;
     }
 

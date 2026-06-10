@@ -19,9 +19,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Comparator;
+import java.util.*;
 import java.util.List;
 
 public class Jail implements CommandExecutor {
@@ -52,8 +50,8 @@ public class Jail implements CommandExecutor {
     private void handleJail(CommandSender sender, String[] args) {
 
         if (ServerEssentials.permissionChecker(sender, "se.jail")){
-            if (args.length != 3) {
-                sender.sendMessage("§cUsage: /jail <player> <seconds> <jail>");
+            if (!(args.length >= 4)) {
+                sender.sendMessage("§cUsage: /jail <player> <seconds> <jail> <reason>");
                 return;
             }
 
@@ -93,14 +91,16 @@ public class Jail implements CommandExecutor {
                 return;
             }
 
+            String reason = String.join(" ", Arrays.copyOfRange(args, 3, args.length));
             ServerEssentials.getInstance
                     .jailManager
-                    .jailPlayer(target, jailName, (int) time, args[1]);
+                    .jailPlayer(target, jailName, (int) time, args[1], reason);
 
             sender.sendMessage(ServerEssentials.hex(Lang.fileConfig.getString("jail-success")
                     .replace("<player>", target.getName())
                     .replace("<jail>", jailName)
-                    .replace("<duration>", args[1])));
+                    .replace("<duration>", args[1])
+                    .replace("<reason>", reason)));
         }
     }
 

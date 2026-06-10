@@ -12,18 +12,21 @@ public class JailEvent extends Event implements Cancellable {
     private final Player player;
     private final String jailName;
     private final int duration;
+    private final String reason;
 
     private boolean cancelled;
 
-    public JailEvent(Player player, String jailName, int duration) {
+    public JailEvent(Player player, String jailName, int duration, String reason) {
         this.player = player;
         this.jailName = jailName;
         this.duration = duration;
+        this.reason = reason;
     }
 
     public Player getPlayer() { return player; }
     public String getJailName() { return jailName; }
     public int getDuration() { return duration; }
+    public String getReason() { return reason; }
 
     @Override
     public boolean isCancelled() {
