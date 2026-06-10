@@ -119,7 +119,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
             LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "Vault has been disabled.");
         }
         economyImplementer.shutdown();
-        JailFile.saveAsync(jailManager);
+        JailFile.saveSync(jailManager);
         LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "Economy has been disabled.");
         // Metrics
         MetricsLite metricsLite = new MetricsLite(this);

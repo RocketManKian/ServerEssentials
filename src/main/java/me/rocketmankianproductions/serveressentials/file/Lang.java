@@ -374,13 +374,13 @@ public class Lang {
                 fileConfig.addDefault("world-invalid", "&6World &c<world> &6isn't loaded!");
                 fileConfig.addDefault("jail-self", "&cYou cannot jail yourself.");
                 fileConfig.addDefault("jail-self-invalid", "&cYou are not jailed.");
-                fileConfig.addDefault("jail-success", "&6Sent &e<player> &6to &e<jail> Jail &6for &e<duration>.");
-                fileConfig.addDefault("jail-target", "&cYou have been jailed for &e<duration>.");
+                fileConfig.addDefault("jail-success", "&6Sent &e<player> &6to &e<jail> Jail &6for &e<duration> &6for the reason &e<reason>.");
+                fileConfig.addDefault("jail-target", "&cYou have been jailed for &e<duration> &cfor the reason: &e<reason>.");
                 fileConfig.addDefault("already-jailed", "&e<player< &cis already jailed.");
                 fileConfig.addDefault("jail-release", "&6You have released &e<player> &6from jail.");
                 fileConfig.addDefault("jail-target-release", "&6You have been &ereleased &6from jail.");
                 fileConfig.addDefault("jail-release-invalid", "&e<player> &6is not jailed.");
-                fileConfig.addDefault("jail-target-attempt", "&6You are still &cjailed. &6Time left: &e<duration>");
+                fileConfig.addDefault("jail-target-attempt", "&6You are still &cjailed. &6Time left: &e<duration>. &6Reason: &e<reason>.");
                 fileConfig.addDefault("jail-created", "&6Jail &e<jail> &6has been created.");
                 fileConfig.addDefault("jail-updated", "&6Jail &e<jail>'s &6position has been &eupdated.");
                 fileConfig.addDefault("jail-deleted", "&6Jail &e<jail> &6has been &cdeleted.");
@@ -1736,11 +1736,11 @@ public class Lang {
                 }
 
                 if (fileConfig.getString("jail-success") == null) {
-                    fileConfig.set("jail-success", "&6Sent &e<player> &6to &e<jail> Jail &6for &e<duration>.");
+                    fileConfig.set("jail-success", "&6Sent &e<player> &6to &e<jail> Jail &6for &e<duration> &6for the reason &e<reason>.");
                 }
 
                 if (fileConfig.getString("jail-target") == null) {
-                    fileConfig.set("jail-target", "&cYou have been jailed for &e<duration>.");
+                    fileConfig.set("jail-target", "&cYou have been jailed for &e<duration> &cfor the reason: &e<reason>.");
                 }
 
                 if (fileConfig.getString("already-jailed") == null) {
@@ -1760,7 +1760,7 @@ public class Lang {
                 }
 
                 if (fileConfig.getString("jail-target-attempt") == null) {
-                    fileConfig.set("jail-target-attempt", "&6You are still &cjailed. &6Time left: &e<duration>");
+                    fileConfig.set("jail-target-attempt", "&6You are still &cjailed. &6Time left: &e<duration>. &6Reason: &e<reason>.");
                 }
 
                 if (fileConfig.getString("jail-created") == null) {
