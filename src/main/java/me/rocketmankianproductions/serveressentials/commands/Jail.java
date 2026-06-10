@@ -62,10 +62,10 @@ public class Jail implements CommandExecutor {
                 return;
             }
 
-//            if (target == sender){
-//                sender.sendMessage(ServerEssentials.hex(Lang.fileConfig.getString("jail-self")));
-//                return;
-//            }
+            if (target == sender){
+                sender.sendMessage(ServerEssentials.hex(Lang.fileConfig.getString("jail-self")));
+                return;
+            }
 
             if (ServerEssentials.getInstance.jailManager.isJailed(target)){
                 sender.sendMessage(ServerEssentials.hex(Lang.fileConfig.getString("already-jailed")
@@ -151,7 +151,8 @@ public class Jail implements CommandExecutor {
             }
 
             JailPlayerUtil entry = ServerEssentials.getInstance.jailManager.getJailedPlayers().get(player.getUniqueId());
-            player.sendMessage(ServerEssentials.hex(Lang.fileConfig.getString("jail-target-attempt").replace("<duration>", ServerEssentials.getInstance.jailManager.getTimeLeft(entry))));
+            player.sendMessage(ServerEssentials.hex(Lang.fileConfig.getString("jail-target-attempt").replace("<reason>", entry.getReason())
+                    .replace("<duration>", ServerEssentials.getInstance.jailManager.getTimeLeft(entry))));
         }
     }
 
