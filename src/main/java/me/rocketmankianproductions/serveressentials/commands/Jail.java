@@ -67,6 +67,12 @@ public class Jail implements CommandExecutor {
                 return;
             }
 
+            if (target.hasPermission("se.jail.bypass")){
+                sender.sendMessage(ServerEssentials.hex(Lang.fileConfig.getString("jail-target-bypass")
+                        .replace("<player>", target.getName())));
+                return;
+            }
+
             if (ServerEssentials.getInstance.jailManager.isJailed(target)){
                 sender.sendMessage(ServerEssentials.hex(Lang.fileConfig.getString("already-jailed")
                         .replace("<player>", target.getName())));

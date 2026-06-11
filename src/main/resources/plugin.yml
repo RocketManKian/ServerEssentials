@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 2.4.2
+version: 2.4.3
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -435,6 +435,7 @@ permissions:
       se.createjail: true
       se.deletejail: true
       se.jaillist: true
+      se.jail.bypass: true
   se.reload:
     description: "Gives access to the /se reload command."
     default: false
@@ -839,4 +840,7 @@ permissions:
     default: false
   se.jaillist:
     description: "Jail List Permission"
+    default: false
+  se.jail.bypass:
+    description: "Jail Bypass Permission"
     default: false
