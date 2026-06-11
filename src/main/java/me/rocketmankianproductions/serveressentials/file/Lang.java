@@ -376,6 +376,7 @@ public class Lang {
                 fileConfig.addDefault("jail-self-invalid", "&cYou are not jailed.");
                 fileConfig.addDefault("jail-success", "&6Sent &e<player> &6to &e<jail> Jail &6for &e<duration> &6for the reason &e<reason>.");
                 fileConfig.addDefault("jail-target", "&cYou have been jailed for &e<duration> &cfor the reason: &e<reason>.");
+                fileConfig.addDefault("jail-target-bypass", "&e<player> &ccannot be jailed.");
                 fileConfig.addDefault("already-jailed", "&e<player< &cis already jailed.");
                 fileConfig.addDefault("jail-release", "&6You have released &e<player> &6from jail.");
                 fileConfig.addDefault("jail-target-release", "&6You have been &ereleased &6from jail.");
@@ -1741,6 +1742,10 @@ public class Lang {
 
                 if (fileConfig.getString("jail-target") == null) {
                     fileConfig.set("jail-target", "&cYou have been jailed for &e<duration> &cfor the reason: &e<reason>.");
+                }
+
+                if (fileConfig.getString("jail-target-bypass") == null) {
+                    fileConfig.set("jail-target-bypass", "&e<player> &ccannot be jailed.");
                 }
 
                 if (fileConfig.getString("already-jailed") == null) {
