@@ -24,7 +24,7 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.1.0</version>
                 <configuration>
-                    <outputDirectory>C:\Users\kicod\Desktop\Test Servers\Java Test Server\plugins</outputDirectory>
+                    <outputDirectory>C:\Users\kicod\Desktop\Server Stuff\Java Test Server\plugins</outputDirectory>
                     <finalName>ServerEssentials</finalName>
                 </configuration>
             </plugin>
