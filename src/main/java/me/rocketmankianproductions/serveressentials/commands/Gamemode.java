@@ -18,337 +18,141 @@ public class Gamemode implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+        String cmdName = command.getName().toLowerCase();
 
-        if (sender instanceof Player){
-            Player player = (Player) sender;
-            if ((command.getName().equalsIgnoreCase("gamemode") || command.getName().equalsIgnoreCase("gm")) && args.length > 0) {
-                if (args[0].equalsIgnoreCase("creative") || args[0].equalsIgnoreCase("c") || args[0].equalsIgnoreCase("1")) {
-                    gmc(args, player);
-                    return true;
-                } else if (args[0].equalsIgnoreCase("survival") || args[0].equalsIgnoreCase("s") || args[0].equalsIgnoreCase("0")) {
-                    gms(args, player);
-                    return true;
-                } else if (args[0].equalsIgnoreCase("spectator") || args[0].equalsIgnoreCase("3")) {
-                    gmsp(args, player);
-                    return true;
-                } else if (args[0].equalsIgnoreCase("adventure") || args[0].equalsIgnoreCase("a") || args[0].equalsIgnoreCase("2")) {
-                    gma(args, player);
-                    return true;
-                }else{
-                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gamemode <survival/creative/spectator/adventure>");
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                    return true;
-                }
-            }else if ((command.getName().equalsIgnoreCase("gmc"))){
-                if (ServerEssentials.permissionChecker(player, "se.gamemode.creative")) {
-                    if (args.length == 1) {
-                        Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
-                        targetPlayer.setGameMode(GameMode.CREATIVE);
-                        String msg = Lang.fileConfig.getString("gamemode-creative-target").replace("<target>", targetPlayer.getName());
-                        targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                        String msg2 = Lang.fileConfig.getString("gamemode-creative-self");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
-                        return true;
-                    } else if (args.length == 0) {
-                        player.setGameMode(GameMode.CREATIVE);
-                        String msg = Lang.fileConfig.getString("gamemode-creative-self");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                        return true;
-                    }else{
-                        String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gmc (player)");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                        return true;
-                    }
-                }
-            }else if ((command.getName().equalsIgnoreCase("gms"))){
-                if (ServerEssentials.permissionChecker(player, "se.gamemode.survival")) {
-                    if (args.length == 1) {
-                        Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
-                        targetPlayer.setGameMode(GameMode.SURVIVAL);
-                        String msg = Lang.fileConfig.getString("gamemode-survival-target").replace("<target>", targetPlayer.getName());
-                        targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                        String msg2 = Lang.fileConfig.getString("gamemode-survival-self");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
-                        return true;
-                    } else if (args.length == 0) {
-                        player.setGameMode(GameMode.SURVIVAL);
-                        String msg = Lang.fileConfig.getString("gamemode-survival-self");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                        return true;
-                    }else{
-                        String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gms (player)");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                        return true;
-                    }
-                }
-            }else if ((command.getName().equalsIgnoreCase("gmsp"))){
-                if (ServerEssentials.permissionChecker(player, "se.gamemode.spectator")) {
-                    if (args.length == 1) {
-                        Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
-                        targetPlayer.setGameMode(GameMode.SPECTATOR);
-                        String msg = Lang.fileConfig.getString("gamemode-spectator-target").replace("<target>", targetPlayer.getName());
-                        targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                        String msg2 = Lang.fileConfig.getString("gamemode-spectator-self");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
-                        return true;
-                    } else if (args.length == 0) {
-                        player.setGameMode(GameMode.SPECTATOR);
-                        String msg = Lang.fileConfig.getString("gamemode-spectator-self");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                        return true;
-                    }else{
-                        String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gmsp (player)");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                        return true;
-                    }
-                }
-            }else if ((command.getName().equalsIgnoreCase("gma"))){
-                if (ServerEssentials.permissionChecker(player, "se.gamemode.adventure")) {
-                    if (args.length == 1) {
-                        Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
-                        targetPlayer.setGameMode(GameMode.ADVENTURE);
-                        String msg = Lang.fileConfig.getString("gamemode-adventure-target").replace("<target>", targetPlayer.getName());
-                        targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                        String msg2 = Lang.fileConfig.getString("gamemode-adventure-self");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
-                        return true;
-                    } else if (args.length == 0) {
-                        player.setGameMode(GameMode.ADVENTURE);
-                        String msg = Lang.fileConfig.getString("gamemode-adventure-self");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                        return true;
-                    }else{
-                        String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gma (player)");
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                        return true;
-                    }
-                }
-            }else{
-                String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gamemode <survival/creative/spectator/adventure>");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+        // Handle base gamemode / gm commands
+        if (cmdName.equals("gamemode")) {
+            if (args.length == 0) {
+                sendFormattedMessage(sender, "incorrect-format", "/gamemode <survival/creative/spectator/adventure> [player]");
                 return true;
             }
-        }else if (sender instanceof ConsoleCommandSender) {
-            if ((command.getName().equalsIgnoreCase("gamemode") || command.getName().equalsIgnoreCase("gm"))) {
-                if (args[0].equalsIgnoreCase("creative") || args[0].equalsIgnoreCase("c") || args[0].equalsIgnoreCase("1")) {
-                    if (args.length == 2) {
-                        Player targetPlayer = Bukkit.getServer().getPlayer(args[1]);
-                        targetPlayer.setGameMode(GameMode.CREATIVE);
-                        String msg = Lang.fileConfig.getString("gamemode-creative-self");
-                        targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                        String msg2 = Lang.fileConfig.getString("gamemode-creative-target").replace("<target>", targetPlayer.getName());
-                        Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
-                        return true;
-                    }else{
-                        String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gamemode creative (player)");
-                        Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("survival") || args[0].equalsIgnoreCase("s") || args[0].equalsIgnoreCase("0")) {
-                    if (args.length == 2) {
-                        Player targetPlayer = Bukkit.getServer().getPlayer(args[1]);
-                        targetPlayer.setGameMode(GameMode.SURVIVAL);
-                        String msg = Lang.fileConfig.getString("gamemode-survival-self");
-                        targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                        String msg2 = Lang.fileConfig.getString("gamemode-survival-target").replace("<target>", targetPlayer.getName());
-                        Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
-                        return true;
-                    }else{
-                        String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gamemode survival (player)");
-                        Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("spectator") || args[0].equalsIgnoreCase("3")) {
-                    if (args.length == 2) {
-                        Player targetPlayer = Bukkit.getServer().getPlayer(args[1]);
-                        targetPlayer.setGameMode(GameMode.SPECTATOR);
-                        String msg = Lang.fileConfig.getString("gamemode-spectator-self");
-                        targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                        String msg2 = Lang.fileConfig.getString("gamemode-spectator-target").replace("<target>", targetPlayer.getName());
-                        Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
-                        return true;
-                    }else{
-                        String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gamemode spectator (player)");
-                        Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                        return true;
-                    }
-                } else if (args[0].equalsIgnoreCase("adventure") || args[0].equalsIgnoreCase("a") || args[0].equalsIgnoreCase("2")) {
-                    if (args.length == 2) {
-                        Player targetPlayer = Bukkit.getServer().getPlayer(args[1]);
-                        targetPlayer.setGameMode(GameMode.ADVENTURE);
-                        String msg = Lang.fileConfig.getString("gamemode-adventure-self");
-                        targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                        String msg2 = Lang.fileConfig.getString("gamemode-adventure-target").replace("<target>", targetPlayer.getName());
-                        Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
-                        return true;
-                    }else{
-                        String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gamemode adventure (player)");
-                        Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                        return true;
-                    }
-                }else{
-                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gamemode <survival/creative/spectator/adventure>");
-                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                    return true;
-                }
-            }else if ((command.getName().equalsIgnoreCase("gmc"))){
-                if (args.length == 1) {
-                    Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
-                    targetPlayer.setGameMode(GameMode.CREATIVE);
-                    String msg = Lang.fileConfig.getString("gamemode-creative-self");
-                    targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                    String msg2 = Lang.fileConfig.getString("gamemode-creative-target").replace("<target>", targetPlayer.getName());
-                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
-                    return true;
-                }else{
-                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gmc (player)");
-                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                    return true;
-                }
-            }else if ((command.getName().equalsIgnoreCase("gms"))) {
-                if (args.length == 1) {
-                    Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
-                    targetPlayer.setGameMode(GameMode.SURVIVAL);
-                    String msg = Lang.fileConfig.getString("gamemode-survival-self");
-                    targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                    String msg2 = Lang.fileConfig.getString("gamemode-survival-target").replace("<target>", targetPlayer.getName());
-                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
-                    return true;
-                }else{
-                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gms (player)");
-                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                    return true;
-                }
-            }else if ((command.getName().equalsIgnoreCase("gmsp"))) {
-                if (args.length == 1) {
-                    Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
-                    targetPlayer.setGameMode(GameMode.SPECTATOR);
-                    String msg = Lang.fileConfig.getString("gamemode-spectator-self");
-                    targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                    String msg2 = Lang.fileConfig.getString("gamemode-spectator-target").replace("<target>", targetPlayer.getName());
-                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
-                    return true;
-                }else{
-                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gmsp (player)");
-                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                    return true;
-                }
-            }else if ((command.getName().equalsIgnoreCase("gma"))) {
-                if (args.length == 1) {
-                    Player targetPlayer = Bukkit.getServer().getPlayer(args[0]);
-                    targetPlayer.setGameMode(GameMode.ADVENTURE);
-                    String msg = Lang.fileConfig.getString("gamemode-adventure-self");
-                    targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                    String msg2 = Lang.fileConfig.getString("gamemode-adventure-target").replace("<target>", targetPlayer.getName());
-                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
-                    return true;
-                }else{
-                    String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gma (player)");
-                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                    return true;
-                }
-            } else{
-                String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gamemode <survival/creative/spectator/adventure>");
-                Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+
+            GameMode targetGm = matchGameMode(args[0]);
+            if (targetGm == null) {
+                sendFormattedMessage(sender, "incorrect-format", "/gamemode <survival/creative/spectator/adventure>");
                 return true;
             }
+
+            // If a player is specified as the second argument
+            if (args.length >= 2) {
+                executeGameModeChange(sender, targetGm, args[1]);
+            } else {
+                // No player specified -> process for self (only if sender is a player)
+                if (sender instanceof Player) {
+                    executeGameModeChange(sender, targetGm, sender.getName());
+                } else {
+                    sendFormattedMessage(sender, "incorrect-format", "/gamemode <mode> (player)");
+                }
+            }
+            return true;
         }
+
+        // Handle all other shortcut commands mapped from your plugin.yml
+        GameMode shortcutGm = getShortcutGameMode(cmdName);
+        if (shortcutGm != null) {
+            if (args.length == 0) {
+                if (sender instanceof Player) {
+                    executeGameModeChange(sender, shortcutGm, sender.getName());
+                } else {
+                    sendFormattedMessage(sender, "incorrect-format", "/" + cmdName + " (player)");
+                }
+            } else if (args.length == 1) {
+                executeGameModeChange(sender, shortcutGm, args[0]);
+            } else {
+                sendFormattedMessage(sender, "incorrect-format", "/" + cmdName + " (player)");
+            }
+            return true;
+        }
+
         return false;
     }
-    public void gmc(String[] args, Player player) {
-        if (ServerEssentials.permissionChecker(player, "se.gamemode.creative")) {
-            if (args.length == 2) {
-                Player targetPlayer = Bukkit.getServer().getPlayer(args[1]);
-                if (targetPlayer != null){
-                    targetPlayer.setGameMode(GameMode.CREATIVE);
-                    String msg = Lang.fileConfig.getString("gamemode-creative-self");
-                    targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                    String msg2 = Lang.fileConfig.getString("gamemode-creative-target").replace("<target>", targetPlayer.getName());
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
-                }else{
-                    String msg = Lang.fileConfig.getString("target-offline");
-                    player.sendMessage(hex(msg));
-                }
-            } else if (args.length == 1) {
-                player.setGameMode(GameMode.CREATIVE);
-                String msg = Lang.fileConfig.getString("gamemode-creative-self");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-            }else{
-                String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gamemode creative (player)");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+
+    /**
+     * Executes the gamemode change, processing permissions, target evaluation, and messaging.
+     */
+    private void executeGameModeChange(CommandSender sender, GameMode gameMode, String targetName) {
+        String permission = "se.gamemode." + gameMode.name().toLowerCase();
+
+        // Check permissions if sender is a player
+        if (sender instanceof Player && !ServerEssentials.permissionChecker((Player) sender, permission)) {
+            return;
+        }
+
+        Player targetPlayer = Bukkit.getPlayer(targetName);
+        if (targetPlayer == null) {
+            sendFormattedMessage(sender, "target-offline", null);
+            return;
+        }
+
+        // Apply game mode
+        targetPlayer.setGameMode(gameMode);
+        String modeName = gameMode.name().toLowerCase();
+
+        // Send confirmation messages
+        if (sender instanceof Player && sender.getName().equalsIgnoreCase(targetName)) {
+            // Target is self
+            sendFormattedMessage(sender, "gamemode-" + modeName + "-self", null);
+        } else {
+            // Target is someone else (or action executed by Console)
+            sendFormattedMessage(targetPlayer, "gamemode-" + modeName + "-self", null);
+
+            String targetMsg = Lang.fileConfig.getString("gamemode-" + modeName + "-target");
+            if (targetMsg != null) {
+                targetMsg = targetMsg.replace("<target>", targetPlayer.getName());
+                sendMessage(sender, targetMsg);
             }
         }
     }
-    public void gms(String[] args, Player player) {
-        if (ServerEssentials.permissionChecker(player, "se.gamemode.survival")) {
-            if (args.length == 2) {
-                Player targetPlayer = Bukkit.getServer().getPlayer(args[1]);
-                if (targetPlayer != null){
-                    targetPlayer.setGameMode(GameMode.SURVIVAL);
-                    String msg = Lang.fileConfig.getString("gamemode-survival-self");
-                    targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                    String msg2 = Lang.fileConfig.getString("gamemode-survival-target").replace("<target>", targetPlayer.getName());
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
-                }else{
-                    String msg = Lang.fileConfig.getString("target-offline");
-                    player.sendMessage(hex(msg));
-                }
-            } else if (args.length == 1) {
-                player.setGameMode(GameMode.SURVIVAL);
-                String msg = Lang.fileConfig.getString("gamemode-survival-self");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-            }else{
-                String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gamemode survival (player)");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-            }
+
+    /**
+     * Matches string input arguments to Bukkit GameMode types (for /gamemode <arg>).
+     */
+    private GameMode matchGameMode(String input) {
+        switch (input.toLowerCase()) {
+            case "creative": case "c": case "1": return GameMode.CREATIVE;
+            case "survival": case "s": case "0": return GameMode.SURVIVAL;
+            case "spectator": case "sp": case "3": return GameMode.SPECTATOR;
+            case "adventure": case "a": case "2": return GameMode.ADVENTURE;
+            default: return null;
         }
     }
-    public void gmsp(String[] args, Player player) {
-        if (ServerEssentials.permissionChecker(player, "se.gamemode.spectator")) {
-            if (args.length == 2) {
-                Player targetPlayer = Bukkit.getServer().getPlayer(args[1]);
-                if (targetPlayer != null){
-                    targetPlayer.setGameMode(GameMode.SPECTATOR);
-                    String msg = Lang.fileConfig.getString("gamemode-spectator-self");
-                    targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                    String msg2 = Lang.fileConfig.getString("gamemode-spectator-target").replace("<target>", targetPlayer.getName());
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
-                }else{
-                    String msg = Lang.fileConfig.getString("target-offline");
-                    player.sendMessage(hex(msg));
-                }
-            } else if (args.length == 1) {
-                player.setGameMode(GameMode.SPECTATOR);
-                String msg = Lang.fileConfig.getString("gamemode-spectator-self");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-            }else{
-                String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gamemode spectator (player)");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-            }
+
+    /**
+     * Maps your plugin.yml root commands directly to their GameMode enum.
+     * (Aliases like /c, /s, /gm, etc. point here automatically by Spigot)
+     */
+    private GameMode getShortcutGameMode(String commandName) {
+        switch (commandName) {
+            case "gmc": case "creative": return GameMode.CREATIVE;
+            case "gms": case "survival": return GameMode.SURVIVAL;
+            case "gmsp": case "spectator": return GameMode.SPECTATOR;
+            case "gma": case "adventure": return GameMode.ADVENTURE;
+            default: return null;
         }
     }
-    public void gma(String[] args, Player player) {
-        if (ServerEssentials.permissionChecker(player, "se.gamemode.adventure")) {
-            if (args.length == 2) {
-                Player targetPlayer = Bukkit.getServer().getPlayer(args[1]);
-                if (targetPlayer != null){
-                    targetPlayer.setGameMode(GameMode.ADVENTURE);
-                    String msg = Lang.fileConfig.getString("gamemode-adventure-self");
-                    targetPlayer.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                    String msg2 = Lang.fileConfig.getString("gamemode-adventure-target").replace("<target>", targetPlayer.getName());
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
-                }else{
-                    String msg = Lang.fileConfig.getString("target-offline");
-                    player.sendMessage(hex(msg));
-                }
-            } else if (args.length == 1) {
-                player.setGameMode(GameMode.ADVENTURE);
-                String msg = Lang.fileConfig.getString("gamemode-adventure-self");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-            }else{
-                String msg = Lang.fileConfig.getString("incorrect-format").replace("<command>", "/gamemode adventure (player)");
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-            }
+
+    /**
+     * Fetches configuration paths, parses hex/legacy color formatting, and handles variable replacements.
+     */
+    private void sendFormattedMessage(CommandSender recipient, String configPath, String commandReplacement) {
+        String msg = Lang.fileConfig.getString(configPath);
+        if (msg == null) return;
+
+        if (commandReplacement != null) {
+            msg = msg.replace("<command>", commandReplacement);
+        }
+        sendMessage(recipient, msg);
+    }
+
+    /**
+     * Internal utility to route output text to either player chat or console streams safely.
+     */
+    private void sendMessage(CommandSender recipient, String message) {
+        String formatted = ChatColor.translateAlternateColorCodes('&', hex(message));
+        if (recipient instanceof ConsoleCommandSender) {
+            Bukkit.getLogger().info(formatted);
+        } else {
+            recipient.sendMessage(formatted);
         }
     }
 }
