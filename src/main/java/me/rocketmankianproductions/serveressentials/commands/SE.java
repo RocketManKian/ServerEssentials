@@ -141,7 +141,8 @@ public class SE implements CommandExecutor {
                             + "\n/jailtime - Lists How Long You Have Left in Jail"
                             + "\n/createjail <jail> - Creates Specified Jail"
                             + "\n/deletejail <jail> - Deletes Specified Jail"
-                            + "\n/jaillist - List All Jails");
+                            + "\n/jaillist - List All Jails"
+                            + "\n/nickname - Change your Display Name");
                     return true;
                 }
             }else if (args.length == 1){

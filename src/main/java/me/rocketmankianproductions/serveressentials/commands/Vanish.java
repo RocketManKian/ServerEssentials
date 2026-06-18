@@ -1,5 +1,6 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import me.rocketmankianproductions.serveressentials.file.UserFile;
@@ -28,6 +29,13 @@ public class Vanish implements CommandExecutor {
                         }
                         String msg = Lang.fileConfig.getString("vanish-disabled");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                        String joinmsg = ServerEssentials.hex(Lang.fileConfig.getString("join-symbol")).replace("<player>", player.getName());
+                        if (ServerEssentials.isConnectedToPlaceholderAPI){
+                            String placeholder = PlaceholderAPI.setPlaceholders(player, joinmsg);
+                            Bukkit.broadcastMessage(placeholder);
+                        }else{
+                            Bukkit.broadcastMessage(hex(joinmsg));
+                        }
                         UserFile.config.set(player.getUniqueId() + ".vanish", false);
                         try {
                             UserFile.config.save(UserFile.file);
@@ -42,6 +50,13 @@ public class Vanish implements CommandExecutor {
                         }
                         String msg = Lang.fileConfig.getString("vanish-enabled");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                        String leavemsg = ServerEssentials.hex(Lang.fileConfig.getString("leave-symbol")).replace("<player>", player.getName());
+                        if (ServerEssentials.isConnectedToPlaceholderAPI){
+                            String placeholder = PlaceholderAPI.setPlaceholders(player, leavemsg);
+                            Bukkit.broadcastMessage(placeholder);
+                        }else{
+                            Bukkit.broadcastMessage(hex(leavemsg));
+                        }
                         UserFile.config.set(player.getUniqueId() + ".vanish", true);
                         try {
                             UserFile.config.save(UserFile.file);
@@ -67,6 +82,13 @@ public class Vanish implements CommandExecutor {
                         target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         String msg2 = Lang.fileConfig.getString("vanish-target-disabled").replace("<target>", target.getName());
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
+                        String joinmsg = ServerEssentials.hex(Lang.fileConfig.getString("join-symbol")).replace("<player>", player.getName());
+                        if (ServerEssentials.isConnectedToPlaceholderAPI){
+                            String placeholder = PlaceholderAPI.setPlaceholders(player, joinmsg);
+                            Bukkit.broadcastMessage(placeholder);
+                        }else{
+                            Bukkit.broadcastMessage(hex(joinmsg));
+                        }
                         UserFile.config.set(target.getUniqueId() + ".vanish", false);
                         try {
                             UserFile.config.save(UserFile.file);
@@ -83,6 +105,13 @@ public class Vanish implements CommandExecutor {
                         target.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                         String msg2 = Lang.fileConfig.getString("vanish-target-enabled").replace("<target>", target.getName());
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg2)));
+                        String leavemsg = ServerEssentials.hex(Lang.fileConfig.getString("leave-symbol")).replace("<player>", player.getName());
+                        if (ServerEssentials.isConnectedToPlaceholderAPI){
+                            String placeholder = PlaceholderAPI.setPlaceholders(player, leavemsg);
+                            Bukkit.broadcastMessage(placeholder);
+                        }else{
+                            Bukkit.broadcastMessage(hex(leavemsg));
+                        }
                         UserFile.config.set(target.getUniqueId() + ".vanish", true);
                         try {
                             UserFile.config.save(UserFile.file);

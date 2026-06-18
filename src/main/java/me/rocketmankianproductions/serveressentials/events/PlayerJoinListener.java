@@ -30,6 +30,24 @@ public class PlayerJoinListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent pj) {
         Player player = pj.getPlayer();
 
+        String uuidPath = player.getUniqueId() + ".nickname";
+
+        // 1. Check if the player has a saved nickname in their file
+        if (UserFile.config.contains(uuidPath)) {
+            String savedNickname = UserFile.config.getString(uuidPath);
+            if (savedNickname != null && !savedNickname.isEmpty()) {
+                // Re-apply it so it updates for this session
+                player.setDisplayName(savedNickname);
+            }else{
+                UserFile.config.set(player.getUniqueId() + ".nickname", player.getName());
+                try {
+                    UserFile.config.save(UserFile.file);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
         //Jail
         ServerEssentials.getInstance.jailManager.handlePlayerJoin(player);
 
@@ -94,36 +112,32 @@ public class PlayerJoinListener implements Listener {
 
         // Decide if Join Message gets posted or not.
         if (player.hasPlayedBefore()) {
-            if (ServerEssentials.getPlugin().getConfig().getBoolean("enable-join-message")) {
-                if (!UserFile.config.getBoolean(player.getUniqueId() + ".silent")) {
-                    String msg = ServerEssentials.hex(Lang.fileConfig.getString("join-symbol")).replace("<player>", player.getName());
-                    if (Lang.fileConfig.getString("join-symbol").isEmpty()){
-                        pj.setJoinMessage("");
-                    }else{
-                        if (ServerEssentials.isConnectedToPlaceholderAPI){
-                            String placeholder = PlaceholderAPI.setPlaceholders(player, msg);
-                            pj.setJoinMessage(ChatColor.translateAlternateColorCodes('&', hex(placeholder)));
-                        }else{
-                            pj.setJoinMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                        }
-                    }
-                } else {
+            if (!UserFile.config.getBoolean(player.getUniqueId() + ".silent") && !UserFile.config.getBoolean(player.getUniqueId() + ".vanish")) {
+
+                String rawJoinSymbol = Lang.fileConfig.getString("join-symbol");
+
+                // 2. Safely check if the string is null or empty before doing any manipulation
+                if (rawJoinSymbol == null || rawJoinSymbol.isEmpty()) {
                     pj.setJoinMessage("");
+                } else {
+                    // 3. Process placeholders and hex colors
+                    String msg = ServerEssentials.hex(rawJoinSymbol).replace("<player>", player.getName());
+
+                    if (ServerEssentials.isConnectedToPlaceholderAPI) {
+                        msg = PlaceholderAPI.setPlaceholders(player, msg);
+                    }
+                    pj.setJoinMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                 }
             } else {
-                if (UserFile.config.getBoolean(player.getUniqueId() + ".silent")) {
-                    pj.setJoinMessage("");
-                }
+                pj.setJoinMessage("");
             }
         } else if (!player.hasPlayedBefore()) {
             if (ServerEssentials.getPlugin().getConfig().getBoolean("enable-first-time-join-message")) {
                 String msg = Lang.fileConfig.getString("first-time-join").replace("<player>", player.getName());
                 if (ServerEssentials.isConnectedToPlaceholderAPI) {
-                    String placeholder = PlaceholderAPI.setPlaceholders(player, msg);
-                    pj.setJoinMessage(ChatColor.translateAlternateColorCodes('&', hex(placeholder)));
-                } else {
-                    pj.setJoinMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                    msg = PlaceholderAPI.setPlaceholders(player, msg);
                 }
+                pj.setJoinMessage(hex(msg));
             }
         }
         if (!player.hasPlayedBefore() && ServerEssentials.getPlugin().getConfig().getBoolean("spawn-on-first-join")){
@@ -178,22 +192,11 @@ public class PlayerJoinListener implements Listener {
                     if (textChannel != null && ServerEssentials.plugin.getConfig().getBoolean("enable-staff-discord-integration")){
                         textChannel.sendMessage("**" + player.getName() + "**" + server).queue();
                     }
-                    Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("staff-join-message").replace("<player>", player.getName()))), "se.staffchat");
+                    Bukkit.broadcast(hex(Lang.fileConfig.getString("staff-join-message").replace("<player>", player.getName())), "se.staffchat");
                 }else{
-                    Bukkit.broadcast(ChatColor.translateAlternateColorCodes('&', hex(Lang.fileConfig.getString("staff-join-message").replace("<player>", player.getName()))), "se.staffchat");
+                    Bukkit.broadcast(hex(Lang.fileConfig.getString("staff-join-message").replace("<player>", player.getName())), "se.staffchat");
                 }
             }
-        }
-
-        // Vanish
-        if (UserFile.config.getBoolean(player.getUniqueId() + ".vanish")) {
-            for (Player people : Bukkit.getOnlinePlayers()){
-                if (!people.hasPermission("se.vanish.see")){
-                    people.hidePlayer(ServerEssentials.getPlugin(), player);
-                }
-            }
-            String msg = Lang.fileConfig.getString("vanish-enabled");
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
         }
 
         Long delay = ServerEssentials.getPlugin().getConfig().getLong("motd-delay");
@@ -214,5 +217,16 @@ public class PlayerJoinListener implements Listener {
                 }
             }
         }, delay2);
+
+        // Vanish
+        if (UserFile.config.getBoolean(player.getUniqueId() + ".vanish")) {
+            for (Player people : Bukkit.getOnlinePlayers()){
+                if (!people.hasPermission("se.vanish.see")){
+                    people.hidePlayer(ServerEssentials.getPlugin(), player);
+                }
+            }
+            String msg = Lang.fileConfig.getString("vanish-enabled");
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+        }
     }
 }

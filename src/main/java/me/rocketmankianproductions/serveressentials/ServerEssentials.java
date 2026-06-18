@@ -388,6 +388,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
         getCommand("createjail").setExecutor(new Jail());
         getCommand("deletejail").setExecutor(new Jail());
         getCommand("jaillist").setExecutor(new Jail());
+        getCommand("nickname").setExecutor(new Nickname());
         // Economy
         if (Bukkit.getPluginManager().getPlugin("Vault") != null && ServerEssentials.getPlugin().getConfig().getBoolean("enable-eco")) {
             getCommand("pay").setExecutor(new Pay());
