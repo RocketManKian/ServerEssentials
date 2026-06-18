@@ -107,6 +107,12 @@ public class PlaceholderExpansion extends me.clip.placeholderapi.expansion.Place
             }else{
                 return String.valueOf(Sethome.checkMaxHomes(player.getPlayer()));
             }
+        }else if (params.equalsIgnoreCase("nickname")){
+            if (UserFile.config.getString(player.getUniqueId() + ".nickname") != null && !UserFile.config.getString(player.getUniqueId() + ".nickname").isEmpty()) {
+                return UserFile.config.getString(player.getUniqueId() + ".nickname");
+            }else{
+                return player.getName();
+            }
         }
         return null; // Placeholder is unknown by the Expansion
     }

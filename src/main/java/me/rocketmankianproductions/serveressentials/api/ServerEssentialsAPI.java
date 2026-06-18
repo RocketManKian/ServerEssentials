@@ -1,6 +1,7 @@
 package me.rocketmankianproductions.serveressentials.api;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.file.UserFile;
 import me.rocketmankianproductions.serveressentials.utils.AFKManager;
 import me.rocketmankianproductions.serveressentials.utils.JailManagerService;
 import org.bukkit.entity.Player;
@@ -23,6 +24,13 @@ public final class ServerEssentialsAPI {
      */
     public static void setAFK(Player player, boolean afk) {
         AFKManager.setAFK(player, afk);
+    }
+
+    /**
+     * Returns player's nickname
+     */
+    public static String getNickname(Player player) {
+        return UserFile.config.getString(player.getUniqueId() + ".nickname");
     }
 
     /**

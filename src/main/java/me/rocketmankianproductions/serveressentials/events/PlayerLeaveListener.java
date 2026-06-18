@@ -4,8 +4,10 @@ import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
+import me.rocketmankianproductions.serveressentials.commands.Eco;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import me.rocketmankianproductions.serveressentials.file.UserFile;
+import me.rocketmankianproductions.serveressentials.utils.AFKManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -25,23 +27,24 @@ public class PlayerLeaveListener implements Listener {
         Player player = pj.getPlayer();
 
         if (ServerEssentials.getPlugin().getConfig().getBoolean("enable-leave-message")) {
-            if (!UserFile.config.getBoolean(player.getUniqueId() + ".silent")) {
-                String msg = hex(Lang.fileConfig.getString("leave-symbol")).replace("<player>", player.getName());
-                if (Lang.fileConfig.getString("leave-symbol").isEmpty()){
+            if (!UserFile.config.getBoolean(player.getUniqueId() + ".silent") && !UserFile.config.getBoolean(player.getUniqueId() + ".vanish")) {
+                String rawLeaveSymbol = Lang.fileConfig.getString("leave-symbol");
+
+                // 2. Safely check if the string is null or empty before doing any manipulation
+                if (rawLeaveSymbol == null || rawLeaveSymbol.isEmpty()) {
                     pj.setQuitMessage("");
-                }else{
+                } else {
+                    String msg = ServerEssentials.hex(rawLeaveSymbol).replace("<player>", player.getName());
                     if (ServerEssentials.isConnectedToPlaceholderAPI) {
-                        String placeholder = PlaceholderAPI.setPlaceholders(player, msg);
-                        pj.setQuitMessage(ChatColor.translateAlternateColorCodes('&', hex(placeholder)));
-                    }else{
-                        pj.setQuitMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                        msg = PlaceholderAPI.setPlaceholders(player, msg);
                     }
+                    pj.setQuitMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
                 }
             }else{
                 pj.setQuitMessage("");
             }
         }else{
-            if (UserFile.config.getBoolean(player.getUniqueId() + ".silent")){
+            if (UserFile.config.getBoolean(player.getUniqueId() + ".silent") || UserFile.config.getBoolean(player.getUniqueId() + ".vanish")){
                 pj.setQuitMessage("");
             }
         }
