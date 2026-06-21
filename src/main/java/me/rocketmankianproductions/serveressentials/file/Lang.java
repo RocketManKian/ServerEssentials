@@ -388,7 +388,9 @@ public class Lang {
                 fileConfig.addDefault("jail-invalid", "&cJail <jail> does not exist.");
                 fileConfig.addDefault("no-jails", "&cThere are no jails");
                 fileConfig.addDefault("nickname-set", "&6Your Nickname has been set to &e<nickname>");
+                fileConfig.addDefault("nickname-reset", "&6Your Nickname has been reset");
                 fileConfig.addDefault("nickname-set-target", "&e<player>'s &6Nickname has been set to &e<nickname>");
+                fileConfig.addDefault("nickname-reset-target", "&e<player>'s &6Nickname has been reset");
                 fileConfig.options().copyDefaults(true);
                 fileConfig.save(file);
                 LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "Lang.yml file created");
@@ -1794,8 +1796,16 @@ public class Lang {
                     fileConfig.set("nickname-set", "&6Your Nickname has been set to &e<nickname>");
                 }
 
+                if (fileConfig.getString("nickname-reset") == null) {
+                    fileConfig.set("nickname-reset", "&6Your Nickname has been reset");
+                }
+
                 if (fileConfig.getString("nickname-set-target") == null) {
                     fileConfig.set("nickname-set-target", "&e<player>'s &6Nickname has been set to &e<nickname>");
+                }
+
+                if (fileConfig.getString("nickname-reset-target") == null) {
+                    fileConfig.set("nickname-reset-target", "&e<player>'s &6Nickname has been reset");
                 }
                 fileConfig.options().copyDefaults(true);
                 fileConfig.save(file);

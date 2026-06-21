@@ -142,7 +142,7 @@ public class SE implements CommandExecutor {
                             + "\n/createjail <jail> - Creates Specified Jail"
                             + "\n/deletejail <jail> - Deletes Specified Jail"
                             + "\n/jaillist - List All Jails"
-                            + "\n/nickname - Change your Display Name");
+                            + "\n/nickname <player/reset> <reset> - Change yours or another player's Display Name");
                     return true;
                 }
             }else if (args.length == 1){

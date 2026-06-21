@@ -41,6 +41,12 @@ public class TabCompletion implements TabCompleter {
             if (args.length == 2) autoCompletes.add("<command>");
         }
 
+        if (command.getName().equalsIgnoreCase("nickname")){
+            if (args.length >= 1){
+                autoCompletes.add("reset");
+            }
+        }
+
         // Jail Command
         if (command.getName().equalsIgnoreCase("jail")) {
             if (args.length >= 4){

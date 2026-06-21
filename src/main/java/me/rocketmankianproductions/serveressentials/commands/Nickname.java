@@ -5,8 +5,6 @@ import me.rocketmankianproductions.serveressentials.file.Lang;
 import me.rocketmankianproductions.serveressentials.file.UserFile;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
-import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,67 +12,96 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
 
 public class Nickname implements CommandExecutor {
+
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
-        if (sender instanceof Player){
-            Player player = (Player) sender;
-            if (ServerEssentials.permissionChecker(player, "se.nickname")) {
-                if (args.length == 1){
-                    String msg = Lang.fileConfig.getString("nickname-set").replace("<nickname>", args[0]);
-                    player.sendMessage(hex(msg));
-                    player.setDisplayName(args[0]);
-                    UserFile.config.set(player.getUniqueId() + ".nickname", args[0]);
-                    try {
-                        UserFile.config.save(UserFile.file);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    return true;
-                }else if (args.length == 2){
-                    if (ServerEssentials.permissionChecker(player, "se.nickname.target")) {
-                        OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
-                        if (!target.isOnline() || target.getPlayer() == null){
-                            String msg = Lang.fileConfig.getString("target-offline");
-                            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                            return true;
-                        }
-                        String msg = Lang.fileConfig.getString("nickname-set-target").replace("<nickname>", args[1]).replace("<player>", target.getName());
-                        player.sendMessage(hex(msg));
-                        target.getPlayer().setDisplayName(args[1]);
-                        UserFile.config.set(target.getUniqueId() + ".nickname", args[0]);
-                        try {
-                            UserFile.config.save(UserFile.file);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        return true;
-                    }
-                }
+        handleNicknameCommand(sender, args);
+        return true;
+    }
+
+    private void handleNicknameCommand(CommandSender sender, String[] args) {
+        // --- 1 ARGUMENT CHECKS ---
+        if (args.length == 1) {
+            if (!(sender instanceof Player player)) {
+                sendMessage(sender, "&cOnly players can set their own nickname. Use /nickname <player> <nick>");
+                return;
             }
-        }else{
-            if (args.length == 2){
-                OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
-                if (!target.isOnline()){
-                    String msg = Lang.fileConfig.getString("target-offline");
-                    Bukkit.getLogger().info(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                    return true;
-                }
-                target.getPlayer().setDisplayName(args[0]);
-                UserFile.config.set(target.getUniqueId() + ".nickname", args[0]);
-                try {
-                    UserFile.config.save(UserFile.file);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                String msg = Lang.fileConfig.getString("nickname-set-target").replace("<nickname>", args[0]).replace("<player>", target.getName());
-                Bukkit.getLogger().info(hex(msg));
+
+            // Syntax: /nickname reset
+            if (args[0].equalsIgnoreCase("reset")) {
+                applyNickname(player, player.getName());
+                String msg = Lang.fileConfig.getString("nickname-reset").replace("<nickname>", player.getName());
+                player.sendMessage(hex(msg));
+                return;
             }
+
+            // Syntax: /nickname <nick>
+            if (!ServerEssentials.permissionChecker(player, "se.nickname")) return;
+
+            applyNickname(player, args[0]);
+            String msg = Lang.fileConfig.getString("nickname-set").replace("<nickname>", args[0]);
+            player.sendMessage(hex(msg));
+            return;
         }
-        return false;
+
+        // --- 2 ARGUMENTS CHECKS ---
+        if (args.length == 2) {
+            if (sender instanceof Player player && !ServerEssentials.permissionChecker(player, "se.nickname.target")) {
+                return;
+            }
+
+            Player target = Bukkit.getPlayer(args[0]);
+            if (target == null) {
+                sendMessage(sender, Lang.fileConfig.getString("target-offline"));
+                return;
+            }
+
+            // Syntax: /nickname <player> reset
+            if (args[1].equalsIgnoreCase("reset")) {
+                applyNickname(target, target.getName());
+                String msg = Lang.fileConfig.getString("nickname-reset-target")
+                        .replace("<nickname>", target.getName())
+                        .replace("<player>", target.getName());
+                sendMessage(sender, msg);
+                return;
+            }
+
+            // Syntax: /nickname <player> <nick>
+            applyNickname(target, args[1]);
+            String msg = Lang.fileConfig.getString("nickname-set-target")
+                    .replace("<nickname>", args[1])
+                    .replace("<player>", target.getName());
+            sendMessage(sender, msg);
+            return;
+        }
+
+        // Incorrect arguments fallback
+        sendMessage(sender, "&cUsage: /nickname <nick|reset> OR /nickname <player> <nick|reset>");
+    }
+
+    // Helper method to apply changes and save to YML file safely
+    private void applyNickname(Player target, String nickname) {
+        target.setDisplayName(nickname);
+        UserFile.config.set(target.getUniqueId() + ".nickname", nickname);
+        try {
+            UserFile.config.save(UserFile.file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Helper to format and send messages cleanly to both Players and Console loggers
+    private void sendMessage(CommandSender sender, String message) {
+        if (message == null) return;
+        if (sender instanceof Player) {
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(message)));
+        } else {
+            // Strip colors for console readability
+            Bukkit.getLogger().info(ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', hex(message))));
+        }
     }
 }
