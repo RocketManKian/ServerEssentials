@@ -85,6 +85,7 @@ public class Nickname implements CommandExecutor {
 
     // Helper method to apply changes and save to YML file safely
     private void applyNickname(Player target, String nickname) {
+        nickname = ChatColor.translateAlternateColorCodes('&', nickname);
         target.setDisplayName(nickname);
         UserFile.config.set(target.getUniqueId() + ".nickname", nickname);
         try {
