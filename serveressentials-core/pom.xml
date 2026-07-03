@@ -7,7 +7,7 @@
     <parent>
         <groupId>me.rocketmankianproductions</groupId>
         <artifactId>serveressentials-parent</artifactId>
-        <version>2.4.9</version>
+        <version>2.5.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -35,7 +35,6 @@
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.4.1</version>
                 <configuration>
-                    <outputDirectory>C:\Users\kicod\Desktop\Server Stuff\Java Test Server\plugins</outputDirectory>
                     <finalName>ServerEssentials</finalName>
                 </configuration>
             </plugin>
@@ -65,5 +64,48 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>local-dev</id>
+            <activation>
+                <!-- This automatically activates only on your machine if your Windows username is kicod -->
+                <property>
+                    <name>user.name</name>
+                    <value>kicod</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <!-- This plugin handles copying the file locally without breaking remote compilers -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <version>3.3.1</version>
+                        <executions>
+                            <execution>
+                                <id>copy-jar</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>C:\Users\kicod\Desktop\Server Stuff\Java Test Server\plugins</outputDirectory>
+                                    <resources>
+                                        <resource>
+                                            <directory>${project.build.directory}</directory>
+                                            <includes>
+                                                <include>ServerEssentials.jar</include>
+                                            </includes>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 </project>
