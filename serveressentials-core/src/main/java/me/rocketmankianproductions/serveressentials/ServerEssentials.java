@@ -107,6 +107,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener, Serv
 
     @Override
     public void onDisable() {
+        ServerEssentialsAPI.setImplementation(null);
         // Plugin shutdown logic
         LoggerMessage.log(LoggerMessage.LogLevel.OUTLINE, "*********************");
         LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "Server Essentials has been disabled.");

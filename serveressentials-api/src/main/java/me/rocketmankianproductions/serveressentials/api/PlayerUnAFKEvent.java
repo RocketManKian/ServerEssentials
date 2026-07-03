@@ -1,4 +1,4 @@
-package me.rocketmankianproductions.serveressentials.events;
+package me.rocketmankianproductions.serveressentials.api;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;

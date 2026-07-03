@@ -1,7 +1,7 @@
 package me.rocketmankianproductions.serveressentials.commands;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
-import me.rocketmankianproductions.serveressentials.events.PlayerUnAFKEvent;
+import me.rocketmankianproductions.serveressentials.api.PlayerUnAFKEvent;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import me.rocketmankianproductions.serveressentials.utils.AFKManager;
 import org.bukkit.Bukkit;
