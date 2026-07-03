@@ -11,12 +11,14 @@ import me.rocketmankianproductions.serveressentials.file.JailFile;
 import me.rocketmankianproductions.serveressentials.file.UserFile;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import me.rocketmankianproductions.serveressentials.tasks.Broadcast;
+import me.rocketmankianproductions.serveressentials.utils.AFKManager;
 import me.rocketmankianproductions.serveressentials.utils.GUIPaginationHelper;
 import me.rocketmankianproductions.serveressentials.utils.JailManagerService;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -32,7 +34,7 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public final class ServerEssentials extends JavaPlugin implements Listener {
+public final class ServerEssentials extends JavaPlugin implements Listener, ServerEssentialsPlatform {
 
     public static ServerEssentials plugin;
     public static BukkitTask broadcastLoop;
@@ -56,6 +58,7 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
     public void onEnable() {
         getInstance = this;
         plugin = this;
+        ServerEssentialsAPI.setImplementation(this);
         LoggerMessage.log(LoggerMessage.LogLevel.OUTLINE, "*********************");
         // Plugin startup logic
         LoggerMessage.log(LoggerMessage.LogLevel.SUCCESS, "Server Essentials has been enabled.");
@@ -543,5 +546,49 @@ public final class ServerEssentials extends JavaPlugin implements Listener {
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean isAFK(Player player) {
+        return AFKManager.isAFK(player);
+    }
+
+    @Override
+    public void setAFK(Player player, boolean afk) {
+        AFKManager.setAFK(player, afk);
+    }
+
+    @Override
+    public String getNickname(Player player) {
+        return UserFile.config.getString(player.getUniqueId() + ".nickname");
+    }
+
+    @Override
+    public long getLastActivity(Player player) {
+        return AFKManager.getLastActivity(player);
+    }
+
+    @Override
+    public boolean isJailed(Player player) {
+        // Assuming your 'getInstance' logic looks something like this internally
+        return jailManager.isJailed(player);
+    }
+
+    @Override
+    public boolean setJailed(Player player, String jailName, int durationSeconds, String durationUnconverted, String reason) {
+        if (jailManager.getJail(jailName) == null){
+            return false;
+        }
+        jailManager.jailPlayer(player, jailName, durationSeconds, durationUnconverted, reason);
+        return true;
+    }
+
+    @Override
+    public boolean releasePlayer(Player player) {
+        if (!jailManager.isJailed(player)){
+            return false;
+        }
+        jailManager.releasePlayer(player.getUniqueId());
+        return true;
     }
 }
