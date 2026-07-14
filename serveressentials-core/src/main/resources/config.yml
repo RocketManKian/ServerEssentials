@@ -1,0 +1,359 @@
+############################################################
+# +------------------------------------------------------+ #
+# |                   Introduction                       | #
+# +------------------------------------------------------+ #
+############################################################
+
+# This is the config file for Server Essentials.
+# This config was generated for version 2.5.3
+
+# If you experience any issues please make sure that:-
+#     - Numeric values don't include any quotation marks or apostrophes.
+#     - All words that change text in game include quotation marks.
+#     - Don't change any words present before the ':'.
+############################################################
+# +------------------------------------------------------+ #
+# +              Server Essentials (Global)              + #
+# +------------------------------------------------------+ #
+############################################################
+# Changes the prefix that appears at the start of every message and command.
+prefix: "[Server Essentials]"
+# Enable or Disable the Update Checker Messages that appear in-game
+# Default: true
+update-checker: true
+# Enable or Disable the Join Message
+# Default: true
+enable-join-message: true
+# Enable or Disable the Leave Message
+# Default: true
+enable-leave-message: true
+# Enable or Disable the First Time Join Message
+# Default: true
+enable-first-time-join-message: true
+# Enable or Disable the Staff Join Message
+# Default: true
+enable-staff-join-message: true
+# Enable or Disable the Staff Leave Message
+# Default: true
+enable-staff-leave-message: true
+# Enable to send players to the Newbie Spawn upon Joining for the First Time
+# If a Newbie Spawn isn't set, this will send players to the main Spawn
+# Default: true
+spawn-on-first-join: true
+# Enable to send players to the Spawn upon Joining
+# Default: false
+spawn-on-join: false
+# Enable to send players to the Spawn upon Dying
+# Default: true
+spawn-on-death: true
+# Remove all Potion Effects when using /heal
+# Default: false
+remove-effects-on-heal: false
+# Feed Player when using /heal
+# Default: false
+feed-on-heal: false
+# Enter a name in between the quotations to enable or leave empty to disable
+# This will be used to send a message in the 'staff-chat-channel-name', 'report-user-channel-name' and 'report-bug-channel-name' on Discord
+server-name: ""
+# How long Players have to wait until they can use the Repair Command again
+# Set to 0 to Disable
+# Restart Required
+# Default: 30
+repair-cooldown: 30
+# How long Players have to wait until they can use the Heal Command again
+# Set to 0 to Disable
+# Restart Required
+# Default: 30
+heal-cooldown: 30
+# How long Players have to wait until they can use the Feed Command again
+# Set to 0 to Disable
+# Restart Required
+# Default: 30
+feed-cooldown: 30
+# How Long Players have to be inactive before automatically turning AFK
+# Default: 300 (5 Minutes in Seconds)
+afk-timer: 300;
+# Near Range
+# How many Blocks the /near command should search for nearby players
+# Default: 200 Blocks
+near-range: 200
+# Determine the amount of slots inside the Trash GUI
+# Minimum: '9'
+# Default: 27
+trash-gui-size: 27
+# Determine whether you'd like messages to play a sound, and if so, which sound.
+# Default: true
+# msgsoundName: block.note_block.bell
+# msgsoundVolume: 1.0
+# msgsoundPitch: 2.0
+msgsound: true
+msgsoundName: block.note_block.bell
+msgsoundVolume: 1.0
+msgsoundPitch: 2.0
+# List Commands Below that you would like to be Disabled
+# Make sure each command is on a new line with - at the start
+# See example below:
+# - message
+disabled-commands:
+  - empty
+############################################################
+# +------------------------------------------------------+ #
+# +              Server Essentials (Broadcast)           + #
+# +------------------------------------------------------+ #
+############################################################
+# Enable the Broadcasting function.
+# Default: false
+broadcast: false
+# Add Broadcast Messages Here
+# Make sure to use the Format [- "(messagehere)"] on each line to add a new message into the cycle.
+broadcast-messages:
+  - "Test Broadcast"
+  - "Test Broadcast 2"
+# Ticks Between Each Message
+# 20 Ticks = 1 Second
+# Default: 1000
+broadcast-delay: 1000
+# Change the Minimum Amount Of Players Online for the Broadcast System to run
+# Can be useful to reduce spamming console with no one online
+# Default: 1
+broadcast-min-players: 1
+############################################################
+# +------------------------------------------------------+ #
+# +              Server Essentials (MOTD)                + #
+# +------------------------------------------------------+ #
+############################################################
+# Enable the MOTD Message Upon Joining
+# Default: true
+enable-motd: true
+# How long the Plugin will wait until the MOTD is sent to the player after joining (in Seconds)
+# Default: 5
+motd-delay: 5
+# Change the Messaging for the MOTD
+motd-message:
+  - "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-"
+  - "&bThis Server uses Server Essentials!"
+  - "&aDownload the Plugin Today!"
+  - "-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-"
+############################################################
+# +------------------------------------------------------+ #
+# +              Server Essentials (Discord)             + #
+# +------------------------------------------------------+ #
+############################################################
+# Enable Discord Integration for the Report Commands.
+# Default: false
+enable-report-discord-integration: false
+# Enable Discord Integration for Staff Chat.
+# Default: false
+enable-staff-discord-integration: false
+# Change the name of the Discord Channel where staff chat messages are sent.
+# This name will have to be entered into the DiscordSRV config.yml File.
+# ["staff-chat": "000000000000000000"] as an example.
+staff-chat-channel-name: staff-chat
+# Change the name of the Discord Channel where report notifications are sent.
+# This name will have to be entered into the DiscordSRV config.yml File.
+# ["report-user": "000000000000000000"] as an example.
+report-user-channel-name: report-user
+# Change the name of the Discord Channel where report notifications are sent.
+# This name will have to be entered into the DiscordSRV config.yml File.
+# ["report-bug": "000000000000000000"] as an example.
+report-bug-channel-name: report-bug
+# Adds a message that is pasted before the Report Command Embed Message is sent
+# Useful for pinging a group with all Staff Members inside when a Report is sent
+# Please make sure to paste the Group ID into the quotations for this to work correctly
+# To disable this leave the contents within the "" blank
+# Make sure to go to the DiscordSRV config.yml file and change 'DiscordChatChannelAllowedMentions' to include 'role' within the []
+group-id: ""
+############################################################
+# +------------------------------------------------------+ #
+# +              Server Essentials (Spawn)                + #
+# +------------------------------------------------------+ #
+############################################################
+# How many Seconds the Player has to wait before they are teleported to Spawn
+# Set to '0' to Disable
+# Default: 5
+spawn-teleport: 5
+# Enable or Disable the ability to stop Teleportation when the Player Moves
+# Only works if 'spawn-teleport' is higher than 0
+# Default: true
+spawn-movement-cancel: true
+############################################################
+# +------------------------------------------------------+ #
+# +              Server Essentials (Warp)                + #
+# +------------------------------------------------------+ #
+############################################################
+# Enable or Disable the Warp GUI
+# Default: true
+enable-warp-gui: true
+# Determine the amount of slots inside the Warp GUI
+# Minimum: '9'
+# Default: 9
+warp-gui-size: 9
+# Change the Item that shows for Warps in the Warp GUI
+warp-item: DIAMOND_BLOCK
+# Change the Colour of Warp Names in the Warp GUI
+# Please use Colour Codes
+warp-name-colour: "&a"
+# Enable Subtitle Text on screen when teleporting to a Warp
+# Default: false
+enable-warp-subtitle: false
+# How many Seconds the Player has to wait before they are teleported to a Warp (in Seconds)
+# Set to '0' to Disable
+# Default: 5
+warp-teleport: 5
+# Enable or Disable the ability to stop Warping when the Player Moves
+# Only works if 'warp-teleport' is higher than 0
+# Default: true
+warp-movement-cancel: true
+# Enable Blacklisted World Feature for Warps
+# Default: False
+enable-warp-blacklist: false
+# Blacklist Worlds where Player's cannot create Warps
+warp-blacklist:
+  - world
+############################################################
+# +------------------------------------------------------+ #
+# +              Server Essentials (Home)                + #
+# +------------------------------------------------------+ #
+############################################################
+# Enable or Disable the Home GUI
+# Default: true
+enable-home-gui: true
+# Determine the amount of slots inside the Home GUI
+# Minimum: '9'
+# Default: 9
+home-gui-size: 9
+# Change the Item that shows for Homes in the Home GUI
+home-item: RED_BED
+# Change the Colour of Home Names in the Home GUI
+# Please use Colour Codes
+home-name-colour: "&a"
+# Enable Subtitle Text on screen when teleporting to Home
+# Default: false
+enable-home-subtitle: false
+# Default Home Count
+# Default: 3
+default-home-count: 3
+# How many Seconds the Player has to wait before they are teleported to Home (in Seconds)
+# Set to '0' to Disable
+# Default: 5
+home-teleport: 5
+# Enable or Disable the ability to stop Teleportation when the Player Moves
+# Only works if 'home-teleport' is higher than 0
+# Default: true
+home-movement-cancel: true
+# Enable Blacklisted World Feature for Homes
+# Default: false
+enable-home-blacklist: false
+# Blacklist Worlds where Player's cannot set homes
+# Default: False
+home-blacklist:
+  - world
+############################################################
+# +------------------------------------------------------+ #
+# +              Server Essentials (Teleport)            + #
+# +------------------------------------------------------+ #
+############################################################
+# Enable Blacklisted World Feature for Teleporting to Players
+# Default: False
+enable-teleport-blacklist: false
+# Blacklist Worlds where Player's cannot teleport to other Players
+teleport-blacklist:
+  - world
+# Enable Teleporting in Blacklisted World if both players are in the world
+# Default: False
+enable-teleport-in-world: false
+# How long until Teleport Requests Timeout (in Seconds)
+# Default: 30
+teleport-cancel: 30
+# How many Seconds the Player has to wait before they are teleported to someone (in Seconds)
+# Set to '0' to Disable
+# Default: 5
+teleport-wait: 5
+# Enable or Disable the ability to stop Teleportation when the Player Moves
+# Only works if 'teleport-wait' is higher than 0
+# Default: true
+teleport-movement-cancel: true
+# Choose whether Player should teleport to location after 'teleport-wait' timer has finished
+# or if the Player should teleport to location as soon as the Teleport Request was accepted
+# Only works if `teleport-wait` is higher than 0
+# Default: true
+teleport-after-wait-location: true
+# How long Players have to wait until they can use the Teleport Command again (in Seconds)
+# Set to 0 to Disable
+# Restart Required
+# Default: 30
+tp-cooldown: 30
+############################################################
+# +------------------------------------------------------+ #
+# +              Server Essentials (Back)                + #
+# +------------------------------------------------------+ #
+############################################################
+# Enable or Disable Saving Location when teleporting to someone
+# Default: true
+teleport-save: true
+# Enable or Disable Saving Location when teleport to your Home
+# Default: true
+home-save: true
+# Enable or Disable Saving Location when warping to a Warp
+# Default: true
+warp-save: true
+# Enable or Disable Saving Location when teleporting to Spawn
+# Default: true
+spawn-save: true
+# Enable or Disable Saving Location upon Death
+# Default: true
+death-save: true
+# Enable or Disable Saving Location upon changing World
+# Default: true
+world-save: true
+# Enable Blacklisted World Feature for the Back Command
+# Default: False
+enable-back-blacklist: false
+# Blacklist Worlds where Player's cannot use /back
+back-blacklist:
+  - world
+# How long Players have to wait until they can use the Back Command again (in Seconds)
+# Set to 0 to Disable
+# Restart Required
+# Default: 30
+back-cooldown: 30
+# How many Seconds the Player has to wait before they are returned to their previous location (in Seconds)
+# Set to '0' to Disable
+# Default: 5
+back-teleport: 5
+# Enable or Disable the ability to stop Teleportation when the Player Moves
+# Only works if 'back-teleport' is higher than 0
+# Default: true
+back-movement-cancel: true
+############################################################
+# +------------------------------------------------------+ #
+# +              Server Essentials (Fly)                 + #
+# +------------------------------------------------------+ #
+############################################################
+# Enable Blacklisted World Feature for the Fly Command
+# Default: False
+enable-fly-blacklist: false
+# Blacklist Worlds where Player's cannot use /fly
+fly-blacklist:
+  - world
+############################################################
+# +------------------------------------------------------+ #
+# +              Server Essentials (Eco)                 + #
+# +------------------------------------------------------+ #
+############################################################
+# Enable or Disable the ServerEssentials Economy Implementation (Requires Restart)
+# Requires Vault
+# Default: true
+enable-eco: true
+# The Balance that all Players will have upon joining the server, also affecting the </eco reset> command.
+# Default: 0
+start-balance: 0
+# Set this to the Currency Symbol you would like to use.
+# Default: $
+currency-symbol: '$'
+# Set this to the Plural Name you would like for your currency.
+# Default: Dollars
+currency-name-plural: "Dollars"
+# Set this to the Singular Name you would like for your currency.
+# Default: Dollar
+currency-name-singular: "Dollar"
