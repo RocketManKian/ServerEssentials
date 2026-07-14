@@ -1,9 +1,8 @@
 package me.rocketmankianproductions.serveressentials.events;
 
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
-import me.rocketmankianproductions.serveressentials.commands.*; // Assuming Home, Warp, ListHomes, Sethome, Setwarp, Invsee, AFK are here
+import me.rocketmankianproductions.serveressentials.commands.*; // Assuming Home, Warp, ListHomes, Sethome, Setwarp, Invsee
 import me.rocketmankianproductions.serveressentials.file.Lang;
-import me.rocketmankianproductions.serveressentials.utils.AFKManager;
 import me.rocketmankianproductions.serveressentials.utils.CompatibilityUtil;
 import me.rocketmankianproductions.serveressentials.utils.GUIPaginationHelper; // Import the pagination helper
 import me.rocketmankianproductions.serveressentials.utils.JailUtil;

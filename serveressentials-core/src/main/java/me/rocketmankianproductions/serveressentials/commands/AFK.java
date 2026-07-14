@@ -17,6 +17,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.jetbrains.annotations.NotNull;
+import org.slf4j.helpers.FormattingTuple;
 
 public class AFK implements CommandExecutor, Listener {
 
@@ -115,7 +116,9 @@ public class AFK implements CommandExecutor, Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
-        handleActivity(event.getPlayer(), false);
+        if (ServerEssentials.plugin.getConfig().getBoolean("unafk-interaction")){
+            handleActivity(event.getPlayer(), false);
+        }
     }
 
     @EventHandler
