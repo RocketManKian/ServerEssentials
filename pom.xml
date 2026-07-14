@@ -6,10 +6,10 @@
 
     <groupId>me.rocketmankianproductions</groupId>
     <artifactId>serveressentials-parent</artifactId>
-    <version>2.5.2</version>
+    <version>2.5.3</version>
     <packaging>pom</packaging>
 
-    <name>ServerEssentials</name>
+    <name>ServerEssentials-Spigot</name>
     <description>A Plugin for all Server Owners!</description>
 
     <properties>

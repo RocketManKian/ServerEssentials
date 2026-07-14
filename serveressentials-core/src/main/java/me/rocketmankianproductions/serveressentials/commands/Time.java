@@ -294,11 +294,13 @@ public class Time implements CommandExecutor {
         if (world == null) {
             StringBuilder worldString = new StringBuilder();
             for (World allworld : Bukkit.getServer().getWorlds()) {
-                if (worldString.length() > 0) {
-                    worldString.append(", ");
+                if (allworld.getEnvironment() == World.Environment.NORMAL){
+                    if (!worldString.isEmpty()) {
+                        worldString.append(", ");
+                    }
+                    worldString.append(allworld.getName());
+                    allworld.setTime(time);
                 }
-                worldString.append(allworld.getName());
-                allworld.setTime(time);
             }
             message = Lang.fileConfig.getString(msg).replace("<world>", worldString.toString()).replace("<time>", String.valueOf(time));
         } else {

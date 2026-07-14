@@ -21,13 +21,13 @@ public class Playtime implements CommandExecutor {
             // Otherwise checking if the player has the correct permission
             if (ServerEssentials.permissionChecker(player, "se.playtime")) {
                 if (args.length == 1){
-                    Player target = Bukkit.getPlayer(args[0]);
-                    if (target != null && target.isOnline()){
+                    OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
+                    if (target.hasPlayedBefore()){
                         if (target != player){
                             playtimeChecker(player, "playtime-target", target);
                             return true;
                         }else{
-                            playtimeChecker(target, "playtime-self", null);
+                            playtimeChecker(player, "playtime-self", null);
                             return true;
                         }
                     }else{
@@ -46,8 +46,8 @@ public class Playtime implements CommandExecutor {
             }
         }else{
             if (args.length == 1){
-                Player target = Bukkit.getPlayer(args[0]);
-                if (target.isOnline() && target != null){
+                OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
+                if (target.hasPlayedBefore()){
                     // Converting the playtime stored as 20 ticks per second into Days, Hours, Minutes and Seconds.
                     int ticks = target.getStatistic(Statistic.PLAY_ONE_MINUTE);
                     int rest = 0;
@@ -75,19 +75,23 @@ public class Playtime implements CommandExecutor {
         return false;
     }
 
-    public void playtimeChecker(Player player, String stringmsg, Player target){
+    public void playtimeChecker(Player player, String stringmsg, OfflinePlayer target){
         // Converting the playtime stored as 20 ticks per second into Days, Hours, Minutes and Seconds.
-        int ticks = (target == null) ? player.getStatistic(Statistic.PLAY_ONE_MINUTE) : target.getStatistic(Statistic.PLAY_ONE_MINUTE);
-        int rest = 0;
+        int ticks = 0;
+        if (target != null && target.hasPlayedBefore()) {
+            ticks = target.getStatistic(Statistic.PLAY_ONE_MINUTE);
+        }else{
+            ticks = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
+        }
         // Ticks divided by 20 = seconds. Seconds x 60 = Minute. Minute x 60 = Hour. Hour x 24 = Day.
         int days = ticks / (20 * 3600 * 24);
-        rest = ticks % (20 * 3600 * 24);
+        int rest = ticks % (20 * 3600 * 24);
         int hours = rest / (20 * 3600);
         rest = rest % (20 * 3600);
         int minutes = rest / (20 * 60);
         rest = rest % (20 * 60);
         int seconds = rest / 20;
-        if (target != null){
+        if (target != null && target.hasPlayedBefore()){
             String msg = Lang.fileConfig.getString(stringmsg).replace("<target>", target.getName()).replace("<days>", String.valueOf(days)).replace("<hours>", String.valueOf(hours)).replace("<minutes>", String.valueOf(minutes)).replace("<seconds>", String.valueOf(seconds));
             player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
         }else{
