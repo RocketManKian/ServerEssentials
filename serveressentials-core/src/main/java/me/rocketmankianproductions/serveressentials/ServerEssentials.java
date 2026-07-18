@@ -515,38 +515,25 @@ public final class ServerEssentials extends JavaPlugin implements Listener, Serv
     }
 
     public boolean isVersionOrLater(String targetVersion) {
-        // Get the server's version string from Bukkit
-        String serverVersion = Bukkit.getServer().getVersion();
+        // getBukkitVersion() returns something like "1.21.1-R0.1-SNAPSHOT"
+        String serverVersion = Bukkit.getBukkitVersion().split("-")[0];
 
-        // Extract version number from the server string
-        String versionPattern = "([0-9]+)\\.([0-9]+)\\.([0-9]+)";
-        Pattern pattern = Pattern.compile(versionPattern);
-        Matcher matcher = pattern.matcher(serverVersion);
+        String[] serverParts = serverVersion.split("\\.");
+        String[] targetParts = targetVersion.split("\\.");
 
-        // If server version matches the version pattern, extract version numbers
-        if (matcher.find()) {
-            int major = Integer.parseInt(matcher.group(1));
-            int minor = Integer.parseInt(matcher.group(2));
-            int patch = Integer.parseInt(matcher.group(3));
+        int length = Math.max(serverParts.length, targetParts.length);
+        for (int i = 0; i < length; i++) {
+            int serverPiece = i < serverParts.length ? Integer.parseInt(serverParts[i]) : 0;
+            int targetPiece = i < targetParts.length ? Integer.parseInt(targetParts[i]) : 0;
 
-            // Parse the target version for comparison
-            String[] targetParts = targetVersion.split("\\.");
-            int targetMajor = Integer.parseInt(targetParts[0]);
-            int targetMinor = Integer.parseInt(targetParts[1]);
-            int targetPatch = Integer.parseInt(targetParts[2]);
-
-            // Compare versions: first major, then minor, then patch
-            if (major > targetMajor) {
-                return true; // Major version is higher, so it's later
-            } else if (major == targetMajor) {
-                if (minor > targetMinor) {
-                    return true; // Minor version is higher
-                } else if (minor == targetMinor && patch >= targetPatch) {
-                    return true; // Patch version is the same or higher
-                }
+            if (serverPiece > targetPiece) {
+                return true;
+            }
+            if (serverPiece < targetPiece) {
+                return false;
             }
         }
-        return false;
+        return true; // Versions are exactly equal
     }
 
     @Override
