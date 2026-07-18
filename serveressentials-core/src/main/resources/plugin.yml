@@ -1,5 +1,5 @@
 name: ServerEssentials
-version: 2.5.5
+version: 2.5.6
 main: me.rocketmankianproductions.serveressentials.ServerEssentials
 api-version: 1.16
 authors: [ RocketManKian ]
@@ -353,6 +353,7 @@ permissions:
       se.gamemode.survival: true
       se.gamemode.adventure: true
       se.gamemode.spectator: true
+      se.gamemode.others: true
       se.fly: true
       se.fly.others: true
       se.fly.login: true
@@ -590,6 +591,9 @@ permissions:
     default: false
   se.gamemode.adventure:
     description: "Adventure Command"
+    default: false
+  se.gamemode.others:
+    description: "Gamemode Others Permission"
     default: false
   se.fly:
     description: "Fly Command"
