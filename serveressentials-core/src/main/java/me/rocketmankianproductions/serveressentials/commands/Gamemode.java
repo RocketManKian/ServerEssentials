@@ -74,7 +74,7 @@ public class Gamemode implements CommandExecutor {
         String permission = "se.gamemode." + gameMode.name().toLowerCase();
 
         // Check permissions if sender is a player
-        if (sender instanceof Player && !ServerEssentials.permissionChecker((Player) sender, permission)) {
+        if (sender instanceof Player && !ServerEssentials.permissionChecker(sender, permission)) {
             return;
         }
 
@@ -93,6 +93,7 @@ public class Gamemode implements CommandExecutor {
             // Target is self
             sendFormattedMessage(sender, "gamemode-" + modeName + "-self", null);
         } else {
+            if (!ServerEssentials.permissionChecker(sender, "se.gamemode.others")) return;
             // Target is someone else (or action executed by Console)
             sendFormattedMessage(targetPlayer, "gamemode-" + modeName + "-self", null);
 
