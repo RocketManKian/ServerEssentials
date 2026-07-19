@@ -127,6 +127,12 @@ public class AFK implements CommandExecutor, Listener {
     }
 
     @EventHandler
+    public void onPlayerCommand(PlayerCommandPreprocessEvent event) {
+        // Command preprocess events run synchronously on the main thread
+        handleActivity(event.getPlayer(), false);
+    }
+
+    @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         handleActivity((Player) event.getWhoClicked(), false);
     }
