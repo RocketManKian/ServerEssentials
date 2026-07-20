@@ -90,7 +90,7 @@
                                     <goal>copy-resources</goal>
                                 </goals>
                                 <configuration>
-                                    <outputDirectory>/Users/kian/Desktop/Minecraft Server/plugins</outputDirectory>
+                                    <outputDirectory>C:\Users\kicod\Desktop\Server Stuff\Java Test Server\plugins</outputDirectory>
                                     <resources>
                                         <resource>
                                             <directory>${project.build.directory}</directory>
