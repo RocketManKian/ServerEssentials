@@ -110,10 +110,11 @@ public class PlaceholderExpansion extends me.clip.placeholderapi.expansion.Place
                 return String.valueOf(Sethome.checkMaxHomes(player.getPlayer()));
             }
         } else if (params.equalsIgnoreCase("nickname")) {
-            String savedNickname = UserFile.config.getString(player.getUniqueId().toString() + ".nickname");
+            String uuidPath = player.getUniqueId().toString() + ".nickname";
+            String savedNickname = UserFile.config.getString(uuidPath);
 
             if (savedNickname != null && !savedNickname.isEmpty()) {
-                // Translate hex (&#RRGGBB) and legacy (&a-&f) color codes before returning
+                // Return fully translated hex + legacy string
                 return translateHexColorCodes(savedNickname);
             } else {
                 return player.getName();

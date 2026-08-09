@@ -19,7 +19,8 @@ import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
 
 public class Nickname implements CommandExecutor {
 
-    private static final Pattern HEX_PATTERN = Pattern.compile("&#([A-Fa-f0-9]{6})");
+    // Matches &#, #, #&, or &# before 6 hex characters
+    private static final Pattern HEX_PATTERN = Pattern.compile("[&#]{1,2}([A-Fa-f0-9]{6})");
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -88,6 +89,8 @@ public class Nickname implements CommandExecutor {
     }
 
     public static String translateHexColorCodes(String message) {
+        if (message == null || message.isEmpty()) return "";
+
         Matcher matcher = HEX_PATTERN.matcher(message);
         StringBuffer buffer = new StringBuffer();
 
@@ -101,18 +104,20 @@ public class Nickname implements CommandExecutor {
         }
         matcher.appendTail(buffer);
 
-        // After translating Hex, translate standard & legacy codes (&a-&f, &k-&r)
         return ChatColor.translateAlternateColorCodes('&', buffer.toString());
     }
 
-    public static void applyNickname(Player target, String nickname) {
-        // Translate BOTH Hex (&#RRGGBB) and Legacy (&a-&f)
-        String formattedNickname = translateHexColorCodes(nickname);
+    public static void applyNickname(Player target, String rawNickname) {
+        // 1. Translate hex and legacy color codes
+        String formattedNickname = translateHexColorCodes(rawNickname);
 
+        // 2. Set the living player's display name
         target.setDisplayName(formattedNickname);
 
-        // Save raw input so players can edit/view their unparsed nickname later
-        UserFile.config.set(target.getUniqueId().toString() + ".nickname", nickname);
+        // 3. Save raw input to config
+        String uuidPath = target.getUniqueId().toString() + ".nickname";
+        UserFile.config.set(uuidPath, rawNickname);
+
         try {
             UserFile.config.save(UserFile.file);
         } catch (IOException e) {
