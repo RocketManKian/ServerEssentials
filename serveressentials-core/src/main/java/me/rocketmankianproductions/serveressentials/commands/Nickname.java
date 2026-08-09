@@ -12,10 +12,14 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
 
 public class Nickname implements CommandExecutor {
+
+    private static final Pattern HEX_PATTERN = Pattern.compile("&#([A-Fa-f0-9]{6})");
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -83,11 +87,32 @@ public class Nickname implements CommandExecutor {
         sendMessage(sender, "&cUsage: /nickname <nick|reset> OR /nickname <player> <nick|reset>");
     }
 
-    // Helper method to apply changes and save to YML file safely
-    private void applyNickname(Player target, String nickname) {
-        nickname = ChatColor.translateAlternateColorCodes('&', nickname);
-        target.setDisplayName(nickname);
-        UserFile.config.set(target.getUniqueId() + ".nickname", nickname);
+    public static String translateHexColorCodes(String message) {
+        Matcher matcher = HEX_PATTERN.matcher(message);
+        StringBuffer buffer = new StringBuffer();
+
+        while (matcher.find()) {
+            String hexCode = matcher.group(1);
+            StringBuilder replacement = new StringBuilder("§x");
+            for (char c : hexCode.toCharArray()) {
+                replacement.append('§').append(c);
+            }
+            matcher.appendReplacement(buffer, replacement.toString());
+        }
+        matcher.appendTail(buffer);
+
+        // After translating Hex, translate standard & legacy codes (&a-&f, &k-&r)
+        return ChatColor.translateAlternateColorCodes('&', buffer.toString());
+    }
+
+    public static void applyNickname(Player target, String nickname) {
+        // Translate BOTH Hex (&#RRGGBB) and Legacy (&a-&f)
+        String formattedNickname = translateHexColorCodes(nickname);
+
+        target.setDisplayName(formattedNickname);
+
+        // Save raw input so players can edit/view their unparsed nickname later
+        UserFile.config.set(target.getUniqueId().toString() + ".nickname", nickname);
         try {
             UserFile.config.save(UserFile.file);
         } catch (IOException e) {

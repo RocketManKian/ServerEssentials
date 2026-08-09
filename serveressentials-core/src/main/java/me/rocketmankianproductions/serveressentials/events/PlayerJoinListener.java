@@ -36,8 +36,7 @@ public class PlayerJoinListener implements Listener {
         if (UserFile.config.contains(uuidPath)) {
             String savedNickname = UserFile.config.getString(uuidPath);
             if (savedNickname != null && !savedNickname.isEmpty()) {
-                // Re-apply it so it updates for this session
-                player.setDisplayName(savedNickname);
+                Nickname.applyNickname(player, savedNickname);
             }else{
                 UserFile.config.set(player.getUniqueId() + ".nickname", player.getName());
                 try {
