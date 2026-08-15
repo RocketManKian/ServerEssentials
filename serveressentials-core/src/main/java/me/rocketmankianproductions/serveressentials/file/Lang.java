@@ -244,6 +244,7 @@ public class Lang {
                 fileConfig.addDefault("socialspy-enabled", "SocialSpy has been Enabled");
                 fileConfig.addDefault("socialspy-disabled", "SocialSpy has been Disabled");
                 fileConfig.addDefault("socialspy-message", "&c[SocialSpy] &f<sender> &6>> &f<target> &7: <message>");
+                fileConfig.addDefault("socialspy-command", "&c[SocialSpy] &7<sender> &6>> &f<command>");
                 fileConfig.addDefault("jump-message", "&6You have been teleported to the block you're looking at!");
                 fileConfig.addDefault("jump-error-message", "&6No block in sight or too far away!");
                 fileConfig.addDefault("jumpboost-message", "&6Bounce like a Bunny!");
@@ -1224,6 +1225,10 @@ public class Lang {
 
                 if (fileConfig.getString("socialspy-message") == null) {
                     fileConfig.set("socialspy-message", "&c[SocialSpy] &f<sender> &6>> &f<target> &7: <message>");
+                }
+
+                if (fileConfig.getString("socialspy-command") == null) {
+                    fileConfig.set("socialspy-command", "&c[SocialSpy] &7<sender> &6>> &f<command>");
                 }
 
                 if (fileConfig.getString("jump-message") == null) {

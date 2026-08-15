@@ -12,6 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
 import static me.rocketmankianproductions.serveressentials.ServerEssentials.plugin;
+import static me.rocketmankianproductions.serveressentials.commands.SocialSpy.socialSpyMessage;
 
 public class Message implements CommandExecutor {
     @Override
@@ -46,7 +47,7 @@ public class Message implements CommandExecutor {
                         String msgsender = Lang.fileConfig.getString("message-sender").replace("<target>", targetname).replace("<message>", sm).replace("<sender>", sendername);
                         String msgrecipient = Lang.fileConfig.getString("message-recipient").replace("<sender>", sendername).replace("<message>", sm).replace("<target>", targetname);
                         String msgsocialspy = Lang.fileConfig.getString("socialspy-message").replace("<sender>", sendername).replace("<target>", targetname).replace("<message>", sm);
-                        socialSpy(messager, recipient, msgsocialspy, msgsender, msgrecipient);
+                        socialSpyMessage(messager, recipient, msgsocialspy, msgsender, msgrecipient);
                         return true;
                     } else {
                         String msg = Lang.fileConfig.getString("message-disabled");
@@ -102,31 +103,5 @@ public class Message implements CommandExecutor {
             }
         }
         return false;
-    }
-
-    public void socialSpy(Player messager, Player recipient, String msgsocialspy, String msgsender, String msgrecipient){
-        for (Player admin : Bukkit.getOnlinePlayers()) {
-            if (UserFile.config.getBoolean(admin.getUniqueId() + ".spy")) {
-                if (admin != messager && admin != recipient) {
-                    admin.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msgsocialspy)));
-                }
-            }
-        }
-        messager.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msgsender)));
-        recipient.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msgrecipient)));
-        if (ServerEssentials.getPlugin().getConfig().getBoolean("msgsound")){
-            // Get the sound name, volume, and pitch from the config
-            String soundName = plugin.getConfig().getString("msgsoundName", "block.note_block.bell");
-            double volume = plugin.getConfig().getDouble("msgsoundVolume", 1.0);
-            double pitch = plugin.getConfig().getDouble("msgsoundPitch", 1.0);
-            try {
-                Sound sound = Sound.valueOf(soundName.toUpperCase().replace(".", "_"));
-                recipient.playSound(recipient.getLocation(), sound, (float) volume, (float) pitch);
-                messager.playSound(messager.getLocation(), sound, (float) volume, (float) pitch);
-            } catch (IllegalArgumentException e) {
-                // Handle invalid sound name
-                Bukkit.getLogger().warning("Invalid sound name in config: " + soundName);
-            }
-        }
     }
 }

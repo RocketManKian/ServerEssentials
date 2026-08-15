@@ -424,10 +424,11 @@ public final class ServerEssentials extends JavaPlugin implements Listener, Serv
         pm.registerEvents(new SignChange(), this);
         pm.registerEvents(new Plugins(), this);
         pm.registerEvents(new God(), this);
+        pm.registerEvents(new SocialSpy(), this);
+        pm.registerEvents(new StaffChat(), this);
         if (Bukkit.getPluginManager().getPlugin("Towny") != null) {
             pm.registerEvents(new TownBankListener(), this);
         }
-        //pm.registerEvents(new AFK(), this);
     }
 
     public void registerPlaceholder() {
