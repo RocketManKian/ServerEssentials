@@ -2,6 +2,7 @@ package me.rocketmankianproductions.serveressentials.commands;
 
 import github.scarsz.discordsrv.DiscordSRV;
 import github.scarsz.discordsrv.dependencies.jda.api.entities.TextChannel;
+import me.rocketmankianproductions.serveressentials.LoggerMessage;
 import me.rocketmankianproductions.serveressentials.ServerEssentials;
 import me.rocketmankianproductions.serveressentials.file.Lang;
 import org.bukkit.Bukkit;
@@ -11,15 +12,21 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
 
-public class StaffChat implements CommandExecutor {
+public class StaffChat implements CommandExecutor, Listener
+{
 
-    public static ArrayList<Player> staffchat = new ArrayList<>();
+    public static ArrayList<UUID> staffchat = new ArrayList<>();
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -27,15 +34,15 @@ public class StaffChat implements CommandExecutor {
             Player player = (Player) sender;
             if (ServerEssentials.permissionChecker(player, "se.staffchat")) {
                 if (args.length == 0) {
-                    if (!staffchat.contains(player)){
+                    if (!staffchat.contains(player.getUniqueId())){
                         String msg = Lang.fileConfig.getString("staffchat-enabled");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                        staffchat.add(player);
+                        staffchat.add(player.getUniqueId());
                         return true;
                     }else{
                         String msg = Lang.fileConfig.getString("staffchat-disabled");
                         player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
-                        staffchat.remove(player);
+                        staffchat.remove(player.getUniqueId());
                         return true;
                     }
                 }else if (args.length >= 1){
@@ -75,5 +82,32 @@ public class StaffChat implements CommandExecutor {
             }
         }
         return false;
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onChat(AsyncPlayerChatEvent c) {
+        Player player = c.getPlayer();
+        if (StaffChat.staffchat.contains(player.getUniqueId())) {
+            String scmessage = ChatColor.stripColor(c.getMessage());
+            String msg = Lang.fileConfig.getString("staffchat-message").replace("<player>", player.getName()).replace("<message>", ChatColor.GRAY + scmessage);
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+            for (Player staff : Bukkit.getOnlinePlayers()) {
+                if (staff.hasPermission("se.staffchat") && !staff.equals(player)) {
+                    staff.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msg)));
+                }
+            }
+            c.setCancelled(true);
+            if (ServerEssentials.isConnectedToDiscordSRV && ServerEssentials.getPlugin().getConfig().getBoolean("enable-staff-discord-integration")) {
+                String channel = ServerEssentials.getPlugin().getConfig().getString("staff-chat-channel-name");
+                TextChannel textChannel = DiscordSRV.getPlugin().getDestinationTextChannelForGameChannelName(channel);
+                if (textChannel != null) {
+                    String player1 = player.getDisplayName();
+                    player1 = ChatColor.stripColor(player1);
+                    textChannel.sendMessage("**" + player1 + "** » " + scmessage).queue();
+                }else{
+                    LoggerMessage.log(LoggerMessage.LogLevel.WARNING, "Text Channel is null, cannot send StaffChat Message to specified channel.");
+                }
+            }
+        }
     }
 }
