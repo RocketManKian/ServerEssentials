@@ -18,11 +18,10 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 
+import static me.rocketmankianproductions.serveressentials.ServerEssentials.getPlugin;
 import static me.rocketmankianproductions.serveressentials.ServerEssentials.hex;
 
 public class SocialSpy implements CommandExecutor, Listener {
-
-    public static ServerEssentials plugin;
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] args) {
@@ -72,9 +71,9 @@ public class SocialSpy implements CommandExecutor, Listener {
         recipient.sendMessage(ChatColor.translateAlternateColorCodes('&', hex(msgrecipient)));
         if (ServerEssentials.getPlugin().getConfig().getBoolean("msgsound")){
             // Get the sound name, volume, and pitch from the config
-            String soundName = plugin.getConfig().getString("msgsoundName", "block.note_block.bell");
-            double volume = plugin.getConfig().getDouble("msgsoundVolume", 1.0);
-            double pitch = plugin.getConfig().getDouble("msgsoundPitch", 1.0);
+            String soundName = getPlugin().getConfig().getString("msgsoundName", "block.note_block.bell");
+            double volume = getPlugin().getConfig().getDouble("msgsoundVolume", 1.0);
+            double pitch = getPlugin().getConfig().getDouble("msgsoundPitch", 1.0);
             try {
                 Sound sound = Sound.valueOf(soundName.toUpperCase().replace(".", "_"));
                 recipient.playSound(recipient.getLocation(), sound, (float) volume, (float) pitch);
